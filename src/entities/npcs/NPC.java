@@ -2,12 +2,17 @@ package entities.npcs;
 
 import org.newdawn.slick.geom.Rectangle;
 
-import entities.Entity;
+import entities.NonPlayableEntity;
 
-public class NPC extends Entity {
+public class NPC extends NonPlayableEntity{
 
 	public NPC(Rectangle hitbox, int maxhealth) {
 		super(hitbox, maxhealth);
+	}
+	
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		return new NPC(new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
 	}
 
 }

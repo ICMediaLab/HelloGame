@@ -1,8 +1,29 @@
 package entities;
 
-public interface IEntity {
+public interface IEntity extends Cloneable {
 	float FRICTION = 0.98f;
 	float GRAVITY = 1.0f;
+	
+	/**
+	 * Returns the current x-position of this entity.
+	 */
+	float getX();
+	
+	/**
+	 * Returns the current y-position of this entity.
+	 */
+	float getY();
+	
+	/**
+	 * Returns the width of the hitbox of this entity.
+	 */
+	float getWidth();
+	
+	/**
+	 * Returns the height of the hitbox of this entity;
+	 */
+	float getHeight();
+	
 	
 	/**
 	 * Reduces this entity's health by an amount influenced by the argument provided according to some formula.
