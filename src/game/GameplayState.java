@@ -6,9 +6,12 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
+import utils.MapLoader;
+
 public class GameplayState extends BasicGameState {
 	
 	int stateID = -1;
+	MapLoader maps;
 	  
     GameplayState(int stateID) {
        this.stateID = stateID;
@@ -22,15 +25,14 @@ public class GameplayState extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
-		// TODO Auto-generated method stub
-
+		maps = new MapLoader(1,1);
+		maps.loadMap("data/grassmap.tmx",0,0);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
-		// TODO Auto-generated method stub
-
+		maps.getMap(0,0).render(0,0);
 	}
 
 	@Override

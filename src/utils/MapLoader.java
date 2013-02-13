@@ -30,6 +30,10 @@ public final class MapLoader {
 		maps[x][y] = new TiledMap(location);
 	}
 	
+	public TiledMap getMap(int x, int y) {
+		return maps[x][y];
+	}
+	
 	/**
 	 * Extracts the properties of each cell in the map to a
 	 * Tile.
