@@ -40,6 +40,22 @@ public class Enemy extends NonPlayableEntity{
 	}
 	
 	/**
+	 * Gets a new instance of the object.<br />
+	 * Implementations should not be case sensitive and not allow common references between entities.
+	 * @param name The string representation of the entity to be created.
+	 * @param x The x coordinate of the newly created enemy.
+	 * @param y The y coordinate of the newly created enemy.
+	 * @return A new INonPlayableEntity object.
+	 */
+	public static Enemy getNewEnemy(String name, int x, int y){
+		if(name == null){
+			return null;
+		}
+		Enemy base = enemies.get(name.toLowerCase());
+		return new Enemy(new Rectangle(x,y, base.getWidth(), base.getHeight()),base.getMaxHealth());
+	}
+	
+	/**
 	 * Resets the entity storage such that (A)x.getNewEnemy(x) = null;
 	 */
 	public static void clearLoadedEnemies(){

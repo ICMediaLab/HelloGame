@@ -53,14 +53,10 @@ public final class MapLoader {
 		//go through all tiles in map
 		for (int xAxis = 0; xAxis < width; xAxis++) { 
 			for (int yAxis = 0; yAxis < height; yAxis++) {
-				int tileID = cell.getTileId(xAxis, yAxis, 0);
-				String value = cell.getTileProperty(tileID, "blocked", "false");
-				properties[xAxis][yAxis].addProperty("blocked", value); //true or false
-				value = cell.getTileProperty(tileID, "enemy", "false");
-				properties[xAxis][yAxis].addProperty("enemy", value); //name of enemy, or false
+				properties[xAxis][yAxis] = new Tile(cell.getTileId(xAxis, yAxis, 0));
+				properties[xAxis][yAxis].parseTileProperties(cell);
 			}
 		}
-		
 		return properties;
 	}
 }
