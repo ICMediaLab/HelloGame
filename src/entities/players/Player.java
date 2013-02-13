@@ -1,17 +1,16 @@
 package entities.players;
 
-import java.util.HashMap;
 import java.util.Map;
 
-import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 
 import entities.Entity;
-import entities.players.abilities.PlayerAbility;
+import entities.players.abilities.AbilityFinder;
+import entities.players.abilities.IPlayerAbility;
 
 public class Player extends Entity {
 	
-	private Map<String,PlayerAbility> abilities = new HashMap<String ,PlayerAbility>();
+	private Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
 
 	public Player(Rectangle hitbox, int maxhealth) {
 		super(hitbox, maxhealth);
@@ -29,7 +28,7 @@ public class Player extends Entity {
 	{
 		//lookup the key in the allowed abilities
 		//if the key is in the map then ability.use(this)
-		PlayerAbility tempability = abilities.get(key.toLowerCase());
+		IPlayerAbility tempability = abilities.get(key.toLowerCase());
 		if(tempability!=null)
 		{
 			tempability.use(this);
