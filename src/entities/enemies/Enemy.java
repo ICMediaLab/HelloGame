@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.newdawn.slick.geom.Rectangle;
+import org.w3c.dom.Node;
 
 import entities.NonPlayableEntity;
 
@@ -14,7 +15,7 @@ public class Enemy extends NonPlayableEntity{
 	 * New enemy instances can be created by cloning instances already existing here.<br />
 	 * This is present in order to increase the ease with which enemies are loaded from xml.
 	 */
-	private Map<String,Enemy> enemies = new HashMap<String,Enemy>();
+	private static final Map<String,Enemy> enemies = new HashMap<String,Enemy>();
 
 	private Enemy(Rectangle hitbox, int maxhealth) {
 		super(hitbox, maxhealth);
@@ -31,7 +32,7 @@ public class Enemy extends NonPlayableEntity{
 	 * @param name The string representation of the entity to be created.
 	 * @return A new INonPlayableEntity object.
 	 */
-	public Enemy getNewEnemy(String name){
+	public static Enemy getNewEnemy(String name){
 		if(name == null){
 			return null;
 		}
@@ -41,7 +42,7 @@ public class Enemy extends NonPlayableEntity{
 	/**
 	 * Resets the entity storage such that (A)x.getNewEnemy(x) = null;
 	 */
-	public void clearLoadedEnemies(){
+	public static void clearLoadedEnemies(){
 		enemies.clear();
 	}
 	
@@ -49,9 +50,17 @@ public class Enemy extends NonPlayableEntity{
 	 * Adds an enemy to the enemy copy storage with the specified name.<br />
 	 * Names are not treated as case-sensitive.
 	 */
-	public void loadEnemy(String name, Enemy e){
+	public static void loadEnemy(String name, Enemy e){
 		if(name != null){
 			enemies.put(name.toLowerCase(), e);
 		}
+	}
+	
+	/**
+	 * Creates a new enemy from an XML node. This should not be used except when loading enemies into the enemy template storage.
+	 */
+	public Enemy(Node node) {
+		super(null,0);
+		//TODO: implement
 	}
 }
