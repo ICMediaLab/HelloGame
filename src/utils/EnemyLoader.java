@@ -1,10 +1,12 @@
 package utils;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -32,8 +34,23 @@ public final class EnemyLoader {
 	private static final void loadEnemies(Document d){
 		if(d.getDocumentElement().getNodeName().equalsIgnoreCase("enemies")){
 			NodeList nList = d.getElementsByTagName("enemy");
-			for (int temp = nList.getLength()-1; temp >= 0; --temp) {
-				new Enemy(nList.item(temp));
+			for (int i = nList.getLength()-1; i >= 0; --i) {
+				new Enemy(nList.item(i));
+			}
+		}
+	}
+	
+	/**
+	 * Loads specific enemies into the enemy template storage from a given XML document object.
+	 */
+	private static final void loadEnemies(Document d, List<String> enemiesToLoad){
+		if(d.getDocumentElement().getNodeName().equalsIgnoreCase("enemies")){
+			NodeList nList = d.getElementsByTagName("enemy");
+			for (int i = nList.getLength()-1; i >= 0; --i) {
+				Node item = nList.item(i);
+				if(enemiesToLoad.contains(item.getAttributes().getNamedItem("name").getNodeValue())){
+					new Enemy(item);
+				}
 			}
 		}
 	}
@@ -66,6 +83,45 @@ public final class EnemyLoader {
 			for(Document d : docs){
 				if(d != null){
 					loadEnemies(d);
+				}
+			}
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Loads specific enemies into the enemy template storage from a given XML file.
+	 * @param path The location of the XML file containing enemy information.
+	 */
+	public static final void loadEnemies(String path, List<String> enemiesToLoad){
+		if(path != null){
+			try {
+				loadEnemies(XMLDocumentLoader.getXMLDocument(path),enemiesToLoad);
+			} catch (SAXException e) { 
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ParserConfigurationException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * Loads specific enemies into the enemy template storage from an array of given XML files.
+	 * @param paths The locations of the XML files containing enemy information.
+	 */
+	public static final void loadEnemies(String[] paths, List<String> enemiesToLoad){
+		try {
+			Document[] docs = XMLDocumentLoader.getXMLDocument(paths);
+			for(Document d : docs){
+				if(d != null){
+					loadEnemies(d,enemiesToLoad);
 				}
 			}
 		} catch (SAXException e) {
