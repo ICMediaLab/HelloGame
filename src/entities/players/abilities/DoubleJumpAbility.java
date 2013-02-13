@@ -11,11 +11,12 @@ public class DoubleJumpAbility extends PlayerAbility {
 	 * If the player is not on the ground, then jump
 	 */
 	public void use(Player p) {
-		System.out.println("FUCK");
 		if(!p.isOnGround()) {
 			if (!hasJumped) {
-				p.jump();
+				System.out.println("THIS IS CRAZY");
 				hasJumped = true;
+				p.jump();
+				
 			}
 		} else {
 			hasJumped = false;

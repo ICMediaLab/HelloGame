@@ -43,16 +43,17 @@ public class Player extends Entity {
 		//lookup the key in the allowed abilities
 		//if the key is in the map then ability.use(this)
 		IPlayerAbility tempability = abilities.get(key.toLowerCase());
-		if(tempability!=null)
+		if(tempability != null)
 		{
 			tempability.use(this);
 		}
 		
 	}
-
-	@Override
-	public void jump() {
-		super.jump();
+	
+	private void playerJump() {
+		if (isOnGround()) {
+			super.jump();
+		}
 		useAbility("doublejump");
 	}
 
@@ -64,7 +65,7 @@ public class Player extends Entity {
 	@Override
 	public void update(Input input) {
 		if (input.isKeyDown(Input.KEY_SPACE)) {
-			jump();
+			playerJump();
 		}
 		
 		frameMove();

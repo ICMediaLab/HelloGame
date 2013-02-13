@@ -135,12 +135,8 @@ public abstract class Entity implements IEntity {
 		return false;
 	}
 	
-	public void jump()
-	{
-		if (isOnGround())
-		{
-			dy -= 1f;
-		}
+	public void jump() {
+		dy -= 40f;
 	}
 	
 	public abstract void update(Input input);
