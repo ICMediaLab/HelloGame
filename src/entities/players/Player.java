@@ -3,7 +3,11 @@ package entities.players;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import entities.Entity;
@@ -12,9 +16,18 @@ import entities.players.abilities.PlayerAbility;
 public class Player extends Entity {
 	
 	private Map<String,PlayerAbility> abilities = new HashMap<String ,PlayerAbility>();
+	private Animation sprite;
 
 	public Player(Rectangle hitbox, int maxhealth) {
 		super(hitbox, maxhealth);
+		Image[] movementRight = null;
+		try {
+			movementRight = new Image[]{new Image("data/images/dvl1_rt1.gif"), new Image("data/images/dvl1_rt2.gif")};
+		} catch (SlickException e) {
+			//do shit all
+		}
+		int[] duration = {300,300};
+		sprite = new Animation(movementRight, duration, false);
 	}
 	
 	protected Object clone() {
@@ -37,11 +50,28 @@ public class Player extends Entity {
 		
 	}
 
-
 	@Override
 	public void jump() {
 		super.jump();
 		useAbility("doublejump");
 	}
+
+	/**
+	 * This is the only method that needs to be called to update the player.
+	 * Input is assumed to already have been checked for being pressed
+	 * the previous frame.
+	 */
+	@Override
+	public void update(Input input) {
+		if (input.isKeyDown(Input.KEY_SPACE)) {
+			jump();
+		}
+		
+		frameMove();
+	}
 	
+	@Override
+	public void render() {
+		sprite.draw((int)getX(), (int)getY(), new Color(256,256,256));
+	}
 }

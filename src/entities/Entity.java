@@ -1,11 +1,12 @@
 package entities;
 
+import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 
 public abstract class Entity implements IEntity {
 	
 	private final Rectangle hitbox;
-	private float dx = 0;
+	protected float dx = 0;
 	protected float dy = 0;
 	
 	//TODO:	Implement entity image system.
@@ -142,5 +143,8 @@ public abstract class Entity implements IEntity {
 		}
 	}
 	
+	public abstract void update(Input input);
+	
+	public abstract void render();
 	
 }

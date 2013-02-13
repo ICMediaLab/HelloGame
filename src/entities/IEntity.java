@@ -1,5 +1,7 @@
 package entities;
 
+import org.newdawn.slick.Input;
+
 public interface IEntity extends Cloneable {
 	float FRICTION = 0.98f;
 	float GRAVITY = 1.0f;
@@ -74,5 +76,9 @@ public interface IEntity extends Cloneable {
 	boolean isOnGround();
 	
 	void jump();
+	
+	void update(Input input);
+	
+	void render();
 	
 }

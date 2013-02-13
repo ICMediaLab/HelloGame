@@ -3,6 +3,7 @@ package entities.enemies;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 import org.w3c.dom.Node;
 
@@ -78,5 +79,13 @@ public class Enemy extends NonPlayableEntity{
 	public Enemy(Node node) {
 		super(null,0);
 		//TODO: implement
+	}
+	
+	public void update(Input input) {
+		//TODO
+	}
+	
+	public void render() {
+		//TODO
 	}
 }
