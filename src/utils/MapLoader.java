@@ -1,7 +1,5 @@
 package utils;
 
-import java.util.HashMap;
-
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
