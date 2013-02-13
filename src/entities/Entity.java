@@ -5,7 +5,8 @@ import org.newdawn.slick.geom.Rectangle;
 public abstract class Entity implements IEntity {
 	
 	private final Rectangle hitbox;
-	private float dx = 0,dy = 0;
+	private float dx = 0;
+	protected float dy = 0;
 	
 	//TODO:	Implement entity image system.
 	//		No idea how at the moment.
@@ -123,4 +124,23 @@ public abstract class Entity implements IEntity {
 	public boolean isDead() {
 		return health <= 0;
 	}
+	
+	/**
+	 * returns whether the entity is touching the ground
+	 */
+	@Override
+	public boolean isOnGround() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	public void jump()
+	{
+		if (isOnGround())
+		{
+			dy -= 1f;
+		}
+	}
+	
+	
 }
