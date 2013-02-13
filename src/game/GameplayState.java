@@ -5,7 +5,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-
+import org.newdawn.slick.Input;
 import utils.MapLoader;
 
 public class GameplayState extends BasicGameState {
@@ -38,6 +38,10 @@ public class GameplayState extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
+				Input input = gc.getInput();
+				if (input.isKeyDown(Input.KEY_ESCAPE)){
+					gc.exit();
+				}
 		// TODO Auto-generated method stub
 
 	}
