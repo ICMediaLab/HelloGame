@@ -1,5 +1,6 @@
 package entities.players;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.newdawn.slick.Animation;
@@ -9,14 +10,19 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
+import utils.Tile;
+
 import entities.Entity;
 import entities.players.abilities.AbilityFinder;
+import entities.players.abilities.DoubleJumpAbility;
 import entities.players.abilities.IPlayerAbility;
 
 public class Player extends Entity {
 	
 	private Animation sprite;
-	private Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
+//	temporarily commented out due to failing under Windows.
+//	private Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
+	private Map<String, IPlayerAbility> abilities = new HashMap<String, IPlayerAbility>();
 
 	public Player(Rectangle hitbox, int maxhealth) {
 		super(hitbox, maxhealth);
@@ -28,6 +34,9 @@ public class Player extends Entity {
 		}
 		int[] duration = {300,300};
 		sprite = new Animation(movementRight, duration, false);
+		
+		//manually add abilities to HashMap whilst AbilityFinder fails
+		abilities.put("doublejump", (IPlayerAbility) new DoubleJumpAbility());
 	}
 	
 	protected Object clone() {
@@ -51,10 +60,10 @@ public class Player extends Entity {
 	}
 	
 	private void playerJump() {
+		useAbility("doublejump");
 		if (isOnGround()) {
 			super.jump();
 		}
-		useAbility("doublejump");
 	}
 
 	/**
@@ -63,8 +72,11 @@ public class Player extends Entity {
 	 * the previous frame.
 	 */
 	@Override
-	public void update(Input input) {
-		if (input.isKeyDown(Input.KEY_SPACE)) {
+	public void update(Input input, Tile[][] properties, int delta) {
+		this.properties = properties;
+		this.delta = delta; //time difference since last frame
+		
+		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			playerJump();
 		}
 		

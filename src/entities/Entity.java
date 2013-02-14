@@ -3,11 +3,16 @@ package entities;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 
+import utils.Tile;
+import utils.TileProperty;
+
 public abstract class Entity implements IEntity {
 	
 	private final Rectangle hitbox;
 	protected float dx = 0;
 	protected float dy = 0;
+	protected Tile[][] properties;
+	protected int delta;
 	
 	//TODO:	Implement entity image system.
 	//		No idea how at the moment.
@@ -112,10 +117,17 @@ public abstract class Entity implements IEntity {
 	 */
 	@Override
 	public void frameMove() {
-		dy += GRAVITY;
+		if (!isOnGround()) {
+			dy += GRAVITY; //fall if not on the ground
+		} else if (dy > 0) {
+			dy = 0;
+		}
 		dx *= FRICTION;
-		dy *= FRICTION;
-		hitbox.setLocation(hitbox.getX()+dx, hitbox.getY()+dy);
+		hitbox.setLocation(hitbox.getX() + dx * delta, hitbox.getY() + dy * delta); //move to new location
+		if (isOnGround()) {
+			//if the new location is on the ground, set it so entity isn't clipping into the ground
+			hitbox.setLocation(hitbox.getX(), ((int)hitbox.getY() / 32) * 32);
+		}
 	}
 	
 	/**
@@ -128,19 +140,27 @@ public abstract class Entity implements IEntity {
 	
 	/**
 	 * returns whether the entity is touching the ground
+	 * @return true if touching ground
 	 */
 	@Override
 	public boolean isOnGround() {
-		// TODO Auto-generated method stub
-		return false;
+		int tileSize = properties[0][0].getTileSize();
+		//check bottom left corner of sprite
+		String left = properties[((int)getX() / tileSize)][(((int)getY() + tileSize) / tileSize)].lookupProperty(TileProperty.BLOCKED);
+		//check bottom right
+		String right = properties[(((int)getX() + tileSize) / tileSize)][(((int)getY() + tileSize) / tileSize)].lookupProperty(TileProperty.BLOCKED);
+		return (left.equals("true") || right.equals("true"));
 	}
 	
+	/**
+	 * makes the entity jump. if it is falling, sets its vertical change to zero first.
+	 */
 	public void jump() {
-		dy -= 40f;
+		dy = -1f;
 	}
-	
-	public abstract void update(Input input);
 	
 	public abstract void render();
+
+	public abstract void update(Input input, Tile[][] properties, int delta);
 	
 }

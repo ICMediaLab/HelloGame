@@ -7,6 +7,8 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 import org.w3c.dom.Node;
 
+import utils.Tile;
+
 import entities.NonPlayableEntity;
 
 public class Enemy extends NonPlayableEntity{
@@ -81,7 +83,7 @@ public class Enemy extends NonPlayableEntity{
 		//TODO: implement
 	}
 	
-	public void update(Input input) {
+	public void update(Input input, Tile[][] properties, int delta) {
 		//TODO
 	}
 	

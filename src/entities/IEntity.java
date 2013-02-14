@@ -1,10 +1,11 @@
 package entities;
 
 import org.newdawn.slick.Input;
+import utils.Tile;
 
 public interface IEntity extends Cloneable {
 	float FRICTION = 0.98f;
-	float GRAVITY = 1.0f;
+	float GRAVITY = 0.098f;
 	
 	/**
 	 * Returns the current x-position of this entity.
@@ -77,7 +78,7 @@ public interface IEntity extends Cloneable {
 	
 	void jump();
 	
-	void update(Input input);
+	void update(Input input, Tile[][] properties, int delta);
 	
 	void render();
 	

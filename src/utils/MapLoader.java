@@ -6,6 +6,7 @@ import org.newdawn.slick.tiled.TiledMap;
 public final class MapLoader {
 	
 	private TiledMap[][] maps;
+	private int tileSize; 
 	
 	/**
 	 * Constructor for the MapLoader class, initialises the size of the
@@ -13,8 +14,9 @@ public final class MapLoader {
 	 * @param w: The width of the array.
 	 * @param h: The height of the array.
 	 */
-	public MapLoader(int w, int h) {
+	public MapLoader(int w, int h, int tileSize) {
 		maps = new TiledMap[w][h];
+		this.tileSize = tileSize;
 	}
 	
 	/**
@@ -53,7 +55,7 @@ public final class MapLoader {
 		//go through all tiles in map
 		for (int xAxis = 0; xAxis < width; xAxis++) { 
 			for (int yAxis = 0; yAxis < height; yAxis++) {
-				properties[xAxis][yAxis] = new Tile(cell.getTileId(xAxis, yAxis, 0));
+				properties[xAxis][yAxis] = new Tile(cell.getTileId(xAxis, yAxis, 0), tileSize);
 				properties[xAxis][yAxis].parseTileProperties(cell);
 			}
 		}

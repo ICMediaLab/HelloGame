@@ -10,12 +10,15 @@ import org.newdawn.slick.Input;
 
 import entities.players.Player;
 import utils.MapLoader;
+import utils.Tile;
 
 public class GameplayState extends BasicGameState {
 	
 	int stateID = -1;
 	MapLoader maps;
+	Tile[][] properties;
 	Player player;
+	int tileSize = 32;
 	  
     GameplayState(int stateID) {
        this.stateID = stateID;
@@ -29,8 +32,9 @@ public class GameplayState extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
-		maps = new MapLoader(1,1);
+		maps = new MapLoader(1,1, tileSize);
 		maps.loadMap("data/grassmap.tmx",0,0);
+		properties = maps.getProperties(0, 0);
 		player = new Player(new Rectangle(32,32,32,32), 100);
 	}
 
@@ -48,8 +52,7 @@ public class GameplayState extends BasicGameState {
 		if (input.isKeyDown(Input.KEY_ESCAPE)){
 			gc.exit();
 		}
-		player.update(gc.getInput());
-		// TODO Auto-generated method stub
+		player.update(input, properties, delta);
 
 	}
 

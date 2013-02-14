@@ -13,7 +13,6 @@ public class DoubleJumpAbility extends PlayerAbility {
 	public void use(Player p) {
 		if(!p.isOnGround()) {
 			if (!hasJumped) {
-				System.out.println("THIS IS CRAZY");
 				hasJumped = true;
 				p.jump();
 				

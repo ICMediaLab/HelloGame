@@ -16,13 +16,24 @@ public class Tile {
 	 */
 	private final int tileID;
 	
+	private final int tileSize;
+	
 	/**
 	 * Class to hold a HashMap of properties about the tile.
 	 * Initialises the HashMap.
 	 * @param i The tileID relative to the current cell, x and y coordinates.
 	 */
-	public Tile(int tileID) {
+	public Tile(int tileID, int tileSize) {
 		this.tileID = tileID;
+		this.tileSize = tileSize;
+	}
+	
+	/**
+	 * Gets the tilesize of this cell.
+	 * @return the tilesize as an int.
+	 */
+	public int getTileSize() {
+		return tileSize;
 	}
 	
 	/**
@@ -49,7 +60,7 @@ public class Tile {
 	 * @param k Key.
 	 * @return The value.
 	 */
-	public String lookupProperty(String k) {
+	public String lookupProperty(TileProperty k) {
 		return properties.get(k);
 	}
 }
