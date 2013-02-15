@@ -8,6 +8,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.Sound;
 
 import utils.Tile;
 import entities.Entity;
@@ -18,6 +19,7 @@ public class Player extends Entity {
 	
 	private Animation sprite;
 	private Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
+	private Sound sound_jump;
 
 	public Player(Rectangle hitbox, int maxhealth) {
 		super(hitbox, maxhealth);
@@ -29,6 +31,13 @@ public class Player extends Entity {
 		}
 		int[] duration = {300,300};
 		sprite = new Animation(movementRight, duration, false);
+		
+		try {
+			sound_jump = new Sound("data/sounds/jump.ogg");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	protected Object clone() {
@@ -55,7 +64,12 @@ public class Player extends Entity {
 		useAbility("doublejump");
 		if (isOnGround()) {
 			super.jump();
+			sound_jump.play();
 		}
+	}
+	
+	public void stop_sounds(){
+		sound_jump.stop();
 	}
 
 	/**

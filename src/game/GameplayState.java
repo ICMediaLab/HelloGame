@@ -50,6 +50,7 @@ public class GameplayState extends BasicGameState {
 			throws SlickException {
 		Input input = gc.getInput();
 		if (input.isKeyDown(Input.KEY_ESCAPE)){
+			player.stop_sounds();
 			gc.exit();
 		}
 		player.update(input, properties, delta);
