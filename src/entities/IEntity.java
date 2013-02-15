@@ -62,8 +62,9 @@ public interface IEntity extends Cloneable {
 	
 	/**
 	 * Moves this entity by it's current velocity values and applies constants such as friction and gravity.
+	 * @param delta The time in microseconds since the last frame update.
 	 */
-	void frameMove();
+	void frameMove(int delta);
 	
 	/**
 	 * Returns true if and only if this entity has an absolute health equal to zero.
@@ -81,5 +82,4 @@ public interface IEntity extends Cloneable {
 	void update(Input input, Tile[][] properties, int delta);
 	
 	void render();
-	
 }

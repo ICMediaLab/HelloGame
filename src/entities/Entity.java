@@ -1,5 +1,7 @@
 package entities;
 
+import game.HelloGame;
+
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -9,10 +11,9 @@ import utils.TileProperty;
 public abstract class Entity implements IEntity {
 	
 	private final Rectangle hitbox;
-	protected float dx = 0;
-	protected float dy = 0;
+	private float dx = 0;
+	private float dy = 0;
 	protected Tile[][] properties;
-	protected int delta;
 	
 	//TODO:	Implement entity image system.
 	//		No idea how at the moment.
@@ -23,6 +24,24 @@ public abstract class Entity implements IEntity {
 		this.hitbox = hitbox;
 		this.health = maxhealth;
 		this.maxhealth = maxhealth;
+	}
+	
+	/**
+	 * A utility method for returning the real value of friction given a time difference delta since the last frame.
+	 * @param delta The time in microseconds since the last frame update.
+	 * @return The effect of the formula: FRICTION ^ (delta * NORMAL_FPS / 1000).
+	 */
+	protected static final float getFrictionDelta(int delta){
+		return (float) Math.pow(FRICTION, delta*HelloGame.NORMAL_FPS/1000);
+	}
+	
+	/**
+	 * A utility method for returning the real value of gravity given a time difference delta since the last frame.
+	 * @param delta The time in microseconds since the last frame update.
+	 * @return The effect of the formula: GRAVITY * (delta * NORMAL_FPS / 1000).
+	 */
+	protected static final float getGravityDelta(int delta){
+		return GRAVITY*delta*HelloGame.NORMAL_FPS/1000;
 	}
 	
 	/**
@@ -114,13 +133,16 @@ public abstract class Entity implements IEntity {
 	
 	/**
 	 * Moves this entity by it's current velocity values and applies constants such as friction and gravity.
+	 * @param delta The time in microseconds since the last frame update.
 	 */
 	@Override
-	public void frameMove() {
-		dx *= FRICTION; dy *= FRICTION;
+	public void frameMove(int delta) {
+		float modFriction = getFrictionDelta(delta);
+		float modGravity  = getGravityDelta(delta);
+		dx *= modFriction; dy *= modFriction;
 		//both x and y axis are affected by scalar friction
 		if (!isOnGround()) {
-			dy += GRAVITY; //fall if not on the ground
+			dy += modGravity; //fall if not on the ground
 		} else if (dy > 0) {
 			dy = 0;
 		}

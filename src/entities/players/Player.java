@@ -62,17 +62,17 @@ public class Player extends Entity {
 	 * This is the only method that needs to be called to update the player.
 	 * Input is assumed to already have been checked for being pressed
 	 * the previous frame.
+	 * @param input The keyboard input at the time of this frame.
+	 * @param delta The time in microseconds since the last update.
 	 */
 	@Override
 	public void update(Input input, Tile[][] properties, int delta) {
 		this.properties = properties;
-		this.delta = delta; //time difference since last frame
 		
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			playerJump();
 		}
-		
-		frameMove();
+		frameMove(delta);
 	}
 	
 	@Override
