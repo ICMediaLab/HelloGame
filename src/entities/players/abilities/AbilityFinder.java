@@ -7,7 +7,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -32,7 +31,6 @@ public final class AbilityFinder {
 		Constructor<?> con = null;
 		try {
 			con = PlayerAbility.class.getConstructor();
-			System.out.println("Default constructor: " + Arrays.toString(con.getParameterTypes()));
 		} catch (SecurityException e) {
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
@@ -64,7 +62,7 @@ public final class AbilityFinder {
 		ClassLoader cLoader = Thread.currentThread().getContextClassLoader();
 		ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
 		if(cLoader != null){
-			String path = packageName.replace('.', File.separatorChar);
+			String path = packageName.replace('.', '/');
 			Enumeration<URL> resources = cLoader.getResources(path);
 			List<File> dirs = new ArrayList<File>();
 			while (resources.hasMoreElements()) {
