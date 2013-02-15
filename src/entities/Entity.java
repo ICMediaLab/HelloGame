@@ -117,12 +117,14 @@ public abstract class Entity implements IEntity {
 	 */
 	@Override
 	public void frameMove() {
+		dx *= FRICTION; dy *= FRICTION;
+		//both x and y axis are affected by scalar friction
 		if (!isOnGround()) {
 			dy += GRAVITY; //fall if not on the ground
 		} else if (dy > 0) {
 			dy = 0;
 		}
-		dx *= FRICTION;
+		
 		hitbox.setLocation(hitbox.getX() + dx * delta, hitbox.getY() + dy * delta); //move to new location
 		if (isOnGround()) {
 			//if the new location is on the ground, set it so entity isn't clipping into the ground

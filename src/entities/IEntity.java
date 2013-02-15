@@ -5,7 +5,7 @@ import utils.Tile;
 
 public interface IEntity extends Cloneable {
 	float FRICTION = 0.98f;
-	float GRAVITY = 0.098f;
+	float GRAVITY = 0.09f;
 	
 	/**
 	 * Returns the current x-position of this entity.

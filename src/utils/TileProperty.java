@@ -1,7 +1,5 @@
 package utils;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * An enumeration of all Tile Properties with default values.
@@ -9,28 +7,22 @@ import java.util.Map;
 public enum TileProperty {
 	BLOCKED("false"),ENEMY("null");
 	
+	/**
+	 * The default value if the property is not present in the XML file.
+	 */
 	private final String undef;
 	
 	private TileProperty(String undef){
 		this.undef = undef;
 	}
 	
-	private static final Map<String,TileProperty> tileProperties = new HashMap<String, TileProperty>();
-	
-	static{
-		for(TileProperty prop : values()){
-			tileProperties.put(prop.toString().toUpperCase(), prop);
-		}
-	}
-	
-	public TileProperty getTileProperty(String prop){
-		return tileProperties.get(prop.toUpperCase()); 
-	}
-	
 	public String toString(){
 		return super.toString().toLowerCase();
 	}
 
+	/**
+	 * Returns the default value of this property that should be applied if it is not defined.
+	 */
 	public String getUndefinedValue() {
 		return undef;
 	}
