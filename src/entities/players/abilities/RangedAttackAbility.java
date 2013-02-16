@@ -10,4 +10,10 @@ public class RangedAttackAbility extends PlayerAbility {
 		
 	}
 
+	@Override
+	public void stop_sounds() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

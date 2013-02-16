@@ -61,7 +61,8 @@ public interface IEntity extends Cloneable {
 	int getMaxHealth();
 	
 	/**
-	 * Moves this entity by it's current velocity values and applies constants such as friction and gravity.
+	 * Moves this entity by it's current velocity values and applies constants such as friction and gravity.<br />
+	 * This method should only be used if update is not called in the same frame.
 	 * @param delta The time in microseconds since the last frame update.
 	 */
 	void frameMove(int delta);
@@ -77,9 +78,29 @@ public interface IEntity extends Cloneable {
 	 */
 	boolean isOnGround();
 	
+	/**
+	 * Modified this entity's dx,dy values corresponding to a player jumping.<br />
+	 * Note the precondition of the entity touching a surface should NOT be checked.
+	 */
 	void jump();
 	
+	/**
+	 * Updates this entity given keyboard input, tile properties and the time delta.<br />
+	 * This method should make exactly one call to frameMove();
+	 * @param input The current state of the keyboard.
+	 * @param properties The surrounding tile properties.
+	 * @param delta The time in microseconds since the last update.
+	 */
 	void update(Input input, Tile[][] properties, int delta);
 	
+	/**
+	 * Renders this entity to the window.
+	 */
 	void render();
+	
+	/**
+	 * Forces this entity to stop all currently playing sounds.<br />
+	 * Includes sounds produced by contained objects such as Ability classes.
+	 */
+	void stop_sounds();
 }

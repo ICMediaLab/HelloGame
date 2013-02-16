@@ -7,8 +7,8 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.geom.Rectangle;
 
 import utils.Tile;
 import entities.Entity;
@@ -19,7 +19,20 @@ public class Player extends Entity {
 	
 	private Animation sprite;
 	private Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
-	private Sound sound_jump;
+	private static final Sound SOUND_JUMP;
+	
+	static {
+		final String path = "data/sounds/jump.ogg";
+		Sound s = null;
+		try {
+			s = new Sound(path);
+		} catch (SlickException e) {
+			System.out.println("Sound file for " + Player.class.getSimpleName() + " not found or failed to load.");
+			System.out.println("Tried to load from: " + path);
+			e.printStackTrace();
+		}
+		SOUND_JUMP = s;
+	}
 
 	public Player(Rectangle hitbox, int maxhealth) {
 		super(hitbox, maxhealth);
@@ -31,13 +44,6 @@ public class Player extends Entity {
 		}
 		int[] duration = {300,300};
 		sprite = new Animation(movementRight, duration, false);
-		
-		try {
-			sound_jump = new Sound("data/sounds/jump.ogg");
-		} catch (SlickException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 	
 	protected Object clone() {
@@ -45,8 +51,10 @@ public class Player extends Entity {
 	}
 	
 	/**
-	 * checks if the player has the ability, if the player does the ability is 'used'
-	 * @param key
+	 * Checks if the player has the ability, if the player does the ability is 'used'. 
+	 * @param key The name of the ability (equal to the name of the ability class without the "Ability.java" bit on the end.<br />
+	 * For example, DoubleJumpAbility.java would be referenced to be calling useAbility("DoubleJump").<br />
+	 * The key is not case sensitive.
 	 */
 	public void useAbility(String key)
 	{
@@ -64,12 +72,17 @@ public class Player extends Entity {
 		useAbility("doublejump");
 		if (isOnGround()) {
 			super.jump();
-			sound_jump.play();
+			SOUND_JUMP.play();
 		}
 	}
 	
+	@Override
 	public void stop_sounds(){
-		sound_jump.stop();
+		super.stop_sounds();
+		SOUND_JUMP.stop();
+		for(IPlayerAbility ability : abilities.values()){
+			ability.stop_sounds();
+		}
 	}
 
 	/**

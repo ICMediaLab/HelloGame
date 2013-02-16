@@ -179,12 +179,20 @@ public abstract class Entity implements IEntity {
 	/**
 	 * makes the entity jump. if it is falling, sets its vertical change to zero first.
 	 */
+	@Override
 	public void jump() {
 		dy = -1f;
 	}
 	
+	@Override
 	public abstract void render();
 
+	@Override
 	public abstract void update(Input input, Tile[][] properties, int delta);
+
+	@Override
+	public void stop_sounds(){
+		//left blank in case sounds are moved to this class.
+	}
 	
 }
