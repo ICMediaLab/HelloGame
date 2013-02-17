@@ -1,6 +1,6 @@
 package entities;
 
-import game.HelloGame;
+import game.config.Config;
 
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
@@ -32,7 +32,7 @@ public abstract class Entity implements IEntity {
 	 * @return The effect of the formula: FRICTION ^ (delta * NORMAL_FPS / 1000).
 	 */
 	protected static final float getFrictionDelta(int delta){
-		return (float) Math.pow(FRICTION, delta*HelloGame.NORMAL_FPS/1000);
+		return (float) Math.pow(FRICTION, delta*Config.getNormalFPS()*0.001f);
 	}
 	
 	/**
@@ -41,7 +41,7 @@ public abstract class Entity implements IEntity {
 	 * @return The effect of the formula: GRAVITY * (delta * NORMAL_FPS / 1000).
 	 */
 	protected static final float getGravityDelta(int delta){
-		return GRAVITY*delta*HelloGame.NORMAL_FPS/1000;
+		return GRAVITY*delta*Config.getNormalFPS()*0.001f;
 	}
 	
 	/**
@@ -193,6 +193,7 @@ public abstract class Entity implements IEntity {
 	@Override
 	public void stop_sounds(){
 		//left blank in case sounds are moved to this class.
+		//should be overridden to add class-specific sounds with a call to the super method.
 	}
 	
 }

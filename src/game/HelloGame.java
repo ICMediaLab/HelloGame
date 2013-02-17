@@ -1,6 +1,6 @@
 package game;
 
-import java.awt.Dimension;
+import game.config.Config;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
@@ -9,17 +9,9 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class HelloGame extends StateBasedGame {
 
-	//a bunch of configuration stuff that can probably be moved to an external file...
-	public static final boolean	 MODE_VSYNC	     	= true;
-	public static final boolean	 MODE_FULLSCREEN  	= false;
-	public static final Dimension	 SCREEN_DIMENSIONS	= new Dimension(800, 600);
-	public static final int 		 NORMAL_FPS	     	= 60;
-	
 	//int representations for the game states.
 	public static final int MAINMENUSTATE = 0;
 	public static final int GAMEPLAYSTATE = 1;
-	
-	
   
     public HelloGame() {
         super("HelloGame");
@@ -29,14 +21,14 @@ public class HelloGame extends StateBasedGame {
     	AppGameContainer app;
     	try{
 	    	app = new AppGameContainer(new HelloGame());
-	    	app.setDisplayMode(SCREEN_DIMENSIONS.width, SCREEN_DIMENSIONS.height, MODE_FULLSCREEN);
+	    	app.setDisplayMode(Config.getScreenWidth(), Config.getScreenWidth(), Config.isFullscreen());
     	}catch(SlickException e){
     		System.out.println("Failed to initialise the display. " + e.getMessage());
     		e.printStackTrace();
     		return;
     	}
-    	app.setVSync(MODE_VSYNC);
-    	app.setTargetFrameRate(NORMAL_FPS);
+    	app.setVSync(Config.isVsync());
+    	app.setTargetFrameRate(Config.getNormalFPS());
     	try {
 			app.start();
 		} catch (SlickException e) {
