@@ -13,7 +13,7 @@ public class NPC extends NonPlayableEntity{
 	}
 	
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
+	protected NPC clone() {
 		return new NPC(new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
 	}
 

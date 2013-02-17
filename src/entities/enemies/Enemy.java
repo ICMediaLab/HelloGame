@@ -25,7 +25,7 @@ public class Enemy extends NonPlayableEntity{
 	}
 	
 	@Override
-	protected Object clone() {
+	protected Enemy clone() {
 		return new Enemy(new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
 	}
 

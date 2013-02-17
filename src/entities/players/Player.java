@@ -46,7 +46,8 @@ public class Player extends Entity {
 		sprite = new Animation(movementRight, duration, false);
 	}
 	
-	protected Object clone() {
+	@Override
+	protected Player clone() {
 		return new Player(new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
 	}
 	

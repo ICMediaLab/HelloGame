@@ -1,9 +1,11 @@
 package entities;
 
+import org.lwjgl.util.Renderable;
 import org.newdawn.slick.Input;
+
 import utils.Tile;
 
-public interface IEntity extends Cloneable {
+public interface IEntity extends Cloneable, Renderable {
 	float FRICTION = 0.98f;
 	float GRAVITY = 0.09f;
 	
@@ -92,11 +94,6 @@ public interface IEntity extends Cloneable {
 	 * @param delta The time in microseconds since the last update.
 	 */
 	void update(Input input, Tile[][] properties, int delta);
-	
-	/**
-	 * Renders this entity to the window.
-	 */
-	void render();
 	
 	/**
 	 * Forces this entity to stop all currently playing sounds.<br />
