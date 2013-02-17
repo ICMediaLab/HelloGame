@@ -1,8 +1,9 @@
 package entities.npcs;
 
+import map.Tile;
+
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
-import utils.Tile;
 
 import entities.NonPlayableEntity;
 

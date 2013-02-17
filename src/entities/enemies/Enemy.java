@@ -3,11 +3,12 @@ package entities.enemies;
 import java.util.HashMap;
 import java.util.Map;
 
+import map.Tile;
+
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 import org.w3c.dom.Node;
 
-import utils.Tile;
 
 import entities.NonPlayableEntity;
 

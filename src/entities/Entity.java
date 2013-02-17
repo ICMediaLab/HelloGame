@@ -2,11 +2,12 @@ package entities;
 
 import game.config.Config;
 
+import map.Tile;
+import map.TileProperty;
+
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 
-import utils.Tile;
-import utils.TileProperty;
 
 public abstract class Entity implements IEntity {
 	
@@ -168,7 +169,7 @@ public abstract class Entity implements IEntity {
 	 */
 	@Override
 	public boolean isOnGround() {
-		int tileSize = properties[0][0].getTileSize();
+		int tileSize = Config.getTileSize();
 		//check bottom left corner of sprite
 		String left = properties[((int)getX() / tileSize)][(((int)getY() + tileSize) / tileSize)].lookupProperty(TileProperty.BLOCKED);
 		//check bottom right

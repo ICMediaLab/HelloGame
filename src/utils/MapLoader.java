@@ -1,23 +1,13 @@
 package utils;
 
+import map.Cell;
+
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.tiled.TiledMap;
 
 public final class MapLoader {
+	private MapLoader(){} //MapLoader should not be instantiated.
 	
-	private TiledMap[][] maps;
-	private int tileSize; 
-	
-	/**
-	 * Constructor for the MapLoader class, initialises the size of the
-	 * internal 2D array to hold the loaded maps.
-	 * @param w: The width of the array.
-	 * @param h: The height of the array.
-	 */
-	public MapLoader(int w, int h, int tileSize) {
-		maps = new TiledMap[w][h];
-		this.tileSize = tileSize;
-	}
+	private static Cell[][] maps;
 	
 	/**
 	 * Loads a new map from an xml file into an element of the internal
@@ -26,39 +16,25 @@ public final class MapLoader {
 	 * @param location: a string representing the address of the file
 	 * @param x: The x part of the cell's location in the array.
 	 * @param y: The corresponding y part.
+	 * @return 
 	 * @throws SlickException
 	 */
-	public void loadMap(String location, int x, int y) throws SlickException {
-		maps[x][y] = new TiledMap(location);
+	public static Cell loadMap(String location, int x, int y) throws SlickException {
+		maps[y][x] = new Cell(location);
+		return maps[y][x];
 	}
 	
-	public TiledMap getMap(int x, int y) {
-		return maps[x][y];
+	public static Cell getMap(int x, int y) {
+		return maps[y][x];
 	}
-	
+
 	/**
-	 * Extracts the properties of each cell in the map to a
-	 * Tile.
-	 * (This method only pulls out "blocked" and "enemy" properties
-	 *  for the moment. Add more as needed.)
-	 * PRE: 0 <= x < width / 0 <= y < height
-	 * @param x: The x part of the cell's location in the array.
-	 * @param y: The corresponding y part.
-	 * @return The HashMap of properties.
+	 * Initialises the size of the internal 2D array to hold the loaded maps.<br />
+	 * Will clear any data previously stored on the MapLoader.
+	 * @param cellsWidth The width of the global map.
+	 * @param cellsHeight The height of the global map.
 	 */
-	public Tile[][] getProperties(int x, int y) {
-		TiledMap cell = maps[x][y];
-		int width = cell.getWidth();
-		int height = cell.getHeight();
-		Tile[][] properties = new Tile[width][height];
-		
-		//go through all tiles in map
-		for (int xAxis = 0; xAxis < width; xAxis++) { 
-			for (int yAxis = 0; yAxis < height; yAxis++) {
-				properties[xAxis][yAxis] = new Tile(cell.getTileId(xAxis, yAxis, 0), tileSize);
-				properties[xAxis][yAxis].parseTileProperties(cell);
-			}
-		}
-		return properties;
+	public static void setDimensions(int cellsWidth, int cellsHeight) {
+		maps = new Cell[cellsHeight][cellsWidth];
 	}
 }

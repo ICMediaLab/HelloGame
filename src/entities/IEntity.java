@@ -1,9 +1,10 @@
 package entities;
 
+import map.Tile;
+
 import org.lwjgl.util.Renderable;
 import org.newdawn.slick.Input;
 
-import utils.Tile;
 
 public interface IEntity extends Cloneable, Renderable {
 	float FRICTION = 0.98f;
