@@ -21,7 +21,7 @@ public class HelloGame extends StateBasedGame {
     	AppGameContainer app;
     	try{
 	    	app = new AppGameContainer(new HelloGame());
-	    	app.setDisplayMode(Config.getScreenWidth(), Config.getScreenWidth(), Config.isFullscreen());
+	    	app.setDisplayMode(Config.getScreenWidth(), Config.getScreenHeight(), Config.isFullscreen());
     	}catch(SlickException e){
     		System.out.println("Failed to initialise the display. " + e.getMessage());
     		e.printStackTrace();
