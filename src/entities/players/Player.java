@@ -101,6 +101,13 @@ public class Player extends Entity {
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			playerJump();
 		}
+		if (input.isKeyDown(Input.KEY_A)) {
+			moveX(-0.35f);
+		}
+		if (input.isKeyDown(Input.KEY_D)) {
+			moveX(0.35f);
+		}
+		
 		frameMove(delta);
 	}
 	

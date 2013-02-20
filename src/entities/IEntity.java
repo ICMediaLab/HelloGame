@@ -7,7 +7,8 @@ import org.newdawn.slick.Input;
 
 
 public interface IEntity extends Cloneable, Renderable {
-	float FRICTION = 0.98f;
+	float XFRICTION = 0.68f;
+	float YFRICTION = 0.98f;
 	float GRAVITY = 0.09f;
 	
 	/**
@@ -86,6 +87,11 @@ public interface IEntity extends Cloneable, Renderable {
 	 * Note the precondition of the entity touching a surface should NOT be checked.
 	 */
 	void jump();
+	
+	/**
+	 * Modifies the entity's dx value to reflect movement in x axis.
+	 */
+	void moveX(float x);
 	
 	/**
 	 * Updates this entity given keyboard input, tile properties and the time delta.<br />

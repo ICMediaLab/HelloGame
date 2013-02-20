@@ -32,9 +32,9 @@ public abstract class Entity implements IEntity {
 	 * @param delta The time in microseconds since the last frame update.
 	 * @return The effect of the formula: FRICTION ^ (delta * NORMAL_FPS / 1000).
 	 */
-	protected static final float getFrictionDelta(int delta){
-		return (float) Math.pow(FRICTION, delta*Config.getNormalFPS()*0.001f);
-	}
+//	protected static final float getFrictionDelta(int delta){
+//		return (float) Math.pow(FRICTION, delta*Config.getNormalFPS()*0.001f);
+//	}
 	
 	/**
 	 * A utility method for returning the real value of gravity given a time difference delta since the last frame.
@@ -138,15 +138,16 @@ public abstract class Entity implements IEntity {
 	 */
 	@Override
 	public void frameMove(int delta) {
-		float modFriction = getFrictionDelta(delta);
-		float modGravity  = getGravityDelta(delta);
-		dx *= modFriction; dy *= modFriction;
+//		float modFriction = getFrictionDelta(delta);
+//		float modGravity  = getGravityDelta(delta);
+		
 		//both x and y axis are affected by scalar friction
 		if (!isOnGround()) {
-			dy += modGravity; //fall if not on the ground
+			dy += GRAVITY; //fall if not on the ground
 		} else if (dy > 0) {
 			dy = 0;
 		}
+		dx *= XFRICTION; dy *= YFRICTION;
 		
 		hitbox.setLocation(hitbox.getX() + dx * delta, hitbox.getY() + dy * delta); //move to new location
 		if (isOnGround()) {
@@ -169,12 +170,32 @@ public abstract class Entity implements IEntity {
 	 */
 	@Override
 	public boolean isOnGround() {
-		int tileSize = Config.getTileSize();
 		//check bottom left corner of sprite
-		String left = properties[((int)getX() / tileSize)][(((int)getY() + tileSize) / tileSize)].lookupProperty(TileProperty.BLOCKED);
+		String left = bottomLeft();
 		//check bottom right
-		String right = properties[(((int)getX() + tileSize) / tileSize)][(((int)getY() + tileSize) / tileSize)].lookupProperty(TileProperty.BLOCKED);
+		String right = bottomRight();
 		return (left.equals("true") || right.equals("true"));
+	}
+	
+	//collision checkers
+	private String topLeft() {
+		int tileSize = Config.getTileSize();
+		return properties[((int)getX() / tileSize)][((int)getY() / tileSize)].lookupProperty(TileProperty.BLOCKED);
+	}
+	
+	private String topRight() {
+		int tileSize = Config.getTileSize();
+		return properties[(((int)getX() + tileSize) / tileSize)][((int)getY() / tileSize)].lookupProperty(TileProperty.BLOCKED);
+	}
+	
+	private String bottomLeft() {
+		int tileSize = Config.getTileSize();
+		return properties[((int)getX() / tileSize)][(((int)getY() + tileSize) / tileSize)].lookupProperty(TileProperty.BLOCKED);
+	}
+	
+	private String bottomRight() {
+		int tileSize = Config.getTileSize();
+		return properties[(((int)getX() + tileSize) / tileSize)][(((int)getY() + tileSize) / tileSize)].lookupProperty(TileProperty.BLOCKED);
 	}
 	
 	/**
@@ -183,6 +204,11 @@ public abstract class Entity implements IEntity {
 	@Override
 	public void jump() {
 		dy = -1f;
+	}
+	
+	@Override
+	public void moveX(float x) {
+		dx = x;
 	}
 	
 	@Override
