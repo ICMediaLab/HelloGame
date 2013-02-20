@@ -62,6 +62,7 @@ public final class Config {
 				def.println("# Determines the maximum frames-per-second (fps) that the game should be\n# allowed to run at (defaults to "+NORMAL_FPS+").");
 				def.println("# fps = 60");
 				System.out.println("Could not find configuration file in the local directory structure.\nCreating default config file.");
+				def.close();
 			}else{
 				Scanner config = new Scanner(configFile);
 				String line;
@@ -85,6 +86,7 @@ public final class Config {
 						TILE_SIZE = Integer.parseInt(trimPastEquals(line));
 					}
 				}
+				config.close();
 			}
 		}catch(IOException e){
 			e.printStackTrace();
