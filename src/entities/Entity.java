@@ -154,6 +154,23 @@ public abstract class Entity implements IEntity {
 			//if the new location is on the ground, set it so entity isn't clipping into the ground
 			hitbox.setLocation(hitbox.getX(), ((int)hitbox.getY() / 32) * 32);
 		}
+		//vertical collision
+		if (topCollision()) {
+		    dy = 0;
+		    hitbox.setLocation(hitbox.getX(), (((int)hitbox.getY() + 32) / 32) * 32);
+		}
+		//horizontal collision
+		int side = sideCollision();
+		if (side != 0) {
+		    dx = 0;
+		    if (side == -1) {
+		        hitbox.setLocation(((hitbox.getX() + 32) / 32) * 32, hitbox.getY());
+	        }
+	        else {
+	            hitbox.setLocation((hitbox.getX() / 32) * 32, hitbox.getY());
+	        }
+		}
+		
 	}
 	
 	/**
@@ -175,6 +192,29 @@ public abstract class Entity implements IEntity {
 		//check bottom right
 		String right = bottomRight();
 		return (left.equals("true") || right.equals("true"));
+	}
+	
+	public boolean topCollision() {
+	    String left = topLeft();
+	    String right = topRight();
+	    return (left.equals("true") || right.equals("true"));
+	}
+	
+	public int sideCollision() {
+	    String topLeft = topLeft();
+	    String topRight = topRight();
+	    String bottomLeft = bottomLeft();
+	    String bottomRight = bottomRight();
+	    
+	    if (topLeft.equals("true") || bottomLeft.equals("true")) {
+	        return -1;
+	    }
+	    else if (topRight.equals("true") || bottomRight.equals("true")) {
+	        return 1;
+	    }
+	    else {
+	        return 0;
+	    }
 	}
 	
 	//collision checkers
