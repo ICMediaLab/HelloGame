@@ -10,7 +10,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 public abstract class Entity implements IEntity {
 	
-	private Cell currentCell;
+	protected Cell currentCell;
 	private final Rectangle hitbox;
 	private float dx = 0;
 	private float dy = 0;
@@ -20,7 +20,8 @@ public abstract class Entity implements IEntity {
 	
 	private int health,maxhealth;
 
-	public Entity(Rectangle hitbox, int maxhealth) {
+	public Entity(Cell currentCell, Rectangle hitbox, int maxhealth) {
+		this.currentCell = currentCell;
 		this.hitbox = hitbox;
 		this.health = maxhealth;
 		this.maxhealth = maxhealth;

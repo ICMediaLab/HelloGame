@@ -33,7 +33,7 @@ public class GameplayState extends BasicGameState {
 			throws SlickException {
 		MapLoader.setDimensions(1,1);
 		currentCell = MapLoader.loadMap("data/grassmap.tmx",0,0);
-		player = new Player(new Rectangle(32,32,32,32), 100);
+		player = new Player(currentCell,new Rectangle(32,32,32,32), 100);
 	}
 
 	@Override

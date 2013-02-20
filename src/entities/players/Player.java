@@ -2,6 +2,8 @@ package entities.players;
 
 import java.util.Map;
 
+import map.Cell;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
@@ -33,8 +35,8 @@ public class Player extends Entity {
 		SOUND_JUMP = s;
 	}
 
-	public Player(Rectangle hitbox, int maxhealth) {
-		super(hitbox, maxhealth);
+	public Player(Cell currentCell, Rectangle hitbox, int maxhealth) {
+		super(currentCell, hitbox, maxhealth);
 		Image[] movementRight = null;
 		try {
 			movementRight = new Image[]{new Image("data/images/dvl1_rt1.gif"), new Image("data/images/dvl1_rt2.gif")};
@@ -47,7 +49,7 @@ public class Player extends Entity {
 	
 	@Override
 	protected Player clone() {
-		return new Player(new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
+		return new Player(currentCell, new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
 	}
 	
 	/**

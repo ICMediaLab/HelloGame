@@ -3,6 +3,8 @@ package entities.enemies;
 import java.util.HashMap;
 import java.util.Map;
 
+import map.Cell;
+
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 import org.w3c.dom.Node;
@@ -18,13 +20,13 @@ public class Enemy extends NonPlayableEntity{
 	 */
 	private static final Map<String,Enemy> enemies = new HashMap<String,Enemy>();
 
-	private Enemy(Rectangle hitbox, int maxhealth) {
-		super(hitbox, maxhealth);
+	private Enemy(Cell currentCell, Rectangle hitbox, int maxhealth) {
+		super(currentCell, hitbox, maxhealth);
 	}
 	
 	@Override
 	protected Enemy clone() {
-		return new Enemy(new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
+		return new Enemy(currentCell, new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
 	}
 
 	/**
@@ -48,12 +50,12 @@ public class Enemy extends NonPlayableEntity{
 	 * @param y The y coordinate of the newly created enemy.
 	 * @return A new INonPlayableEntity object.
 	 */
-	public static Enemy getNewEnemy(String name, int x, int y){
+	public static Enemy getNewEnemy(Cell currentCell, String name, int x, int y){
 		if(name == null){
 			return null;
 		}
 		Enemy base = enemies.get(name.toLowerCase());
-		return new Enemy(new Rectangle(x,y, base.getWidth(), base.getHeight()),base.getMaxHealth());
+		return new Enemy(currentCell, new Rectangle(x,y, base.getWidth(), base.getHeight()),base.getMaxHealth());
 	}
 	
 	/**
@@ -77,7 +79,7 @@ public class Enemy extends NonPlayableEntity{
 	 * Creates a new enemy from an XML node. This should not be used except when loading enemies into the enemy template storage.
 	 */
 	public Enemy(Node node) {
-		super(null,0);
+		super(null,null,0);
 		//TODO: implement
 	}
 	
