@@ -22,6 +22,7 @@ public class Player extends Entity {
 	private Animation sprite;
 	private Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
 	private static final Sound SOUND_JUMP;
+	private float speed = 0.45f/32f;
 	
 	static {
 		final String path = "data/sounds/jump.ogg";
@@ -102,10 +103,10 @@ public class Player extends Entity {
 			playerJump();
 		}
 		if (input.isKeyDown(Input.KEY_A)) {
-			moveX(-0.35f);
+			moveX(-speed);
 		}
 		if (input.isKeyDown(Input.KEY_D)) {
-			moveX(0.35f);
+			moveX(speed);
 		}
 		
 		frameMove(delta);

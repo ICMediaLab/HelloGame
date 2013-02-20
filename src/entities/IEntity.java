@@ -5,10 +5,10 @@ import org.newdawn.slick.Input;
 
 
 public interface IEntity extends Cloneable, Renderable {
-	float XFRICTION = 0.68f;
-	float YFRICTION = 0.98f;
-	float GRAVITY = 0.09f;
-	float JUMP_AMOUNT = 0.1f;
+	float XFRICTION = 0.58f;
+	float YFRICTION = 0.95f;
+	float GRAVITY = 0.02f/32f;
+	float JUMP_AMOUNT = 1.4f/32;
 	
 	/**
 	 * Returns the current x-position of this entity.

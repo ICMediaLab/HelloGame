@@ -155,21 +155,20 @@ public abstract class Entity implements IEntity {
 			hitbox.setLocation(hitbox.getX(), (int) hitbox.getY());
 		}
 		//vertical collision
-		if (topCollision()) {
+		if (top()) {
 		    dy = 0;
 		    hitbox.setLocation(hitbox.getX(), (int)hitbox.getY() + 1);
 		}
 		//horizontal collision
-		int side = sideCollision();
-		if (side != 0) {
+		if (left()) {
 		    dx = 0;
-		    if (side == -1) {
-		        hitbox.setLocation((int) hitbox.getX() + 1, hitbox.getY());
-	        }
-	        else {
-	            hitbox.setLocation((int) hitbox.getX(), hitbox.getY());
-	        }
+		    hitbox.setLocation((int)(hitbox.getX() + 1), hitbox.getY());
 		}
+		if (right()) {
+		    dx = 0;
+		    hitbox.setLocation((int)hitbox.getX(), hitbox.getY());
+		}
+		    
 		
 	}
 	
@@ -187,51 +186,37 @@ public abstract class Entity implements IEntity {
 	 */
 	@Override
 	public boolean isOnGround() {
-		//check bottom left corner of sprite
-		String left = bottomLeft();
-		//check bottom right
-		String right = bottomRight();
-		return (left.equals("true") || right.equals("true"));
-	}
-	
-	public boolean topCollision() {
-	    String left = topLeft();
-	    String right = topRight();
-	    return (left.equals("true") || right.equals("true"));
-	}
-	
-	public int sideCollision() {
-	    String topLeft = topLeft();
-	    String topRight = topRight();
-	    String bottomLeft = bottomLeft();
-	    String bottomRight = bottomRight();
-	    
-	    if (topLeft.equals("true") || bottomLeft.equals("true")) {
-	        return -1;
-	    }
-	    else if (topRight.equals("true") || bottomRight.equals("true")) {
-	        return 1;
-	    }
-	    else {
-	        return 0;
-	    }
+		return bottom();
 	}
 	
 	//collision checkers
-	private String topLeft() {
-		return currentCell.getTile((int) getX(),(int) getY()).lookupProperty(TileProperty.BLOCKED);
+	private boolean top() {
+		return Boolean.parseBoolean(currentCell.getTile((int)(getX() + 0.25f), 
+		        (int) getY()).lookupProperty(TileProperty.BLOCKED)) ||
+		            Boolean.parseBoolean(currentCell.getTile((int)(getX() + 0.75f), 
+		                (int) getY()).lookupProperty(TileProperty.BLOCKED));
 	}
 	
-	private String topRight() {
-		return currentCell.getTile((int) (getX() + 1),(int) getY()).lookupProperty(TileProperty.BLOCKED);
+	private boolean bottom() {
+		return Boolean.parseBoolean(currentCell.getTile((int)(getX() + 0.25f),
+		        (int)(getY() + 1)).lookupProperty(TileProperty.BLOCKED)) ||
+		            Boolean.parseBoolean(currentCell.getTile((int)(getX() + 0.75f),
+		                (int)(getY() + 1)).lookupProperty(TileProperty.BLOCKED));
+		            
 	}
 	
-	private String bottomLeft() {
-		return currentCell.getTile((int) getX(),(int) getY() + 1).lookupProperty(TileProperty.BLOCKED);
+	private boolean left() {
+		return Boolean.parseBoolean(currentCell.getTile((int)getX(), 
+		        (int)(getY() + 0.25f)).lookupProperty(TileProperty.BLOCKED)) ||
+		            Boolean.parseBoolean(currentCell.getTile((int)getX(), 
+		                (int)(getY() + 0.75f)).lookupProperty(TileProperty.BLOCKED));
 	}
 	
-	private String bottomRight() {
-		return currentCell.getTile( (int) (getX() + 1),(int) (getY() + 1)).lookupProperty(TileProperty.BLOCKED);
+	private boolean right() {
+		return Boolean.parseBoolean(currentCell.getTile((int)(getX() + 1), 
+		        (int)(getY() + 0.25f)).lookupProperty(TileProperty.BLOCKED)) ||
+		            Boolean.parseBoolean(currentCell.getTile((int)(getX() + 1), 
+		                (int)(getY() + 0.75f)).lookupProperty(TileProperty.BLOCKED));
 	}
 	
 	/**
