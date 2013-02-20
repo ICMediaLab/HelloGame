@@ -1,7 +1,5 @@
 package entities;
 
-import map.Tile;
-
 import org.lwjgl.util.Renderable;
 import org.newdawn.slick.Input;
 
@@ -97,10 +95,9 @@ public interface IEntity extends Cloneable, Renderable {
 	 * Updates this entity given keyboard input, tile properties and the time delta.<br />
 	 * This method should make exactly one call to frameMove();
 	 * @param input The current state of the keyboard.
-	 * @param properties The surrounding tile properties.
 	 * @param delta The time in microseconds since the last update.
 	 */
-	void update(Input input, Tile[][] properties, int delta);
+	void update(Input input, int delta);
 	
 	/**
 	 * Forces this entity to stop all currently playing sounds.<br />

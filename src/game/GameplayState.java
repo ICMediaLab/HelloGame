@@ -38,7 +38,7 @@ public class GameplayState extends BasicGameState {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
-			throws SlickException {
+			throws SlickException {  
 		currentCell.render(0,0);
 		player.render();
 	}
@@ -51,7 +51,7 @@ public class GameplayState extends BasicGameState {
 			player.stop_sounds();
 			gc.exit();
 		}
-		player.update(input, currentCell.getProperties(), delta);
+		player.update(input, delta);
 
 	}
 

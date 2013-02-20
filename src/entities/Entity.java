@@ -1,8 +1,7 @@
 package entities;
 
 import game.config.Config;
-
-import map.Tile;
+import map.Cell;
 import map.TileProperty;
 
 import org.newdawn.slick.Input;
@@ -11,10 +10,10 @@ import org.newdawn.slick.geom.Rectangle;
 
 public abstract class Entity implements IEntity {
 	
+	private Cell currentCell;
 	private final Rectangle hitbox;
 	private float dx = 0;
 	private float dy = 0;
-	protected Tile[][] properties;
 	
 	//TODO:	Implement entity image system.
 	//		No idea how at the moment.
@@ -180,22 +179,22 @@ public abstract class Entity implements IEntity {
 	//collision checkers
 	private String topLeft() {
 		int tileSize = Config.getTileSize();
-		return properties[((int)getX() / tileSize)][((int)getY() / tileSize)].lookupProperty(TileProperty.BLOCKED);
+		return currentCell.getTile((int) (getX() / tileSize),(int) (getY() / tileSize)).lookupProperty(TileProperty.BLOCKED);
 	}
 	
 	private String topRight() {
 		int tileSize = Config.getTileSize();
-		return properties[(((int)getX() + tileSize) / tileSize)][((int)getY() / tileSize)].lookupProperty(TileProperty.BLOCKED);
+		return currentCell.getTile((int) ((getX() + tileSize) / tileSize),(int) (getY() / tileSize)).lookupProperty(TileProperty.BLOCKED);
 	}
 	
 	private String bottomLeft() {
 		int tileSize = Config.getTileSize();
-		return properties[((int)getX() / tileSize)][(((int)getY() + tileSize) / tileSize)].lookupProperty(TileProperty.BLOCKED);
+		return currentCell.getTile((int) (getX() / tileSize),(int) ((getY() + tileSize) / tileSize)).lookupProperty(TileProperty.BLOCKED);
 	}
 	
 	private String bottomRight() {
 		int tileSize = Config.getTileSize();
-		return properties[(((int)getX() + tileSize) / tileSize)][(((int)getY() + tileSize) / tileSize)].lookupProperty(TileProperty.BLOCKED);
+		return currentCell.getTile( (int) ((getX() + tileSize) / tileSize),(int) ((getY() + tileSize) / tileSize)).lookupProperty(TileProperty.BLOCKED);
 	}
 	
 	/**
@@ -215,7 +214,7 @@ public abstract class Entity implements IEntity {
 	public abstract void render();
 
 	@Override
-	public abstract void update(Input input, Tile[][] properties, int delta);
+	public abstract void update(Input input, int delta);
 
 	@Override
 	public void stop_sounds(){
