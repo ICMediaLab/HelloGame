@@ -9,6 +9,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
+import org.newdawn.slick.Music;
 
 import utils.MapLoader;
 import entities.players.Player;
@@ -18,6 +19,7 @@ public class GameplayState extends BasicGameState {
 	private final int stateID;
 	private Cell currentCell;
 	private Player player;
+	private Music music;
 	  
     GameplayState(int stateID) {
        this.stateID = stateID;
@@ -34,11 +36,13 @@ public class GameplayState extends BasicGameState {
 		MapLoader.setDimensions(1,1);
 		currentCell = MapLoader.loadMap("data/grassmap.tmx",0,0);
 		player = new Player(new Rectangle(32,32,32,32), 100);
+		music = new Music("data/sounds/theme.ogg", true);
+		music.play(1.0f, 0.1f);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
-			throws SlickException {
+			throws SlickException {  
 		currentCell.render(0,0);
 		player.render();
 	}
@@ -48,10 +52,11 @@ public class GameplayState extends BasicGameState {
 			throws SlickException {
 		Input input = gc.getInput();
 		if (input.isKeyDown(Input.KEY_ESCAPE)){
+			music.release();
 			player.stop_sounds();
 			gc.exit();
 		}
-		player.update(input, currentCell.getProperties(), delta);
+		player.update(input, delta);
 
 	}
 

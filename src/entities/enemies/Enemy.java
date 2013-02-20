@@ -3,12 +3,9 @@ package entities.enemies;
 import java.util.HashMap;
 import java.util.Map;
 
-import map.Tile;
-
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 import org.w3c.dom.Node;
-
 
 import entities.NonPlayableEntity;
 
@@ -84,7 +81,7 @@ public class Enemy extends NonPlayableEntity{
 		//TODO: implement
 	}
 	
-	public void update(Input input, Tile[][] properties, int delta) {
+	public void update(Input input, int delta) {
 		//TODO
 	}
 	

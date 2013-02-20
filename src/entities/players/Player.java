@@ -2,8 +2,6 @@ package entities.players;
 
 import java.util.Map;
 
-import map.Tile;
-
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
@@ -95,8 +93,7 @@ public class Player extends Entity {
 	 * @param delta The time in microseconds since the last update.
 	 */
 	@Override
-	public void update(Input input, Tile[][] properties, int delta) {
-		this.properties = properties;
+	public void update(Input input, int delta) {
 		
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			playerJump();
