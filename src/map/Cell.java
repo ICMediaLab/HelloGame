@@ -30,8 +30,8 @@ public class Cell extends TiledMap{
 		//go through all tiles in map
 		for (int xAxis = 0; xAxis < width; xAxis++) { 
 			for (int yAxis = 0; yAxis < height; yAxis++) {
-				properties[yAxis][xAxis] = new Tile(getTileId(xAxis, yAxis, 0));
-				properties[yAxis][xAxis].parseTileProperties(this);
+				properties[xAxis][yAxis] = new Tile(getTileId(xAxis, yAxis, 0));
+				properties[xAxis][yAxis].parseTileProperties(this);
 			}
 		}
 	}
