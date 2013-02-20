@@ -15,6 +15,7 @@ import org.newdawn.slick.geom.Rectangle;
 import entities.Entity;
 import entities.players.abilities.AbilityFinder;
 import entities.players.abilities.IPlayerAbility;
+import game.config.Config;
 
 public class Player extends Entity {
 	
@@ -112,6 +113,6 @@ public class Player extends Entity {
 	
 	@Override
 	public void render() {
-		sprite.draw((int)getX(), (int)getY(), new Color(256,256,256));
+		sprite.draw((int)(getX()*Config.getTileSize()), (int)(getY()*Config.getTileSize()), new Color(256,256,256));
 	}
 }

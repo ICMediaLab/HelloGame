@@ -152,22 +152,22 @@ public abstract class Entity implements IEntity {
 		hitbox.setLocation(hitbox.getX() + dx * delta, hitbox.getY() + dy * delta); //move to new location
 		if (isOnGround()) {
 			//if the new location is on the ground, set it so entity isn't clipping into the ground
-			hitbox.setLocation(hitbox.getX(), ((int)hitbox.getY() / 32) * 32);
+			hitbox.setLocation(hitbox.getX(), (int) hitbox.getY());
 		}
 		//vertical collision
 		if (topCollision()) {
 		    dy = 0;
-		    hitbox.setLocation(hitbox.getX(), (((int)hitbox.getY() + 32) / 32) * 32);
+		    hitbox.setLocation(hitbox.getX(), (int)hitbox.getY() + 1);
 		}
 		//horizontal collision
 		int side = sideCollision();
 		if (side != 0) {
 		    dx = 0;
 		    if (side == -1) {
-		        hitbox.setLocation(((hitbox.getX() + 32) / 32) * 32, hitbox.getY());
+		        hitbox.setLocation((int) hitbox.getX() + 1, hitbox.getY());
 	        }
 	        else {
-	            hitbox.setLocation((hitbox.getX() / 32) * 32, hitbox.getY());
+	            hitbox.setLocation((int) hitbox.getX(), hitbox.getY());
 	        }
 		}
 		
@@ -219,23 +219,19 @@ public abstract class Entity implements IEntity {
 	
 	//collision checkers
 	private String topLeft() {
-		int tileSize = Config.getTileSize();
-		return currentCell.getTile((int) (getX() / tileSize),(int) (getY() / tileSize)).lookupProperty(TileProperty.BLOCKED);
+		return currentCell.getTile((int) getX(),(int) getY()).lookupProperty(TileProperty.BLOCKED);
 	}
 	
 	private String topRight() {
-		int tileSize = Config.getTileSize();
-		return currentCell.getTile((int) ((getX() + tileSize) / tileSize),(int) (getY() / tileSize)).lookupProperty(TileProperty.BLOCKED);
+		return currentCell.getTile((int) (getX() + 1),(int) getY()).lookupProperty(TileProperty.BLOCKED);
 	}
 	
 	private String bottomLeft() {
-		int tileSize = Config.getTileSize();
-		return currentCell.getTile((int) (getX() / tileSize),(int) ((getY() + tileSize) / tileSize)).lookupProperty(TileProperty.BLOCKED);
+		return currentCell.getTile((int) getX(),(int) getY() + 1).lookupProperty(TileProperty.BLOCKED);
 	}
 	
 	private String bottomRight() {
-		int tileSize = Config.getTileSize();
-		return currentCell.getTile( (int) ((getX() + tileSize) / tileSize),(int) ((getY() + tileSize) / tileSize)).lookupProperty(TileProperty.BLOCKED);
+		return currentCell.getTile( (int) (getX() + 1),(int) (getY() + 1)).lookupProperty(TileProperty.BLOCKED);
 	}
 	
 	/**
@@ -243,7 +239,7 @@ public abstract class Entity implements IEntity {
 	 */
 	@Override
 	public void jump() {
-		dy = -1f;
+		dy = -JUMP_AMOUNT;
 	}
 	
 	@Override

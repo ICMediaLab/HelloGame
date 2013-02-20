@@ -8,6 +8,7 @@ public interface IEntity extends Cloneable, Renderable {
 	float XFRICTION = 0.68f;
 	float YFRICTION = 0.98f;
 	float GRAVITY = 0.09f;
+	float JUMP_AMOUNT = 0.1f;
 	
 	/**
 	 * Returns the current x-position of this entity.
