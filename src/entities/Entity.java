@@ -232,6 +232,14 @@ public abstract class Entity implements IEntity {
 		dx = x;
 	}
 	
+	public boolean isMovingX(){
+		if (dx < -0.002f || dx > 0.002f){
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 	@Override
 	public abstract void render();
 
