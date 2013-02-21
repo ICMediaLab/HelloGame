@@ -30,8 +30,8 @@ public final class Config {
 		MODE_FULLSCREEN = false;
 		MODE_VSYNC = true;
 		NORMAL_FPS = 60;
-		SCREEN_HEIGHT = 600;
-		SCREEN_WIDTH = 800;
+		SCREEN_HEIGHT = 576;
+		SCREEN_WIDTH = 1024;
 		TILE_SIZE = 32;
 	}
 	

@@ -19,7 +19,7 @@ import game.config.Config;
 
 public class Player extends Entity {
 	
-	private Animation sprite;
+	private Animation sprite, left, right;
 	private Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
 	private static final Sound SOUND_JUMP;
 	private float speed = 0.45f/32f;
@@ -40,13 +40,17 @@ public class Player extends Entity {
 	public Player(Cell currentCell, Rectangle hitbox, int maxhealth) {
 		super(currentCell, hitbox, maxhealth);
 		Image[] movementRight = null;
+		Image[] movementLeft = null;
 		try {
-			movementRight = new Image[]{new Image("data/images/dvl1_rt1.gif"), new Image("data/images/dvl1_rt2.gif")};
+			movementRight = new Image[]{new Image("data/images/dvl1_rt1.png"), new Image("data/images/dvl1_rt2.png")};
+			movementLeft = new Image[]{new Image("data/images/dvl1_lf1.png"), new Image("data/images/dvl1_lf2.png")};
 		} catch (SlickException e) {
 			//do shit all
 		}
-		int[] duration = {300,300};
-		sprite = new Animation(movementRight, duration, false);
+		int[] duration = {200,200};
+		right = new Animation(movementRight, duration, false);
+		left = new Animation(movementLeft, duration, false);
+		sprite = right;
 	}
 	
 	@Override
@@ -104,9 +108,13 @@ public class Player extends Entity {
 		}
 		if (input.isKeyDown(Input.KEY_A)) {
 			moveX(-speed);
+			sprite = left;
+			sprite.update(delta);
 		}
-		if (input.isKeyDown(Input.KEY_D)) {
+		else if (input.isKeyDown(Input.KEY_D)) {
 			moveX(speed);
+			sprite = right;
+			sprite.update(delta);
 		}
 		
 		frameMove(delta);

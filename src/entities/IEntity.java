@@ -7,7 +7,7 @@ import org.newdawn.slick.Input;
 public interface IEntity extends Cloneable, Renderable {
 	float XFRICTION = 0.58f;
 	float YFRICTION = 0.95f;
-	float GRAVITY = 0.02f/32f;
+	float GRAVITY = 0.12f/32f;
 	float JUMP_AMOUNT = 1.4f/32;
 	
 	/**
