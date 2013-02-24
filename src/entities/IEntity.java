@@ -71,6 +71,13 @@ public interface IEntity extends Cloneable, Renderable {
 	void frameMove(int delta);
 	
 	/**
+	 * Should only be used if you desperately need to teleport the player.
+	 * @param x position
+	 * @param y position
+	 */
+	void setPosition(int x, int y);
+	
+	/**
 	 * Returns true if and only if this entity has an absolute health equal to zero.
 	 */
 	boolean isDead();

@@ -63,4 +63,10 @@ public class Tile {
 	public String lookupProperty(TileProperty k) {
 		return properties.get(k);
 	}
+	
+	@Override
+	public String toString() {
+		return properties.toString();
+		
+	}
 }

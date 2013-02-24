@@ -167,9 +167,13 @@ public abstract class Entity implements IEntity {
 		if (right()) {
 		    dx = 0;
 		    hitbox.setLocation((int)hitbox.getX(), hitbox.getY());
-		}
-		    
+		}  
 		
+	}
+	
+	@Override
+	public void setPosition(int x, int y) {
+		hitbox.setLocation(x,y);
 	}
 	
 	/**

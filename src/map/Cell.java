@@ -19,7 +19,6 @@ public class Cell extends TiledMap{
 	}
 	
 	
-	
 	/**
 	 * Extracts the properties of each cell in the map to a
 	 * Tile.
@@ -29,11 +28,13 @@ public class Cell extends TiledMap{
 	 * @return 
 	 */
 	private void loadProperties(){
+		
 		//go through all tiles in map
 		for (int xAxis = 0; xAxis < width; xAxis++) { 
 			for (int yAxis = 0; yAxis < height; yAxis++) {
 				properties[yAxis][xAxis] = new Tile(getTileId(xAxis, yAxis, 0));
 				properties[yAxis][xAxis].parseTileProperties(this);
+				System.out.println("(" + xAxis + "," + yAxis + " " + properties[yAxis][xAxis]);
 			}
 		}
 	}

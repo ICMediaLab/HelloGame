@@ -8,6 +8,9 @@ public final class MapLoader {
 	private MapLoader(){} //MapLoader should not be instantiated.
 	
 	private static Cell[][] maps;
+	private static Cell currentCell;
+	private static int currentX;
+	private static int currentY;
 	
 	/**
 	 * Loads a new map from an xml file into an element of the internal
@@ -23,7 +26,13 @@ public final class MapLoader {
 		maps[y][x] = new Cell(location);
 		return maps[y][x];
 	}
-	
+	/**
+	 * Returns any map by it's x and y position. Should ONLY be necessary to warp to 
+	 * a random cell that isn't adjacent to the player.
+	 * @param x
+	 * @param y
+	 * @return the cell.
+	 */
 	public static Cell getMap(int x, int y) {
 		return maps[y][x];
 	}
@@ -37,4 +46,35 @@ public final class MapLoader {
 	public static void setDimensions(int cellsWidth, int cellsHeight) {
 		maps = new Cell[cellsHeight][cellsWidth];
 	}
+	
+	/**
+	 * Setter for the current cell to be rendered and used by the player
+	 * @param x
+	 * @param y
+	 * @return The current cell that was just set.
+	 */
+	public static Cell setCurrentCell(int x, int y) {
+		currentX = x;
+		currentY = y;
+		currentCell = maps[y][x];
+		return currentCell;
+	}
+	
+	/**
+	 * Getter to return the current cell to the player and render methods.
+	 * @return The current cell.
+	 */
+	public static Cell getCurrentCell() {
+		return currentCell;
+	}
+	
+	
+	public static int getCurrentX() {
+		return currentX;
+	}
+	
+	public static int getCurrentY() {
+		return currentY;
+	}
+	
 }

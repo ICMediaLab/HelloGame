@@ -12,6 +12,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 
+import utils.MapLoader;
+
 import entities.Entity;
 import entities.players.abilities.AbilityFinder;
 import entities.players.abilities.IPlayerAbility;
@@ -118,10 +120,38 @@ public class Player extends Entity {
 		}
 		
 		frameMove(delta);
+		checkMapChanged();
+	}
+	
+	/**
+	 * Checks the player's x and y position to see if they have reached the edge of the map. 
+	 * @return -1 for no change, 0 for up, 1 for right, 2 for down, 3 for left
+	 */
+	public void checkMapChanged() {
+		//check top
+		if (getY() < 1) {
+			currentCell = MapLoader.setCurrentCell(MapLoader.getCurrentX(), MapLoader.getCurrentY() - 1);
+			setPosition((int)getX(), currentCell.getHeight() - 3);
+		}
+		//right
+		if (getX() >= currentCell.getWidth() - 2) {
+			currentCell = MapLoader.setCurrentCell(MapLoader.getCurrentX() + 1, MapLoader.getCurrentY());
+			setPosition(1, (int)getY());
+		}
+		//bottom
+		if (getY() >= currentCell.getHeight() - 2) {
+			currentCell = MapLoader.setCurrentCell(MapLoader.getCurrentX(), MapLoader.getCurrentY() + 1);
+			setPosition((int)getX(), 2);
+		}
+		//left
+		if (getX() < 1) {
+			currentCell = MapLoader.setCurrentCell(MapLoader.getCurrentX() - 1, MapLoader.getCurrentY());
+			setPosition(currentCell.getWidth() - 2, (int)getY());
+		}
 	}
 	
 	@Override
 	public void render() {
-		sprite.draw((int)(getX()*Config.getTileSize()), (int)(getY()*Config.getTileSize()), new Color(256,256,256));
+		sprite.draw((int)((getX()-1)*Config.getTileSize()), (int)((getY()-1)*Config.getTileSize()), new Color(256,256,256));
 	}
 }
