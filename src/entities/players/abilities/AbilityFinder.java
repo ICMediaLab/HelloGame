@@ -67,7 +67,7 @@ public final class AbilityFinder {
 			List<File> dirs = new ArrayList<File>();
 			while (resources.hasMoreElements()) {
 				URL resource = resources.nextElement();
-				dirs.add(new File(resource.getFile()));
+				dirs.add(new File(resource.getFile().replaceAll("%20", " ")));
 			}
 			for (File directory : dirs) {
 				classes.addAll(findClasses(directory, packageName));
@@ -78,6 +78,7 @@ public final class AbilityFinder {
 
 	private static List<Class<?>> findClasses(File dir, String packageName)
 			throws ClassNotFoundException {
+		System.out.println("Trying package:"+packageName+", dir:"+dir.getPath());
 		List<Class<?>> classes = new ArrayList<Class<?>>();
 		if (dir.exists()) {
 			File[] files = dir.listFiles();
