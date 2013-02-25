@@ -43,6 +43,8 @@ public class GameplayState extends BasicGameState {
 		MapLoader.loadMap("data/testmap2.tmx", 1, 0);
 		MapLoader.loadMap("data/testmap3.tmx", 0, 1);
 		MapLoader.loadMap("data/testmap4.tmx", 0, 2);
+		MapLoader.loadMap("data/testmap5.tmx", 1, 2);
+		MapLoader.loadMap("data/testmap6.tmx", 1, 1);
 		//set initial map
 		currentCell = MapLoader.setCurrentCell(0,0);
 		

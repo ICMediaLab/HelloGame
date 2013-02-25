@@ -66,6 +66,22 @@ public abstract class Entity implements IEntity {
 	}
 	
 	/**
+	 * Returns the current x-position of this entity.
+	 */
+	@Override
+	public float getdX(){
+		return dx;
+	}
+	
+	/**
+	 * Returns the current y-position of this entity.
+	 */
+	@Override
+	public float getdY(){
+		return dy;
+	}
+	
+	/**
 	 * Returns the width of the hitbox of this entity.
 	 */
 	@Override

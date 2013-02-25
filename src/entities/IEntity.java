@@ -21,6 +21,16 @@ public interface IEntity extends Cloneable, Renderable {
 	float getY();
 	
 	/**
+	 * Returns the current x-velocity of this entity.
+	 */
+	float getdX();
+	
+	/**
+	 * Returns the current y-velocity of this entity.
+	 */
+	float getdY();
+	
+	/**
 	 * Returns the width of the hitbox of this entity.
 	 */
 	float getWidth();
