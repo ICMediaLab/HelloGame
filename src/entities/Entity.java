@@ -8,10 +8,11 @@ import map.TileProperty;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 
+import utils.MapLoader;
+
 
 public abstract class Entity implements IEntity {
 	
-	protected Cell currentCell;
 	private final Rectangle hitbox;
 	private float dx = 0;
 	private float dy = 0;
@@ -24,8 +25,7 @@ public abstract class Entity implements IEntity {
 	//for debugging purposes:
 	private final FrameTrace frameTrace = new FrameTrace();
 
-	public Entity(Cell currentCell, Rectangle hitbox, int maxhealth) {
-		this.currentCell = currentCell;
+	public Entity(Rectangle hitbox, int maxhealth) {
 		this.hitbox = hitbox;
 		this.health = maxhealth;
 		this.maxhealth = maxhealth;
@@ -221,6 +221,7 @@ public abstract class Entity implements IEntity {
 	
 	//collision checkers
 	private boolean top() {
+		Cell currentCell = MapLoader.getCurrentCell();
 		return Boolean.parseBoolean(currentCell.getTile((int)(getX() + 0.25f), 
 		        (int) getY()).lookupProperty(TileProperty.BLOCKED)) ||
 		            Boolean.parseBoolean(currentCell.getTile((int)(getX() + 0.75f), 
@@ -228,6 +229,7 @@ public abstract class Entity implements IEntity {
 	}
 	
 	private boolean bottom() {
+		Cell currentCell = MapLoader.getCurrentCell();
 		return Boolean.parseBoolean(currentCell.getTile((int)(getX() + 0.25f),
 		        (int)(getY() + 1)).lookupProperty(TileProperty.BLOCKED)) ||
 		            Boolean.parseBoolean(currentCell.getTile((int)(getX() + 0.75f),
@@ -236,6 +238,7 @@ public abstract class Entity implements IEntity {
 	}
 	
 	private boolean left() {
+		Cell currentCell = MapLoader.getCurrentCell();
 		return Boolean.parseBoolean(currentCell.getTile((int)getX(), 
 		        (int)(getY() + 0.25f)).lookupProperty(TileProperty.BLOCKED)) ||
 		            Boolean.parseBoolean(currentCell.getTile((int)getX(), 
@@ -243,6 +246,7 @@ public abstract class Entity implements IEntity {
 	}
 	
 	private boolean right() {
+		Cell currentCell = MapLoader.getCurrentCell();
 		return Boolean.parseBoolean(currentCell.getTile((int)(getX() + 1), 
 		        (int)(getY() + 0.25f)).lookupProperty(TileProperty.BLOCKED)) ||
 		            Boolean.parseBoolean(currentCell.getTile((int)(getX() + 1), 

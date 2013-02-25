@@ -40,8 +40,8 @@ public class Player extends Entity {
 		SOUND_JUMP = s;
 	}
 
-	public Player(Cell currentCell, Rectangle hitbox, int maxhealth) {
-		super(currentCell, hitbox, maxhealth);
+	public Player(Rectangle hitbox, int maxhealth) {
+		super(hitbox, maxhealth);
 		Image[] movementRight = null;
 		Image[] movementLeft = null;
 		try {
@@ -55,10 +55,10 @@ public class Player extends Entity {
 		left = new Animation(movementLeft, duration, false);
 		sprite = right;
 	}
-	
+
 	@Override
 	protected Player clone() {
-		return new Player(currentCell, new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
+		return new Player(new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
 	}
 	
 	/**
@@ -129,24 +129,25 @@ public class Player extends Entity {
 	 * @return -1 for no change, 0 for up, 1 for right, 2 for down, 3 for left
 	 */
 	public void checkMapChanged() {
+		Cell currentCell = MapLoader.getCurrentCell();
 		//check top
 		if (getY() < 1 && getdY() < 0) {
-			currentCell = MapLoader.setCurrentCell(MapLoader.getCurrentX(), MapLoader.getCurrentY() - 1);
+			currentCell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX(), MapLoader.getCurrentY() - 1);
 			setPosition(getX(), currentCell.getHeight() - getHeight() - 1);
 		}
 		//right
 		if (getX() >= currentCell.getWidth() - 2 && getdX() > 0) {
-			currentCell = MapLoader.setCurrentCell(MapLoader.getCurrentX() + 1, MapLoader.getCurrentY());
+			currentCell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX() + 1, MapLoader.getCurrentY());
 			setPosition(1, getY());
 		}
 		//bottom
 		if (getY() >= currentCell.getHeight() - 2 && getdY() > 0) {
-			currentCell = MapLoader.setCurrentCell(MapLoader.getCurrentX(), MapLoader.getCurrentY() + 1);
+			currentCell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX(), MapLoader.getCurrentY() + 1);
 			setPosition(getX(), 1);
 		}
 		//left
 		if (getX() < 1 && getdX() < 0) {
-			currentCell = MapLoader.setCurrentCell(MapLoader.getCurrentX() - 1, MapLoader.getCurrentY());
+			currentCell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX() - 1, MapLoader.getCurrentY());
 			setPosition(currentCell.getWidth() - getWidth() - 1, getY());
 		}
 	}

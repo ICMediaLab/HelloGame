@@ -19,6 +19,7 @@ import game.config.Config;
 
 public class Enemy extends NonPlayableEntity{
 	
+	@SuppressWarnings("unused")
 	private final Animation left, right;
 	private Animation sprite;
 	
@@ -29,8 +30,8 @@ public class Enemy extends NonPlayableEntity{
 	 */
 	private static final Map<String,Enemy> enemies = new HashMap<String,Enemy>();
 
-	private Enemy(Cell currentCell, Rectangle hitbox, int maxhealth) {
-		super(currentCell, hitbox, maxhealth);
+	private Enemy(Rectangle hitbox, int maxhealth) {
+		super(hitbox, maxhealth);
 		Image[] movementRight = null;
 		Image[] movementLeft = null;
 		try {
@@ -47,7 +48,7 @@ public class Enemy extends NonPlayableEntity{
 	
 	@Override
 	protected Enemy clone() {
-		return new Enemy(currentCell, new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
+		return new Enemy(new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
 	}
 
 	/**
@@ -76,7 +77,7 @@ public class Enemy extends NonPlayableEntity{
 			return null;
 		}
 		Enemy base = enemies.get(name.toLowerCase());
-		return new Enemy(currentCell, new Rectangle(x,y, base.getWidth(), base.getHeight()),base.getMaxHealth());
+		return new Enemy(new Rectangle(x,y, base.getWidth(), base.getHeight()),base.getMaxHealth());
 	}
 	
 	/**
@@ -110,7 +111,7 @@ public class Enemy extends NonPlayableEntity{
 		try{
 			height = Float.parseFloat(attrs.getNamedItem("width").getNodeValue());
 		}catch(NullPointerException e){ }
-		loadEnemy(name, new Enemy(null,new Rectangle(0, 0, width, height),health));
+		loadEnemy(name, new Enemy(new Rectangle(0, 0, width, height),health));
 	}
 	
 	public void update(Input input, int delta) {

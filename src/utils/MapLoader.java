@@ -4,6 +4,8 @@ import map.Cell;
 
 import org.newdawn.slick.SlickException;
 
+import entities.players.Player;
+
 public final class MapLoader {
 	private MapLoader(){} //MapLoader should not be instantiated.
 	
@@ -48,14 +50,19 @@ public final class MapLoader {
 	
 	/**
 	 * Setter for the current cell to be rendered and used by the player
+	 * @param player 
 	 * @param x
 	 * @param y
 	 * @return The current cell that was just set.
 	 */
-	public static Cell setCurrentCell(int x, int y) {
+	public static Cell setCurrentCell(Player player, int x, int y) {
+		try{
+			getCurrentCell().clearEntities();
+		}catch(NullPointerException e){ }
 		currentX = x;
 		currentY = y;
 		currentCell = maps[y][x];
+		currentCell.addEntity(player);
 		return currentCell;
 	}
 	

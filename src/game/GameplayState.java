@@ -47,10 +47,10 @@ public class GameplayState extends BasicGameState {
 		MapLoader.loadMap("data/testmap5.tmx", 1, 2);
 		MapLoader.loadMap("data/testmap6.tmx", 1, 1);
 		//set initial map
-		currentCell = MapLoader.setCurrentCell(0,0);
-		
+		player = new Player(new Rectangle(2,2,1,1), 100);
+		currentCell = MapLoader.setCurrentCell(player,0,0);
 		//create player
-		player = new Player(currentCell,new Rectangle(2,2,1,1), 100);
+		
 		currentCell.addEntity(player);
 		EnemyLoader.loadEnemies("data/enemydata.xml");
 		currentCell.addEntity(Enemy.getNewEnemy(currentCell,"rawr",1,1));

@@ -58,9 +58,6 @@ public final class Config {
 				def.println("# Determines the default screen resolution (defaults to "+SCREEN_WIDTH+"x"+SCREEN_HEIGHT+").");
 				def.println("# screenwidth  = 800");
 				def.println("# screenheight = 600");
-				def.println();
-				def.println("# Determines the maximum frames-per-second (fps) that the game should be\n# allowed to run at (defaults to "+NORMAL_FPS+").");
-				def.println("# fps = 60");
 				System.out.println("Could not find configuration file in the local directory structure.\nCreating default config file.");
 				def.close();
 			}else{
@@ -80,10 +77,6 @@ public final class Config {
 						SCREEN_WIDTH = Integer.parseInt(trimPastEquals(line));
 					}else if(line.startsWith("screenheight")){
 						SCREEN_HEIGHT = Integer.parseInt(trimPastEquals(line));
-					}else if(line.startsWith("fps")){
-						NORMAL_FPS = Integer.parseInt(trimPastEquals(line));
-					}else if(line.startsWith("tilesize")){
-						TILE_SIZE = Integer.parseInt(trimPastEquals(line));
 					}
 				}
 				config.close();

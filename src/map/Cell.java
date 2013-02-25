@@ -58,4 +58,9 @@ public class Cell extends TiledMap{
 		}
 	}
 
+
+	public void clearEntities() {
+		entities.clear();
+	}
+
 }
