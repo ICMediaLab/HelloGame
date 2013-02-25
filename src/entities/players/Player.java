@@ -12,6 +12,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 
+import sounds.Sounds;
 import utils.MapLoader;
 
 import entities.Entity;
@@ -84,6 +85,7 @@ public class Player extends Entity {
 		if (isOnGround()) {
 			super.jump();
 			SOUND_JUMP.play();
+			//Sounds.play(SOUND_JUMP);
 		}
 	}
 	

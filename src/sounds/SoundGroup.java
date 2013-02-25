@@ -49,14 +49,14 @@ public class SoundGroup {
 		if (player.isOnGround() && player.isMovingX() && s == "grass"){
 			accumulator += gc.getTime() - oldTime;
 			if (accumulator > 300){
-				SOUNDS.get(rnd.nextInt(5)).play(rnd.nextFloat()*0.2f + 0.8f, rnd.nextFloat()*0.3f + 0.1f);
+				Sounds.play(SOUNDS.get(rnd.nextInt(5)), rnd.nextFloat()*0.2f + 0.8f, rnd.nextFloat()*0.3f + 0.1f);
 				accumulator = 0;
 			}
 			oldTime = gc.getTime();
 		} else if (player.isOnGround() && player.isMovingX() && s == "gravel"){
 			accumulator += gc.getTime() - oldTime;
 			if (accumulator > 300){
-				SOUNDS.get(rnd.nextInt(4)).play(rnd.nextFloat()*0.2f + 0.8f, rnd.nextFloat()*0.3f + 0.1f);
+				Sounds.play(SOUNDS.get(rnd.nextInt(4)), rnd.nextFloat()*0.2f + 0.8f, rnd.nextFloat()*0.3f + 0.1f);
 				accumulator = 0;
 			}
 			oldTime = gc.getTime();

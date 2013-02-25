@@ -12,6 +12,7 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import sounds.SoundGroup;
+import sounds.Sounds;
 import utils.EnemyLoader;
 import utils.MapLoader;
 import entities.enemies.Enemy;
@@ -77,8 +78,7 @@ public class GameplayState extends BasicGameState {
 		Input input = gc.getInput();
 		if (input.isKeyDown(Input.KEY_ESCAPE)){
 			music.release();
-			player.stop_sounds();
-			footsteps.stopSounds();
+			Sounds.releaseSounds();
 			gc.exit();
 		}
 		
@@ -87,6 +87,7 @@ public class GameplayState extends BasicGameState {
 		
 		//update sounds
 		footsteps.playRandom(gc, player);
+		Sounds.update();
 	}
 
 	
