@@ -5,16 +5,17 @@ import map.Cell;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.Music;
 
 import sounds.SoundGroup;
+import utils.EnemyLoader;
 import utils.MapLoader;
+import entities.enemies.Enemy;
 import entities.players.Player;
-import game.config.Config;
 
 public class GameplayState extends BasicGameState {
 	
@@ -50,6 +51,9 @@ public class GameplayState extends BasicGameState {
 		
 		//create player
 		player = new Player(currentCell,new Rectangle(2,2,1,1), 100);
+		currentCell.addEntity(player);
+		EnemyLoader.loadEnemies("data/enemydata.xml");
+		currentCell.addEntity(Enemy.getNewEnemy(currentCell,"rawr",1,1));
 		
 		//audio
 		music = new Music("data/sounds/theme.ogg", true);
@@ -60,8 +64,7 @@ public class GameplayState extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {  
-		currentCell.render(-Config.getTileSize(),-Config.getTileSize());
-		player.render();
+		currentCell.render();
 	}
 
 	@Override

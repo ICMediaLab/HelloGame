@@ -66,7 +66,7 @@ public abstract class Entity implements IEntity {
 	}
 	
 	/**
-	 * Returns the current x-position of this entity.
+	 * Returns the current x-velocity of this entity.
 	 */
 	@Override
 	public float getdX(){
@@ -74,7 +74,7 @@ public abstract class Entity implements IEntity {
 	}
 	
 	/**
-	 * Returns the current y-position of this entity.
+	 * Returns the current y-velocity of this entity.
 	 */
 	@Override
 	public float getdY(){

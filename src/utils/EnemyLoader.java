@@ -35,7 +35,7 @@ public final class EnemyLoader {
 		if(d.getDocumentElement().getNodeName().equalsIgnoreCase("enemies")){
 			NodeList nList = d.getElementsByTagName("enemy");
 			for (int i = nList.getLength()-1; i >= 0; --i) {
-				new Enemy(nList.item(i));
+				Enemy.loadEnemy(nList.item(i));
 			}
 		}
 	}
@@ -49,7 +49,7 @@ public final class EnemyLoader {
 			for (int i = nList.getLength()-1; i >= 0; --i) {
 				Node item = nList.item(i);
 				if(enemiesToLoad.contains(item.getAttributes().getNamedItem("name").getNodeValue())){
-					new Enemy(item);
+					Enemy.loadEnemy(item);
 				}
 			}
 		}

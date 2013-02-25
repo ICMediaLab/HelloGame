@@ -1,13 +1,20 @@
 package map;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
+
+import entities.Entity;
+import game.config.Config;
 
 
 public class Cell extends TiledMap{
 
 	private final Tile[][] properties = new Tile[getHeight()][getWidth()];
-	
+	private final Set<Entity> entities = new HashSet<Entity>(); 
+			
 	public Cell(String location) throws SlickException {
 		super(location);
 		loadProperties();
@@ -35,6 +42,19 @@ public class Cell extends TiledMap{
 				properties[yAxis][xAxis] = new Tile(getTileId(xAxis, yAxis, 0));
 				properties[yAxis][xAxis].parseTileProperties(this);
 			}
+		}
+	}
+
+
+	public void addEntity(Entity newEntity) {
+		entities.add(newEntity);
+	}
+
+
+	public void render() {
+		super.render(-Config.getTileSize(),-Config.getTileSize());
+		for(Entity e : entities){
+			e.render();
 		}
 	}
 

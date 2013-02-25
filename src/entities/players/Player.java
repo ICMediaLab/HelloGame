@@ -21,8 +21,9 @@ import game.config.Config;
 
 public class Player extends Entity {
 	
-	private Animation sprite, left, right;
-	private Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
+	private final Animation left, right;
+	private Animation sprite;
+	private final Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
 	private static final Sound SOUND_JUMP;
 	private float speed = 0.45f/32f;
 	
@@ -152,6 +153,6 @@ public class Player extends Entity {
 	
 	@Override
 	public void render() {
-		sprite.draw((int)((getX()-1)*Config.getTileSize()), (int)((getY()-1)*Config.getTileSize()), new Color(256,256,256));
+		sprite.draw((int)((getX()-1)*Config.getTileSize()), (int)((getY()-1)*Config.getTileSize()), new Color(255,255,255));
 	}
 }

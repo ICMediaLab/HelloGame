@@ -22,9 +22,8 @@ public final class MapLoader {
 	 * @return 
 	 * @throws SlickException
 	 */
-	public static Cell loadMap(String location, int x, int y) throws SlickException {
+	public static void loadMap(String location, int x, int y) throws SlickException {
 		maps[y][x] = new Cell(location);
-		return maps[y][x];
 	}
 	/**
 	 * Returns any map by it's x and y position. Should ONLY be necessary to warp to 

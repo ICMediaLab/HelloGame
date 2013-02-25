@@ -5,13 +5,22 @@ import java.util.Map;
 
 import map.Cell;
 
+import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import entities.NonPlayableEntity;
+import game.config.Config;
 
 public class Enemy extends NonPlayableEntity{
+	
+	private final Animation left, right;
+	private Animation sprite;
 	
 	/**
 	 * Map containing default representations of all enemies currently required.<br />
@@ -22,6 +31,18 @@ public class Enemy extends NonPlayableEntity{
 
 	private Enemy(Cell currentCell, Rectangle hitbox, int maxhealth) {
 		super(currentCell, hitbox, maxhealth);
+		Image[] movementRight = null;
+		Image[] movementLeft = null;
+		try {
+			movementRight = new Image[]{new Image("data/images/dvl1_rt1.png"), new Image("data/images/dvl1_rt2.png")};
+			movementLeft = new Image[]{new Image("data/images/dvl1_lf1.png"), new Image("data/images/dvl1_lf2.png")};
+		} catch (SlickException e) {
+			//do shit all
+		}
+		int[] duration = {200,200};
+		right = new Animation(movementRight, duration, false);
+		left = new Animation(movementLeft, duration, false);
+		sprite = right;
 	}
 	
 	@Override
@@ -78,16 +99,26 @@ public class Enemy extends NonPlayableEntity{
 	/**
 	 * Creates a new enemy from an XML node. This should not be used except when loading enemies into the enemy template storage.
 	 */
-	public Enemy(Node node) {
-		super(null,null,0);
-		//TODO: implement
+	public static void loadEnemy(Node node) {
+		NamedNodeMap attrs = node.getAttributes();
+		String name = attrs.getNamedItem("name").getNodeValue();
+		int health = Integer.parseInt(attrs.getNamedItem("maxhealth").getNodeValue());
+		float width = 1, height = 1;
+		try{
+			width = Float.parseFloat(attrs.getNamedItem("width").getNodeValue());
+		}catch(NullPointerException e){ }
+		try{
+			height = Float.parseFloat(attrs.getNamedItem("width").getNodeValue());
+		}catch(NullPointerException e){ }
+		loadEnemy(name, new Enemy(null,new Rectangle(0, 0, width, height),health));
 	}
 	
 	public void update(Input input, int delta) {
 		//TODO
 	}
 	
+	@Override
 	public void render() {
-		//TODO
+		sprite.draw((int)((getX()-1)*Config.getTileSize()), (int)((getY()-1)*Config.getTileSize()), new Color(255,255,255));
 	}
 }
