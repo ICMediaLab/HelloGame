@@ -25,7 +25,7 @@ public class Player extends Entity {
 	private Animation sprite;
 	private final Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
 	private static final Sound SOUND_JUMP;
-	private float speed = 0.45f/32f;
+	private float speed = 0.3f;
 	
 	static {
 		final String path = "data/sounds/jump.ogg";
@@ -104,7 +104,7 @@ public class Player extends Entity {
 	 * @param delta The time in microseconds since the last update.
 	 */
 	@Override
-	public void update(Input input, int delta) {
+	public void update(Input input) {
 		
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			playerJump();
@@ -112,15 +112,15 @@ public class Player extends Entity {
 		if (input.isKeyDown(Input.KEY_A)) {
 			moveX(-speed);
 			sprite = left;
-			sprite.update(delta);
+			sprite.update(DELTA);
 		}
 		else if (input.isKeyDown(Input.KEY_D)) {
 			moveX(speed);
 			sprite = right;
-			sprite.update(delta);
+			sprite.update(DELTA);
 		}
 		
-		frameMove(delta);
+		frameMove();
 		checkMapChanged();
 	}
 	

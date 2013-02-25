@@ -83,7 +83,7 @@ public class GameplayState extends BasicGameState {
 		}
 		
 		//update player
-		player.update(input, delta);
+		player.update(input);
 		
 		//update sounds
 		footsteps.playRandom(gc, player);

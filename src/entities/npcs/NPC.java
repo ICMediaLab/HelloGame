@@ -1,7 +1,5 @@
 package entities.npcs;
 
-import map.Cell;
-
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -18,7 +16,7 @@ public class NPC extends NonPlayableEntity{
 		return new NPC(new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
 	}
 
-	public void update(Input input, int delta) {
+	public void update(Input input) {
 		//TODO
 	}
 	
