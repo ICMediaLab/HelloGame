@@ -17,6 +17,7 @@ import utils.MapLoader;
 
 import entities.Entity;
 import entities.players.abilities.AbilityFinder;
+import entities.players.abilities.DoubleJumpAbility;
 import entities.players.abilities.IPlayerAbility;
 import game.config.Config;
 
@@ -26,6 +27,7 @@ public class Player extends Entity {
 	private Animation sprite;
 	private final Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
 	private static final Sound SOUND_JUMP;
+	public static final  Sound SOUND_DOUBLE_JUMP;
 	private float speed = 0.3f;
 	
 	static {
@@ -39,6 +41,19 @@ public class Player extends Entity {
 			e.printStackTrace();
 		}
 		SOUND_JUMP = s;
+	}
+	
+	static {
+		final String path = "data/sounds/double_jump.ogg";
+		Sound s = null;
+		try {
+			s = new Sound(path);
+		} catch (SlickException e) {
+			System.out.println("Sound file for " + DoubleJumpAbility.class.getSimpleName() + " not found or failed to load.");
+			System.out.println("Tried to load from: " + path);
+			e.printStackTrace();
+		}
+		SOUND_DOUBLE_JUMP = s;
 	}
 
 	public Player(Rectangle hitbox, int maxhealth) {
