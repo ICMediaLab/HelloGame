@@ -38,10 +38,11 @@ public class GameplayState extends BasicGameState {
 			throws SlickException {
 		//map loading goes here. Needs a better home
 		//method needed to load all maps into their correct index in the array
-		MapLoader.setDimensions(2,2);
+		MapLoader.setDimensions(2,3);
 		MapLoader.loadMap("data/testmap.tmx", 0, 0);
 		MapLoader.loadMap("data/testmap2.tmx", 1, 0);
 		MapLoader.loadMap("data/testmap3.tmx", 0, 1);
+		MapLoader.loadMap("data/testmap4.tmx", 0, 2);
 		//set initial map
 		currentCell = MapLoader.setCurrentCell(0,0);
 		
