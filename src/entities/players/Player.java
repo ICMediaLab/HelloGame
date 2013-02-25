@@ -84,8 +84,7 @@ public class Player extends Entity {
 		useAbility("doublejump");
 		if (isOnGround()) {
 			super.jump();
-			SOUND_JUMP.play();
-			//Sounds.play(SOUND_JUMP);
+			Sounds.play(SOUND_JUMP);
 		}
 	}
 	

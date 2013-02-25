@@ -3,6 +3,8 @@ package entities.players.abilities;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
+import sounds.Sounds;
+
 import entities.players.Player;
 
 public class DoubleJumpAbility extends PlayerAbility {
@@ -32,7 +34,7 @@ public class DoubleJumpAbility extends PlayerAbility {
 		if(!p.isOnGround()) {
 			if (!hasJumped) {
 				hasJumped = true;
-				SOUND_DOUBLE_JUMP.play();
+				Sounds.play(SOUND_DOUBLE_JUMP);
 				p.jump();
 			}
 		} else {
