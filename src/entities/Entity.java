@@ -1,6 +1,7 @@
 package entities;
 
 import game.config.Config;
+import game.debug.FrameTrace;
 import map.Cell;
 import map.TileProperty;
 
@@ -19,6 +20,9 @@ public abstract class Entity implements IEntity {
 	//		No idea how at the moment.
 	
 	private int health,maxhealth;
+	
+	//for debugging purposes:
+	private final FrameTrace frameTrace = new FrameTrace();
 
 	public Entity(Cell currentCell, Rectangle hitbox, int maxhealth) {
 		this.currentCell = currentCell;
@@ -148,32 +152,38 @@ public abstract class Entity implements IEntity {
 			dy = 0;
 		}
 		dx *= XFRICTION; dy *= YFRICTION;
-		
+		frameTrace.add(hitbox,dx,dy);
 		hitbox.setLocation(hitbox.getX() + dx * delta, hitbox.getY() + dy * delta); //move to new location
-		if (isOnGround()) {
-			//if the new location is on the ground, set it so entity isn't clipping into the ground
-			hitbox.setLocation(hitbox.getX(), (int) hitbox.getY());
+		try{
+			if (isOnGround()) {
+				//if the new location is on the ground, set it so entity isn't clipping into the ground
+				hitbox.setLocation(hitbox.getX(), (int) hitbox.getY());
+			}
+			//vertical collision
+			if (top()) {
+			    dy = 0;
+			    hitbox.setLocation(hitbox.getX(), (int)hitbox.getY() + 1);
+			}
+			//horizontal collision
+			if (left()) {
+			    dx = 0;
+			    hitbox.setLocation((int)(hitbox.getX() + 1), hitbox.getY());
+			}
+			if (right()) {
+			    dx = 0;
+			    hitbox.setLocation((int)hitbox.getX(), hitbox.getY());
+			}
+		}catch(RuntimeException e){
+			System.out.println(e.getMessage());
+			frameTrace.printTrace();
+			throw e;
 		}
-		//vertical collision
-		if (top()) {
-		    dy = 0;
-		    hitbox.setLocation(hitbox.getX(), (int)hitbox.getY() + 1);
-		}
-		//horizontal collision
-		if (left()) {
-		    dx = 0;
-		    hitbox.setLocation((int)(hitbox.getX() + 1), hitbox.getY());
-		}
-		if (right()) {
-		    dx = 0;
-		    hitbox.setLocation((int)hitbox.getX(), hitbox.getY());
-		}  
 		
 	}
 	
 	@Override
-	public void setPosition(int x, int y) {
-		hitbox.setLocation(x,y);
+	public void setPosition(float f, float g) {
+		hitbox.setLocation(f,g);
 	}
 	
 	/**

@@ -5,8 +5,8 @@ import org.newdawn.slick.Input;
 
 
 public interface IEntity extends Cloneable, Renderable {
-	float XFRICTION = 0.58f;
-	float YFRICTION = 0.95f;
+	float XFRICTION = 0.6f;
+	float YFRICTION = 0.94f;
 	float GRAVITY = 0.12f/32f;
 	float JUMP_AMOUNT = 1.4f/32;
 	
@@ -75,7 +75,7 @@ public interface IEntity extends Cloneable, Renderable {
 	 * @param x position
 	 * @param y position
 	 */
-	void setPosition(int x, int y);
+	void setPosition(float x, float y);
 	
 	/**
 	 * Returns true if and only if this entity has an absolute health equal to zero.

@@ -34,7 +34,6 @@ public class Cell extends TiledMap{
 			for (int yAxis = 0; yAxis < height; yAxis++) {
 				properties[yAxis][xAxis] = new Tile(getTileId(xAxis, yAxis, 0));
 				properties[yAxis][xAxis].parseTileProperties(this);
-				System.out.println("(" + xAxis + "," + yAxis + " " + properties[yAxis][xAxis]);
 			}
 		}
 	}
