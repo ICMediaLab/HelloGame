@@ -5,10 +5,11 @@ import org.newdawn.slick.Input;
 
 
 public interface IEntity extends Cloneable, Renderable {
-	float XFRICTION = 0.6f;
-	float YFRICTION = 0.94f;
-	float GRAVITY = 0.12f/32f;
-	float JUMP_AMOUNT = 1.4f/32;
+	float XFRICTION = 0.60f;
+	float YFRICTION = 0.84f;
+	float GRAVITY = 0.10f;
+	float JUMP_AMOUNT = 1.15f;
+	long DELTA = 1000/60;
 	
 	/**
 	 * Returns the current x-position of this entity.
@@ -78,7 +79,7 @@ public interface IEntity extends Cloneable, Renderable {
 	 * This method should only be used if update is not called in the same frame.
 	 * @param delta The time in microseconds since the last frame update.
 	 */
-	void frameMove(int delta);
+	void frameMove();
 	
 	/**
 	 * Should only be used if you desperately need to teleport the player.
@@ -115,7 +116,7 @@ public interface IEntity extends Cloneable, Renderable {
 	 * @param input The current state of the keyboard.
 	 * @param delta The time in microseconds since the last update.
 	 */
-	void update(Input input, int delta);
+	void update(Input input);
 	
 	/**
 	 * Forces this entity to stop all currently playing sounds.<br />

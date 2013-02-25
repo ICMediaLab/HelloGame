@@ -1,6 +1,5 @@
 package entities;
 
-import game.config.Config;
 import game.debug.FrameTrace;
 import map.Cell;
 import map.TileProperty;
@@ -29,24 +28,6 @@ public abstract class Entity implements IEntity {
 		this.hitbox = hitbox;
 		this.health = maxhealth;
 		this.maxhealth = maxhealth;
-	}
-	
-	/**
-	 * A utility method for returning the real value of friction given a time difference delta since the last frame.
-	 * @param delta The time in microseconds since the last frame update.
-	 * @return The effect of the formula: FRICTION ^ (delta * NORMAL_FPS / 1000).
-	 */
-//	protected static final float getFrictionDelta(int delta){
-//		return (float) Math.pow(FRICTION, delta*Config.getNormalFPS()*0.001f);
-//	}
-	
-	/**
-	 * A utility method for returning the real value of gravity given a time difference delta since the last frame.
-	 * @param delta The time in microseconds since the last frame update.
-	 * @return The effect of the formula: GRAVITY * (delta * NORMAL_FPS / 1000).
-	 */
-	protected static final float getGravityDelta(int delta){
-		return GRAVITY*delta*Config.getNormalFPS()*0.001f;
 	}
 	
 	/**
@@ -157,7 +138,7 @@ public abstract class Entity implements IEntity {
 	 * @param delta The time in microseconds since the last frame update.
 	 */
 	@Override
-	public void frameMove(int delta) {
+	public void frameMove() {
 //		float modFriction = getFrictionDelta(delta);
 //		float modGravity  = getGravityDelta(delta);
 		
@@ -169,7 +150,7 @@ public abstract class Entity implements IEntity {
 		}
 		dx *= XFRICTION; dy *= YFRICTION;
 		frameTrace.add(hitbox,dx,dy);
-		hitbox.setLocation(hitbox.getX() + dx * delta, hitbox.getY() + dy * delta); //move to new location
+		hitbox.setLocation(hitbox.getX() + dx, hitbox.getY() + dy); //move to new location
 		try{
 			if (isOnGround()) {
 				//if the new location is on the ground, set it so entity isn't clipping into the ground
@@ -278,7 +259,7 @@ public abstract class Entity implements IEntity {
 	public abstract void render();
 
 	@Override
-	public abstract void update(Input input, int delta);
+	public abstract void update(Input input);
 
 	@Override
 	public void stop_sounds(){

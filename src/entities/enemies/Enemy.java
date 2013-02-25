@@ -114,7 +114,7 @@ public class Enemy extends NonPlayableEntity{
 		loadEnemy(name, new Enemy(new Rectangle(0, 0, width, height),health));
 	}
 	
-	public void update(Input input, int delta) {
+	public void update(Input input) {
 		//TODO
 	}
 	

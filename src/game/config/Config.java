@@ -28,7 +28,7 @@ public final class Config {
 	 */
 	private static void setDefaultConfig(){
 		MODE_FULLSCREEN = false;
-		MODE_VSYNC = true;
+		MODE_VSYNC = false;
 		NORMAL_FPS = 60;
 		SCREEN_HEIGHT = 576;
 		SCREEN_WIDTH = 1024;
@@ -53,7 +53,7 @@ public final class Config {
 				def.println("# fullscreen = false");
 				def.println();
 				def.println("# If set to true then VSync will be enabled, which should be used to eliminate\n# image tearing (defaults to " + MODE_VSYNC + ").");
-				def.println("# vsync = true");
+				def.println("# vsync = false");
 				def.println();
 				def.println("# Determines the default screen resolution (defaults to "+SCREEN_WIDTH+"x"+SCREEN_HEIGHT+").");
 				def.println("# screenwidth  = 800");
