@@ -1,11 +1,14 @@
 package entities.players.abilities;
 
+import org.newdawn.slick.Sound;
+
 import sounds.Sounds;
 
 import entities.players.Player;
 
 public class DoubleJumpAbility extends PlayerAbility {
 	
+	private static final  Sound SOUND_DOUBLE_JUMP = Sounds.loadSound("data/sounds/double_jump.ogg");
 	private boolean hasJumped = false;
 
 	@Override
@@ -16,7 +19,7 @@ public class DoubleJumpAbility extends PlayerAbility {
 		if(!p.isOnGround()) {
 			if (!hasJumped) {
 				hasJumped = true;
-				Sounds.play(Player.SOUND_DOUBLE_JUMP);
+				Sounds.play(SOUND_DOUBLE_JUMP);
 				p.jump();
 			}
 		} else {

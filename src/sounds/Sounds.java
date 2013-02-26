@@ -3,10 +3,9 @@ package sounds;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.lwjgl.openal.AL10;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
-import org.newdawn.slick.openal.SoundStore;
 import org.newdawn.slick.util.EFXEffect;
 import org.newdawn.slick.util.EFXFilter;
 
@@ -16,13 +15,20 @@ public class Sounds {
 	
 	private static final List<Sound> SOUNDS_PLAYING = new ArrayList<Sound>();
 	
-	public void init(GameContainer gc, Player player){
+	public static void init(GameContainer gc, Player player){
 		//TODO: load all the sounds for the level and player abilities
 	}
 	
-	/**
-	 * Stop all the sounds
-	 */
+	public static Sound loadSound(String path){
+		Sound s = null;
+		try {
+			s = new Sound(path);
+		} catch (SlickException e) {
+			System.out.println("Tried to load from: " + path);
+			e.printStackTrace();
+		}
+		return s;
+	}
 	
 	/**
 	 * Stop all the sounds currently played
@@ -88,12 +94,6 @@ public class Sounds {
 	public static void releaseSounds(){
 		for (int i = 0; i < SOUNDS_PLAYING.size(); i++){
 			SOUNDS_PLAYING.get(i).release();
-		}
-	}
-	
-	public static void stopSoundsOpenAL(){
-		for (int i = 0; i < SoundStore.get().getSourceCount(); i++){
-			AL10.alSourceStop(i);
 		}
 	}
 
