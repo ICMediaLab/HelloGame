@@ -14,6 +14,7 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.Graphics;
 
 import sounds.Sounds;
 import utils.MapLoader;
@@ -155,8 +156,11 @@ public class Player extends Entity {
 	@Override
 	public void render() {
 		sprite.draw((int)((getX()-1)*Config.getTileSize()), (int)((getY()-1)*Config.getTileSize()), new Color(255,255,255));
+		
 		if (sword != null && sword.used()) {
 		    sword.render();
 		}
+		// Health bar above player
+		new Graphics().fillRect(getX()*32 - 32, getY()*32 - 32 - 5, 32*getHealth()/100, 3);
 	}
 }
