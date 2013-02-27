@@ -1,5 +1,8 @@
 package entities.players;
 
+import items.Sword;
+import items.Weapon;
+
 import java.util.Map;
 
 import map.Cell;
@@ -27,6 +30,7 @@ public class Player extends Entity {
 	private final Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
 	private static final Sound SOUND_JUMP = Sounds.loadSound("data/sounds/jump.ogg");
 	private float speed = 0.3f;
+	private Weapon sword;
 
 	public Player(Rectangle hitbox, int maxhealth) {
 		super(hitbox, maxhealth);
@@ -35,6 +39,9 @@ public class Player extends Entity {
 		try {
 			movementRight = new Image[]{new Image("data/images/dvl1_rt1.png"), new Image("data/images/dvl1_rt2.png")};
 			movementLeft = new Image[]{new Image("data/images/dvl1_lf1.png"), new Image("data/images/dvl1_lf2.png")};
+			
+			//temp weapon
+			sword = new Sword(new Rectangle(1,1,1,1), new Image[]{new Image("data/images/sword/right0.png")}, 5);
 		} catch (SlickException e) {
 			//do shit all
 		}
@@ -42,6 +49,7 @@ public class Player extends Entity {
 		right = new Animation(movementRight, duration, false);
 		left = new Animation(movementLeft, duration, false);
 		sprite = right;
+		
 	}
 
 	@Override
@@ -97,17 +105,21 @@ public class Player extends Entity {
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			playerJump();
 		}
-		if (input.isKeyDown(Input.KEY_A)) {
+		if (input.isKeyDown(Input.KEY_A) || input.isKeyDown(Input.KEY_LEFT)) {
 			moveX(-speed);
 			sprite = left;
 			sprite.update(DELTA);
 		}
-		else if (input.isKeyDown(Input.KEY_D)) {
+		else if (input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT)) {
 			moveX(speed);
 			sprite = right;
 			sprite.update(DELTA);
 		}
+		if (input.isKeyPressed(Input.KEY_W)) {
+		    sword.attack(this);
+		}
 		
+		sword.update(DELTA, MapLoader.getCurrentCell().getEntities(), this);
 		frameMove();
 		checkMapChanged();
 	}
@@ -143,5 +155,8 @@ public class Player extends Entity {
 	@Override
 	public void render() {
 		sprite.draw((int)((getX()-1)*Config.getTileSize()), (int)((getY()-1)*Config.getTileSize()), new Color(255,255,255));
+		if (sword != null && sword.used()) {
+		    sword.render();
+		}
 	}
 }

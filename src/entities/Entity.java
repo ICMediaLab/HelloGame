@@ -6,6 +6,7 @@ import map.TileProperty;
 
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
 import utils.MapLoader;
 
@@ -90,6 +91,14 @@ public abstract class Entity implements IEntity {
 		health = Math.max(0, health - normalDamage);
 		return originalHealth - health;
 	}
+	
+	/** 
+	 * Gets the hitbox to check collisions
+	 * @return this hitbox
+	 */
+	public Shape getHitbox() {
+        return hitbox;
+    }
 	
 	/**
 	 * Returns the amount of damage done by this entity when taking into account critical hits etc...

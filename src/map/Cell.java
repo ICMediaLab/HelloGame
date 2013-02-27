@@ -62,5 +62,9 @@ public class Cell extends TiledMap{
 	public void clearEntities() {
 		entities.clear();
 	}
+	
+	public Set<Entity> getEntities() {
+	    return entities;
+	}
 
 }
