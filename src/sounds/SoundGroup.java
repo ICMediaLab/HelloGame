@@ -42,6 +42,28 @@ public class SoundGroup {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+		} else if (s == "stick_wood"){
+			try {
+				SOUNDS.add(new Sound("data/sounds/footsteps/wood1.wav"));
+				SOUNDS.add(new Sound("data/sounds/footsteps/wood2.wav"));
+				SOUNDS.add(new Sound("data/sounds/footsteps/wood3.wav"));
+				SOUNDS.add(new Sound("data/sounds/footsteps/wood4.wav"));
+				SOUNDS.add(new Sound("data/sounds/footsteps/wood5.wav"));
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} else if (s == "stick_swing"){
+			try {
+				SOUNDS.add(new Sound("data/sounds/footsteps/swing1.wav"));
+				SOUNDS.add(new Sound("data/sounds/footsteps/swing2.wav"));
+				SOUNDS.add(new Sound("data/sounds/footsteps/swing3.wav"));
+			} catch (SlickException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 	}
 	
@@ -60,12 +82,32 @@ public class SoundGroup {
 				accumulator = 0;
 			}
 			oldTime = gc.getTime();
+		} else if (player.isOnGround() && player.isMovingX() && s == "sitck_wood"){
+			accumulator += gc.getTime() - oldTime;
+			if (accumulator > 300){
+				Sounds.play(SOUNDS.get(rnd.nextInt(5)), rnd.nextFloat()*0.2f + 0.8f, rnd.nextFloat()*0.3f + 0.1f);
+				accumulator = 0;
+			}
+			oldTime = gc.getTime();
+		} else if (player.isOnGround() && player.isMovingX() && s == "sitck_swing"){
+			accumulator += gc.getTime() - oldTime;
+			if (accumulator > 300){
+				Sounds.play(SOUNDS.get(rnd.nextInt(3)), rnd.nextFloat()*0.2f + 0.8f, rnd.nextFloat()*0.3f + 0.1f);
+				accumulator = 0;
+			}
+			oldTime = gc.getTime();
 		}
 	}
 	
 	public void stopSounds(){
 		for (int i = 0; i < SOUNDS.size(); i++){
 			SOUNDS.get(i).stop();
+		}
+	}
+	
+	public void releaseSounds(){
+		for (int i = 0; i < SOUNDS.size(); i++){
+			SOUNDS.get(i).release();
 		}
 	}
 }
