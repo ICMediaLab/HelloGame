@@ -3,6 +3,7 @@ package entities.players;
 import items.Sword;
 import items.Weapon;
 
+import java.awt.Dimension;
 import java.util.Map;
 
 import map.Cell;
@@ -26,6 +27,9 @@ import game.config.Config;
 
 public class Player extends Entity {
 	
+	private static final Dimension PLAYER_DEFAULT_SIZE = new Dimension(1, 1);
+	private static final int PLAYER_DEFAULT_MAXHEALTH = 100;
+	
 	private final Animation left, right;
 	private Animation sprite;
 	private final Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
@@ -33,8 +37,8 @@ public class Player extends Entity {
 	private float speed = 0.3f;
 	private Weapon sword;
 
-	public Player(Rectangle hitbox, int maxhealth) {
-		super(hitbox, maxhealth);
+	public Player(float x, float y, int width, int height, int maxhealth) {
+		super(x,y, width,height, maxhealth);
 		Image[] movementRight = null;
 		Image[] movementLeft = null;
 		try {
@@ -53,9 +57,13 @@ public class Player extends Entity {
 		
 	}
 
+	public Player(float x, float y) {
+		this(x,y,PLAYER_DEFAULT_SIZE.width,PLAYER_DEFAULT_SIZE.height,PLAYER_DEFAULT_MAXHEALTH);
+	}
+
 	@Override
 	protected Player clone() {
-		return new Player(new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
+		return new Player(getX(), getY(), getWidth(), getHeight(),getMaxHealth());
 	}
 	
 	/**

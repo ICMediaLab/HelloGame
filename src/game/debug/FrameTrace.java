@@ -3,7 +3,7 @@ package game.debug;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.newdawn.slick.geom.Rectangle;
+import utils.Position;
 
 public class FrameTrace {
 	
@@ -22,8 +22,8 @@ public class FrameTrace {
 		
 	}
 
-	public void add(Rectangle hitbox, float dx, float dy) {
-		add(hitbox.getX(),hitbox.getY(),dx,dy);
+	public void add(Position xy, Position dxdy) {
+		add(xy.getX(),xy.getY(),dxdy.getX(),dxdy.getY());
 	}
 	
 	public void printTrace(){

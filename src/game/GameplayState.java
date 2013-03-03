@@ -7,7 +7,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -48,7 +47,7 @@ public class GameplayState extends BasicGameState {
 		MapLoader.loadMap("data/testmap5.tmx", 1, 2);
 		MapLoader.loadMap("data/testmap6.tmx", 1, 1);
 		//set initial map
-		player = new Player(new Rectangle(2,2,1,1), 100);
+		player = new Player(2,2);
 		currentCell = MapLoader.setCurrentCell(player,0,0);
 		//create player
 		

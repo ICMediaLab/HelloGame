@@ -1,21 +1,26 @@
 package entities;
 
 import game.debug.FrameTrace;
+
+import java.awt.Dimension;
+
 import map.Cell;
 import map.TileProperty;
 
 import org.newdawn.slick.Input;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
 
 import utils.MapLoader;
+import utils.Position;
 
 
 public abstract class Entity implements IEntity {
 	
-	private final Rectangle hitbox;
-	private float dx = 0;
-	private float dy = 0;
+	private static final float HITBOX_MARGIN = 0.25f;
+	private static final int DEFAULT_MAXHEALTH = 100;
+	
+	private final Position xy, dxdy = new Position(0f,0f);
+	private final Dimension size;
 	
 	//TODO:	Implement entity image system.
 	//		No idea how at the moment.
@@ -25,10 +30,39 @@ public abstract class Entity implements IEntity {
 	//for debugging purposes:
 	private final FrameTrace frameTrace = new FrameTrace();
 
-	public Entity(Rectangle hitbox, int maxhealth) {
-		this.hitbox = hitbox;
+	public Entity(Position xy,Dimension size, int maxhealth) {
+		this.xy = xy;
+		this.size = size;
 		this.health = maxhealth;
 		this.maxhealth = maxhealth;
+	}
+	
+	public Entity(float x, float y, int width, int height, int maxhealth) {
+		this(new Position(x,y),new Dimension(width,height),maxhealth);
+	}
+	
+	public Entity(float x, float y, int maxhealth){
+		this(new Position(x,y),new Dimension(1,1),maxhealth);
+	}
+	
+	public Entity(int width, int height, int maxhealth){
+		this(new Position(0,0),new Dimension(width,height),maxhealth);
+	}
+	
+	public Entity(float x, float y, int width, int height){
+		this(new Position(x,y),new Dimension(width,height),DEFAULT_MAXHEALTH);
+	}
+	
+	public Entity(float x, float y){
+		this(new Position(x,y),new Dimension(1,1),DEFAULT_MAXHEALTH);
+	}
+	
+	public Entity(int width, int height){
+		this(new Position(0,0),new Dimension(width,height),DEFAULT_MAXHEALTH);
+	}
+	
+	public Entity(){
+		this(new Position(0,0),new Dimension(1,1),DEFAULT_MAXHEALTH);
 	}
 	
 	/**
@@ -36,7 +70,7 @@ public abstract class Entity implements IEntity {
 	 */
 	@Override
 	public float getX(){
-		return hitbox.getX();
+		return xy.getX();
 	}
 	
 	/**
@@ -44,7 +78,7 @@ public abstract class Entity implements IEntity {
 	 */
 	@Override
 	public float getY(){
-		return hitbox.getY();
+		return xy.getY();
 	}
 	
 	/**
@@ -52,7 +86,7 @@ public abstract class Entity implements IEntity {
 	 */
 	@Override
 	public float getdX(){
-		return dx;
+		return dxdy.getX();
 	}
 	
 	/**
@@ -60,23 +94,23 @@ public abstract class Entity implements IEntity {
 	 */
 	@Override
 	public float getdY(){
-		return dy;
+		return dxdy.getY();
 	}
 	
 	/**
 	 * Returns the width of the hitbox of this entity.
 	 */
 	@Override
-	public float getWidth(){
-		return hitbox.getWidth();
+	public int getWidth(){
+		return size.width;
 	}
 	
 	/**
 	 * Returns the height of the hitbox of this entity;
 	 */
 	@Override
-	public float getHeight(){
-		return hitbox.getHeight();
+	public int getHeight(){
+		return size.height;
 	}
 	
 	/**
@@ -91,14 +125,6 @@ public abstract class Entity implements IEntity {
 		health = Math.max(0, health - normalDamage);
 		return originalHealth - health;
 	}
-	
-	/** 
-	 * Gets the hitbox to check collisions
-	 * @return this hitbox
-	 */
-	public Shape getHitbox() {
-        return hitbox;
-    }
 	
 	/**
 	 * Returns the amount of damage done by this entity when taking into account critical hits etc...
@@ -153,31 +179,37 @@ public abstract class Entity implements IEntity {
 		
 		//both x and y axis are affected by scalar friction
 		if (!isOnGround()) {
-			dy += GRAVITY; //fall if not on the ground
-		} else if (dy > 0) {
-			dy = 0;
+			dxdy.translate(0f,GRAVITY); //fall if not on the ground
+		} else if (getdY() > 0) {
+			dxdy.setY(0);
 		}
-		dx *= XFRICTION; dy *= YFRICTION;
-		frameTrace.add(hitbox,dx,dy);
-		hitbox.setLocation(hitbox.getX() + dx, hitbox.getY() + dy); //move to new location
+		dxdy.scale(FRICTION);
+		frameTrace.add(xy,dxdy);
+		xy.translate(dxdy); //move to new location
+		
+		//collision stuff
 		try{
-			if (isOnGround()) {
+			int bottom = bottom();
+			int top    = top();
+			int left   = left();
+			int right  = right();
+			if (bottom > top) {
 				//if the new location is on the ground, set it so entity isn't clipping into the ground
-				hitbox.setLocation(hitbox.getX(), (int) hitbox.getY());
+				setPosition(getX(), (int)getY());
 			}
 			//vertical collision
-			if (top()) {
-			    dy = 0;
-			    hitbox.setLocation(hitbox.getX(), (int)hitbox.getY() + 1);
+			if (top > bottom) {
+			    dxdy.setY(0f);
+			    setPosition(getX(), (int)getY() + 1);
 			}
 			//horizontal collision
-			if (left()) {
-			    dx = 0;
-			    hitbox.setLocation((int)(hitbox.getX() + 1), hitbox.getY());
+			if (left > right) {
+			    dxdy.setX(0f);
+			    setPosition((int)getX() + 1, getY());
 			}
-			if (right()) {
-			    dx = 0;
-			    hitbox.setLocation((int)hitbox.getX(), hitbox.getY());
+			if (right > left) {
+			    dxdy.setX(0f);
+			    setPosition((int)getX(), getY());
 			}
 		}catch(RuntimeException e){
 			System.out.println(e.getMessage());
@@ -188,8 +220,8 @@ public abstract class Entity implements IEntity {
 	}
 	
 	@Override
-	public void setPosition(float f, float g) {
-		hitbox.setLocation(f,g);
+	public void setPosition(float x, float y) {
+		xy.set(x,y);
 	}
 	
 	/**
@@ -206,41 +238,52 @@ public abstract class Entity implements IEntity {
 	 */
 	@Override
 	public boolean isOnGround() {
-		return bottom();
+		return bottom() > 0;
 	}
 	
 	//collision checkers
-	private boolean top() {
+	private int top() {
 		Cell currentCell = MapLoader.getCurrentCell();
-		return Boolean.parseBoolean(currentCell.getTile((int)(getX() + 0.25f), 
-		        (int) getY()).lookupProperty(TileProperty.BLOCKED)) ||
-		            Boolean.parseBoolean(currentCell.getTile((int)(getX() + 0.75f), 
-		                (int) getY()).lookupProperty(TileProperty.BLOCKED));
+		int count = 0;
+		for(float x=getX()+HITBOX_MARGIN;x<getX()+getWidth();x+=0.5f){
+			if("true".equals(currentCell.getTile((int) x, (int) getY()).lookupProperty(TileProperty.BLOCKED))){
+				++count;
+			}
+		}
+		return count;
 	}
 	
-	private boolean bottom() {
+	private int bottom() {
 		Cell currentCell = MapLoader.getCurrentCell();
-		return Boolean.parseBoolean(currentCell.getTile((int)(getX() + 0.25f),
-		        (int)(getY() + 1)).lookupProperty(TileProperty.BLOCKED)) ||
-		            Boolean.parseBoolean(currentCell.getTile((int)(getX() + 0.75f),
-		                (int)(getY() + 1)).lookupProperty(TileProperty.BLOCKED));
-		            
+		int count = 0;
+		for(float x=getX()+HITBOX_MARGIN;x<getX()+getWidth();x+=0.5f){
+			if("true".equals(currentCell.getTile((int) x, (int) getY() + getHeight()).lookupProperty(TileProperty.BLOCKED))){
+				++count;
+			}
+		}
+		return count;          
 	}
 	
-	private boolean left() {
+	private int left() {
 		Cell currentCell = MapLoader.getCurrentCell();
-		return Boolean.parseBoolean(currentCell.getTile((int)getX(), 
-		        (int)(getY() + 0.25f)).lookupProperty(TileProperty.BLOCKED)) ||
-		            Boolean.parseBoolean(currentCell.getTile((int)getX(), 
-		                (int)(getY() + 0.75f)).lookupProperty(TileProperty.BLOCKED));
+		int count = 0;
+		for(float y=getY()+HITBOX_MARGIN;y<getY()+getHeight();y+=0.5f){
+			if("true".equals(currentCell.getTile((int) getX(), (int) y).lookupProperty(TileProperty.BLOCKED))){
+				++count;
+			}
+		}
+		return count;
 	}
 	
-	private boolean right() {
+	private int right() {
 		Cell currentCell = MapLoader.getCurrentCell();
-		return Boolean.parseBoolean(currentCell.getTile((int)(getX() + 1), 
-		        (int)(getY() + 0.25f)).lookupProperty(TileProperty.BLOCKED)) ||
-		            Boolean.parseBoolean(currentCell.getTile((int)(getX() + 1), 
-		                (int)(getY() + 0.75f)).lookupProperty(TileProperty.BLOCKED));
+		int count = 0;
+		for(float y=getY()+HITBOX_MARGIN;y<getY()+getHeight();y+=0.5f){
+			if("true".equals(currentCell.getTile((int) getX() + getWidth(), (int) y).lookupProperty(TileProperty.BLOCKED))){
+				++count;
+			}
+		}
+		return count;
 	}
 	
 	/**
@@ -248,20 +291,16 @@ public abstract class Entity implements IEntity {
 	 */
 	@Override
 	public void jump() {
-		dy = -JUMP_AMOUNT;
+		dxdy.translate(0f,-JUMP_AMOUNT);
 	}
 	
 	@Override
 	public void moveX(float x) {
-		dx = x;
+		dxdy.setX(x);
 	}
 	
 	public boolean isMovingX(){
-		if (dx < -0.002f || dx > 0.002f){
-			return true;
-		} else {
-			return false;
-		}
+		return Math.abs(dxdy.getX()) > 0.02f;
 	}
 	
 	@Override
@@ -274,6 +313,14 @@ public abstract class Entity implements IEntity {
 	public void stop_sounds(){
 		//left blank in case sounds are moved to this class.
 		//should be overridden to add class-specific sounds with a call to the super method.
+	}
+
+	@Override
+	public boolean intersects(Rectangle hitbox) {
+		return hitbox.getX() + hitbox.getWidth() > getX() && 
+				hitbox.getX() < getX() + getWidth() &&
+				hitbox.getY() + hitbox.getHeight() > getY() &&
+				hitbox.getY() < getY() + getHeight();
 	}
 	
 }

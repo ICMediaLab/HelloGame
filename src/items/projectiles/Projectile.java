@@ -2,30 +2,27 @@ package items.projectiles;
 
 import game.config.Config;
 
+import org.lwjgl.util.Renderable;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.Sound;
-import org.newdawn.slick.geom.Rectangle;
 
-public class Projectile extends entities.Entity{
+import utils.Position;
+
+public class Projectile implements Renderable{
 	
 	private final Animation moving;
 	private Animation sprite;
-	private static final float speed = 0.45f/32f;
-	private float xSpeed;
-	private float ySpeed;
-	/**
-	 * 
-	 * @param hitbox
-	 * @param maxhealth
-	 * @param damage
-	 * @param angle in radians
-	 */
-	public Projectile(Rectangle hitbox, int maxhealth, int damage, double angle ){
-		super(hitbox, maxhealth, damage);
+	private static final float NORMAL_SPEED = 0.45f/32f;
+	private final Position xy,dxdy;
+	private final float width,height;
+	private final int damage;
+	private final double angle;
+	
+
+	public Projectile(Position xy,float width,float height, int damage, double angle ){
 		Image[] movementForward = null;
 		try {
 			movementForward = new Image[]{new Image("data/images/nyan.png")};
@@ -36,32 +33,31 @@ public class Projectile extends entities.Entity{
 		moving = new Animation(movementForward, duration, false);
 		sprite=moving;
 		
-		xSpeed = speed*(float)Math.cos(angle);
-		ySpeed = speed*(float)Math.sin(angle); //currently only works horizontally
+		this.angle = angle;
+		this.damage = damage;
+		this.width = width; this.height = height;
+		this.xy = xy;
+		this.dxdy = new Position((float)Math.cos(angle),(float)Math.sin(angle)); //currently only works horizontally
+		this.dxdy.scale(NORMAL_SPEED);
 		
 	}
 	
-	public Projectile(Rectangle hitbox, int maxhealth, int damage)
-	{
-		this(hitbox, maxhealth, damage, 0f);
+	public Projectile(float x, float y, float width, float height, int damage, double angle){
+		this(new Position(x,y),width,height,damage,angle);
 	}
 	
-	public Projectile(Rectangle hitbox, int maxhealth) {
-		this(hitbox, maxhealth, 10, 0f);
-	}
-
 	@Override
 	public void render() {
-		sprite.draw((int)((getX()-1)*Config.getTileSize()), (int)((getY()-1)*Config.getTileSize()), new Color(255,255,255));		
+		sprite.draw((int)((xy.getX()-1)*Config.getTileSize()), (int)((xy.getY()-1)*Config.getTileSize()), new Color(255,255,255));		
 	}
 
 	public void update(Input input) {
-		setPosition(getX() + getdX(), getY()); //ignores gravity
+		xy.translate(dxdy); //ignores gravity
 	}
 	
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
-		return new Projectile(new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
+		return new Projectile(xy.getX(), xy.getY(), width, height,damage,angle);
 	}
 
 }

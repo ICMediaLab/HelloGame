@@ -2,11 +2,13 @@ package entities;
 
 import org.lwjgl.util.Renderable;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.geom.Rectangle;
+
+import utils.Position;
 
 
 public interface IEntity extends Cloneable, Renderable {
-	float XFRICTION = 0.60f;
-	float YFRICTION = 0.84f;
+	Position FRICTION = new Position(0.6f,0.84f);
 	float GRAVITY = 0.10f;
 	float JUMP_AMOUNT = 1.15f;
 	long DELTA = 1000/60;
@@ -34,12 +36,12 @@ public interface IEntity extends Cloneable, Renderable {
 	/**
 	 * Returns the width of the hitbox of this entity.
 	 */
-	float getWidth();
+	int getWidth();
 	
 	/**
 	 * Returns the height of the hitbox of this entity;
 	 */
-	float getHeight();
+	int getHeight();
 	
 	
 	/**
@@ -123,4 +125,9 @@ public interface IEntity extends Cloneable, Renderable {
 	 * Includes sounds produced by contained objects such as Ability classes.
 	 */
 	void stop_sounds();
+
+	/**
+	 * Returns true if and only if the hitbox given intersects with the bounding box of this entity.
+	 */
+	boolean intersects(Rectangle hitbox);
 }

@@ -7,12 +7,13 @@ import game.config.Config;
 import java.util.Arrays;
 import java.util.Set;
 
+import org.lwjgl.util.Renderable;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
-public abstract class Weapon {
+public abstract class Weapon implements Renderable {
 
     protected final Animation sprite;
     protected final Rectangle hitbox;

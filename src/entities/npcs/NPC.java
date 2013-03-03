@@ -1,19 +1,18 @@
 package entities.npcs;
 
 import org.newdawn.slick.Input;
-import org.newdawn.slick.geom.Rectangle;
 
 import entities.NonPlayableEntity;
 
 public class NPC extends NonPlayableEntity{
 
-	public NPC(Rectangle hitbox, int maxhealth) {
-		super(hitbox, maxhealth);
+	public NPC(float x, float y, int width, int height, int maxhealth) {
+		super(x,y,width,height,maxhealth);
 	}
 	
 	@Override
 	protected NPC clone() {
-		return new NPC(new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
+		return new NPC(getX(), getY(), getWidth(), getHeight(),getMaxHealth());
 	}
 
 	public void update(Input input) {

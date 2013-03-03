@@ -10,7 +10,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -30,8 +29,8 @@ public class Enemy extends NonPlayableEntity{
 	 */
 	private static final Map<String,Enemy> enemies = new HashMap<String,Enemy>();
 
-	private Enemy(Rectangle hitbox, int maxhealth) {
-		super(hitbox, maxhealth);
+	private Enemy(int width,int height, int maxhealth){
+		super(width,height,maxhealth);
 		Image[] movementRight = null;
 		Image[] movementLeft = null;
 		try {
@@ -46,9 +45,25 @@ public class Enemy extends NonPlayableEntity{
 		sprite = right;
 	}
 	
+	private Enemy(float x, float y, int width, int height, int maxhealth) {
+		super(x,y,width,height,maxhealth);
+		Image[] movementRight = null;
+		Image[] movementLeft = null;
+		try {
+			movementRight = new Image[]{new Image("data/images/dvl1_rt1.png"), new Image("data/images/dvl1_rt2.png")};
+			movementLeft = new Image[]{new Image("data/images/dvl1_lf1.png"), new Image("data/images/dvl1_lf2.png")};
+		} catch (SlickException e) {
+			//do shit all
+		}
+		int[] duration = {200,200};
+		right = new Animation(movementRight, duration, false);
+		left = new Animation(movementLeft, duration, false);
+		sprite = right;
+	}
+
 	@Override
 	protected Enemy clone() {
-		return new Enemy(new Rectangle(getX(), getY(), getWidth(), getHeight()),getMaxHealth());
+		return new Enemy(getX(), getY(), getWidth(), getHeight(),getMaxHealth());
 	}
 
 	/**
@@ -72,12 +87,12 @@ public class Enemy extends NonPlayableEntity{
 	 * @param y The y coordinate of the newly created enemy.
 	 * @return A new INonPlayableEntity object.
 	 */
-	public static Enemy getNewEnemy(Cell currentCell, String name, int x, int y){
+	public static Enemy getNewEnemy(Cell currentCell, String name, float x, float y){
 		if(name == null){
 			return null;
 		}
 		Enemy base = enemies.get(name.toLowerCase());
-		return new Enemy(new Rectangle(x,y, base.getWidth(), base.getHeight()),base.getMaxHealth());
+		return new Enemy(x,y, base.getWidth(), base.getHeight(),base.getMaxHealth());
 	}
 	
 	/**
@@ -104,14 +119,14 @@ public class Enemy extends NonPlayableEntity{
 		NamedNodeMap attrs = node.getAttributes();
 		String name = attrs.getNamedItem("name").getNodeValue();
 		int health = Integer.parseInt(attrs.getNamedItem("maxhealth").getNodeValue());
-		float width = 1, height = 1;
+		int width = 1, height = 1;
 		try{
-			width = Float.parseFloat(attrs.getNamedItem("width").getNodeValue());
+			width = Integer.parseInt(attrs.getNamedItem("width").getNodeValue());
 		}catch(NullPointerException e){ }
 		try{
-			height = Float.parseFloat(attrs.getNamedItem("width").getNodeValue());
+			height = Integer.parseInt(attrs.getNamedItem("width").getNodeValue());
 		}catch(NullPointerException e){ }
-		loadEnemy(name, new Enemy(new Rectangle(0, 0, width, height),health));
+		loadEnemy(name, new Enemy(width,height,health));
 	}
 	
 	public void update(Input input) {

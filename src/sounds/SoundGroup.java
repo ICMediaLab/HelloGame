@@ -54,4 +54,8 @@ public class SoundGroup {
 		}
 	}
 	
+	public String toString(){
+		return s; 
+		//yeah i made this just to get rid of the warning icon...
+	}
 }
