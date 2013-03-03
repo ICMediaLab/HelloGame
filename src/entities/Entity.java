@@ -191,8 +191,6 @@ public abstract class Entity implements IEntity {
 		try{
 			int bottom = bottom();
 			int top    = top();
-			int left   = left();
-			int right  = right();
 			if (bottom > top) {
 				//if the new location is on the ground, set it so entity isn't clipping into the ground
 				setPosition(getX(), (int)getY());
@@ -202,6 +200,8 @@ public abstract class Entity implements IEntity {
 			    dxdy.setY(0f);
 			    setPosition(getX(), (int)getY() + 1);
 			}
+			int left   = left();
+			int right  = right();
 			//horizontal collision
 			if (left > right) {
 			    dxdy.setX(0f);
