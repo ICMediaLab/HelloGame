@@ -5,6 +5,7 @@ import java.util.Set;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
+import sounds.SoundGroup;
 import entities.Entity;
 import entities.players.Player;
 
@@ -12,9 +13,11 @@ public class Sword extends Weapon {
 
     private boolean swung = false;
     private int counter = 0;
+    private SoundGroup swingSound;
     
     public Sword(Rectangle hitbox, Image[] images, int damage) {
         super(hitbox, images, damage);
+        swingSound = new SoundGroup("stick/swing");
     }
     
     @Override
@@ -28,6 +31,7 @@ public class Sword extends Weapon {
         if (!swung) {
             hitbox.setLocation(p.getX() + 1.1f, p.getY());
             swung = true;
+            swingSound.playSingle();
         }
     }
 

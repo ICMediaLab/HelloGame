@@ -1,11 +1,11 @@
 package sounds;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 import entities.players.Player;
@@ -21,82 +21,25 @@ public class SoundGroup {
 	public SoundGroup(String s) {
 		this.s = s;
 		SOUNDS = new ArrayList<Sound>();
-		if (s == "grass"){
-			try {
-				SOUNDS.add(new Sound("data/sounds/footsteps/grass1.wav"));
-				SOUNDS.add(new Sound("data/sounds/footsteps/grass2.wav"));
-				SOUNDS.add(new Sound("data/sounds/footsteps/grass3.wav"));
-				SOUNDS.add(new Sound("data/sounds/footsteps/grass4.wav"));
-				SOUNDS.add(new Sound("data/sounds/footsteps/grass5.wav"));
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} else if (s == "gravel"){
-			try {
-				SOUNDS.add(new Sound("data/sounds/footsteps/gravel1.wav"));
-				SOUNDS.add(new Sound("data/sounds/footsteps/gravel2.wav"));
-				SOUNDS.add(new Sound("data/sounds/footsteps/gravel3.wav"));
-				SOUNDS.add(new Sound("data/sounds/footsteps/gravel4.wav"));
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		} else if (s == "stick_wood"){
-			try {
-				SOUNDS.add(new Sound("data/sounds/footsteps/wood1.wav"));
-				SOUNDS.add(new Sound("data/sounds/footsteps/wood2.wav"));
-				SOUNDS.add(new Sound("data/sounds/footsteps/wood3.wav"));
-				SOUNDS.add(new Sound("data/sounds/footsteps/wood4.wav"));
-				SOUNDS.add(new Sound("data/sounds/footsteps/wood5.wav"));
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} else if (s == "stick_swing"){
-			try {
-				SOUNDS.add(new Sound("data/sounds/footsteps/swing1.wav"));
-				SOUNDS.add(new Sound("data/sounds/footsteps/swing2.wav"));
-				SOUNDS.add(new Sound("data/sounds/footsteps/swing3.wav"));
-			} catch (SlickException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+		
+		for (File file : (new File("data/sounds/" + s).listFiles())){
+			SOUNDS.add(Sounds.loadSound("data/sounds/" + s + "/" + file.getName()));
 		}
 	}
 	
-	public void playRandom(GameContainer gc, Player player){
-		if (player.isOnGround() && player.isMovingX() && s == "grass"){
+	public void playRandom(GameContainer gc, Player player, int frequencyTime){
+		if (player.isOnGround() && player.isMovingX()){
 			accumulator += gc.getTime() - oldTime;
-			if (accumulator > 300){
-				Sounds.play(SOUNDS.get(rnd.nextInt(5)), rnd.nextFloat()*0.2f + 0.8f, rnd.nextFloat()*0.3f + 0.1f);
-				accumulator = 0;
-			}
-			oldTime = gc.getTime();
-		} else if (player.isOnGround() && player.isMovingX() && s == "gravel"){
-			accumulator += gc.getTime() - oldTime;
-			if (accumulator > 300){
-				Sounds.play(SOUNDS.get(rnd.nextInt(4)), rnd.nextFloat()*0.2f + 0.8f, rnd.nextFloat()*0.3f + 0.1f);
-				accumulator = 0;
-			}
-			oldTime = gc.getTime();
-		} else if (player.isOnGround() && player.isMovingX() && s == "sitck_wood"){
-			accumulator += gc.getTime() - oldTime;
-			if (accumulator > 300){
-				Sounds.play(SOUNDS.get(rnd.nextInt(5)), rnd.nextFloat()*0.2f + 0.8f, rnd.nextFloat()*0.3f + 0.1f);
-				accumulator = 0;
-			}
-			oldTime = gc.getTime();
-		} else if (player.isOnGround() && player.isMovingX() && s == "sitck_swing"){
-			accumulator += gc.getTime() - oldTime;
-			if (accumulator > 300){
-				Sounds.play(SOUNDS.get(rnd.nextInt(3)), rnd.nextFloat()*0.2f + 0.8f, rnd.nextFloat()*0.3f + 0.1f);
+			if (accumulator > frequencyTime){
+				Sounds.play(SOUNDS.get(rnd.nextInt(SOUNDS.size())), rnd.nextFloat()*0.2f + 0.8f, rnd.nextFloat()*0.3f + 0.1f);
 				accumulator = 0;
 			}
 			oldTime = gc.getTime();
 		}
+	}
+	
+	public void playSingle(){
+		Sounds.play(SOUNDS.get(rnd.nextInt(SOUNDS.size())), rnd.nextFloat()*0.4f + 0.6f, rnd.nextFloat()*0.4f + 0.6f);
 	}
 	
 	public void stopSounds(){
@@ -110,4 +53,5 @@ public class SoundGroup {
 			SOUNDS.get(i).release();
 		}
 	}
+	
 }
