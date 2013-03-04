@@ -53,7 +53,7 @@ public class GameplayState extends BasicGameState {
 		
 		currentCell.addEntity(player);
 		EnemyLoader.loadEnemies("data/enemydata.xml");
-		currentCell.addEntity(Enemy.getNewEnemy(currentCell,"rawr",1,1));
+		currentCell.addEntity(Enemy.getNewEnemy(currentCell,"rawr",7,6));
 		
 		//audio
 		music = new Music("data/sounds/theme.ogg", true);
@@ -81,8 +81,7 @@ public class GameplayState extends BasicGameState {
 			gc.exit();
 		}
 		
-		//update player
-		player.update(input);
+		currentCell.updateEntities(input);
 		
 		//update sounds
 		footsteps.playRandom(gc, player, 300);

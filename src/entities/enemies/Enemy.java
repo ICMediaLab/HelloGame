@@ -14,6 +14,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import entities.NonPlayableEntity;
+import entities.aistates.AIState;
 import game.config.Config;
 
 public class Enemy extends NonPlayableEntity{
@@ -21,6 +22,8 @@ public class Enemy extends NonPlayableEntity{
 	@SuppressWarnings("unused")
 	private final Animation left, right;
 	private Animation sprite;
+	
+	private AIState state = AIState.ROAMING;
 	
 	/**
 	 * Map containing default representations of all enemies currently required.<br />
@@ -129,8 +132,17 @@ public class Enemy extends NonPlayableEntity{
 		loadEnemy(name, new Enemy(width,height,health));
 	}
 	
+	@Override
 	public void update(Input input) {
-		//TODO
+		float lastdX = getdX();
+		state.updateEntity(this);
+		if(lastdX > 0 && getdX() < 0){
+			sprite = left;
+		}else if(lastdX < 0 && getdX() > 0){
+			sprite = right;
+		}
+		sprite.update(DELTA);
+		frameMove();
 	}
 	
 	@Override

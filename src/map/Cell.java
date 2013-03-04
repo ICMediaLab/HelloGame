@@ -3,6 +3,7 @@ package map;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.tiled.TiledMap;
 
@@ -65,6 +66,12 @@ public class Cell extends TiledMap{
 	
 	public Set<Entity> getEntities() {
 	    return entities;
+	}
+	
+	public void updateEntities(Input input){
+		for(Entity e : entities){
+			e.update(input);
+		}
 	}
 
 }
