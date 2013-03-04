@@ -1,5 +1,9 @@
 package entities.aistates;
 
-abstract class AINextMove implements IAINextMove {
+import entities.Entity;
 
+abstract class AINextMove {
+
+	public abstract void updateEntity(Entity e);
+	
 }
