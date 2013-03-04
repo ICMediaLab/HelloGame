@@ -22,7 +22,7 @@ public class Sounds {
 	public static Sound loadSound(String path){
 		Sound s = null;
 		try {
-			s = new Sound(path);
+			s = new Sound("data/sounds/" + path);
 		} catch (SlickException e) {
 			System.out.println("Tried to load from: " + path);
 			e.printStackTrace();

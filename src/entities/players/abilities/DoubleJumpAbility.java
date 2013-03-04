@@ -8,7 +8,7 @@ import entities.players.Player;
 
 public class DoubleJumpAbility extends PlayerAbility {
 	
-	private static final  Sound SOUND_DOUBLE_JUMP = Sounds.loadSound("data/sounds/double_jump.ogg");
+	private static final  Sound SOUND_DOUBLE_JUMP = Sounds.loadSound("double_jump.ogg");
 	private boolean hasJumped = false;
 
 	@Override

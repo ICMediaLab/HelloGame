@@ -17,6 +17,7 @@ import org.newdawn.slick.Sound;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.Graphics;
 
+import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.MapLoader;
 
@@ -33,9 +34,11 @@ public class Player extends Entity {
 	private final Animation left, right;
 	private Animation sprite;
 	private final Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
-	private static final Sound SOUND_JUMP = Sounds.loadSound("data/sounds/jump.ogg");
+	private static final Sound SOUND_JUMP = Sounds.loadSound("jump.ogg");
+	private static SoundGroup SOUND_LANDING;
 	private float speed = 0.3f;
 	private Weapon sword;
+	private boolean onGround = true;
 
 	public Player(float x, float y, int width, int height, int maxhealth) {
 		super(x,y, width,height, maxhealth);
@@ -47,6 +50,8 @@ public class Player extends Entity {
 			
 			//temp weapon
 			sword = new Sword(new Rectangle(1,1,1,1), new Image[]{new Image("data/images/sword/right0.png")}, 5);
+			
+			SOUND_LANDING = new SoundGroup("player/landing");
 		} catch (SlickException e) {
 			//do shit all
 		}
@@ -127,6 +132,11 @@ public class Player extends Entity {
 		if (input.isKeyPressed(Input.KEY_W)) {
 		    sword.attack(this);
 		}
+		
+		if (!onGround && this.isOnGround()){
+			SOUND_LANDING.playSingle(0.8f, 0.05f);
+		}
+		onGround = this.isOnGround();
 		
 		sword.update(DELTA, MapLoader.getCurrentCell().getEntities(), this);
 		frameMove();

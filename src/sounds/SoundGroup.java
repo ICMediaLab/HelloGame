@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 import entities.players.Player;
@@ -18,20 +19,21 @@ public class SoundGroup {
 	private Random rnd = new Random();
 	private String s;
 	
-	public SoundGroup(String s) {
+	public SoundGroup(String s) throws SlickException{
 		this.s = s;
 		SOUNDS = new ArrayList<Sound>();
 		
 		for (File file : (new File("data/sounds/" + s).listFiles())){
-			SOUNDS.add(Sounds.loadSound("data/sounds/" + s + "/" + file.getName()));
+			SOUNDS.add(Sounds.loadSound(s + "/" + file.getName()));
 		}
+		
 	}
 	
 	public void playRandom(GameContainer gc, Player player, int frequencyTime){
 		if (player.isOnGround() && player.isMovingX()){
 			accumulator += gc.getTime() - oldTime;
 			if (accumulator > frequencyTime){
-				Sounds.play(SOUNDS.get(rnd.nextInt(SOUNDS.size())), rnd.nextFloat()*0.2f + 0.8f, rnd.nextFloat()*0.3f + 0.1f);
+				Sounds.play(SOUNDS.get(rnd.nextInt(SOUNDS.size())), rnd.nextFloat()*0.2f + 0.8f, rnd.nextFloat()*0.1f + 0.2f);
 				accumulator = 0;
 			}
 			oldTime = gc.getTime();
@@ -40,6 +42,10 @@ public class SoundGroup {
 	
 	public void playSingle(){
 		Sounds.play(SOUNDS.get(rnd.nextInt(SOUNDS.size())), rnd.nextFloat()*0.4f + 0.6f, rnd.nextFloat()*0.4f + 0.6f);
+	}
+	
+	public void playSingle(float pitch, float volume){
+		Sounds.play(SOUNDS.get(rnd.nextInt(SOUNDS.size())), rnd.nextFloat()*0.2f + pitch, rnd.nextFloat()*0.2f + volume);
 	}
 	
 	public void stopSounds(){

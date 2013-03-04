@@ -58,7 +58,7 @@ public class GameplayState extends BasicGameState {
 		//audio
 		music = new Music("data/sounds/theme.ogg", true);
 		music.play(1.0f, 0.05f);
-		footsteps = new SoundGroup("footsteps/gravel"); // choose: grass, gravel
+		footsteps = new SoundGroup("player/footsteps/gravel");
 	}
 
 	@Override

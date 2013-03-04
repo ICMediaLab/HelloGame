@@ -3,6 +3,7 @@ package items;
 import java.util.Set;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import sounds.SoundGroup;
@@ -17,7 +18,12 @@ public class Sword extends Weapon {
     
     public Sword(Rectangle hitbox, Image[] images, int damage) {
         super(hitbox, images, damage);
-        swingSound = new SoundGroup("stick/swing");
+        try {
+			swingSound = new SoundGroup("player/stick/swing");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     @Override
