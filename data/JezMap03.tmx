@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="34" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="MudNoise_01" tilewidth="32" tileheight="32">
+  <image source="./images/MudNoise1_01.png" width="32" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="2" name="Night9_01" tilewidth="32" tileheight="32">
+  <image source="./images/Night9_01.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="18" name="GrassTop4_01" tilewidth="32" tileheight="32">
+  <image source="./images/GrassTop4_01.png" width="128" height="32"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="34" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzFVduOrDAMC9cWaKH8/89ukWzVGzEzq6NB58ECSpo4TpomMysVR8VcsVacWFsqhopY0T2MQzhc8Td8X8++YgS3b8QK8MscmW+HGAVrRAKH/R85rIiZ8Ozh91qf4Dfi/4Y9p+QfRJsimnzSk3xn6MeY1/6MmBk+o9S6Fz0y9k74v+PfIPl84hHEbw8OPdaYf4bPIHEW8VMk3g5OGblFZ3uHjJgTbBdrPTDinXpl7KFv9v9orXeoB3tINXuHTXwvkkfCexS9zxtbxtpcrbhnB6+72NHauTqkPiue7CnWtEjNaJucFqO18xnBtRP/dxhv1lapf3Z2K97pe3Y58nwGa+eDOrOmzJN6nS6vA9rynEWJQR7s0Sy+N7FjT8yA6vyXGUo+Rfyzrvz287JzscmXs2SyNn9ot0usEfEmsVdb3zvaw+TBuUI79m0BAv7fnVFqm+x1zyT3TR02t67nL9jvGUaenCPsW3IaZJ/6nK3NWz9zF/Gv66f4yvJNDVTnRfQvYtu7OHq2XuHVDEzW7rlO3r1+38K7O5L32ju+30CGptPDcT5B77//yWN4uOZP4Qcv7A2W
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="34" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztlA0OgCAIhTlD6v2v2thkOQL8odJW3+ZcI1HeQwF+etlmH+BDzNJ6dN+WdXEw9xMkNlv/aIQ8W1pgLIJfizfdRTwraoM1pzy4BqSdpXFg3zU/vFzZr5SL6pfiOAKc60Q0v2Ml3sPKPSXppvnT4lvZg6R5gkP7MoflSwvSOk8+D/T+AKz9Ht/BzHpRd+3uS+w7PQTA
+  </data>
+ </layer>
+</map>

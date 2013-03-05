@@ -39,13 +39,10 @@ public class GameplayState extends BasicGameState {
 			throws SlickException {
 		//map loading goes here. Needs a better home
 		//method needed to load all maps into their correct index in the array
-		MapLoader.setDimensions(2,3);
-		MapLoader.loadMap("data/testmap.tmx", 0, 0);
-		MapLoader.loadMap("data/testmap2.tmx", 1, 0);
-		MapLoader.loadMap("data/testmap3.tmx", 0, 1);
-		MapLoader.loadMap("data/testmap4.tmx", 0, 2);
-		MapLoader.loadMap("data/testmap5.tmx", 1, 2);
-		MapLoader.loadMap("data/testmap6.tmx", 1, 1);
+		MapLoader.setDimensions(3,1);
+		MapLoader.loadMap("data/JezMap01.tmx", 0, 0);
+		MapLoader.loadMap("data/JezMap02.tmx", 1, 0);
+		MapLoader.loadMap("data/JezMap03.tmx", 2, 0);
 		//set initial map
 		player = new Player(2,2);
 		currentCell = MapLoader.setCurrentCell(player,0,0);
@@ -53,7 +50,7 @@ public class GameplayState extends BasicGameState {
 		
 		currentCell.addEntity(player);
 		EnemyLoader.loadEnemies("data/enemydata.xml");
-		currentCell.addEntity(Enemy.getNewEnemy(currentCell,"rawr",7,6));
+		currentCell.addEntity(Enemy.getNewEnemy(currentCell,"rawr",12,6));
 		
 		//audio
 		music = new Music("data/sounds/theme.ogg", true);
