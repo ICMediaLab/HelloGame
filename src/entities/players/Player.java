@@ -14,6 +14,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.Graphics;
 
@@ -31,22 +32,26 @@ public class Player extends Entity {
 	private static final Dimension PLAYER_DEFAULT_SIZE = new Dimension(1, 1);
 	private static final int PLAYER_DEFAULT_MAXHEALTH = 100;
 	
-	private final Animation left, right;
+	private final Animation left, right, stationary;
 	private Animation sprite;
 	private final Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
 	private static final Sound SOUND_JUMP = Sounds.loadSound("jump.ogg");
 	private static SoundGroup SOUND_LANDING;
-	private float speed = 0.3f;
+	private float speed = 0.14f;
 	private Weapon sword;
 	private boolean onGround = true;
 
 	public Player(float x, float y, int width, int height, int maxhealth) {
 		super(x,y, width,height, maxhealth);
-		Image[] movementRight = null;
-		Image[] movementLeft = null;
+		//Image[] movementRight = null;
+		Image movementRightRaw = null;
+		SpriteSheet movementRightSheet = null;
+		//Image[] movementLeft = null;
+		
 		try {
-			movementRight = new Image[]{new Image("data/images/dvl1_rt1.png"), new Image("data/images/dvl1_rt2.png")};
-			movementLeft = new Image[]{new Image("data/images/dvl1_lf1.png"), new Image("data/images/dvl1_lf2.png")};
+			movementRightRaw = new Image("data/images/walk2.png");
+			movementRightSheet = new SpriteSheet(movementRightRaw, 50, 74);
+			//movementLeft = new Image[]{new Image("data/images/dvl1_lf1.png"), new Image("data/images/dvl1_lf2.png")};
 			
 			//temp weapon
 			sword = new Sword(new Rectangle(1,1,1,1), new Image[]{new Image("data/images/sword/right0.png")}, 5);
@@ -55,10 +60,12 @@ public class Player extends Entity {
 		} catch (SlickException e) {
 			//do shit all
 		}
-		int[] duration = {200,200};
-		right = new Animation(movementRight, duration, false);
-		left = new Animation(movementLeft, duration, false);
-		sprite = right;
+		//int[] duration = {200,200};
+		right = new Animation(movementRightSheet, 10);
+		//left = new Animation(movementLeft, duration, false);
+		left = new Animation(movementRightSheet, 10); //TODO: make it left
+		stationary = new Animation(movementRightSheet, 0, 0, 0, 0, true, 1, false);
+		sprite = stationary;
 		
 	}
 
@@ -118,6 +125,7 @@ public class Player extends Entity {
 		
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			playerJump();
+			sprite = stationary;
 		}
 		if (input.isKeyDown(Input.KEY_A) || input.isKeyDown(Input.KEY_LEFT)) {
 			moveX(-speed);
@@ -128,6 +136,10 @@ public class Player extends Entity {
 			moveX(speed);
 			sprite = right;
 			sprite.update(DELTA);
+		}
+		else if (!input.isKeyPressed(Input.KEY_SPACE))
+		{
+			sprite = stationary; // just to stop the animation (will look like sliding)
 		}
 		if (input.isKeyPressed(Input.KEY_W)) {
 		    sword.attack(this);
@@ -173,12 +185,12 @@ public class Player extends Entity {
 	
 	@Override
 	public void render() {
-		sprite.draw((int)((getX()-1)*Config.getTileSize()), (int)((getY()-1)*Config.getTileSize()), new Color(255,255,255));
+		sprite.draw((int)((getX()-1)*Config.getTileSize() - 9), (int)((getY()-1)*Config.getTileSize() - 32 - 8), new Color(255,255,255));
 		
 		if (sword != null && sword.used()) {
 		    sword.render();
 		}
 		// Health bar above player
-		new Graphics().fillRect(getX()*32 - 32, getY()*32 - 32 - 5, 32*getHealth()/100, 3);
+		new Graphics().fillRect(getX()*32 - 32, getY()*32 - 32 - 50, 32*getHealth()/100, 3);
 	}
 }
