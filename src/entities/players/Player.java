@@ -105,7 +105,7 @@ public class Player extends Entity {
 		useAbility("doublejump");
 		if (isOnGround()) {
 			super.jump();
-			Sounds.play(SOUND_JUMP);
+			//Sounds.play(SOUND_JUMP);
 		}
 	}
 	
@@ -167,7 +167,7 @@ public class Player extends Entity {
 		}
 		
 		if (!onGround && this.isOnGround()){
-			SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
+			//SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
 		}
 		onGround = this.isOnGround();
 		

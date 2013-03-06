@@ -37,7 +37,7 @@ public class Sword extends Weapon {
         if (!swung) {
             hitbox.setLocation(p.getX() + 1.1f, p.getY());
             swung = true;
-            swingSound.playSingle();
+            //swingSound.playSingle();
         }
     }
 
