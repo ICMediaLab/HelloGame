@@ -37,7 +37,7 @@ public class Player extends Entity {
 	private final Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
 	private static final Sound SOUND_JUMP = Sounds.loadSound("jump.ogg");
 	private static SoundGroup SOUND_LANDING;
-	private float speed = 0.14f;
+	private float speed = 0.3f;
 	private Weapon sword;
 	private boolean onGround = true;
 
@@ -64,7 +64,7 @@ public class Player extends Entity {
 		right = new Animation(movementRightSheet, 10);
 		//left = new Animation(movementLeft, duration, false);
 		left = new Animation(movementRightSheet, 10); //TODO: make it left
-		stationary = new Animation(movementRightSheet, 0, 0, 0, 0, true, 1, false);
+		stationary = new Animation(movementRightSheet, 0, 0, 0, 0, true, 1000, false);
 		sprite = stationary;
 		
 	}

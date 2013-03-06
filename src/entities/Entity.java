@@ -183,7 +183,8 @@ public abstract class Entity implements IEntity {
 		} else if (getdY() > 0) {
 			dxdy.setY(0);
 		}
-		dxdy.scale(FRICTION);
+		dxdy.translate(-getdX()*FRICTION.getX(), -getdY()*FRICTION.getY());
+		//dxdy.scale(FRICTION);
 		frameTrace.add(xy,dxdy);
 		xy.translate(dxdy); //move to new location
 		

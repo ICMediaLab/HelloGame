@@ -8,9 +8,9 @@ import utils.Position;
 
 
 public interface IEntity extends Cloneable, Renderable {
-	Position FRICTION = new Position(0.6f,0.84f);
-	float GRAVITY = 0.10f;
-	float JUMP_AMOUNT = 1.15f;
+	Position FRICTION = new Position(0.6f,0.04f);
+	float GRAVITY = 0.04f;
+	float JUMP_AMOUNT = 0.5f;
 	long DELTA = 1000/60;
 	
 	/**
