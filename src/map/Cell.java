@@ -1,5 +1,6 @@
 package map;
 
+import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -69,8 +70,12 @@ public class Cell extends TiledMap{
 	}
 	
 	public void updateEntities(Input input){
-		for(Entity e : entities){
-			e.update(input);
+		try{
+			for(Entity e : entities){
+				e.update(input);
+			}
+		}catch(ConcurrentModificationException e){
+			entities.clear();
 		}
 	}
 	

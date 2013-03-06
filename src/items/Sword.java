@@ -42,7 +42,7 @@ public class Sword extends Weapon {
                 hitbox.setLocation(p.getX() - 1.0f, p.getY());
             }
             swung = true;
-            swingSound.playSingle();
+            //swingSound.playSingle();
         }
     }
 
