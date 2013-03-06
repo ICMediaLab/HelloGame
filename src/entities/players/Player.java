@@ -167,7 +167,7 @@ public class Player extends Entity {
 		}
 		
 		if (!onGround && this.isOnGround()){
-			SOUND_LANDING.playSingle(0.8f, 0.05f);
+			SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
 		}
 		onGround = this.isOnGround();
 		

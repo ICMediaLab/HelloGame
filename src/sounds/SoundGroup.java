@@ -8,6 +8,8 @@ import java.util.Random;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
+import org.newdawn.slick.util.EFXEffect;
+import org.newdawn.slick.util.EFXFilter;
 
 import entities.players.Player;
 
@@ -29,11 +31,11 @@ public class SoundGroup {
 		
 	}
 	
-	public void playRandom(GameContainer gc, Player player, int frequencyTime){
+	public void playRandom(GameContainer gc, Player player, int frequencyTime, float pitchavg, float pitchrnd, float volavg, float volrnd){
 		if (player.isOnGround() && player.isMovingX()){
 			accumulator += gc.getTime() - oldTime;
 			if (accumulator > frequencyTime){
-				Sounds.play(SOUNDS.get(rnd.nextInt(SOUNDS.size())), rnd.nextFloat()*0.2f + 0.8f, rnd.nextFloat()*0.1f + 0.2f);
+				Sounds.play(SOUNDS.get(rnd.nextInt(SOUNDS.size())), rnd.nextFloat()*pitchrnd + pitchavg, rnd.nextFloat()*volrnd + volavg);
 				accumulator = 0;
 			}
 			oldTime = gc.getTime();
@@ -44,8 +46,12 @@ public class SoundGroup {
 		Sounds.play(SOUNDS.get(rnd.nextInt(SOUNDS.size())), rnd.nextFloat()*0.4f + 0.6f, rnd.nextFloat()*0.4f + 0.6f);
 	}
 	
+	public void playSingle(EFXEffect effect, EFXFilter filter){
+		Sounds.play(SOUNDS.get(rnd.nextInt(SOUNDS.size())), 1.0f, 1.0f, effect, filter);
+	}
+	
 	public void playSingle(float pitch, float volume){
-		Sounds.play(SOUNDS.get(rnd.nextInt(SOUNDS.size())), rnd.nextFloat()*0.2f + pitch, rnd.nextFloat()*0.2f + volume);
+		Sounds.play(SOUNDS.get(rnd.nextInt(SOUNDS.size())), pitch, volume);
 	}
 	
 	public void stopSounds(){

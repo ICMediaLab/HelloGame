@@ -3,21 +3,14 @@ package sounds;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.util.EFXEffect;
 import org.newdawn.slick.util.EFXFilter;
 
-import entities.players.Player;
-
 public class Sounds {
 	
 	private static final List<Sound> SOUNDS_PLAYING = new ArrayList<Sound>();
-	
-	public static void init(GameContainer gc, Player player){
-		//TODO: load all the sounds for the level and player abilities
-	}
 	
 	public static Sound loadSound(String path){
 		Sound s = null;
