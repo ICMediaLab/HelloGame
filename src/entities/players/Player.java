@@ -40,6 +40,7 @@ public class Player extends Entity {
 	private float speed = 0.3f;
 	private Weapon sword;
 	private boolean onGround = true;
+	private boolean isRight = true;
 
 	public Player(float x, float y, int width, int height, int maxhealth) {
 		super(x,y, width,height, maxhealth);
@@ -105,7 +106,7 @@ public class Player extends Entity {
 		useAbility("doublejump");
 		if (isOnGround()) {
 			super.jump();
-			Sounds.play(SOUND_JUMP);
+			//Sounds.play(SOUND_JUMP);
 		}
 	}
 	
@@ -144,11 +145,13 @@ public class Player extends Entity {
 		if (input.isKeyDown(Input.KEY_A) || input.isKeyDown(Input.KEY_LEFT)) {
 			moveX(-speed);
 			sprite = left;
+			isRight = false;
 			sprite.update(DELTA);
 		}
 		else if (input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT)) {
 			moveX(speed);
 			sprite = right;
+			isRight = true;
 			sprite.update(DELTA);
 		}
 		else if (!input.isKeyPressed(Input.KEY_SPACE))
@@ -170,7 +173,7 @@ public class Player extends Entity {
 		}
 		
 		if (!onGround && this.isOnGround()){
-			SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
+			//SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
 		}
 		onGround = this.isOnGround();
 		
@@ -205,6 +208,17 @@ public class Player extends Entity {
 			currentCell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX() - 1, MapLoader.getCurrentY());
 			setPosition(currentCell.getWidth() - getWidth() - 1, getY());
 		}
+	}
+	
+	/** 
+	 * returns -1 for left, +1 for right
+	 */
+	public int getDirection() {
+	    if (isRight) {
+	        return 1;
+	    } else {
+	        return -1;
+	    }
 	}
 	
 	@Override

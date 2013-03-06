@@ -297,7 +297,7 @@ public abstract class Entity implements IEntity {
 	
 	@Override
 	public void moveX(float x) {
-		dxdy.setX(x);
+		dxdy.translate(x,0f);
 	}
 	
 	public boolean isMovingX(){
