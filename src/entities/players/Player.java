@@ -49,8 +49,8 @@ public class Player extends Entity {
 		//Image[] movementLeft = null;
 		
 		try {
-			movementRightRaw = new Image("data/images/walk2.png");
-			movementRightSheet = new SpriteSheet(movementRightRaw, 50, 74);
+			movementRightRaw = new Image("data/images/walk3.png");
+			movementRightSheet = new SpriteSheet(movementRightRaw, 40, 60);
 			//movementLeft = new Image[]{new Image("data/images/dvl1_lf1.png"), new Image("data/images/dvl1_lf2.png")};
 			
 			//temp weapon
@@ -61,9 +61,9 @@ public class Player extends Entity {
 			//do shit all
 		}
 		//int[] duration = {200,200};
-		right = new Animation(movementRightSheet, 10);
+		right = new Animation(movementRightSheet, 22);
 		//left = new Animation(movementLeft, duration, false);
-		left = new Animation(movementRightSheet, 10); //TODO: make it left
+		left = new Animation(movementRightSheet, 22); //TODO: make it left
 		stationary = new Animation(movementRightSheet, 0, 0, 0, 0, true, 1000, false);
 		sprite = stationary;
 		
@@ -185,12 +185,12 @@ public class Player extends Entity {
 	
 	@Override
 	public void render() {
-		sprite.draw((int)((getX()-1)*Config.getTileSize() - 9), (int)((getY()-1)*Config.getTileSize() - 32 - 8), new Color(255,255,255));
+		sprite.draw((int)((getX()-1)*Config.getTileSize() - 4), (int)((getY()-1)*Config.getTileSize() - 25), new Color(255,255,255));
 		
 		if (sword != null && sword.used()) {
 		    sword.render();
 		}
 		// Health bar above player
-		new Graphics().fillRect(getX()*32 - 32, getY()*32 - 32 - 50, 32*getHealth()/100, 3);
+		new Graphics().fillRect(getX()*32 - 32, getY()*32 - 32 - 25, 32*getHealth()/100, 3);
 	}
 }
