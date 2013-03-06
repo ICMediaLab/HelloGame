@@ -32,7 +32,7 @@ public class Player extends Entity {
 	private static final Dimension PLAYER_DEFAULT_SIZE = new Dimension(1, 1);
 	private static final int PLAYER_DEFAULT_MAXHEALTH = 100;
 	
-	private final Animation left, right, stationary;
+	private final Animation left, right, leftPause, rightPause;
 	private Animation sprite;
 	private final Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
 	private static final Sound SOUND_JUMP = Sounds.loadSound("jump.ogg");
@@ -45,12 +45,16 @@ public class Player extends Entity {
 		super(x,y, width,height, maxhealth);
 		//Image[] movementRight = null;
 		Image movementRightRaw = null;
+		Image movementLeftRaw = null;
 		SpriteSheet movementRightSheet = null;
+		SpriteSheet movementLeftSheet = null;
 		//Image[] movementLeft = null;
 		
 		try {
 			movementRightRaw = new Image("data/images/walk3.png");
+			movementLeftRaw = movementRightRaw.getFlippedCopy(true, false);
 			movementRightSheet = new SpriteSheet(movementRightRaw, 40, 60);
+			movementLeftSheet = new SpriteSheet(movementLeftRaw, 40, 60);
 			//movementLeft = new Image[]{new Image("data/images/dvl1_lf1.png"), new Image("data/images/dvl1_lf2.png")};
 			
 			//temp weapon
@@ -63,9 +67,10 @@ public class Player extends Entity {
 		//int[] duration = {200,200};
 		right = new Animation(movementRightSheet, 22);
 		//left = new Animation(movementLeft, duration, false);
-		left = new Animation(movementRightSheet, 22); //TODO: make it left
-		stationary = new Animation(movementRightSheet, 0, 0, 0, 0, true, 1000, false);
-		sprite = stationary;
+		left = new Animation(movementLeftSheet, 22); //TODO: make it left
+		rightPause = new Animation(movementRightSheet, 0, 0, 0, 0, true, 1000, false);
+		leftPause = new Animation(movementLeftSheet, 0, 0, 0, 0, true, 1000, false);
+		sprite = rightPause;
 		
 	}
 
@@ -125,7 +130,16 @@ public class Player extends Entity {
 		
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			playerJump();
-			sprite = stationary;
+			
+			if (sprite == left)
+			{
+				sprite = leftPause;
+			}
+			else if (sprite == right)
+			{
+				sprite = rightPause;
+			}
+			
 		}
 		if (input.isKeyDown(Input.KEY_A) || input.isKeyDown(Input.KEY_LEFT)) {
 			moveX(-speed);
@@ -139,7 +153,14 @@ public class Player extends Entity {
 		}
 		else if (!input.isKeyPressed(Input.KEY_SPACE))
 		{
-			sprite = stationary; // just to stop the animation (will look like sliding)
+			if (sprite == left)
+			{
+				sprite = leftPause;
+			}
+			else if (sprite == right)
+			{
+				sprite = rightPause;
+			}
 		}
 		if (input.isKeyPressed(Input.KEY_W)) {
 		    sword.attack(this);
