@@ -165,6 +165,9 @@ public class Player extends Entity {
 		if (input.isKeyPressed(Input.KEY_W)) {
 		    sword.attack(this);
 		}
+		if (input.isKeyPressed(Input.KEY_S)) {
+		    useAbility("rangedattack");
+		}
 		
 		if (!onGround && this.isOnGround()){
 			SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());

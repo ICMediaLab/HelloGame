@@ -1,5 +1,7 @@
 package map;
 
+import items.projectiles.Projectile;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +17,8 @@ public class Cell extends TiledMap{
 
 	private final Tile[][] properties = new Tile[getHeight()][getWidth()];
 	private final Set<Entity> entities = new HashSet<Entity>(); 
+	private final Set<Projectile> projectiles = new HashSet<Projectile>();
+	private static final long DELTA = 1000/60;
 			
 	public Cell(String location) throws SlickException {
 		super(location);
@@ -50,12 +54,19 @@ public class Cell extends TiledMap{
 	public void addEntity(Entity newEntity) {
 		entities.add(newEntity);
 	}
+	
+	public void addProjectile(Projectile projectile){
+		projectiles.add(projectile);
+	}
 
 
 	public void render() {
 		super.render(-Config.getTileSize(),-Config.getTileSize());
 		for(Entity e : entities){
 			e.render();
+		}
+		for(Projectile p : projectiles){
+			p.render();
 		}
 	}
 
@@ -71,6 +82,9 @@ public class Cell extends TiledMap{
 	public void updateEntities(Input input){
 		for(Entity e : entities){
 			e.update(input);
+		}
+		for(Projectile p : projectiles){
+			p.update(DELTA);
 		}
 	}
 
