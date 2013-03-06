@@ -87,4 +87,12 @@
    eJxjYBgFo2AUjALygAgQCw+0I5CAEBRT28xRQB0gygAJT5GBdggSGEzxC8pLsDAaLADkFpibqOUukDmUlhuwdARzH7GAHD2kAJj5MD+ip3VhhoGLX1h5PZjyHz4AAONKApw=
   </data>
  </layer>
+ <objectgroup name="Enemy" width="34" height="20">
+  <object type="Enemy" x="256" y="416" width="32" height="32">
+   <properties>
+    <property name="enemy-name" value="rawr"/>
+    <property name="enemy-respawn" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

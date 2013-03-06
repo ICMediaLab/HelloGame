@@ -22,7 +22,7 @@ public class Enemy extends NonPlayableEntity{
 	private final Animation left, right;
 	private Animation sprite;
 	
-	private AIState state = AIState.ROAMING;
+	private AIState state;
 	
 	/**
 	 * Map containing default representations of all enemies currently required.<br />
@@ -33,6 +33,7 @@ public class Enemy extends NonPlayableEntity{
 
 	private Enemy(int width,int height, int maxhealth){
 		super(width,height,maxhealth);
+		state = AIState.ROAMING;
 		Image[] movementRight = null;
 		Image[] movementLeft = null;
 		try {
@@ -49,6 +50,7 @@ public class Enemy extends NonPlayableEntity{
 	
 	private Enemy(float x, float y, int width, int height, int maxhealth) {
 		super(x,y,width,height,maxhealth);
+		state = AIState.ROAMING;
 		Image[] movementRight = null;
 		Image[] movementLeft = null;
 		try {
@@ -64,7 +66,7 @@ public class Enemy extends NonPlayableEntity{
 	}
 
 	@Override
-	protected Enemy clone() {
+	public Enemy clone() {
 		return new Enemy(getX(), getY(), getWidth(), getHeight(),getMaxHealth());
 	}
 

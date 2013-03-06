@@ -6,20 +6,42 @@ import java.util.Set;
 
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.tiled.GroupObject;
+import org.newdawn.slick.tiled.ObjectGroup;
 import org.newdawn.slick.tiled.TiledMap;
 
 import entities.Entity;
+import entities.enemies.Enemy;
 import game.config.Config;
 
 
 public class Cell extends TiledMap{
 
 	private final Tile[][] properties = new Tile[getHeight()][getWidth()];
+	private final Set<Entity> defaultEntities = new HashSet<Entity>();
 	private final Set<Entity> entities = new HashSet<Entity>(); 
 			
 	public Cell(String location) throws SlickException {
 		super(location);
+		loadDefaultEntities();
 		loadProperties();
+	}
+	
+	public void loadDefaultEntities(){
+		if(defaultEntities.isEmpty()){
+			for(ObjectGroup og : super.objectGroups){
+				for(GroupObject go : og.objects){
+					if(go.props.containsKey("enemy-name")){
+						int x = go.x / Config.getTileSize();
+						int y = go.y / Config.getTileSize();
+						defaultEntities.add(Enemy.getNewEnemy(this, go.props.getProperty("enemy-name"), x,y));
+					}
+				}
+			}
+		}
+		for(Entity e : defaultEntities){
+			entities.add(e.clone());
+		}
 	}
 	
 	
@@ -37,7 +59,6 @@ public class Cell extends TiledMap{
 	 * @return 
 	 */
 	private void loadProperties(){
-		
 		//go through all tiles in map
 		for (int xAxis = 0; xAxis < width; xAxis++) { 
 			for (int yAxis = 0; yAxis < height; yAxis++) {

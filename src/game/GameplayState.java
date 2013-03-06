@@ -14,7 +14,6 @@ import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.EnemyLoader;
 import utils.MapLoader;
-import entities.enemies.Enemy;
 import entities.players.Player;
 
 public class GameplayState extends BasicGameState {
@@ -37,6 +36,8 @@ public class GameplayState extends BasicGameState {
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
+		//load enemy data
+		EnemyLoader.loadEnemies("data/enemydata.xml");
 		//map loading goes here. Needs a better home
 		//method needed to load all maps into their correct index in the array
 		MapLoader.setDimensions(3,1);
@@ -47,10 +48,7 @@ public class GameplayState extends BasicGameState {
 		player = new Player(2,2);
 		currentCell = MapLoader.setCurrentCell(player,0,0);
 		//create player
-		
 		currentCell.addEntity(player);
-		EnemyLoader.loadEnemies("data/enemydata.xml");
-		currentCell.addEntity(Enemy.getNewEnemy(currentCell,"rawr",12,6));
 		
 		//audio
 		music = new Music("data/sounds/theme.ogg", true);

@@ -79,7 +79,7 @@ public class Player extends Entity {
 	}
 
 	@Override
-	protected Player clone() {
+	public Player clone() {
 		return new Player(getX(), getY(), getWidth(), getHeight(),getMaxHealth());
 	}
 	

@@ -309,6 +309,9 @@ public abstract class Entity implements IEntity {
 
 	@Override
 	public abstract void update(Input input);
+	
+	@Override
+	public abstract Entity clone();
 
 	@Override
 	public void stop_sounds(){
