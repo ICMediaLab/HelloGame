@@ -35,7 +35,12 @@ public class Sword extends Weapon {
     public void attack(Player p) {
       //if sword isnt already swinging
         if (!swung) {
-            hitbox.setLocation(p.getX() + 1.1f, p.getY());
+            int dir = p.getDirection();
+            if (dir == 1) {
+                hitbox.setLocation(p.getX() + 1.1f, p.getY());
+            } else {
+                hitbox.setLocation(p.getX() - 1.0f, p.getY());
+            }
             swung = true;
             swingSound.playSingle();
         }
@@ -46,15 +51,24 @@ public class Sword extends Weapon {
         counter += delta;
         // if counter hasn't played full sword animation
         if (swung && counter <= defaultDuration * duration.length) {
-            hitbox.setLocation(p.getX() + 1.1f, p.getY());
+            int dir = p.getDirection(); //update sword location
+            if (dir == 1) {
+                hitbox.setLocation(p.getX() + 1.1f, p.getY());
+            } else {
+                hitbox.setLocation(p.getX() - 1.0f, p.getY());
+            }
             sprite.update(delta);
             
             // do NOT pass in ALL enemies in cell, or this will be slow
             // find some way to pass only adjacent enemies to player.
             for (Entity e : enemies) {
                 if (e.intersects(hitbox)) {
-                    e.takeDamage(damage);
-                    e.moveX(1.5f);
+                    e.takeDamage(damage); //take damage
+                    if (dir == 1) {
+                        e.moveX(1.5f); //move enemy right or left
+                    } else {
+                        e.moveX(-1.5f);
+                    }
                 }
             }
         } else {

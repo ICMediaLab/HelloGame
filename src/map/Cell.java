@@ -73,5 +73,9 @@ public class Cell extends TiledMap{
 			e.update(input);
 		}
 	}
+	
+	public void removeEntity(Entity e) {
+	    entities.remove(e);
+	}
 
 }
