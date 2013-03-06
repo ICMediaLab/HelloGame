@@ -13,6 +13,8 @@ import org.newdawn.slick.SlickException;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
+import utils.MapLoader;
+
 import entities.NonPlayableEntity;
 import entities.aistates.AIState;
 import game.config.Config;
@@ -135,11 +137,15 @@ public class Enemy extends NonPlayableEntity{
 	
 	@Override
 	public void update(Input input) {
+	    if (isDead()) {
+	        MapLoader.getCurrentCell().removeEntity(this);
+	        return;
+	    }
 		float lastdX = getdX();
 		state.updateEntity(this);
-		if(lastdX > 0 && getdX() < 0){
+		if(getdX() < 0){
 			sprite = left;
-		}else if(lastdX < 0 && getdX() > 0){
+		}else if(getdX() > 0){
 			sprite = right;
 		}
 		sprite.update(DELTA);

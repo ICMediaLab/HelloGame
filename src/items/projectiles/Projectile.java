@@ -25,11 +25,12 @@ public class Projectile implements Renderable{
 	public Projectile(Position xy,float width,float height, int damage, double angle ){
 		Image[] movementForward = null;
 		try {
-			movementForward = new Image[]{new Image("data/images/nyan.png")};
+			movementForward = new Image[]{new Image("data/images/nyan_0.gif"),new Image("data/images/nyan_1.gif"),new Image("data/images/nyan_2.gif"),new Image("data/images/nyan_3.gif"),
+					new Image("data/images/nyan_4.gif"), new Image("data/images/nyan_5.gif")};
 		} catch (SlickException e) {
 			//do shit all
 		}
-		int[] duration = {400};
+		int[] duration = {200,200,200,200,200,200};
 		moving = new Animation(movementForward, duration, false);
 		sprite=moving;
 		
@@ -51,8 +52,9 @@ public class Projectile implements Renderable{
 		sprite.draw((int)((xy.getX()-1)*Config.getTileSize()), (int)((xy.getY()-1)*Config.getTileSize()), new Color(255,255,255));		
 	}
 
-	public void update(Input input) {
+	public void update(long DELTA) {
 		xy.translate(dxdy); //ignores gravity
+		sprite.update(DELTA);
 	}
 	
 	@Override
