@@ -19,7 +19,6 @@ import game.config.Config;
 
 public class Enemy extends NonPlayableEntity{
 	
-	@SuppressWarnings("unused")
 	private final Animation left, right;
 	private Animation sprite;
 	
