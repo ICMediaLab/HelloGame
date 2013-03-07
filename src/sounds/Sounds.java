@@ -39,8 +39,7 @@ public class Sounds {
 	 */
 	
 	public static void play(Sound sound){
-		sound.play();
-		SOUNDS_PLAYING.add(sound);
+		play(sound, 1.0f, 1.0f);
 	}
 	
 	public static void play(Sound sound, float pitch, float volume){
@@ -54,8 +53,7 @@ public class Sounds {
 	}
 	
 	public static void playAt(Sound sound, float x, float y, float z){
-		sound.playAt(x, y, z);
-		SOUNDS_PLAYING.add(sound);
+		playAt(sound, 1.0f, 1.0f, x, y, z);
 	}
 	
 	public static void playAt(Sound sound, float pitch, float volume, float x, float y, float z){
@@ -85,6 +83,8 @@ public class Sounds {
 	 */
 	
 	public static void releaseSounds(){
+		update();
+		stopSounds();
 		for (int i = 0; i < SOUNDS_PLAYING.size(); i++){
 			SOUNDS_PLAYING.get(i).release();
 		}

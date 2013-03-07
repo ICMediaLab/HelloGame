@@ -106,16 +106,7 @@ public class Player extends Entity {
 		useAbility("doublejump");
 		if (isOnGround()) {
 			super.jump();
-			Sounds.play(SOUND_JUMP);
-		}
-	}
-	
-	@Override
-	public void stop_sounds(){
-		super.stop_sounds();
-		SOUND_JUMP.stop();
-		for(IPlayerAbility ability : abilities.values()){
-			ability.stop_sounds();
+			Sounds.play(SOUND_JUMP, 1.0f, 0.3f);
 		}
 	}
 
