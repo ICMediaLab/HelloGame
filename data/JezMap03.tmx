@@ -69,14 +69,77 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="33" name="MudInvisible4_03" tilewidth="32" tileheight="32">
+  <image source="images/Mud4_02.png" width="144" height="96"/>
+  <tile id="0">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="blocked" value="true"/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="blocked" value="false"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="blocked" value="false"/>
+   </properties>
+  </tile>
+ </tileset>
  <layer name="Tile Layer 1" width="34" height="20">
   <data encoding="base64" compression="zlib">
-   eJxdltuygjAMRYMoIHDQF5S7/f+vPGVm7Un0IdOSpsnOtXRm9sg0ZLplumd6wmsyXTLVmbZMS6ad/ZrpBaVME+fvTB9oDet578g0ZprRsbFP2BeG037L97kWmUqwSccbvQm7M7Ym1oPzGdsjdJ5X6JWP8nfExgOeqAPDH+czsmtYF/ZbsDuC5Y7NjrVA78m/orfmvMW3Z/C/CrF5hJhMyM7sX2E/BLw34ieb5/0emz0665DrAt6H8xKcF3Q+2Muf/Sf+I/E/wFEFvQUYCnjyv0dnFew0+DRhU/b+wNTjW43sHPKufCR4PTavyDbmNVCyV7x6fJLumjiX5rWjeKiGYsw25FWXB/zE3RndTfCjY1+HeD/xJcrKVvuTK935A5f6Mpn3SW3eVwMYB3we0LXh44pe5Uw11YFfsSjN+7MG64qsemMHzx7iqHmg3ryb578PNnRWoluxu4S76s/KvD9aMCun8lPxerJXjQ7EVn2mfhixPZvXaB90t/BW85q4QdK7oU8x2MmHZoT8KOBrFqnOr8ie3x/20p3gyfbOHc2Sq/n82cxrRLkusXcN8hX+nfsF/aqdxHqYz23NlRG5J/ceUMX5Gd+3+eyfsH+Adwj8yfx96Mxn3Qv8CzgUP8VN8VAtTORLODVHVLcNMhd0VtjULL2Zz9sCvmZLE/THt019q1p+gksxiHFuQvxVl5N5bS7IqLcm/J3MZ93KvgnY9B6/8Ffv3DvsW2TWsL5DjhL34xyVTDJ/6zTzP5zdzf8J1sBfzN814TiwsYXYalbq3mY+Q6Mdyf/+i2jeX83nvd5H5Uj53c3/UdSfmlt6wzSrpHsy/4eJ77xqV9iTfb9/yo+wSpd8PvBrt+93JMZoDD4rLynIxf+BJdi7mOc8Bfyjfc8l/bsI3/yTk9hvqkXlZQl6Igb1snCrdlWrR/B1DPZO3j+zJS9W
+   eJxdlsuSozAMRUUghABJ2PCGhN0sOv//fWOqzi2pe6Gysa2rt8RoZlOiPdE70ch60ifRAm2sO/s10QAdYCzwf6A1rMLvE81gbOxP/id0TdQlqvk+1yxRnuie6AvGKecfvAs4H/T4IGvlfIen574E95WoQt6L+zv7LlCDDg/uZ/TYgp8O+Lcgt+fujsyGNQP3PC/AvXFfY1sX7C+Db17BJxN6/EDfsD6Dvlf8J5knf4vMFsxzf2HNOPtwn6PnBcwXe9mzY6/iIBrQowy4GTpknMn+FswyyKnAmJApeQ90arHtxlvJPcxzQPnbIrPgbWWeAzl7+avFJmHfiMlgnjvyh3Io+mzjvfwRc6Tm7Aqf7GjY34K/z3itf95WYNV/YiWeB3qpLg8wDt6rrp7o+MTmJ1gbNq7gKmYTbxr0z7ErN6/PG7quvO3Na39gHXmrfqDavJvHvw0ydJeDLd9dAu+KDqV5fdTorJjKTvmrY/8O/qjM60z10CN7Ns/RNmDXnKnXXeC/BtwNPPlgJx7qEbIj41y9SHle8PaBjDlgH5wpH9Wf1UsK8/6zmeeIYp0jrwjvS+w79wv4yp2D9W3et9VXet518A1gl9yf/h3Ne/9knkdN8NUEaT40fKsGH+DXwX/ym/yhXNA8kJ7qI8rbijcXMEvz3qVcU7/NOF+QK97Wfs821a1yuTOfU+o78nMV/K+8nMxzUzyqLc3qyXzGreyroJvm8YC9mnMj95qxC/xaxxCjA/6e/Te8Ocxn3WQ+6wp8nUOqC/VDzTXp8UbGFnyrXim+OGd78zm3BNmHeW29zfu9+uEUbInx3c3/UVSf6in6DxLmwTqZ126cud8/3z/2e/5pRuq/SViyWf9f0klzJPqoD7GS3YqTzjVzVGeSFefQHPBiXxK/eKRz/MdRvSkXFZcl4MzBNtWy9FPuKlel6xhwZP9/DGYyTA==
   </data>
  </layer>
  <layer name="Tile Layer 2" width="34" height="20">
   <data encoding="base64" compression="zlib">
-   eJztlA0OgCAIhblC6v3P2thkOQL8odJW3+ZcI1HeQwF+etlmH+BDzNJ6dN+WdXEw9xMkNlv/aIQ8W1pgLIJfizfdRTwraoM1pzy4BqSdpXFg3zU/vFzZr5SL6pfiOAKc60Q0v2Ml3sPKPSXppvnT4lvZg6R5gkP7MoflSwvSOk8+D/T+AKz9Ht/BzHpRd+3uS+w/QgSC
+   eJztlA0OgCAIhbmCP7fI+5+vsclqBIra0lbf5lyZCO+RAD+tuNkJfIhZWveea9kXOmM/QWRz6RsNn+eSFrgWYFyLN/2LmCtqgzXHPLgGpF1JY8+ea36Mcme/UiyqX1rH4eFaJ6L5HSrrLazSU0l4J+mm+WPx7dyDpHmEQ/vA8tB8sSDta4m3dZ4rQfcPQHt/J2Mu3L9Z9z5p7GCd3rayAzucBYI=
   </data>
  </layer>
 </map>
