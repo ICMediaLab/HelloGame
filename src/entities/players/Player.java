@@ -165,7 +165,13 @@ public class Player extends Entity {
 		if (input.isKeyPressed(Input.KEY_E)){
 			useAbility("speeddash");
 		}
+		if (input.isKeyPressed(Input.KEY_Q)){
+			useAbility("forwardteleport");
+		}
 		
+		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+			translateSmooth(10, input.getMouseX()/32 + 1, input.getMouseY()/32 + 1);
+		}
 		
 		if (!onGround && this.isOnGround()){
 			//SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());

@@ -313,8 +313,8 @@ public abstract class Entity implements IEntity {
 	public void updateTranslateSmooth(){
 		counter += 1;
 		if (counter < this.time){
-			this.moveX((this.destX - this.initX)/this.time);
-			this.moveY((this.destY - this.initY)/this.time);
+			this.moveX((this.destX - this.initX)/(this.time/2 + counter));
+			this.moveY((this.destY - this.initY)/(this.time/2 + counter));
 		}
 	}
 	
