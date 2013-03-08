@@ -72,9 +72,8 @@ public class GameplayState extends BasicGameState {
 		//check input
 		Input input = gc.getInput();
 		if (input.isKeyDown(Input.KEY_ESCAPE)){
-			gc.sleep(300);
 			music.release();
-			Sounds.releaseSounds();
+			Sounds.stopSounds();
 			gc.exit();
 		}
 		
