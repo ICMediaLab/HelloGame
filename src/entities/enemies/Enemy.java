@@ -7,6 +7,7 @@ import map.Cell;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -155,5 +156,8 @@ public class Enemy extends NonPlayableEntity{
 	@Override
 	public void render() {
 		sprite.draw((int)((getX()-1)*Config.getTileSize()), (int)((getY()-1)*Config.getTileSize()), new Color(255,255,255));
+		
+		// Health bar for debugging
+		new Graphics().fillRect(getX()*32 - 32, getY()*32 - 32 - 25, 32*getHealth()/100, 3);
 	}
 }
