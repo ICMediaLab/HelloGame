@@ -170,7 +170,7 @@ public class Player extends Entity {
 		}
 		
 		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
-			translateSmooth(10, input.getMouseX()/32f + 1f, input.getMouseY()/32f + 1f);
+			translateSmooth(10, input.getMouseX()/32 + 1, input.getMouseY()/32 + 1);
 		}
 		
 		if (!onGround && this.isOnGround()){

@@ -83,6 +83,8 @@ public class Sounds {
 	 */
 	
 	public static void releaseSounds(){
+		update();
+		stopSounds();
 		for (int i = 0; i < SOUNDS_PLAYING.size(); i++){
 			SOUNDS_PLAYING.get(i).release();
 		}
