@@ -26,6 +26,8 @@ public abstract class Entity implements IEntity {
 	//		No idea how at the moment.
 	
 	private int health,maxhealth;
+	private int counter, time;
+	private float destX, destY, initX, initY;
 	
 	//for debugging purposes:
 	private final FrameTrace frameTrace = new FrameTrace();
@@ -298,6 +300,22 @@ public abstract class Entity implements IEntity {
 	@Override
 	public void moveX(float x) {
 		dxdy.translate(x,0f);
+	}
+	
+	public void moveY(float y) {
+		dxdy.translate(0f,y);
+	}
+	
+	public void translateSmooth(int time, float destX, float destY){
+		this.time = time; this.destX = destX; this.destY = destY; this.counter = 0; this.initX = getX(); this.initY = getY();
+	}
+	
+	public void updateTranslateSmooth(){
+		counter += 1;
+		if (counter < this.time){
+			this.moveX((this.destX - this.initX)/this.time);
+			this.moveY((this.destY - this.initY)/this.time);
+		}
 	}
 	
 	public boolean isMovingX(){
