@@ -1,5 +1,6 @@
 package entities.players;
 
+import game.config.Config;
 import items.Sword;
 import items.Weapon;
 
@@ -10,22 +11,20 @@ import map.Cell;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.Graphics;
 
 import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.MapLoader;
-
 import entities.Entity;
 import entities.players.abilities.AbilityFinder;
 import entities.players.abilities.IPlayerAbility;
-import game.config.Config;
 
 public class Player extends Entity {
 	

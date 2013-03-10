@@ -1,7 +1,8 @@
 package map;
 
+import game.config.Config;
 import items.projectiles.Projectile;
-import java.util.ConcurrentModificationException;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +14,6 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import entities.Entity;
 import entities.enemies.Enemy;
-import game.config.Config;
 
 
 public class Cell extends TiledMap{
@@ -32,6 +32,7 @@ public class Cell extends TiledMap{
 	}
 	
 	public void loadDefaultEntities(){
+		entities.clear();
 		if(defaultEntities.isEmpty()){
 			for(ObjectGroup og : super.objectGroups){
 				for(GroupObject go : og.objects){
@@ -94,7 +95,7 @@ public class Cell extends TiledMap{
 
 
 	public void clearEntities() {
-		entities.clear();
+		entitiesToRemove.addAll(entities);
 	}
 	
 	public Set<Entity> getEntities() {
@@ -102,6 +103,7 @@ public class Cell extends TiledMap{
 	}
 	
 	public void updateEntities(Input input){
+		entitiesToRemove.clear();
 		for(Entity e : entities){
 			e.update(input);
 		}

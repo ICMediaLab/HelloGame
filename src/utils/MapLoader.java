@@ -56,9 +56,9 @@ public final class MapLoader {
 	 * @return The current cell that was just set.
 	 */
 	public static Cell setCurrentCell(Player player, int x, int y) {
-		try{
+		if(getCurrentCell() != null){
 			getCurrentCell().clearEntities();
-		}catch(NullPointerException e){ }
+		}
 		currentX = x;
 		currentY = y;
 		currentCell = maps[y][x];
