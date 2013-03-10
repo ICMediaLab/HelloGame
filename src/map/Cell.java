@@ -20,7 +20,8 @@ public class Cell extends TiledMap{
 
 	private final Tile[][] properties = new Tile[getHeight()][getWidth()];
 	private final Set<Entity> defaultEntities = new HashSet<Entity>();
-	private final Set<Entity> entities = new HashSet<Entity>(); 
+	private final Set<Entity> entities = new HashSet<Entity>();
+	private final Set<Entity> entitiesToRemove = new HashSet<Entity>(); 
 	private final Set<Projectile> projectiles = new HashSet<Projectile>();
 	private static final long DELTA = 1000/60;
 			
@@ -101,20 +102,17 @@ public class Cell extends TiledMap{
 	}
 	
 	public void updateEntities(Input input){
-		try{
-			for(Entity e : entities){
-				e.update(input);
-			}
-		}catch(ConcurrentModificationException e){
-			entities.clear();
+		for(Entity e : entities){
+			e.update(input);
 		}
+		entities.removeAll(entitiesToRemove);
 		for(Projectile p : projectiles){
 			p.update(DELTA);
 		}
 	}
 	
 	public void removeEntity(Entity e) {
-	    entities.remove(e);
+	    entitiesToRemove.add(e);
 	}
 
 }
