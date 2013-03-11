@@ -1,18 +1,23 @@
 package entities.aistates;
 
-import entities.Entity;
-
 
 public enum AIState {
-	IDLE(new IdleEntity()),ROAMING(new RoamingEntity());
+	IDLE(IdleEntity.class),ROAMING(RoamingEntity.class);
 	
-	private final AINextMove nextMove;
+	private final Class<? extends AINextMove> nextMove;
 
-	private AIState(AINextMove nextMove){
+	private AIState(Class<? extends AINextMove> nextMove){
 		this.nextMove = nextMove;
 	}
-
-	public void updateEntity(Entity e) {
-		nextMove.updateEntity(e);
+	
+	public AINextMove getStateClass(){
+		try {
+			return nextMove.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

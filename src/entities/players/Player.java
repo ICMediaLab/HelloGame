@@ -35,7 +35,10 @@ public class Player extends Entity {
 	private Animation sprite;
 	private final Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
 	private static final Sound SOUND_JUMP = Sounds.loadSound("jump.ogg");
-	private static SoundGroup SOUND_LANDING;
+	
+	private static SoundGroup SOUND_LANDING; 
+	//TODO ^ Why is this not being used anywhere?
+	
 	private float speed = 0.3f;
 	private Weapon sword;
 	private boolean onGround = true;

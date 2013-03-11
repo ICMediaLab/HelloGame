@@ -86,5 +86,11 @@
     <property name="enemy-respawn" value="true"/>
    </properties>
   </object>
+  <object type="Enemy" x="64" y="256" width="32" height="32">
+   <properties>
+    <property name="enemy-name" value="rawr"/>
+    <property name="enemy-respawn" value="true"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

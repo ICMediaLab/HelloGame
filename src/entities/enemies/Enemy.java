@@ -15,17 +15,13 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import utils.MapLoader;
-
 import entities.NonPlayableEntity;
-import entities.aistates.AIState;
 import game.config.Config;
 
 public class Enemy extends NonPlayableEntity{
 	
 	private final Animation left, right;
 	private Animation sprite;
-	
-	private AIState state;
 	
 	/**
 	 * Map containing default representations of all enemies currently required.<br />
@@ -36,7 +32,6 @@ public class Enemy extends NonPlayableEntity{
 
 	private Enemy(int width,int height, int maxhealth){
 		super(width,height,maxhealth);
-		state = AIState.ROAMING;
 		Image[] movementRight = null;
 		Image[] movementLeft = null;
 		try {
@@ -53,7 +48,6 @@ public class Enemy extends NonPlayableEntity{
 	
 	private Enemy(float x, float y, int width, int height, int maxhealth) {
 		super(x,y,width,height,maxhealth);
-		state = AIState.ROAMING;
 		Image[] movementRight = null;
 		Image[] movementLeft = null;
 		try {
@@ -142,8 +136,7 @@ public class Enemy extends NonPlayableEntity{
 	        MapLoader.getCurrentCell().removeEntity(this);
 	        return;
 	    }
-		float lastdX = getdX();
-		state.updateEntity(this);
+		super.updateEntity();
 		if(getdX() < 0){
 			sprite = left;
 		}else if(getdX() > 0){
