@@ -37,7 +37,9 @@ public class Player extends Entity {
 	private static final Sound SOUND_JUMP = Sounds.loadSound("jump.ogg");
 	
 	private static SoundGroup SOUND_LANDING; 
-	//TODO ^ Why is this not being used anywhere?
+	//TODO ^ Why is this not being used anywhere? 
+	//TODO ^ Because if it is enabled it crashes if you try to jump just as you hit the ground; When it is disabled as it is now and you jump just as you hit the ground, the jump sound is being played but it looks as if double_jump is performed because player moves only slightly up; I belive there is something wrong with the isOnGround or jumping method
+	
 	
 	private float speed = 0.3f;
 	private Weapon sword;
