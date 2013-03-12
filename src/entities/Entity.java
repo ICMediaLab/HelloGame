@@ -345,4 +345,11 @@ public abstract class Entity implements IEntity {
 				hitbox.getY() < getY() + getHeight();
 	}
 	
+	public boolean intersects(Entity e) {
+        return e.getX() + e.getWidth() > getX() && 
+                e.getX() < getX() + getWidth() &&
+                e.getY() + e.getHeight() > getY() &&
+                e.getY() < getY() + getHeight();
+    }
+	
 }

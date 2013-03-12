@@ -14,6 +14,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import entities.Entity;
 import entities.enemies.Enemy;
+import entities.players.Player;
 
 
 public class Cell extends TiledMap{
@@ -24,6 +25,7 @@ public class Cell extends TiledMap{
 	private final Set<Entity> entitiesToRemove = new HashSet<Entity>(); 
 	private final Set<Projectile> projectiles = new HashSet<Projectile>();
 	private static final long DELTA = 1000/60;
+    private Player player;
 			
 	public Cell(String location) throws SlickException {
 		super(location);
@@ -116,5 +118,13 @@ public class Cell extends TiledMap{
 	public void removeEntity(Entity e) {
 	    entitiesToRemove.add(e);
 	}
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+    
+    public Player getPlayer() {
+        return player;
+    }
 
 }

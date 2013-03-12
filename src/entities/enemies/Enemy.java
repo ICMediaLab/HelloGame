@@ -15,7 +15,9 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import utils.MapLoader;
+import entities.Entity;
 import entities.NonPlayableEntity;
+import entities.players.Player;
 import game.config.Config;
 
 public class Enemy extends NonPlayableEntity{
@@ -141,6 +143,10 @@ public class Enemy extends NonPlayableEntity{
 			sprite = left;
 		}else if(getdX() > 0){
 			sprite = right;
+		}
+		Player p = MapLoader.getCurrentCell().getPlayer();
+		if (intersects(p)) {
+		    p.takeDamage(1);
 		}
 		sprite.update(DELTA);
 		frameMove();
