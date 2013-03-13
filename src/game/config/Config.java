@@ -43,7 +43,12 @@ public final class Config {
 		try{
 			File configFile = getFile(CONFIG_FILE_NAME);
 			if(configFile == null || !configFile.exists()){
-				PrintStream def = new PrintStream(ClassLoader.getSystemResource("").getFile() + CONFIG_FILE_NAME);
+				PrintStream def;
+				try{
+					def = new PrintStream(ClassLoader.getSystemResource("").getFile() + CONFIG_FILE_NAME);
+				}catch(NullPointerException e){
+					return;
+				}
 				System.out.println("creating new file at " + ClassLoader.getSystemResource("").getFile() + CONFIG_FILE_NAME);
 				def.println("# This is the default configuration file for HelloGame.");
 				def.println("# Any lines prefixed with a # symbol will be ignored.");

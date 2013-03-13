@@ -3,7 +3,9 @@ package map;
 import game.config.Config;
 import items.projectiles.Projectile;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.newdawn.slick.GameContainer;
@@ -16,6 +18,7 @@ import org.newdawn.slick.tiled.TiledMap;
 import entities.Entity;
 import entities.enemies.Enemy;
 import entities.objects.Door;
+import entities.objects.DoorTrigger;
 import entities.players.Player;
 
 
@@ -38,6 +41,9 @@ public class Cell extends TiledMap{
 	public void loadDefaultEntities(){
 		entities.clear();
 		if(defaultEntities.isEmpty()){
+			Map<String,Door> doors = new HashMap<String,Door>();
+			Map<String,DoorTrigger> triggers = new HashMap<String,DoorTrigger>();
+			
 			for(ObjectGroup og : super.objectGroups){
 				for(GroupObject go : og.objects){
 					int x = go.x / Config.getTileSize();
@@ -45,7 +51,21 @@ public class Cell extends TiledMap{
 					if(go.type.equalsIgnoreCase("enemy")){
 						defaultEntities.add(Enemy.getNewEnemy(this, go.name, x,y));
 					}else if(go.type.equalsIgnoreCase("door")){
-						defaultEntities.add(new Door(x,y));
+						if(triggers.containsKey(go.name)){
+							defaultEntities.add(new Door(triggers.remove(go.name),x,y));
+						}else{
+							Door d = new Door(null,x,y);
+							doors.put(go.name,d);
+							defaultEntities.add(d);
+						}
+					}else if(go.type.equalsIgnoreCase("doorTrigger")){
+						if(doors.containsKey(go.name)){
+							defaultEntities.add(new DoorTrigger(doors.remove(go.name),x,y));
+						}else{
+							DoorTrigger dt = new DoorTrigger(null, x, y);
+							triggers.put(go.name, dt);
+							defaultEntities.add(dt);
+						}
 					}
 				}
 			}
@@ -78,8 +98,8 @@ public class Cell extends TiledMap{
 			}
 		}
 	}
-
-
+	
+	
 	public void addEntity(Entity newEntity) {
 		entities.add(newEntity);
 	}
@@ -87,7 +107,7 @@ public class Cell extends TiledMap{
 	public void addProjectile(Projectile projectile){
 		projectiles.add(projectile);
 	}
-
+	
 	public void render() {
 		super.render(-Config.getTileSize(),-Config.getTileSize());
 		for(Entity e : entities){
@@ -97,8 +117,8 @@ public class Cell extends TiledMap{
 			p.render();
 		}
 	}
-
-
+	
+	
 	public void clearEntities() {
 		entitiesToRemove.addAll(entities);
 	}

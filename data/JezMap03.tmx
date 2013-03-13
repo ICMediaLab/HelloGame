@@ -143,7 +143,13 @@
   </data>
  </layer>
  <objectgroup name="Door" width="34" height="20">
-  <object name="door" type="door" x="416" y="352" width="32" height="32">
+  <object name="254" type="door" x="416" y="352" width="32" height="32">
+   <properties>
+    <property name="id" value="25"/>
+    <property name="locked" value="false"/>
+   </properties>
+  </object>
+  <object name="254" type="doorTrigger" x="992" y="192" width="32" height="32">
    <properties>
     <property name="locked" value="false"/>
    </properties>
