@@ -9,9 +9,12 @@ import map.TileProperty;
 import org.lwjgl.util.Renderable;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.state.StateBasedGame;
 
 import utils.MapLoader;
 import utils.Position;
@@ -56,7 +59,7 @@ public class Projectile implements Renderable{
 	
 	@Override
 	public void render() {
-		sprite.draw((int)((xy.getX()-1)*Config.getTileSize()), (int)((xy.getY()-1)*Config.getTileSize()), new Color(255,255,255));		
+				
 	}
 
 	public void update(long DELTA) {
@@ -82,6 +85,11 @@ public class Projectile implements Renderable{
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
 		return new Projectile(xy.getX(), xy.getY(), width, height,damage,angle);
+	}
+
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+		sprite.draw((int)((xy.getX()-1)*Config.getTileSize()), (int)((xy.getY()-1)*Config.getTileSize()), new Color(255,255,255));
+		
 	}
 
 }

@@ -142,4 +142,11 @@
    eJztlA0OgCAIhbmCP7eo+5+vsclmBgra0lbf5lyZCO+RAD9W3OwEPsQsrXvP1ewLnbGfIBZz7RsJn+aaFrgWYFyLN/2LmCtqgzXHNEoNSLuaxr54bvkxyp39SrGofm4dh4drnYjkd2isW1ilp3bmHaeb5I/Gt7wHSfMIZ+3zPCRfNHD7LPG2znM56P4BsPf3rsyl9G/WvU8aO1int7UcDBwFbw==
   </data>
  </layer>
+ <objectgroup name="Door" width="34" height="20">
+  <object name="door" type="door" x="416" y="352" width="32" height="32">
+   <properties>
+    <property name="locked" value="false"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

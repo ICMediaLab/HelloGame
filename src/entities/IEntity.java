@@ -1,13 +1,13 @@
 package entities;
 
-import org.lwjgl.util.Renderable;
-import org.newdawn.slick.Input;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Position;
 
 
-public interface IEntity extends Cloneable, Renderable {
+public interface IEntity extends Cloneable {
 	Position FRICTION = new Position(0.6f,0.04f);
 	float GRAVITY = 0.04f;
 	float JUMP_AMOUNT = 0.5f;
@@ -118,7 +118,7 @@ public interface IEntity extends Cloneable, Renderable {
 	 * @param input The current state of the keyboard.
 	 * @param delta The time in microseconds since the last update.
 	 */
-	void update(Input input);
+	void update(GameContainer gc, StateBasedGame sbg, int delta);
 	
 	/**
 	 * Forces this entity to stop all currently playing sounds.<br />

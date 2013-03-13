@@ -3,17 +3,21 @@ package map;
 import game.config.Config;
 import items.projectiles.Projectile;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.newdawn.slick.Input;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.GroupObject;
 import org.newdawn.slick.tiled.ObjectGroup;
 import org.newdawn.slick.tiled.TiledMap;
 
 import entities.Entity;
 import entities.enemies.Enemy;
+import entities.objects.Door;
 import entities.players.Player;
 
 
@@ -24,7 +28,7 @@ public class Cell extends TiledMap{
 	private final Set<Entity> entities = new HashSet<Entity>();
 	private final Set<Entity> entitiesToRemove = new HashSet<Entity>(); 
 	private final Set<Projectile> projectiles = new HashSet<Projectile>();
-    private final Set<Projectile> projectilesToRemove = new HashSet<Projectile>();
+    private Set<Projectile> projectilesToRemove = new HashSet<Projectile>();
 	private static final long DELTA = 1000/60;
     private Player player;
 			
@@ -39,16 +43,18 @@ public class Cell extends TiledMap{
 		if(defaultEntities.isEmpty()){
 			for(ObjectGroup og : super.objectGroups){
 				for(GroupObject go : og.objects){
-					if(go.props.containsKey("enemy-name")){
-						int x = go.x / Config.getTileSize();
-						int y = go.y / Config.getTileSize();
-						defaultEntities.add(Enemy.getNewEnemy(this, go.props.getProperty("enemy-name"), x,y));
+					int x = go.x / Config.getTileSize();
+					int y = go.y / Config.getTileSize();
+					if(go.type.equalsIgnoreCase("enemy")){
+						defaultEntities.add(Enemy.getNewEnemy(this, go.name, x,y));
+					}else if(go.type.equalsIgnoreCase("door")){
+						defaultEntities.add(new Door(x,y));
 					}
 				}
 			}
 		}
 		for(Entity e : defaultEntities){
-			entities.add(e.clone());
+			addEntity(e.clone());
 		}
 	}
 	
@@ -85,14 +91,13 @@ public class Cell extends TiledMap{
 		projectiles.add(projectile);
 	}
 
-
-	public void render() {
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		super.render(-Config.getTileSize(),-Config.getTileSize());
 		for(Entity e : entities){
-			e.render();
+			e.render(gc, sbg, g);
 		}
 		for(Projectile p : projectiles){
-			p.render();
+			p.render(gc, sbg, g);
 		}
 	}
 
@@ -105,26 +110,26 @@ public class Cell extends TiledMap{
 	    return entities;
 	}
 	
-	public void updateEntities(Input input){
+	public void updateEntities(GameContainer gc, StateBasedGame sbg, int delta){
 		entitiesToRemove.clear();
 		for(Entity e : entities){
-			e.update(input);
+			e.update(gc, sbg, delta);
 		}
 		entities.removeAll(entitiesToRemove);
-		projectilesToRemove.clear();
+        projectilesToRemove.clear();
 		for(Projectile p : projectiles){
 			p.update(DELTA);
 		}
-		projectiles.removeAll(projectilesToRemove);
+        projectiles.removeAll(projectilesToRemove);
 	}
-	
-	public void removeEntity(Entity e) {
-	    entitiesToRemove.add(e);
-	}
-	
-	public void removeProjectile(Projectile p) {
-	    projectilesToRemove.add(p);
-	}
+    
+    public void removeEntity(Entity e) {
+        entitiesToRemove.add(e);
+    }
+    
+    public void removeProjectile(Projectile p) {
+        projectilesToRemove.add(p);
+    }
 
     public void setPlayer(Player player) {
         this.player = player;
