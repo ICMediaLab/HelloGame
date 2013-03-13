@@ -7,15 +7,15 @@ import map.Cell;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import utils.MapLoader;
-import entities.Entity;
 import entities.NonPlayableEntity;
 import entities.players.Player;
 import game.config.Config;
@@ -133,7 +133,7 @@ public class Enemy extends NonPlayableEntity{
 	}
 	
 	@Override
-	public void update(Input input) {
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 	    if (isDead()) {
 	        MapLoader.getCurrentCell().removeEntity(this);
 	        return;
@@ -158,5 +158,11 @@ public class Enemy extends NonPlayableEntity{
 		
 		// Health bar for debugging
 		new Graphics().fillRect(getX()*32 - 32, getY()*32 - 32 - 25, 32*getHealth()/100, 3);
+	}
+
+	@Override
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+		// TODO Auto-generated method stub
+		
 	}
 }

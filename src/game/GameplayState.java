@@ -78,7 +78,7 @@ public class GameplayState extends BasicGameState {
 			gc.exit();
 		}
 		
-		currentCell.updateEntities(input);
+		currentCell.updateEntities(gc, sbg, delta);
 		
 		//update sounds
 		footsteps.playRandom(gc, player, 150, 0.8f, 0.2f, 0.05f, 0.02f);
