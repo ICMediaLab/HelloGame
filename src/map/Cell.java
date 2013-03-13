@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.GroupObject;
@@ -88,13 +89,13 @@ public class Cell extends TiledMap{
 		projectiles.add(projectile);
 	}
 
-	public void render() {
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		super.render(-Config.getTileSize(),-Config.getTileSize());
 		for(Entity e : entities){
-			e.render();
+			e.render(gc, sbg, g);
 		}
 		for(Projectile p : projectiles){
-			p.render();
+			p.render(gc, sbg, g);
 		}
 	}
 

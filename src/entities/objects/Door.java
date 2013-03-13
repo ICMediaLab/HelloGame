@@ -38,11 +38,6 @@ public class Door extends NonPlayableEntity {
 	}
 
 	@Override
-	public void render() {
-		s.draw(getX(), getY());
-	}
-
-	@Override
 	public Entity clone() {
 		return this;
 	}
@@ -56,7 +51,7 @@ public class Door extends NonPlayableEntity {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg,
 			org.newdawn.slick.Graphics g) {
-		render();
+		s.draw(getX(), getY());
 		
 	}
 

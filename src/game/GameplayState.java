@@ -13,6 +13,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import sounds.Sounds;
 import utils.EnemyLoader;
 import utils.MapLoader;
+import entities.objects.JumpPlatform;
 import entities.players.Player;
 
 public class GameplayState extends BasicGameState {
@@ -52,12 +53,14 @@ public class GameplayState extends BasicGameState {
 		//audio
 		music = new Music("data/sounds/theme.ogg", true);
 		music.play(1.0f, 0.01f);
+		
+		currentCell.addEntity(new JumpPlatform(10, 10));
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {  
-		currentCell.render();
+		currentCell.render(gc, sbg, g);
 	}
 
 	@Override
