@@ -24,14 +24,19 @@ public class JumpPlatform extends Entity {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		g.setColor(Color.white);
-		g.fillRect(this.getX()*Config.getTileSize(), this.getY()*Config.getTileSize() + 25.6f, Config.getTileSize(), 0.2f*Config.getTileSize());
+		g.setColor(Color.pink);
+		g.fillRect((this.getX()-1)*Config.getTileSize(), (this.getY()-1)*Config.getTileSize() + 25.6f, Config.getTileSize(), 0.2f*Config.getTileSize());
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public void collide(Entity e){
+		e.translateSmooth(20, e.getX(), e.getY() - 1.5f);
 	}
 
 	@Override

@@ -125,6 +125,10 @@ public class Cell extends TiledMap{
 		entitiesToRemove.addAll(entities);
 	}
 	
+	public void clearProjectiles(){
+		projectiles.clear();
+	}
+	
 	public Set<Entity> getEntities() {
 	    return entities;
 	}
@@ -135,7 +139,7 @@ public class Cell extends TiledMap{
 			e.update(gc, sbg, delta);
 			
 			for (Entity e2 : entities){
-				if (e.intersects(e2) && !e.equals(e2)) e.collide();
+				if (e.intersects(e2) && !e.equals(e2)) e.collide(e2);
 			}
 		}
 		entities.removeAll(entitiesToRemove);

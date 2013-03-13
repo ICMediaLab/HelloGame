@@ -353,7 +353,7 @@ public abstract class Entity implements IEntity {
                 e.getY() < getY() + getHeight();
     }
 	
-	public void collide(){
+	public void collide(Entity e){
 		// Do collision stuff
 	}
 	

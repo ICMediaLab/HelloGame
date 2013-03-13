@@ -2,7 +2,6 @@ package game;
 
 import map.Cell;
 
-import org.lwjgl.util.Dimension;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -55,7 +54,7 @@ public class GameplayState extends BasicGameState {
 		music = new Music("data/sounds/theme.ogg", true);
 		music.play(1.0f, 0.01f);
 		
-		currentCell.addEntity(new JumpPlatform(24, 16));
+		currentCell.addEntity(new JumpPlatform(25, 17));
 	}
 
 	@Override
