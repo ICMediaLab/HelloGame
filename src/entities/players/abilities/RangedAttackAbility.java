@@ -8,7 +8,12 @@ public class RangedAttackAbility extends PlayerAbility {
 
 	@Override
 	public void use(Player p) {
-		Projectile pro = new Projectile(p.getX(), p.getY(), 32, 32, 10, 0);
+	    Projectile pro = null;
+	    if (p.getDirection() == 1) {
+	        pro = new Projectile(p.getX(), p.getY(), 1, 1, 10, 0);
+	    } else {
+	        pro = new Projectile(p.getX(), p.getY(), 1, 1, 10, Math.PI);
+	    }
 		MapLoader.getCurrentCell().addProjectile(pro);
 	}
 

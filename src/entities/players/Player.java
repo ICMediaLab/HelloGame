@@ -126,9 +126,13 @@ public class Player extends Entity {
 	 * @param delta The time in microseconds since the last update.
 	 */
 	@Override
+	  
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		Input input = gc.getInput();
-		
+        if (isDead()) {
+            MapLoader.getCurrentCell().removeEntity(this);
+            return;
+        }
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			playerJump();
 			
@@ -154,8 +158,7 @@ public class Player extends Entity {
 			isRight = true;
 			sprite.update(DELTA);
 		}
-		else if (!input.isKeyPressed(Input.KEY_SPACE))
-		{
+		else if (!input.isKeyPressed(Input.KEY_SPACE)) {
 			if (sprite == left)
 			{
 				sprite = leftPause;
