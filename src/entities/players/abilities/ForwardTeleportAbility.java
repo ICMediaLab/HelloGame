@@ -1,14 +1,18 @@
 package entities.players.abilities;
 
+import map.TileProperty;
+import utils.MapLoader;
 import entities.players.Player;
 
 public class ForwardTeleportAbility extends PlayerAbility {
 	
+	private static float distance = 5f;
+	
     public void use(Player p){
 		if (p.getDirection() == 1){
-			p.moveX(5f);
+			if ("false".equals(MapLoader.getCurrentCell().getTile((int) p.getX() + (int) distance, (int) p.getY()).lookupProperty(TileProperty.BLOCKED))) p.moveX(distance);
 		} else {
-			p.moveX(-5f);
+			if ("false".equals(MapLoader.getCurrentCell().getTile((int) p.getX() - (int) distance, (int) p.getY()).lookupProperty(TileProperty.BLOCKED))) p.moveX(-distance);
 		}
 	}
 
@@ -16,5 +20,13 @@ public class ForwardTeleportAbility extends PlayerAbility {
 	public void stop_sounds() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public static float getDistance() {
+		return distance;
+	}
+
+	public static void setDistance(float distance) {
+		ForwardTeleportAbility.distance = distance;
 	}
 }

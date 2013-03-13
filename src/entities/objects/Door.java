@@ -6,9 +6,11 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.BufferedImageUtil;
 
 import entities.Entity;
@@ -32,7 +34,7 @@ public class Door extends NonPlayableEntity {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		s = new Animation(new Image[]{ new Image(t) }, 0);
+		s = new Animation(new Image[]{ new Image(t) }, 1);
 	}
 
 	@Override
@@ -41,12 +43,21 @@ public class Door extends NonPlayableEntity {
 	}
 
 	@Override
-	public void update(Input input) {
+	public Entity clone() {
+		return this;
+	}
+	
+	@Override
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
-	public Entity clone() {
-		return this;
+	public void render(GameContainer gc, StateBasedGame sbg,
+			org.newdawn.slick.Graphics g) {
+		render();
+		
 	}
 
 }

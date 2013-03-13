@@ -6,8 +6,9 @@ import items.projectiles.Projectile;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.newdawn.slick.Input;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.GroupObject;
 import org.newdawn.slick.tiled.ObjectGroup;
 import org.newdawn.slick.tiled.TiledMap;
@@ -87,7 +88,6 @@ public class Cell extends TiledMap{
 		projectiles.add(projectile);
 	}
 
-
 	public void render() {
 		super.render(-Config.getTileSize(),-Config.getTileSize());
 		for(Entity e : entities){
@@ -107,10 +107,10 @@ public class Cell extends TiledMap{
 	    return entities;
 	}
 	
-	public void updateEntities(Input input){
+	public void updateEntities(GameContainer gc, StateBasedGame sbg, int delta){
 		entitiesToRemove.clear();
 		for(Entity e : entities){
-			e.update(input);
+			e.update(gc, sbg, delta);
 		}
 		entities.removeAll(entitiesToRemove);
 		for(Projectile p : projectiles){

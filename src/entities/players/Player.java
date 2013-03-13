@@ -11,6 +11,7 @@ import map.Cell;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
@@ -18,6 +19,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.state.StateBasedGame;
 
 import sounds.SoundGroup;
 import sounds.Sounds;
@@ -122,7 +124,8 @@ public class Player extends Entity {
 	 * @param delta The time in microseconds since the last update.
 	 */
 	@Override
-	public void update(Input input) {
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+		Input input = gc.getInput();
 		
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			playerJump();
@@ -174,7 +177,7 @@ public class Player extends Entity {
 		}
 		
 		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
-			translateSmooth(10, input.getMouseX()/32 + 1, input.getMouseY()/32 + 1);
+			translateSmooth(10, input.getMouseX()/32f + getWidth()/2f, input.getMouseY()/32f + getHeight()/2f);
 		}
 		
 		if (!onGround && this.isOnGround()){
@@ -238,5 +241,11 @@ public class Player extends Entity {
 		}
 		// Health bar above player
 		new Graphics().fillRect(getX()*32 - 32, getY()*32 - 32 - 25, 32*getHealth()/100, 3);
+	}
+
+	@Override
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+		// TODO Auto-generated method stub
+		
 	}
 }

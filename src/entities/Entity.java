@@ -7,8 +7,10 @@ import java.awt.Dimension;
 import map.Cell;
 import map.TileProperty;
 
-import org.newdawn.slick.Input;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.state.StateBasedGame;
 
 import utils.MapLoader;
 import utils.Position;
@@ -322,11 +324,10 @@ public abstract class Entity implements IEntity {
 		return Math.abs(dxdy.getX()) > 0.02f;
 	}
 	
-	@Override
-	public abstract void render();
+	public abstract void render(GameContainer gc, StateBasedGame sbg, Graphics g);
 
 	@Override
-	public abstract void update(Input input);
+	public abstract void update(GameContainer gc, StateBasedGame sbg, int delta);
 	
 	@Override
 	public abstract Entity clone();
