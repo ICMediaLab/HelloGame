@@ -10,7 +10,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.EnemyLoader;
 import utils.MapLoader;
@@ -22,7 +21,6 @@ public class GameplayState extends BasicGameState {
 	private Cell currentCell;
 	private Player player;
 	private Music music;
-	SoundGroup footsteps;
 	  
     GameplayState(int stateID) {
        this.stateID = stateID;
@@ -54,7 +52,6 @@ public class GameplayState extends BasicGameState {
 		//audio
 		music = new Music("data/sounds/theme.ogg", true);
 		music.play(1.0f, 0.01f);
-		footsteps = new SoundGroup("player/footsteps/grass");
 	}
 
 	@Override
@@ -80,9 +77,6 @@ public class GameplayState extends BasicGameState {
 		
 		currentCell.updateEntities(gc, sbg, delta);
 		
-		//update sounds
-		footsteps.playRandom(gc, player, 150, 0.8f, 0.2f, 0.05f, 0.02f);
-		Sounds.update();
 	}
 
 	

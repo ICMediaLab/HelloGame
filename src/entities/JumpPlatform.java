@@ -14,7 +14,7 @@ public class JumpPlatform extends Entity {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		// TODO Auto-generated method stub
+		g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
 		
 	}
 

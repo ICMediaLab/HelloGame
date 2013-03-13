@@ -37,6 +37,7 @@ public class Player extends Entity {
 	private Animation sprite;
 	private final Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
 	private static final Sound SOUND_JUMP = Sounds.loadSound("jump.ogg");
+	SoundGroup footsteps;
 	
 	private static SoundGroup SOUND_LANDING; 
 	//TODO ^ Why is this not being used anywhere? 
@@ -68,6 +69,7 @@ public class Player extends Entity {
 			sword = new Sword(new Rectangle(1,1,1,1), new Image[]{new Image("data/images/sword/right0.png")}, 5);
 			
 			SOUND_LANDING = new SoundGroup("player/landing");
+			footsteps = new SoundGroup("player/footsteps/grass");
 		} catch (SlickException e) {
 			//do shit all
 		}
@@ -184,6 +186,7 @@ public class Player extends Entity {
 			//SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
 		}
 		onGround = this.isOnGround();
+		footsteps.playRandom(gc, this, 150, 0.8f, 0.2f, 0.05f, 0.02f);
 		
 		sword.update(DELTA, MapLoader.getCurrentCell().getEntities(), this);
 		updateTranslateSmooth();
