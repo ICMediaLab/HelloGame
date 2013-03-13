@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.GroupObject;
@@ -29,6 +30,7 @@ public class Cell extends TiledMap{
 	private final Set<Entity> entities = new HashSet<Entity>();
 	private final Set<Entity> entitiesToRemove = new HashSet<Entity>(); 
 	private final Set<Projectile> projectiles = new HashSet<Projectile>();
+	private Set<Projectile> projectilesToRemove = new HashSet<Projectile>();
 	private static final long DELTA = 1000/60;
     private Player player;
 			
@@ -108,13 +110,13 @@ public class Cell extends TiledMap{
 		projectiles.add(projectile);
 	}
 	
-	public void render() {
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		super.render(-Config.getTileSize(),-Config.getTileSize());
 		for(Entity e : entities){
-			e.render();
+			e.render(gc, sbg, g);
 		}
 		for(Projectile p : projectiles){
-			p.render();
+			p.render(gc, sbg, g);
 		}
 	}
 	
@@ -133,14 +135,20 @@ public class Cell extends TiledMap{
 			e.update(gc, sbg, delta);
 		}
 		entities.removeAll(entitiesToRemove);
+        projectilesToRemove.clear();
 		for(Projectile p : projectiles){
 			p.update(DELTA);
 		}
+        projectiles.removeAll(projectilesToRemove);
 	}
-	
-	public void removeEntity(Entity e) {
-	    entitiesToRemove.add(e);
-	}
+    
+    public void removeEntity(Entity e) {
+        entitiesToRemove.add(e);
+    }
+    
+    public void removeProjectile(Projectile p) {
+        projectilesToRemove .add(p);
+    }
 
     public void setPlayer(Player player) {
         this.player = player;

@@ -1,6 +1,5 @@
 package entities;
 
-import org.lwjgl.util.Renderable;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
@@ -8,7 +7,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import utils.Position;
 
 
-public interface IEntity extends Cloneable, Renderable {
+public interface IEntity extends Cloneable {
 	Position FRICTION = new Position(0.6f,0.04f);
 	float GRAVITY = 0.04f;
 	float JUMP_AMOUNT = 0.5f;

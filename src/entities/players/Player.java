@@ -37,6 +37,7 @@ public class Player extends Entity {
 	private Animation sprite;
 	private final Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
 	private static final Sound SOUND_JUMP = Sounds.loadSound("jump.ogg");
+	SoundGroup footsteps;
 	
 	private static SoundGroup SOUND_LANDING; 
 	//TODO ^ Why is this not being used anywhere? 
@@ -68,6 +69,7 @@ public class Player extends Entity {
 			sword = new Sword(new Rectangle(1,1,1,1), new Image[]{new Image("data/images/sword/right0.png")}, 5);
 			
 			SOUND_LANDING = new SoundGroup("player/landing");
+			footsteps = new SoundGroup("player/footsteps/grass");
 		} catch (SlickException e) {
 			//do shit all
 		}
@@ -124,9 +126,13 @@ public class Player extends Entity {
 	 * @param delta The time in microseconds since the last update.
 	 */
 	@Override
+	  
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		Input input = gc.getInput();
-		
+        if (isDead()) {
+            MapLoader.getCurrentCell().removeEntity(this);
+            return;
+        }
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			playerJump();
 			
@@ -152,8 +158,7 @@ public class Player extends Entity {
 			isRight = true;
 			sprite.update(DELTA);
 		}
-		else if (!input.isKeyPressed(Input.KEY_SPACE))
-		{
+		else if (!input.isKeyPressed(Input.KEY_SPACE)) {
 			if (sprite == left)
 			{
 				sprite = leftPause;
@@ -184,6 +189,7 @@ public class Player extends Entity {
 			//SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
 		}
 		onGround = this.isOnGround();
+		footsteps.playRandom(gc, this, 150, 0.8f, 0.2f, 0.05f, 0.02f);
 		
 		sword.update(DELTA, MapLoader.getCurrentCell().getEntities(), this);
 		updateTranslateSmooth();
@@ -233,7 +239,7 @@ public class Player extends Entity {
 	
 	
 	@Override
-	public void render() {
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		sprite.draw((int)((getX()-1)*Config.getTileSize() - 4), (int)((getY()-1)*Config.getTileSize() - 25), new Color(255,255,255));
 		
 		if (sword != null && sword.used()) {
@@ -241,11 +247,5 @@ public class Player extends Entity {
 		}
 		// Health bar above player
 		new Graphics().fillRect(getX()*32 - 32, getY()*32 - 32 - 25, 32*getHealth()/100, 3);
-	}
-
-	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		// TODO Auto-generated method stub
-		
 	}
 }

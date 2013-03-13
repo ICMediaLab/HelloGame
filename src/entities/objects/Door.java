@@ -59,7 +59,8 @@ public class Door extends NonPlayableEntity {
 	}
 
 	@Override
-	public void render() {
+	public void render(GameContainer gc, StateBasedGame sbg,
+		org.newdawn.slick.Graphics g) {
 		if(open){
 			openSprite.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());
 		}else{
@@ -88,13 +89,6 @@ public class Door extends NonPlayableEntity {
 				open = false;
 			}
 		}
-	}
-
-	@Override
-	public void render(GameContainer gc, StateBasedGame sbg,
-			org.newdawn.slick.Graphics g) {
-		render();
-		
 	}
 
 	public void assignTrigger(DoorTrigger trigger) {

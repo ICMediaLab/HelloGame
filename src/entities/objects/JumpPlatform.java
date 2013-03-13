@@ -1,21 +1,22 @@
-package entities;
+package entities.objects;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class JumpPlatform extends Entity {
+import entities.Entity;
 
-	@Override
-	public void render() {
-		// TODO Auto-generated method stub
-		
+public class JumpPlatform extends Entity {
+	
+	public JumpPlatform(int x, int y){
+		this.setPosition(x, y);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		// TODO Auto-generated method stub
-		
+		g.setColor(Color.white);
+		g.fillRect(this.getX(), this.getY(), this.getWidth(), this.getHeight());
 	}
 
 	@Override

@@ -153,16 +153,11 @@ public class Enemy extends NonPlayableEntity{
 	}
 	
 	@Override
-	public void render() {
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		sprite.draw((int)((getX()-1)*Config.getTileSize()), (int)((getY()-1)*Config.getTileSize()), new Color(255,255,255));
 		
 		// Health bar for debugging
 		new Graphics().fillRect(getX()*32 - 32, getY()*32 - 32 - 25, 32*getHealth()/100, 3);
 	}
 
-	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		// TODO Auto-generated method stub
-		
-	}
 }

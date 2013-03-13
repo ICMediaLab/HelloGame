@@ -45,11 +45,6 @@ public class DoorTrigger extends NonPlayableEntity {
 	}
 	
 	@Override
-	public void render() {
-		s.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());
-	}
-	
-	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		if(MapLoader.getCurrentCell().getPlayer().intersects(this)){
 			trigger.setTriggered();
@@ -64,7 +59,7 @@ public class DoorTrigger extends NonPlayableEntity {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg,
 			org.newdawn.slick.Graphics g) {
-		render();
+		s.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());
 	}
 
 	public void setDoor(Door trigger) {
