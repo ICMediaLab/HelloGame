@@ -15,6 +15,7 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import entities.Entity;
 import entities.enemies.Enemy;
+import entities.objects.Door;
 import entities.players.Player;
 
 
@@ -39,16 +40,18 @@ public class Cell extends TiledMap{
 		if(defaultEntities.isEmpty()){
 			for(ObjectGroup og : super.objectGroups){
 				for(GroupObject go : og.objects){
-					if(go.props.containsKey("enemy-name")){
-						int x = go.x / Config.getTileSize();
-						int y = go.y / Config.getTileSize();
-						defaultEntities.add(Enemy.getNewEnemy(this, go.props.getProperty("enemy-name"), x,y));
+					int x = go.x / Config.getTileSize();
+					int y = go.y / Config.getTileSize();
+					if(go.type.equalsIgnoreCase("enemy")){
+						defaultEntities.add(Enemy.getNewEnemy(this, go.name, x,y));
+					}else if(go.type.equalsIgnoreCase("door")){
+						defaultEntities.add(new Door(x,y));
 					}
 				}
 			}
 		}
 		for(Entity e : defaultEntities){
-			entities.add(e.clone());
+			addEntity(e.clone());
 		}
 	}
 	
@@ -84,7 +87,6 @@ public class Cell extends TiledMap{
 	public void addProjectile(Projectile projectile){
 		projectiles.add(projectile);
 	}
-
 
 	public void render() {
 		super.render(-Config.getTileSize(),-Config.getTileSize());

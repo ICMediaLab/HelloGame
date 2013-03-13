@@ -80,15 +80,13 @@
   </data>
  </layer>
  <objectgroup name="Enemy" width="34" height="20">
-  <object type="Enemy" x="256" y="416" width="32" height="32">
+  <object name="rawr" type="enemy" x="256" y="416" width="32" height="32">
    <properties>
-    <property name="enemy-name" value="rawr"/>
     <property name="enemy-respawn" value="true"/>
    </properties>
   </object>
-  <object type="Enemy" x="64" y="256" width="32" height="32">
+  <object name="rawr" type="enemy" x="64" y="256" width="32" height="32">
    <properties>
-    <property name="enemy-name" value="rawr"/>
     <property name="enemy-respawn" value="true"/>
    </properties>
   </object>
