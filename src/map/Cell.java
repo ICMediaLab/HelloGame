@@ -24,6 +24,7 @@ public class Cell extends TiledMap{
 	private final Set<Entity> entities = new HashSet<Entity>();
 	private final Set<Entity> entitiesToRemove = new HashSet<Entity>(); 
 	private final Set<Projectile> projectiles = new HashSet<Projectile>();
+    private final Set<Projectile> projectilesToRemove = new HashSet<Projectile>();
 	private static final long DELTA = 1000/60;
     private Player player;
 			
@@ -110,13 +111,19 @@ public class Cell extends TiledMap{
 			e.update(input);
 		}
 		entities.removeAll(entitiesToRemove);
+		projectilesToRemove.clear();
 		for(Projectile p : projectiles){
 			p.update(DELTA);
 		}
+		projectiles.removeAll(projectilesToRemove);
 	}
 	
 	public void removeEntity(Entity e) {
 	    entitiesToRemove.add(e);
+	}
+	
+	public void removeProjectile(Projectile p) {
+	    projectilesToRemove.add(p);
 	}
 
     public void setPlayer(Player player) {

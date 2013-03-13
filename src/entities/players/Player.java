@@ -123,7 +123,10 @@ public class Player extends Entity {
 	 */
 	@Override
 	public void update(Input input) {
-		
+		if (isDead()) {
+		    MapLoader.getCurrentCell().removeEntity(this);
+		    return;
+		}  
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			playerJump();
 			
@@ -149,8 +152,7 @@ public class Player extends Entity {
 			isRight = true;
 			sprite.update(DELTA);
 		}
-		else if (!input.isKeyPressed(Input.KEY_SPACE))
-		{
+		else if (!input.isKeyPressed(Input.KEY_SPACE)) {
 			if (sprite == left)
 			{
 				sprite = leftPause;
