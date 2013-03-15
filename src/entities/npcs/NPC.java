@@ -4,6 +4,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
+import entities.Entity;
 import entities.NonPlayableEntity;
 
 public class NPC extends NonPlayableEntity{
@@ -29,6 +30,12 @@ public class NPC extends NonPlayableEntity{
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void collide(Entity e) {
 		// TODO Auto-generated method stub
 		
 	}

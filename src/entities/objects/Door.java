@@ -12,7 +12,6 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.BufferedImageUtil;
 
-import utils.MapLoader;
 import entities.Entity;
 import entities.NonPlayableEntity;
 import game.config.Config;
@@ -76,18 +75,7 @@ public class Door extends NonPlayableEntity {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		if(trigger == null){
-			boolean any = false;
-			for(Entity e : MapLoader.getCurrentCell().getEntities()){
-				if(this != e && intersects(e)){
-					any = true;
-					break;
-				}
-			}
-			if(any){
-				open = true;
-			}else{
-				open = false;
-			}
+			open = false;
 		}
 	}
 
@@ -96,6 +84,11 @@ public class Door extends NonPlayableEntity {
 	}
 
 	public void setTriggered() {
+		open = true;
+	}
+
+	@Override
+	public void collide(Entity e) {
 		open = true;
 	}
 }

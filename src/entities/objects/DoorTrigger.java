@@ -46,9 +46,6 @@ public class DoorTrigger extends NonPlayableEntity {
 	
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
-		if(MapLoader.getCurrentCell().getPlayer().intersects(this)){
-			trigger.setTriggered();
-		}
 	}
 	
 	@Override
@@ -64,6 +61,13 @@ public class DoorTrigger extends NonPlayableEntity {
 
 	public void setDoor(Door trigger) {
 		this.trigger = trigger;
+	}
+
+	@Override
+	public void collide(Entity e) {
+		if(e == MapLoader.getCurrentCell().getPlayer()){
+			trigger.setTriggered();
+		}
 	}
 	
 }
