@@ -24,7 +24,7 @@ public class Door extends NonPlayableEntity {
 	private DoorTrigger trigger;
 	
 	public Door(DoorTrigger trigger, int x, int y){
-		super((float) x, (float) y);
+		super(x,y,1f,1f);
 		this.trigger = trigger;
 		if(trigger != null){
 			trigger.setDoor(this);

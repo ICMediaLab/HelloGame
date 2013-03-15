@@ -36,12 +36,12 @@ public interface IEntity extends Cloneable {
 	/**
 	 * Returns the width of the hitbox of this entity.
 	 */
-	int getWidth();
+	float getWidth();
 	
 	/**
 	 * Returns the height of the hitbox of this entity;
 	 */
-	int getHeight();
+	float getHeight();
 	
 	
 	/**

@@ -2,8 +2,6 @@ package entities;
 
 import game.debug.FrameTrace;
 
-import java.awt.Dimension;
-
 import map.Cell;
 import map.TileProperty;
 
@@ -14,6 +12,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import utils.MapLoader;
 import utils.Position;
+import utils.Dimension;
 
 
 public abstract class Entity implements IEntity {
@@ -41,28 +40,12 @@ public abstract class Entity implements IEntity {
 		this.maxhealth = maxhealth;
 	}
 	
-	public Entity(float x, float y, int width, int height, int maxhealth) {
+	public Entity(float x, float y, float width, float height, int maxhealth) {
 		this(new Position(x,y),new Dimension(width,height),maxhealth);
 	}
 	
-	public Entity(float x, float y, int maxhealth){
-		this(new Position(x,y),new Dimension(1,1),maxhealth);
-	}
-	
-	public Entity(int width, int height, int maxhealth){
-		this(new Position(0,0),new Dimension(width,height),maxhealth);
-	}
-	
-	public Entity(float x, float y, int width, int height){
+	public Entity(float x, float y, float width, float height){
 		this(new Position(x,y),new Dimension(width,height),DEFAULT_MAXHEALTH);
-	}
-	
-	public Entity(float x, float y){
-		this(new Position(x,y),new Dimension(1,1),DEFAULT_MAXHEALTH);
-	}
-	
-	public Entity(int width, int height){
-		this(new Position(0,0),new Dimension(width,height),DEFAULT_MAXHEALTH);
 	}
 	
 	public Entity(){
@@ -105,16 +88,16 @@ public abstract class Entity implements IEntity {
 	 * Returns the width of the hitbox of this entity.
 	 */
 	@Override
-	public int getWidth(){
-		return size.width;
+	public float getWidth(){
+		return size.getWidth();
 	}
 	
 	/**
 	 * Returns the height of the hitbox of this entity;
 	 */
 	@Override
-	public int getHeight(){
-		return size.height;
+	public float getHeight(){
+		return size.getHeight();
 	}
 	
 	/**
@@ -250,7 +233,7 @@ public abstract class Entity implements IEntity {
 	private int top() {
 		Cell currentCell = MapLoader.getCurrentCell();
 		int count = 0;
-		for(float x=getX()+HITBOX_MARGIN;x<getX()+getWidth();x+=0.5f){
+		for(float x=getX()+HITBOX_MARGIN;x<getX()+getWidth()-HITBOX_MARGIN;x+=0.5f){
 			if("true".equals(currentCell.getTile((int) x, (int) getY()).lookupProperty(TileProperty.BLOCKED))){
 				++count;
 			}
@@ -261,8 +244,8 @@ public abstract class Entity implements IEntity {
 	private int bottom() {
 		Cell currentCell = MapLoader.getCurrentCell();
 		int count = 0;
-		for(float x=getX()+HITBOX_MARGIN;x<getX()+getWidth();x+=0.5f){
-			if("true".equals(currentCell.getTile((int) x, (int) getY() + getHeight()).lookupProperty(TileProperty.BLOCKED))){
+		for(float x=getX()+HITBOX_MARGIN;x<=getX()+getWidth()-HITBOX_MARGIN;x+=0.5f){
+			if("true".equals(currentCell.getTile((int) x, (int) (getY() + getHeight())).lookupProperty(TileProperty.BLOCKED))){
 				++count;
 			}
 		}
@@ -272,7 +255,7 @@ public abstract class Entity implements IEntity {
 	private int left() {
 		Cell currentCell = MapLoader.getCurrentCell();
 		int count = 0;
-		for(float y=getY()+HITBOX_MARGIN;y<getY()+getHeight();y+=0.5f){
+		for(float y=getY()+HITBOX_MARGIN;y<getY()+getHeight()-HITBOX_MARGIN;y+=0.5f){
 			if("true".equals(currentCell.getTile((int) getX(), (int) y).lookupProperty(TileProperty.BLOCKED))){
 				++count;
 			}
@@ -283,8 +266,8 @@ public abstract class Entity implements IEntity {
 	private int right() {
 		Cell currentCell = MapLoader.getCurrentCell();
 		int count = 0;
-		for(float y=getY()+HITBOX_MARGIN;y<getY()+getHeight();y+=0.5f){
-			if("true".equals(currentCell.getTile((int) getX() + getWidth(), (int) y).lookupProperty(TileProperty.BLOCKED))){
+		for(float y=getY()+HITBOX_MARGIN;y<getY()+getHeight()-HITBOX_MARGIN;y+=0.5f){
+			if("true".equals(currentCell.getTile((int) (getX() + getWidth()), (int) y).lookupProperty(TileProperty.BLOCKED))){
 				++count;
 			}
 		}

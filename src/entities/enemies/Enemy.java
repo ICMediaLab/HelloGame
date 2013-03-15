@@ -32,8 +32,8 @@ public class Enemy extends NonPlayableEntity{
 	 */
 	private static final Map<String,Enemy> enemies = new HashMap<String,Enemy>();
 
-	private Enemy(int width,int height, int maxhealth){
-		super(width,height,maxhealth);
+	private Enemy(float width,float height, int maxhealth){
+		super(0,0,width,height,maxhealth);
 		Image[] movementRight = null;
 		Image[] movementLeft = null;
 		try {
@@ -48,7 +48,7 @@ public class Enemy extends NonPlayableEntity{
 		sprite = right;
 	}
 	
-	private Enemy(float x, float y, int width, int height, int maxhealth) {
+	private Enemy(float x, float y, float width, float height, int maxhealth) {
 		super(x,y,width,height,maxhealth);
 		Image[] movementRight = null;
 		Image[] movementLeft = null;
@@ -122,12 +122,12 @@ public class Enemy extends NonPlayableEntity{
 		NamedNodeMap attrs = node.getAttributes();
 		String name = attrs.getNamedItem("name").getNodeValue();
 		int health = Integer.parseInt(attrs.getNamedItem("maxhealth").getNodeValue());
-		int width = 1, height = 1;
+		float width = 1, height = 1;
 		try{
-			width = Integer.parseInt(attrs.getNamedItem("width").getNodeValue());
+			width = Float.parseFloat(attrs.getNamedItem("width").getNodeValue());
 		}catch(NullPointerException e){ }
 		try{
-			height = Integer.parseInt(attrs.getNamedItem("width").getNodeValue());
+			height = Float.parseFloat(attrs.getNamedItem("width").getNodeValue());
 		}catch(NullPointerException e){ }
 		loadEnemy(name, new Enemy(width,height,health));
 	}

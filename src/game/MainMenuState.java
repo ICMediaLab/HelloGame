@@ -2,12 +2,14 @@ package game;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class MainMenuState extends BasicGameState {
 
+	private static final String enterStartStr = "Press enter to start!";
 	private final int stateID;
 	  
     MainMenuState( int stateID ) 
@@ -30,15 +32,16 @@ public class MainMenuState extends BasicGameState {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbc, Graphics g)
 			throws SlickException {
-		// TODO Auto-generated method stub
+		g.drawString(enterStartStr, (gc.getWidth() - g.getFont().getWidth(enterStartStr))/2, 350);
 
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
-		// TODO Auto-generated method stub
-
+		if(gc.getInput().isKeyDown(Input.KEY_ENTER)){
+			sbg.enterState(HelloGame.GAMEPLAYSTATE);
+		}
 	}
 
 }

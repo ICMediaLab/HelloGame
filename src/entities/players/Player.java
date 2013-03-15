@@ -49,7 +49,7 @@ public class Player extends Entity {
 	private boolean onGround = true;
 	private boolean isRight = true;
 
-	public Player(float x, float y, int width, int height, int maxhealth) {
+	public Player(float x, float y, float width, float height, int maxhealth) {
 		super(x,y, width,height, maxhealth);
 		//Image[] movementRight = null;
 		Image movementRightRaw = null;

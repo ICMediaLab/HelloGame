@@ -8,7 +8,7 @@ import entities.NonPlayableEntity;
 
 public class NPC extends NonPlayableEntity{
 
-	public NPC(float x, float y, int width, int height, int maxhealth) {
+	public NPC(float x, float y, float width, float height, int maxhealth) {
 		super(x,y,width,height,maxhealth);
 	}
 	

@@ -1,7 +1,5 @@
 package entities.objects;
 
-import java.awt.Dimension;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -11,6 +9,7 @@ import utils.Position;
 
 import entities.Entity;
 import game.config.Config;
+import utils.Dimension;
 
 public class JumpPlatform extends Entity {
 	
@@ -19,13 +18,13 @@ public class JumpPlatform extends Entity {
 	}
 	
 	public JumpPlatform(int x, int y){
-		this(new Position(x, y), new Dimension(1, 1), 100);
+		this(new Position(x, y), new Dimension(1f, 0.2f), 100);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		g.setColor(Color.pink);
-		g.fillRect((this.getX()-1)*Config.getTileSize(), (this.getY()-1)*Config.getTileSize() + 25.6f, Config.getTileSize(), 0.2f*Config.getTileSize());
+		g.fillRect((this.getX()-1)*Config.getTileSize(), (this.getY()-0.2f)*Config.getTileSize(), Config.getTileSize(), 0.2f*Config.getTileSize());
 	}
 
 	@Override

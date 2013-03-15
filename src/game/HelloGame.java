@@ -40,7 +40,7 @@ public class HelloGame extends StateBasedGame {
   
     @Override
     public void initStatesList(GameContainer gameContainer) throws SlickException {
+    	this.addState(new MainMenuState(MAINMENUSTATE));
         this.addState(new GameplayState(GAMEPLAYSTATE));
-        this.addState(new MainMenuState(MAINMENUSTATE));
     }
 }

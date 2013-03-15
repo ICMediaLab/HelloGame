@@ -13,18 +13,18 @@ public class RoamingEntity extends AINextMove {
 	@Override
 	public void updateEntity(Entity e) {
 		if(dx > 0){
-			if("false".equals(MapLoader.getCurrentCell().getTile((int) e.getX() + e.getWidth(), (int) e.getY() + e.getHeight()).lookupProperty(TileProperty.BLOCKED))){
+			if("false".equals(MapLoader.getCurrentCell().getTile((int) (e.getX() + e.getWidth()), (int) (e.getY() + e.getHeight())).lookupProperty(TileProperty.BLOCKED))){
 				dx *= -1;
 			}else{
 				for(float y=e.getY() + MARGIN;y<e.getY() + e.getHeight();y+=0.5f){
-					if("true".equals(MapLoader.getCurrentCell().getTile((int) (e.getX() + 0.01f) + e.getWidth(), (int) y).lookupProperty(TileProperty.BLOCKED))){
+					if("true".equals(MapLoader.getCurrentCell().getTile((int) (e.getX() + 0.01f + e.getWidth()), (int) y).lookupProperty(TileProperty.BLOCKED))){
 						dx *= -1;
 						break;
 					}
 				}
 			}
 		}else if(dx < 0){
-			if("false".equals(MapLoader.getCurrentCell().getTile((int) e.getX(), (int) e.getY() + e.getHeight()).lookupProperty(TileProperty.BLOCKED))){
+			if("false".equals(MapLoader.getCurrentCell().getTile((int) e.getX(), (int) (e.getY() + e.getHeight())).lookupProperty(TileProperty.BLOCKED))){
 				dx *= -1;
 			}else{
 				for(float y=e.getY() + MARGIN;y<e.getY() + e.getHeight();y+=0.5f){
