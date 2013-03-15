@@ -283,12 +283,13 @@ public abstract class Entity implements IEntity {
 	}
 	
 	@Override
-	public void moveX(float x) {
-		dxdy.translate(x,0f);
+	public void accelerate(float ddx, float ddy){
+		dxdy.translate(ddx,ddy);
 	}
 	
-	public void moveY(float y) {
-		dxdy.translate(0f,y);
+	@Override
+	public void setVelocity(float dx, float dy) {
+		dxdy.set(dx, dy);
 	}
 	
 	public void translateSmooth(int time, float destX, float destY){
@@ -296,10 +297,9 @@ public abstract class Entity implements IEntity {
 	}
 	
 	public void updateTranslateSmooth(){
-		counter += 1;
-		if (counter < this.time){
-			this.moveX((this.destX - this.initX)/(this.time/2 + counter));
-			this.moveY((this.destY - this.initY)/(this.time/2 + counter));
+		counter ++;
+		if (counter < time){
+			accelerate((destX - initX)/(time/2 + counter),(destY - initY)/(time/2 + counter));
 		}
 	}
 	

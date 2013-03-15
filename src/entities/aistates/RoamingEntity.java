@@ -35,7 +35,7 @@ public class RoamingEntity extends AINextMove {
 				}
 			}
 		}
-		e.moveX(dx);
+		e.accelerate(dx,0f);
 	}
 
 }

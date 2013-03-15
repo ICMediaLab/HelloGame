@@ -139,7 +139,9 @@ public class Cell extends TiledMap{
 			e.update(gc, sbg, delta);
 			
 			for (Entity e2 : entities){
-				if (e.intersects(e2) && !e.equals(e2)) e.collide(e2);
+				if (e.intersects(e2) && !e.equals(e2)){
+					e.collide(e2);
+				}
 			}
 		}
 		entities.removeAll(entitiesToRemove);

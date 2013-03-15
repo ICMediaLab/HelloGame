@@ -52,9 +52,9 @@ public class GameplayState extends BasicGameState {
 		
 		//audio
 		music = new Music("data/sounds/theme.ogg", true);
-		music.play(1.0f, 0.01f);
+		music.play(1.0f, 0.07f);
 		
-		currentCell.addEntity(new JumpPlatform(25, 17));
+		currentCell.addEntity(new JumpPlatform(25, 17.8f));
 	}
 
 	@Override

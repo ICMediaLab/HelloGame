@@ -147,13 +147,13 @@ public class Player extends Entity {
 			
 		}
 		if (input.isKeyDown(Input.KEY_A) || input.isKeyDown(Input.KEY_LEFT)) {
-			moveX(-speed);
+			accelerate(-speed,0f);
 			sprite = left;
 			isRight = false;
 			sprite.update(DELTA);
 		}
 		else if (input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT)) {
-			moveX(speed);
+			accelerate(speed,0f);
 			sprite = right;
 			isRight = true;
 			sprite.update(DELTA);

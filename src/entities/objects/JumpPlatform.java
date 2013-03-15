@@ -17,14 +17,14 @@ public class JumpPlatform extends Entity {
 		super(xy, size, maxhealth);
 	}
 	
-	public JumpPlatform(int x, int y){
+	public JumpPlatform(float x, float y){
 		this(new Position(x, y), new Dimension(1f, 0.2f), 100);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		g.setColor(Color.pink);
-		g.fillRect((this.getX()-1)*Config.getTileSize(), (this.getY()-0.2f)*Config.getTileSize(), Config.getTileSize(), 0.2f*Config.getTileSize());
+		g.fillRect((this.getX()-1)*Config.getTileSize(), (this.getY()-1)*Config.getTileSize(), Config.getTileSize(), 0.2f*Config.getTileSize());
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class JumpPlatform extends Entity {
 	
 	@Override
 	public void collide(Entity e){
-		e.translateSmooth(20, e.getX(), e.getY() - 1.5f);
+		e.setVelocity(e.getdX(),-1.2f);
 	}
 
 	@Override

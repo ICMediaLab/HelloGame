@@ -65,9 +65,9 @@ public class Sword extends Weapon {
                 if (e.intersects(hitbox)) {
                     e.takeDamage(damage); //take damage
                     if (dir == 1) {
-                        e.moveX(1.5f); //move enemy right or left
+                        e.accelerate(1.5f,0); //move enemy right or left
                     } else {
-                        e.moveX(-1.5f);
+                    	e.accelerate(-1.5f,0);
                     }
                 }
             }

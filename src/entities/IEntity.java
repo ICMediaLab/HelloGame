@@ -83,12 +83,7 @@ public interface IEntity extends Cloneable {
 	 */
 	void frameMove();
 	
-	/**
-	 * Should only be used if you desperately need to teleport the player.
-	 * @param x position
-	 * @param y position
-	 */
-	void setPosition(float x, float y);
+	
 	
 	/**
 	 * Returns true if and only if this entity has an absolute health equal to zero.
@@ -108,9 +103,25 @@ public interface IEntity extends Cloneable {
 	void jump();
 	
 	/**
-	 * Modifies the entity's dx value to reflect movement in x axis.
+	 * Accelerates this entity in the vector specified.
+	 * @param ddx
+	 * @param ddy
 	 */
-	void moveX(float x);
+	void accelerate(float ddx, float ddy);
+	
+	/**
+	 * Sets this entity's velocity vector equal to that specified.
+	 * @param dx
+	 * @param dy
+	 */
+	void setVelocity(float dx, float dy);
+	
+	/**
+	 * Should only be used if you desperately need to teleport the player.
+	 * @param x position
+	 * @param y position
+	 */
+	void setPosition(float x, float y);
 	
 	/**
 	 * Updates this entity given keyboard input, tile properties and the time delta.<br />
