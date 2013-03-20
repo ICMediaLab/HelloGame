@@ -22,6 +22,9 @@ import entities.objects.Door;
 import entities.objects.DoorTrigger;
 import entities.players.Player;
 
+//test
+import entities.objects.LeafTest;
+
 
 public class Cell extends TiledMap{
 
@@ -45,6 +48,8 @@ public class Cell extends TiledMap{
 		if(defaultEntities.isEmpty()){
 			Map<String,Door> doors = new HashMap<String,Door>();
 			Map<String,DoorTrigger> triggers = new HashMap<String,DoorTrigger>();
+			//test leaf
+			Map<String,LeafTest> TestLeafs = new HashMap<String,LeafTest>();
 			
 			for(ObjectGroup og : super.objectGroups){
 				for(GroupObject go : og.objects){
@@ -68,6 +73,8 @@ public class Cell extends TiledMap{
 							triggers.put(go.name, dt);
 							defaultEntities.add(dt);
 						}
+					}else if(go.type.equalsIgnoreCase("leafTest")){
+						defaultEntities.add(new LeafTest(x,y));
 					}
 				}
 			}
