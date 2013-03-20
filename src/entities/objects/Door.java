@@ -6,7 +6,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import map.Cell;
-import map.TileProperty;
+import map.tileproperties.BooleanTilePropertyValue;
+import map.tileproperties.TileProperty;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
@@ -64,7 +65,7 @@ public class Door extends NonPlayableEntity {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg,
 		org.newdawn.slick.Graphics g) {
-		if(!"true".equals(cell.getTile((int) getX(),(int) getY()).lookupProperty(TileProperty.BLOCKED))){
+		if(!cell.getTile((int) getX(),(int) getY()).lookupProperty(TileProperty.BLOCKED).getBoolean()){
 			openSprite.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());
 		}else{
 			closedSprite.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());
@@ -84,11 +85,11 @@ public class Door extends NonPlayableEntity {
 	}
 	
 	private void openDoor(){
-		cell.getTile((int) getX(),(int) getY()).addProperty(TileProperty.BLOCKED, "false");
+		cell.getTile((int) getX(),(int) getY()).addProperty(TileProperty.BLOCKED, new BooleanTilePropertyValue(false));
 	}
 	
 	private void closeDoor(){
-		cell.getTile((int) getX(),(int) getY()).addProperty(TileProperty.BLOCKED, "true");
+		cell.getTile((int) getX(),(int) getY()).addProperty(TileProperty.BLOCKED, new BooleanTilePropertyValue(true));
 	}
 
 	public void assignTrigger(DoorTrigger trigger) {

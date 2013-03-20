@@ -1,6 +1,6 @@
 package entities.players.abilities;
 
-import map.TileProperty;
+import map.tileproperties.TileProperty;
 import utils.MapLoader;
 import entities.players.Player;
 
@@ -10,11 +10,11 @@ public class ForwardTeleportAbility extends PlayerAbility {
 	
     public void use(Player p){
 		if (p.getDirection() == 1){
-			if ("false".equals(MapLoader.getCurrentCell().getTile((int) p.getX() + (int) distance, (int) p.getY()).lookupProperty(TileProperty.BLOCKED))){
+			if (MapLoader.getCurrentCell().getTile((int) p.getX() + (int) distance, (int) p.getY()).lookupProperty(TileProperty.BLOCKED).getBoolean()){
 				p.accelerate(distance,0);
 			}
 		} else {
-			if ("false".equals(MapLoader.getCurrentCell().getTile((int) p.getX() - (int) distance, (int) p.getY()).lookupProperty(TileProperty.BLOCKED))){
+			if (MapLoader.getCurrentCell().getTile((int) p.getX() - (int) distance, (int) p.getY()).lookupProperty(TileProperty.BLOCKED).getBoolean()){
 				p.accelerate(-distance,0);
 			}
 		}

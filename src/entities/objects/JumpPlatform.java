@@ -40,8 +40,7 @@ public class JumpPlatform extends Entity {
 
 	@Override
 	public Entity clone() {
-		// TODO Auto-generated method stub
-		return null;
+		return this;
 	}
 
 	

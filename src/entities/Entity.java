@@ -3,7 +3,7 @@ package entities;
 import game.debug.FrameTrace;
 
 import map.Cell;
-import map.TileProperty;
+import map.tileproperties.TileProperty;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -234,7 +234,7 @@ public abstract class Entity implements IEntity {
 		Cell currentCell = MapLoader.getCurrentCell();
 		int count = 0;
 		for(float x=getX()+HITBOX_MARGIN;x<getX()+getWidth()-HITBOX_MARGIN;x+=0.5f){
-			if("true".equals(currentCell.getTile((int) x, (int) getY()).lookupProperty(TileProperty.BLOCKED))){
+			if(currentCell.getTile((int) x, (int) getY()).lookupProperty(TileProperty.BLOCKED).getBoolean()){
 				++count;
 			}
 		}
@@ -245,7 +245,7 @@ public abstract class Entity implements IEntity {
 		Cell currentCell = MapLoader.getCurrentCell();
 		int count = 0;
 		for(float x=getX()+HITBOX_MARGIN;x<=getX()+getWidth()-HITBOX_MARGIN;x+=0.5f){
-			if("true".equals(currentCell.getTile((int) x, (int) (getY() + getHeight())).lookupProperty(TileProperty.BLOCKED))){
+			if(currentCell.getTile((int) x, (int) (getY() + getHeight())).lookupProperty(TileProperty.BLOCKED).getBoolean()){
 				++count;
 			}
 		}
@@ -256,7 +256,7 @@ public abstract class Entity implements IEntity {
 		Cell currentCell = MapLoader.getCurrentCell();
 		int count = 0;
 		for(float y=getY()+HITBOX_MARGIN;y<getY()+getHeight()-HITBOX_MARGIN;y+=0.5f){
-			if("true".equals(currentCell.getTile((int) getX(), (int) y).lookupProperty(TileProperty.BLOCKED))){
+			if(currentCell.getTile((int) getX(), (int) y).lookupProperty(TileProperty.BLOCKED).getBoolean()){
 				++count;
 			}
 		}
@@ -267,7 +267,7 @@ public abstract class Entity implements IEntity {
 		Cell currentCell = MapLoader.getCurrentCell();
 		int count = 0;
 		for(float y=getY()+HITBOX_MARGIN;y<getY()+getHeight()-HITBOX_MARGIN;y+=0.5f){
-			if("true".equals(currentCell.getTile((int) (getX() + getWidth()), (int) y).lookupProperty(TileProperty.BLOCKED))){
+			if(currentCell.getTile((int) (getX() + getWidth()), (int) y).lookupProperty(TileProperty.BLOCKED).getBoolean()){
 				++count;
 			}
 		}

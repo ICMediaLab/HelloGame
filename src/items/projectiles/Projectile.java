@@ -4,7 +4,7 @@ import entities.Entity;
 import game.config.Config;
 
 import map.Cell;
-import map.TileProperty;
+import map.tileproperties.TileProperty;
 
 import org.lwjgl.util.Renderable;
 import org.newdawn.slick.Animation;
