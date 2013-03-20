@@ -91,4 +91,7 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup name="leaves" width="34" height="20">
+  <object name="123" type="leafTest" x="645" y="512" width="34" height="32"/>
+ </objectgroup>
 </map>

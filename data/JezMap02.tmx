@@ -92,4 +92,12 @@
    eJxjYBgFQwWIQPFAAiEc7IECAx0eIDAY3DCYgOBAO2AUjIJRMApGwZAHADtQAIY=
   </data>
  </layer>
+ <objectgroup name="leaves" width="34" height="20">
+  <object type="leafTest" x="638" y="451" width="12" height="21"/>
+  <object type="leafTest" x="688" y="450" width="11" height="22"/>
+  <object type="leafTest" x="750" y="450" width="10" height="22"/>
+  <object type="leafTest" x="717" y="451" width="10" height="22"/>
+  <object type="leafTest" x="607" y="452" width="12" height="21"/>
+  <object type="leafTest" x="667" y="451" width="11" height="22"/>
+ </objectgroup>
 </map>
