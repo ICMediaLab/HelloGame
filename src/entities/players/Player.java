@@ -143,7 +143,8 @@ public class Player extends Entity {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		Input input = gc.getInput();
         if (isDead()) {
-            MapLoader.getCurrentCell().removeEntity(this);
+            //MapLoader.getCurrentCell().removeEntity(this);
+        	this.takeDamage(-100); // auto-consume-reviving-potion upon the event of death
             return;
         }
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
