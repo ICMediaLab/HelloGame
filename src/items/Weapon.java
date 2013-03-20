@@ -19,7 +19,7 @@ public abstract class Weapon implements Renderable {
     protected final Rectangle hitbox;
     protected final int damage;
     protected final int[] duration;
-    protected static final int defaultDuration = 500;
+    protected static final int defaultDuration = 15;
     
     
     public Weapon(Rectangle hitbox, Image[] images, int damage) {
@@ -28,6 +28,8 @@ public abstract class Weapon implements Renderable {
         duration = new int[images.length];
         Arrays.fill(duration, defaultDuration);
         this.sprite = new Animation(images, duration);
+        sprite.setPingPong(true); // TODO: implement this in the sword class rather than the weapon class
+        							// also TODO: make animation run through but then stop, ready to start at first frame again when called again
     }
     
     public abstract void attack(Player p);

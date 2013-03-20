@@ -2,6 +2,7 @@ package items;
 
 import java.util.Set;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
@@ -9,6 +10,7 @@ import org.newdawn.slick.geom.Rectangle;
 import sounds.SoundGroup;
 import entities.Entity;
 import entities.players.Player;
+import game.config.Config;
 
 public class Sword extends Weapon {
 
@@ -50,6 +52,7 @@ public class Sword extends Weapon {
     public void update(long delta, Set<Entity> enemies, Player p) {
         counter += delta;
         // if counter hasn't played full sword animation
+        // TODO: for some reason this turns out to be twice the animation length.  I made a quick fix by setting the sprite to ping pong mode, doubling the length
         if (swung && counter <= defaultDuration * duration.length) {
             int dir = p.getDirection(); //update sword location
             if (dir == 1) {
@@ -76,6 +79,11 @@ public class Sword extends Weapon {
             swung = false;
             counter = 0;
         }
+    }
+    
+    @Override
+    public void render() {
+        sprite.draw((int)((hitbox.getX()-2)*Config.getTileSize()), (int)((hitbox.getY()-2.5)*Config.getTileSize()), new Color(255,255,255));
     }
 
 }
