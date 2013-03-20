@@ -39,8 +39,8 @@ public class Cell extends TiledMap{
 			
 	public Cell(String location) throws SlickException {
 		super(location);
-		loadDefaultEntities();
 		loadProperties();
+		loadDefaultEntities();
 	}
 	
 	public void loadDefaultEntities(){
@@ -48,8 +48,6 @@ public class Cell extends TiledMap{
 		if(defaultEntities.isEmpty()){
 			Map<String,Door> doors = new HashMap<String,Door>();
 			Map<String,DoorTrigger> triggers = new HashMap<String,DoorTrigger>();
-			//test leaf
-			Map<String,LeafTest> TestLeafs = new HashMap<String,LeafTest>();
 			
 			for(ObjectGroup og : super.objectGroups){
 				for(GroupObject go : og.objects){
@@ -59,9 +57,9 @@ public class Cell extends TiledMap{
 						defaultEntities.add(Enemy.getNewEnemy(this, go.name, x,y));
 					}else if(go.type.equalsIgnoreCase("door")){
 						if(triggers.containsKey(go.name)){
-							defaultEntities.add(new Door(triggers.remove(go.name),x,y));
+							defaultEntities.add(new Door(this,triggers.remove(go.name),x,y));
 						}else{
-							Door d = new Door(null,x,y);
+							Door d = new Door(this,null,x,y);
 							doors.put(go.name,d);
 							defaultEntities.add(d);
 						}

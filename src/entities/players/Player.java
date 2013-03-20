@@ -68,17 +68,17 @@ public class Player extends Entity {
 			//temp weapon
 			//I know the file names suck
 			sword = new Sword(new Rectangle(1,1,1,1), new Image[]{
-				new Image("data/images/stick/stick_0010_Vector-Smart-Object-Copy-4.png"),
-				new Image("data/images/stick/stick_0009_Vector-Smart-Object-Copy-5.png"),
-				new Image("data/images/stick/stick_0008_Vector-Smart-Object-Copy-6.png"),
-				new Image("data/images/stick/stick_0007_Vector-Smart-Object-Copy-7.png"),
-				new Image("data/images/stick/stick_0006_Vector-Smart-Object-Copy-8.png"),
-				new Image("data/images/stick/stick_0005_Vector-Smart-Object-Copy-9.png"),
-				new Image("data/images/stick/stick_0004_Vector-Smart-Object-Copy-10.png"),
-				new Image("data/images/stick/stick_0003_Vector-Smart-Object-Copy-11.png"),
-				new Image("data/images/stick/stick_0002_Vector-Smart-Object-Copy-12.png"),
-				new Image("data/images/stick/stick_0001_Vector-Smart-Object-Copy-13.png"),
-				new Image("data/images/stick/stick_0000_Vector-Smart-Object-Copy-14.png")},				
+				new Image("data/images/stick/stick_0010_Vector-Smart-Object-copy-4.png"),
+				new Image("data/images/stick/stick_0009_Vector-Smart-Object-copy-5.png"),
+				new Image("data/images/stick/stick_0008_Vector-Smart-Object-copy-6.png"),
+				new Image("data/images/stick/stick_0007_Vector-Smart-Object-copy-7.png"),
+				new Image("data/images/stick/stick_0006_Vector-Smart-Object-copy-8.png"),
+				new Image("data/images/stick/stick_0005_Vector-Smart-Object-copy-9.png"),
+				new Image("data/images/stick/stick_0004_Vector-Smart-Object-copy-10.png"),
+				new Image("data/images/stick/stick_0003_Vector-Smart-Object-copy-11.png"),
+				new Image("data/images/stick/stick_0002_Vector-Smart-Object-copy-12.png"),
+				new Image("data/images/stick/stick_0001_Vector-Smart-Object-copy-13.png"),
+				new Image("data/images/stick/stick_0000_Vector-Smart-Object-copy-14.png")},			
 					5);
 			
 			SOUND_LANDING = new SoundGroup("player/landing");

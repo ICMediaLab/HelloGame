@@ -20,6 +20,10 @@ public class Sword extends Weapon {
     
     public Sword(Rectangle hitbox, Image[] images, int damage) {
         super(hitbox, images, damage);
+        sprite.setPingPong(true); // TODO: implement this in the sword class rather than the weapon class
+                                  //  ^ FTFY
+		// also TODO: make animation run through but then stop, ready to start at first frame again when called again
+        // no idea what this actually means though...
         try {
 			swingSound = new SoundGroup("player/stick/swing");
 		} catch (SlickException e) {

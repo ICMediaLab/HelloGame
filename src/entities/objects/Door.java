@@ -5,6 +5,9 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
+import map.Cell;
+import map.TileProperty;
+
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
@@ -18,12 +21,14 @@ import game.config.Config;
 
 public class Door extends NonPlayableEntity {
 	
+	private final Cell cell;
 	private final Animation openSprite, closedSprite;
-	private boolean open = false;
 	private DoorTrigger trigger;
 	
-	public Door(DoorTrigger trigger, int x, int y){
+	public Door(Cell cell, DoorTrigger trigger, int x, int y){
 		super(x,y,1f,1f);
+		this.cell = cell;
+		closeDoor();
 		this.trigger = trigger;
 		if(trigger != null){
 			trigger.setDoor(this);
@@ -54,13 +59,12 @@ public class Door extends NonPlayableEntity {
 			}
 			openSprite = new Animation(new Image[]{ new Image(t) }, 1);
 		}
-		System.out.println("Hai");
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg,
 		org.newdawn.slick.Graphics g) {
-		if(open){
+		if(!"true".equals(cell.getTile((int) getX(),(int) getY()).lookupProperty(TileProperty.BLOCKED))){
 			openSprite.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());
 		}else{
 			closedSprite.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());
@@ -75,8 +79,16 @@ public class Door extends NonPlayableEntity {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		if(trigger == null){
-			open = false;
+			closeDoor();
 		}
+	}
+	
+	private void openDoor(){
+		cell.getTile((int) getX(),(int) getY()).addProperty(TileProperty.BLOCKED, "false");
+	}
+	
+	private void closeDoor(){
+		cell.getTile((int) getX(),(int) getY()).addProperty(TileProperty.BLOCKED, "true");
 	}
 
 	public void assignTrigger(DoorTrigger trigger) {
@@ -84,11 +96,13 @@ public class Door extends NonPlayableEntity {
 	}
 
 	public void setTriggered() {
-		open = true;
+		openDoor();
 	}
 
 	@Override
 	public void collide(Entity e) {
-		open = true;
+		if(trigger == null){
+			openDoor();
+		}
 	}
 }

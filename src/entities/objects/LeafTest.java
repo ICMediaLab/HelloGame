@@ -1,18 +1,11 @@
 package entities.objects;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.state.StateBasedGame;
-import org.newdawn.slick.util.BufferedImageUtil;
 
 import entities.Entity;
 import entities.NonPlayableEntity;
@@ -20,22 +13,22 @@ import game.config.Config;
 
 public class LeafTest extends NonPlayableEntity {
 	
-	private final Animation stopped, moving;
-	private Animation sprite;
+	private final Animation moving; //,stopped; //removed this as it wasn't being used.
+	//private Animation sprite; //likewise 
 	
 	public LeafTest(int x, int y){
-		super(x,y,1f,1f);
+		super(x,y,4f,1f);
 
 		//initialise graphics
-		Image staticRaw = null;
+		//Image staticRaw = null; //unused
 		Image movingRaw = null;
-		SpriteSheet staticSheet = null;
+		//SpriteSheet staticSheet = null; //unused
 		SpriteSheet movingSheet = null;
 		
 		try {
-			staticRaw = new Image("data/images/leafTest01.png");
+			//staticRaw = new Image("data/images/leafTest01.png"); //unused
 			movingRaw = new Image("data/images/leafTest01.png");
-			staticSheet = new SpriteSheet(staticRaw, 131, 88);
+			//staticSheet = new SpriteSheet(staticRaw, 131, 88); //unused
 			movingSheet = new SpriteSheet(movingRaw, 131, 88);
 			
 		} catch (SlickException e) {
@@ -44,7 +37,7 @@ public class LeafTest extends NonPlayableEntity {
 
 		moving = new Animation(movingSheet, 150);
 		//moving.setAutoUpdate(false);
-		stopped = new Animation(staticSheet, 0, 0, 0, 0, true, 1000, false);
+		//stopped = new Animation(staticSheet, 0, 0, 0, 0, true, 1000, false); //unused
 		//sprite = stopped;
 		moving.stop();
 	}
