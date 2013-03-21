@@ -69,7 +69,7 @@ public class Projectile implements Renderable{
 		Cell currentCell = MapLoader.getCurrentCell();
 		float x = xy.getX(); float y = xy.getY();
 		if((int)x < 0 || (int)y <= 0 || (int)x >= currentCell.getWidth() - 1 || (int)y >= currentCell.getHeight() - 1 || 
-		        "true".equals(currentCell.getTile((int)(x + 0.5), (int)(y + 0.5)).lookupProperty(TileProperty.BLOCKED))) {
+		        currentCell.getTile((int)(x + 0.5), (int)(y + 0.5)).lookupProperty(TileProperty.BLOCKED).getBoolean()) {
             MapLoader.getCurrentCell().removeProjectile(this);
 		}
 		for (Entity e : MapLoader.getCurrentCell().getEntities()) {
