@@ -274,6 +274,10 @@ public abstract class Entity implements IEntity {
 		return count;
 	}
 	
+	public void scale(float sx, float f){
+		size.scale(sx,f);
+	}
+	
 	/**
 	 * makes the entity jump. if it is falling, sets its vertical change to zero first.
 	 */

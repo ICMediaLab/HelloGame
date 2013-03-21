@@ -135,6 +135,9 @@ public class Enemy extends NonPlayableEntity{
 	
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+		
+		checkMapChanged();
+		
 	    if (isDead()) {
 	        MapLoader.getCurrentCell().removeEntity(this);
 	        return;
@@ -151,6 +154,15 @@ public class Enemy extends NonPlayableEntity{
 		}
 		sprite.update(DELTA);
 		frameMove();
+	}
+	
+	public void checkMapChanged() {
+		Cell currentCell = MapLoader.getCurrentCell();
+		//check top
+		if ((getY() < 1 && getdY() < 0) || (getX() >= currentCell.getWidth() - 2 && getdX() > 0) || 
+		(getY() >= currentCell.getHeight() - 2 && getdY() > 0) || (getX() < 1 && getdX() < 0)) {
+			currentCell.removeEntity(this);
+		}
 	}
 	
 	@Override

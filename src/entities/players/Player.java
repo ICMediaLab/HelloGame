@@ -223,12 +223,12 @@ public class Player extends Entity {
 			setPosition(getX(), currentCell.getHeight() - getHeight() - 1);
 		}
 		//right
-		if (getX() >= currentCell.getWidth() - 2 && getdX() > 0) {
+		if (getX() >= currentCell.getWidth() - 1 - getWidth() && getdX() > 0) {
 			currentCell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX() + 1, MapLoader.getCurrentY());
 			setPosition(1, getY());
 		}
 		//bottom
-		if (getY() >= currentCell.getHeight() - 2 && getdY() > 0) {
+		if (getY() >= currentCell.getHeight() - 1 - getHeight() && getdY() > 0) {
 			currentCell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX(), MapLoader.getCurrentY() + 1);
 			setPosition(getX(), 1);
 		}

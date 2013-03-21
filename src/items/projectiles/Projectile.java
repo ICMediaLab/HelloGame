@@ -23,7 +23,7 @@ public class Projectile implements Renderable{
 	
 	private final Animation moving;
 	private Animation sprite;
-	private static final float NORMAL_SPEED = 0.45f/32f;
+	private static final float NORMAL_SPEED = 0.0765f;
 	private final Position xy,dxdy;
 	private final float width,height;
 	private final int damage;

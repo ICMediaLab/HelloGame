@@ -22,5 +22,14 @@ public class Dimension {
 		this.width = width;
 		this.height = height;
 	}
+	
+	public void scale(float sx, float sy){
+		width *= sx;
+		height *= sy;
+	}
+	
+	public void scale(float s){
+		scale(s,s);
+	}
 
 }

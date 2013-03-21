@@ -68,7 +68,6 @@ public class GameplayState extends BasicGameState {
 			throws SlickException {
 		//update map
 		currentCell = MapLoader.getCurrentCell();
-		
 		//check input
 		Input input = gc.getInput();
 		if (input.isKeyDown(Input.KEY_ESCAPE)){
@@ -79,8 +78,5 @@ public class GameplayState extends BasicGameState {
 		}
 		
 		currentCell.updateEntities(gc, sbg, delta);
-		
 	}
-
-	
 }
