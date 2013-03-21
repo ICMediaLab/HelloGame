@@ -40,9 +40,6 @@ public class Player extends Entity {
 	SoundGroup footsteps;
 	
 	private static SoundGroup SOUND_LANDING; 
-	//TODO ^ Why is this not being used anywhere? 
-	//TODO ^ Because if it is enabled it crashes if you try to jump just as you hit the ground; When it is disabled as it is now and you jump just as you hit the ground, the jump sound is being played but it looks as if double_jump is performed because player moves only slightly up; I belive there is something wrong with the isOnGround or jumping method
-	
 	
 	private float speed = 0.3f;
 	private Weapon sword;
@@ -199,15 +196,19 @@ public class Player extends Entity {
 			translateSmooth(10, input.getMouseX()/32f + getWidth()/2f, input.getMouseY()/32f + getHeight()/2f);
 		}
 		
-		if (!onGround && this.isOnGround()){
-			//SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
-		}
-		onGround = this.isOnGround();
 		footsteps.playRandom(gc, this, 150, 0.8f, 0.2f, 0.05f, 0.02f);
 		
 		sword.update(DELTA, MapLoader.getCurrentCell().getEntities(), this);
+		
 		updateTranslateSmooth();
 		frameMove();
+		
+		boolean newOnGround = isOnGround();
+		if (!onGround && newOnGround){
+			SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
+		}
+		onGround = newOnGround;
+		
 		checkMapChanged();
 	}
 	
