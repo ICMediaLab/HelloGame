@@ -68,6 +68,14 @@ public abstract class Entity implements IEntity {
 		return xy.getY();
 	}
 	
+	public float getCentreX(){
+		return xy.getX() + size.getWidth()/2;
+	}
+	
+	public float getCentreY(){
+		return xy.getY() + size.getHeight()/2;
+	}
+	
 	/**
 	 * Returns the current x-velocity of this entity.
 	 */
