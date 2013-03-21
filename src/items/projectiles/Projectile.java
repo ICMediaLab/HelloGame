@@ -36,7 +36,9 @@ public class Projectile implements Renderable{
 		try {
 //			movementForward = new Image[]{new Image("data/images/nyan_0.gif"),new Image("data/images/nyan_1.gif"),new Image("data/images/nyan_2.gif"),new Image("data/images/nyan_3.gif"),
 //					new Image("data/images/nyan_4.gif"), new Image("data/images/nyan_5.gif")};
-		    movementForward = new Image[]{new Image("data/images/projectile.png")};
+		    Image projImage = new Image("data/images/projectile.png");
+		    projImage.rotate((float)(angle * 180/Math.PI));
+		    movementForward = new Image[]{projImage};
 		} catch (SlickException e) {
 			//do shit all
 		}
