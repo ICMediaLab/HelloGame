@@ -1,10 +1,5 @@
 package items;
 
-import entities.Entity;
-import entities.players.Player;
-import game.config.Config;
-
-import java.util.Arrays;
 import java.util.Set;
 
 import org.lwjgl.util.Renderable;
@@ -13,21 +8,31 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
+import utils.ImageUtils;
+import entities.Entity;
+import entities.players.Player;
+import game.config.Config;
+
 public abstract class Weapon implements Renderable {
 
-    protected final Animation sprite;
+    protected Animation sprite;
+    protected final Animation right;
+    protected final Animation left;
     protected final Rectangle hitbox;
     protected final int damage;
     protected final int[] duration;
-    protected static final int defaultDuration = 15;
+    protected static int defaultDuration = 15;
     
     
     public Weapon(Rectangle hitbox, Image[] images, int damage) {
         this.hitbox = hitbox;
         this.damage = damage;
         duration = new int[images.length];
-        Arrays.fill(duration, defaultDuration);
-        this.sprite = new Animation(images, duration);
+//        Arrays.fill(duration, defaultDuration);
+        this.right = new Animation(images, defaultDuration);
+        images = ImageUtils.flipImages(images, true, false);
+        this.left = new Animation(images, defaultDuration);
+        sprite = right;
     }
     
     public abstract void attack(Player p);
