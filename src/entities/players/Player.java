@@ -182,7 +182,7 @@ public class Player extends Entity {
 		if (input.isKeyPressed(Input.KEY_W) || input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 		    sword.attack(this);
 		}
-		if (input.isKeyPressed(Input.KEY_S) || input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
+		if (input.isKeyPressed(Input.KEY_S) || input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
 		    useAbility("rangedattack");
 		}
 		if (input.isKeyPressed(Input.KEY_E)){
@@ -210,7 +210,11 @@ public class Player extends Entity {
 		}
 		onGround = newOnGround;
 		
-		checkMapChanged();
+//		if (!onGround && this.isOnGround()){
+//			SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
+//		}
+//		
+//		checkMapChanged();
 	}
 	
 	/**
