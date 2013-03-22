@@ -179,10 +179,10 @@ public class Player extends Entity {
 				sprite = rightPause;
 			}
 		}
-		if (input.isKeyPressed(Input.KEY_W)) {
+		if (input.isKeyPressed(Input.KEY_W) || input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 		    sword.attack(this);
 		}
-		if (input.isKeyPressed(Input.KEY_S)) {
+		if (input.isKeyPressed(Input.KEY_S) || input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
 		    useAbility("rangedattack");
 		}
 		if (input.isKeyPressed(Input.KEY_E)){
@@ -192,7 +192,7 @@ public class Player extends Entity {
 			useAbility("forwardteleport");
 		}
 		
-		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+		if (input.isMouseButtonDown(Input.MOUSE_MIDDLE_BUTTON)){
 			translateSmooth(10, input.getMouseX()/32f + getWidth()/2f, input.getMouseY()/32f + getHeight()/2f);
 		}
 		
@@ -203,6 +203,7 @@ public class Player extends Entity {
 		updateTranslateSmooth();
 		frameMove();
 		
+		//TODO: changing this back to this.isOnGround in if statement fixes crashes for me..
 		boolean newOnGround = isOnGround();
 		if (!onGround && newOnGround){
 			SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
