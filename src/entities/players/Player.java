@@ -1,6 +1,5 @@
 package entities.players;
 
-import game.config.Config;
 import items.Sword;
 import items.Weapon;
 
@@ -10,7 +9,6 @@ import java.util.Map;
 import map.Cell;
 
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;

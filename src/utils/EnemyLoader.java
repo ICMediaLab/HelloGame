@@ -5,10 +5,14 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.newdawn.slick.SlickException;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
 
 import entities.enemies.Enemy;
 
@@ -35,7 +39,15 @@ public final class EnemyLoader {
 		if(d.getDocumentElement().getNodeName().equalsIgnoreCase("enemies")){
 			NodeList nList = d.getElementsByTagName("enemy");
 			for (int i = nList.getLength()-1; i >= 0; --i) {
-				Enemy.loadEnemy(nList.item(i));
+				try {
+					Enemy.loadEnemy(nList.item(i));
+				} catch (ParseException e) {
+					e.printStackTrace();
+				} catch (DOMException e) {
+					e.printStackTrace();
+				} catch (SlickException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -49,7 +61,15 @@ public final class EnemyLoader {
 			for (int i = nList.getLength()-1; i >= 0; --i) {
 				Node item = nList.item(i);
 				if(enemiesToLoad.contains(item.getAttributes().getNamedItem("name").getNodeValue())){
-					Enemy.loadEnemy(item);
+					try {
+						Enemy.loadEnemy(item);
+					} catch (ParseException e) {
+						e.printStackTrace();
+					} catch (DOMException e) {
+						e.printStackTrace();
+					} catch (SlickException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}

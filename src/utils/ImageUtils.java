@@ -1,6 +1,8 @@
 package utils;
 
 import org.newdawn.slick.Image;
+import org.newdawn.slick.SlickException;
+import org.w3c.dom.Node;
 
 /**
  * A collection of static methods for use in image manipulation.
@@ -28,5 +30,27 @@ public class ImageUtils {
 			res[i] = flipImage(is[i], xAxis, yAxis);
 		}
 		return res;
+	}
+	
+	/**
+	 * Returns an array of {@link Image} objects as specified by the paths given.<br />
+	 * Images are returned in identical order to that provided.
+	 * @throws SlickException If any of the paths do not lead to a valid image.
+	 */
+	public static Image[] loadImages(String[] paths) throws SlickException{
+		Image[] res = new Image[paths.length];
+		for(int i=0;i<res.length;i++){
+			res[i] = new Image(paths[i]);
+		}
+		return res;
+	}
+	
+	/**
+	 * Returns an array of {@link Image} objects as specified by the paths given.<br />
+	 * Images are returned in identical order to that provided.
+	 * @throws SlickException If any of the paths do not lead to a valid image.
+	 */
+	public static Image[] loadImages(Node node) throws SlickException{
+		return loadImages(node.getTextContent().trim().split("\\s+"));
 	}
 }

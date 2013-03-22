@@ -6,20 +6,23 @@ import java.util.Map;
 import map.Cell;
 
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
+import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
+
+import utils.ImageUtils;
 import utils.MapLoader;
 import entities.Entity;
 import entities.NonPlayableEntity;
 import entities.players.Player;
-import game.config.Config;
 
 public class Enemy extends NonPlayableEntity{
 	
@@ -35,41 +38,23 @@ public class Enemy extends NonPlayableEntity{
 	 */
 	private static final Map<String,Enemy> enemies = new HashMap<String,Enemy>();
 
-	private Enemy(float width,float height, int maxhealth){
+	private Enemy(float width,float height, int maxhealth, Animation left, Animation right){
 		super(0,0,width,height,maxhealth);
-		Image[] movementRight = null;
-		Image[] movementLeft = null;
-		try {
-			movementRight = new Image[]{new Image("data/images/dvl1_rt1.png"), new Image("data/images/dvl1_rt2.png")};
-			movementLeft = new Image[]{new Image("data/images/dvl1_lf1.png"), new Image("data/images/dvl1_lf2.png")};
-		} catch (SlickException e) {
-			//do shit all
-		}
-		int[] duration = {200,200};
-		right = new Animation(movementRight, duration, false);
-		left = new Animation(movementLeft, duration, false);
+		this.left = left;
+		this.right = right;
 		sprite = right;
 	}
 	
-	private Enemy(float x, float y, float width, float height, int maxhealth) {
+	private Enemy(float x, float y, float width,float height, int maxhealth, Animation left, Animation right){
 		super(x,y,width,height,maxhealth);
-		Image[] movementRight = null;
-		Image[] movementLeft = null;
-		try {
-			movementRight = new Image[]{new Image("data/images/dvl1_rt1.png"), new Image("data/images/dvl1_rt2.png")};
-			movementLeft = new Image[]{new Image("data/images/dvl1_lf1.png"), new Image("data/images/dvl1_lf2.png")};
-		} catch (SlickException e) {
-			//do shit all
-		}
-		int[] duration = {200,200};
-		right = new Animation(movementRight, duration, false);
-		left = new Animation(movementLeft, duration, false);
+		this.left = left;
+		this.right = right;
 		sprite = right;
 	}
 
 	@Override
 	public Enemy clone() {
-		return new Enemy(getX(), getY(), getWidth(), getHeight(),getMaxHealth());
+		return new Enemy(getX(), getY(), getWidth(), getHeight(),getMaxHealth(), left, right);
 	}
 
 	/**
@@ -98,7 +83,7 @@ public class Enemy extends NonPlayableEntity{
 			return null;
 		}
 		Enemy base = enemies.get(name.toLowerCase());
-		return new Enemy(x,y, base.getWidth(), base.getHeight(),base.getMaxHealth());
+		return new Enemy(x,y, base.getWidth(), base.getHeight(),base.getMaxHealth(),base.left,base.right);
 	}
 	
 	/**
@@ -120,11 +105,17 @@ public class Enemy extends NonPlayableEntity{
 	
 	/**
 	 * Creates a new enemy from an XML node. This should not be used except when loading enemies into the enemy template storage.
+	 * @throws ParseException 
+	 * @throws SlickException 
+	 * @throws DOMException 
 	 */
-	public static void loadEnemy(Node node) {
+	public static void loadEnemy(Node node) throws ParseException, DOMException, SlickException {
 		NamedNodeMap attrs = node.getAttributes();
+		
 		String name = attrs.getNamedItem("name").getNodeValue();
 		int health = Integer.parseInt(attrs.getNamedItem("maxhealth").getNodeValue());
+		
+		//set up hitbox
 		float width = 1, height = 1;
 		try{
 			width = Float.parseFloat(attrs.getNamedItem("width").getNodeValue());
@@ -132,7 +123,40 @@ public class Enemy extends NonPlayableEntity{
 		try{
 			height = Float.parseFloat(attrs.getNamedItem("width").getNodeValue());
 		}catch(NullPointerException e){ }
-		loadEnemy(name, new Enemy(width,height,health));
+		
+		//set up animation
+		Animation leftAni,rightAni;
+		{
+			Image[] leftImages,rightImages;
+			Node leftImagesNode = ((Element) node).getElementsByTagName("leftimages").item(0);
+			Node rightImagesNode = ((Element) node).getElementsByTagName("rightimages").item(0);
+			int duration;
+			if(leftImagesNode == null){
+				if(rightImagesNode == null){
+					throw new ParseException("Must have at least either 'leftimages' or 'rightimages' tag defined.");
+				}else{
+					rightImages = ImageUtils.loadImages(rightImagesNode);
+					leftImages = ImageUtils.flipImages(rightImages, true, false);
+					duration = Integer.parseInt(rightImagesNode.getAttributes().getNamedItem("duration").getTextContent());
+				}
+			}else {
+				if(rightImagesNode == null){
+					leftImages = ImageUtils.loadImages(leftImagesNode);
+					rightImages = ImageUtils.flipImages(leftImages, true, false);
+					duration = Integer.parseInt(leftImagesNode.getAttributes().getNamedItem("duration").getTextContent());
+				}else{
+					leftImages = ImageUtils.loadImages(leftImagesNode);
+					rightImages = ImageUtils.loadImages(rightImagesNode);
+					duration = Integer.parseInt(rightImagesNode.getAttributes().getNamedItem("duration").getTextContent());
+					duration += Integer.parseInt(leftImagesNode.getAttributes().getNamedItem("duration").getTextContent());
+					duration /= 2;
+				}
+			}
+			leftAni = new Animation(leftImages, duration);
+			rightAni = new Animation(rightImages, duration);
+		}
+		Enemy e = new Enemy(width,height,health, leftAni, rightAni);
+		loadEnemy(name, e);
 	}
 	
 	@Override
@@ -161,8 +185,8 @@ public class Enemy extends NonPlayableEntity{
 	public void checkMapChanged() {
 		Cell currentCell = MapLoader.getCurrentCell();
 		//check top
-		if ((getY() < 1 && getdY() < 0) || (getX() >= currentCell.getWidth() - 2 && getdX() > 0) || 
-		(getY() >= currentCell.getHeight() - 2 && getdY() > 0) || (getX() < 1 && getdX() < 0)) {
+		if ((getY() < 1 && getdY() < 0) || (getX() >= currentCell.getWidth() - (1 + getWidth()) && getdX() > 0) || 
+		(getY() >= currentCell.getHeight() - (1 + getHeight()) && getdY() > 0) || (getX() < 1 && getdX() < 0)) {
 			currentCell.removeEntity(this);
 		}
 	}
