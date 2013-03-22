@@ -30,6 +30,7 @@ import entities.players.abilities.IPlayerAbility;
 
 public class Player extends Entity {
 	
+	private static final int PLAYER_DEFAULT_LAYER = 0;
 	private static final Dimension PLAYER_DEFAULT_SIZE = new Dimension(1, 1);
 	private static final int PLAYER_DEFAULT_MAXHEALTH = 100;
 	
@@ -214,7 +215,7 @@ public class Player extends Entity {
 //			SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
 //		}
 //		
-//		checkMapChanged();
+		checkMapChanged();
 	}
 	
 	/**
@@ -273,5 +274,10 @@ public class Player extends Entity {
 	public void collide(Entity e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public int getLayer() {
+		return PLAYER_DEFAULT_LAYER;
 	}
 }

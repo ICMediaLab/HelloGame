@@ -22,6 +22,8 @@ import game.config.Config;
 
 public class Door extends NonPlayableEntity {
 	
+	private static final int DOOR_DEFAULT_LAYER = 100;
+	
 	private final Cell cell;
 	private final Animation openSprite, closedSprite;
 	private DoorTrigger trigger;
@@ -105,5 +107,10 @@ public class Door extends NonPlayableEntity {
 		if(trigger == null){
 			openDoor();
 		}
+	}
+
+	@Override
+	public int getLayer() {
+		return DOOR_DEFAULT_LAYER;
 	}
 }

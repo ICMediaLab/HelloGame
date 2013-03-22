@@ -8,6 +8,8 @@ import entities.Entity;
 import entities.NonPlayableEntity;
 
 public class NPC extends NonPlayableEntity{
+	
+	private static final int NPC_DEFAULT_LAYER = -10;
 
 	public NPC(float x, float y, float width, float height, int maxhealth) {
 		super(x,y,width,height,maxhealth);
@@ -38,6 +40,11 @@ public class NPC extends NonPlayableEntity{
 	public void collide(Entity e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public int getLayer() {
+		return NPC_DEFAULT_LAYER;
 	}
 	
 }

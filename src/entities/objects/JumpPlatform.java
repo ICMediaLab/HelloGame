@@ -13,6 +13,8 @@ import utils.Dimension;
 
 public class JumpPlatform extends Entity {
 	
+	private static final int JUMP_PLATFORM_DEFAULT_LAYER = -100;
+	
 	public JumpPlatform(Position xy,Dimension size, int maxhealth){
 		super(xy, size, maxhealth);
 	}
@@ -41,6 +43,11 @@ public class JumpPlatform extends Entity {
 	@Override
 	public Entity clone() {
 		return this;
+	}
+
+	@Override
+	public int getLayer() {
+		return JUMP_PLATFORM_DEFAULT_LAYER;
 	}
 
 	

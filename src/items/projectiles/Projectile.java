@@ -1,12 +1,9 @@
 package items.projectiles;
 
-import entities.Entity;
-import game.config.Config;
-
+import map.AbstractLayerRenderable;
 import map.Cell;
 import map.tileproperties.TileProperty;
 
-import org.lwjgl.util.Renderable;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -18,8 +15,12 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import utils.MapLoader;
 import utils.Position;
+import entities.Entity;
+import game.config.Config;
 
-public class Projectile implements Renderable{
+public class Projectile extends AbstractLayerRenderable {
+	
+	private static final int PROJECTILE_DEFAULT_LAYER = -500;
 	
 	private final Animation moving;
 	private Animation sprite;
@@ -59,11 +60,6 @@ public class Projectile implements Renderable{
 		this(new Position(x,y),width,height,damage,angle);
 	}
 	
-	@Override
-	public void render() {
-				
-	}
-
 	public void update(long DELTA) {
 		xy.translate(dxdy); //ignores gravity
 		hitbox.setLocation(xy.getX(), xy.getY());
@@ -89,9 +85,15 @@ public class Projectile implements Renderable{
 		return new Projectile(xy.getX(), xy.getY(), width, height,damage,angle);
 	}
 
+	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		sprite.draw((int)((xy.getX()-1)*Config.getTileSize()), (int)((xy.getY()-1)*Config.getTileSize()), new Color(255,255,255));
 		
+	}
+
+	@Override
+	public int getLayer() {
+		return PROJECTILE_DEFAULT_LAYER;
 	}
 
 }

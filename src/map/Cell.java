@@ -6,6 +6,7 @@ import items.projectiles.Projectile;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 import org.newdawn.slick.GameContainer;
@@ -13,17 +14,17 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.GroupObject;
+import org.newdawn.slick.tiled.Layer;
 import org.newdawn.slick.tiled.ObjectGroup;
 import org.newdawn.slick.tiled.TiledMap;
 
+import utils.LayerRenderable;
 import entities.Entity;
 import entities.enemies.Enemy;
 import entities.objects.Door;
 import entities.objects.DoorTrigger;
-import entities.players.Player;
-
-//test
 import entities.objects.LeafTest;
+import entities.players.Player;
 
 
 public class Cell extends TiledMap{
@@ -116,15 +117,25 @@ public class Cell extends TiledMap{
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		super.render(-Config.getTileSize(),-Config.getTileSize());
-		for(Entity e : entities){
-			e.render(gc, sbg, g);
+		//super.render(-Config.getTileSize(),-Config.getTileSize());
+		PriorityQueue<LayerRenderable> orderedLayers = new PriorityQueue<LayerRenderable>();
+		orderedLayers.addAll(entities);
+		orderedLayers.addAll(projectiles);
+		for(Layer l : layers){
+			try{
+				orderedLayers.add(new LayeredLayer(l));
+			}catch(NoSuchFieldException e){
+				System.out.println(e.getMessage());
+				for(int i=0;i<l.height-2;i++){
+					l.render(0, 0, 1, 1, l.width-2, i, false, Config.getTileSize(), Config.getTileSize());
+				}
+			}
 		}
-		for(Projectile p : projectiles){
-			p.render(gc, sbg, g);
+		while(!orderedLayers.isEmpty()){
+			orderedLayers.poll().render(gc, sbg, g);
 		}
+		
 	}
-	
 	
 	public void clearEntities() {
 		entitiesToRemove.addAll(entities);

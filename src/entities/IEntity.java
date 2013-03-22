@@ -4,10 +4,11 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.state.StateBasedGame;
 
+import utils.LayerRenderable;
 import utils.Position;
 
 
-public interface IEntity extends Cloneable {
+public interface IEntity extends Cloneable, LayerRenderable {
 	Position FRICTION = new Position(0.6f,0.04f);
 	float GRAVITY = 0.04f;
 	float JUMP_AMOUNT = 0.5f;
@@ -141,4 +142,6 @@ public interface IEntity extends Cloneable {
 	 * Returns true if and only if the hitbox given intersects with the bounding box of this entity.
 	 */
 	boolean intersects(Rectangle hitbox);
+
+	void collide(Entity e);
 }

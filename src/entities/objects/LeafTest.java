@@ -13,6 +13,8 @@ import game.config.Config;
 
 public class LeafTest extends NonPlayableEntity {
 	
+	private static  final int LEAF_DEFAULT_LAYER = 100; 
+	
 	private final Animation moving; //,stopped; //removed this as it wasn't being used.
 	//private Animation sprite; //likewise 
 	
@@ -64,5 +66,10 @@ public class LeafTest extends NonPlayableEntity {
 	@Override
 	public void collide(Entity e) {
 		moving.start();
+	}
+
+	@Override
+	public int getLayer() {
+		return LEAF_DEFAULT_LAYER;
 	}
 }

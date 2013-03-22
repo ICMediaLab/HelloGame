@@ -84,32 +84,63 @@
   <image source="images/branches01.png" width="192" height="779"/>
  </tileset>
  <layer name="Tile Layer 1" width="34" height="20">
+  <properties>
+   <property name="render-index" value="-10000"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJx1lmmOqzAQhJuQsAfyJwvJZOAGuf/tnpHqkytoHlLLWy/Vm/EcEfdE10Qvm78T/SR6Jlo1cv4S/doa3m3vIR3Mkb9pftMZNjYaRadEh0Sd1ttYJCoTtTqrdXYWHXa08V7E499RuirxTYka8U6iVuNFPJwdZauVfJ9o0HmvM9dVSAad/hXiazU/y6de/p4Mfycco/EcpLsUoa/SvLF4FhbTPQ7iNVnMa8kQg0E20DlI30m4C4tFI/mz8BGPi/ax8dnhOO9y0Vo8J9matAeGUuNktlvZHbWuLP7ErDU9exy18G0YFvlViy6yWUXOVyXb5Pqo9WAxoIYK2TxIDn39HzhaUWPxbiwP6CJX1AI1ejQZarSU7UbUWyxqxQkcq+ijM/IySq6yWFDDXhdj5JxPkXvZ9VDj9OtJuptdPBwHuaaeB9nHF/qSPJIr6pgYgpm41EbUyT4v4KCPqEf6c5Ac/VtJX6s188JkS/F3kXM7mD/Uxyj7fB/Lw9lsU2voAoPXzsVwDpHvgEJ74AUDdtr/4Ogi34v0P/HmXgELfQFe78cyvu8b7jWwgYH+Xg3LR5iHyD1B79faH7Um/3XkWnUf8GOS79Qxdym83LP+0f995Bqg/6gb/hecYYt7mBjQ153FlTuXGse/PQ7+P9ikr7wPtn/w9u/mv/2M3L9OT/E9RDfJbP/va+R3AyPvhXfkN8Ki+Rrf90ijs03fbHpn7WODd8Rdemebr5HfIWt8vz8cp2N42PxX89ls4Ct6wYTMXfoW4wf/Q+NqPMTFseDjTeOqM95Z8KEPn3lvMV+1XmyP/TnyGwt8b8PkuUNuEQZ8Ipf48xbfLb7zjJ2rxfjHbHnMXqaLPJMz93PT8w9hryZI
   </data>
  </layer>
  <layer name="Tile Layer 2" width="34" height="20">
+  <properties>
+   <property name="render-index" value="-9000"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJztlFELgzAMhPu+l2mrtjqt//9XLsIFDjdxYrfswQ8OkzYNp0azc24UTaIk6kSzKIpa0QP5CM1Y73GmobWI89ovoqfuT9gbKO6gi32WZ5ZX+a9JFLe4RgMfyjI7+kyGgn3rA7V5lZf0YfGO35H2SzZrS37flrPG9NYGQMlZO8NobQA01gbA0fm4fcXFto8aCiIPKXeKPeoqijWvqEegfU95oPpP/6nsTfuVRL1793rvF//FExT5CJM=
   </data>
  </layer>
  <layer name="Tile Layer 3" width="34" height="20">
+  <properties>
+   <property name="render-index" value="-8000"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJxjYBgFQwWIQDEMCA6AG4RwsAcKiBBWQnMwGNwwmAB6uhwM6WQUjIJRMApGwdACAEK7AKk=
   </data>
  </layer>
  <layer name="trunks" width="34" height="20">
+  <properties>
+   <property name="render-index" value="-5000"/>
+  </properties>
   <data encoding="base64" compression="zlib">
-   eJztlEluQkEMRH0lIgFSmCEBQpjCkAFICNz/EKnS71XLVlteEYmS3gp1me/qLpHb0AOoB86t0tkn5bdnMAYTMAUvDr8meAz8j106q82YgVcwBwuwdPi1QS/wP77SWW0Gd7UGb2ADtg6/gei7LeknndVmcFd78A4+wKfDjxl78stVk+oOaDO4qwM4ghP4dvgxY09+uRpS3QFtBnd1Br/gAq4OP2bsyS9XS6pdajNaybcDuuK7f8zYk1+uvtjvpZ98h2AkvvvHjD355WJHWO8l0h/M2JNfLnaE9V4i/bE2vEpiR1jvJdIfe8OrJHaE9V4i/XEwvEpiR/CbtUwj/XE2vEpiR/CbtTsY6Y+77voP+gNwhCpt
+   eJzt1FcKAzEMRVGvKRAC6b33ZNL7/heRK5gFPBt9JDCC8ylj0JNC+I0qoez85gBDjDDGROipoOr8jylmmGOBpdBTR8v5HyusscEWO6Gng77zP/bIcMARJ6HH8qHML6bOuOCKG+5Cj+VDmV9MPfDEC298hB7LhzK/mKrl7zbQDFr+LB/K/GKqnb/bRS9o+bM9V+YXUyn3w/ZcmV9MpdwP23PvfKTcD9tz73yk3A/bc+98pNwP23PvfKTcj6KK+of6AlvlHiY=
+  </data>
+ </layer>
+ <layer name="infront_trunks" width="34" height="20">
+  <properties>
+   <property name="render-index" value="5000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztlMEKQFAUROeXWLBgQaFQj0KxYOH/P8Lc/IO56k2d/dmcAf69iaSkEXusJCe92OMgJQlij4vUZBF7JKQju9gjIyM5xR4F3l5usUcFH7208NHLAB+92J966MX+1EMv9qcz9L3Yn27Q9xIX9+UeHz8MSA==
   </data>
  </layer>
  <layer name="branches" width="34" height="20">
+  <properties>
+   <property name="render-index" value="-4000"/>
+  </properties>
   <data encoding="base64" compression="zlib">
-   eJztzsVKRVEAhtH7rnYnFhZ6FetNDDDAAAMsLKyh3Z1P4BIUHJyBbA+eyflgjXbwZzJpcbbIEsussJrQjjXW2WCTrYg7BxxyxDEnnMa8Y5sddtljP+LOGedccMkV1zHv+E033HLHPQ88JrDjiWdeeOWN94B/csglj3wKKIxp43eDX4YYZiTiThHFlFBKGeUx7/hslDHGmYg4r6CSKqqpofbHeR31NNBIU+COSaaYZibgfTMttNJGe+COWeaYZyHgfQedZOmiO3DHX+uhlz76GUhoR1pa2v/2AXFDPyg=
+   eJztzjcKAlEURuHZraWdCRMmTDsxgAFGBUPhLsw5xxV4CisRHJ5Pb/MOfNVw3/yWZdJdX3qAwwYYYoQxJpgK7JhhjgWWWGEtsGODLXbY44CjwI4TzrjgihvuGt51aXjjtcJTESWUf/APp1VQRQ31N9/dH+498MIHPwKKO2w00ERL4T6IEMKIIKq4o40Ouugp3McQRwJJpBR3fFsaGWSRQ15oh8lk+m8PEpEtTg==
+  </data>
+ </layer>
+ <layer name="infront_branches" width="34" height="20">
+  <properties>
+   <property name="render-index" value="6000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzskNglAURmF6dVZEUTZQAdRCEZLgEAajaAFQimfBFkLClbe5J/l2b/gtS5MsxRU33PEwtCNDjgIlngPu1GiEd7zwRoUPvsLva93NMMcCS6ywFv4jbvW1wRY72NjDEd4xpAOOcHHCGV7HWR/BRLv+3QWJ6REjChGZHqFp2uT9ALySGg0=
   </data>
  </layer>
  <objectgroup name="Enemy" width="34" height="20">
-  <object name="rawr" type="enemy" x="328" y="437" width="32" height="32">
+  <object name="rawr" type="enemy" x="320" y="448" width="32" height="32">
    <properties>
     <property name="enemy-respawn" value="true"/>
    </properties>

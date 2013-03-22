@@ -23,6 +23,8 @@ import game.config.Config;
 
 public class Enemy extends NonPlayableEntity{
 	
+	private static final int ENEMY_DEFAULT_LAYER = -20;
+	
 	private final Animation left, right;
 	private Animation sprite;
 	
@@ -177,6 +179,11 @@ public class Enemy extends NonPlayableEntity{
 	public void collide(Entity e) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public int getLayer() {
+		return ENEMY_DEFAULT_LAYER;
 	}
 
 }

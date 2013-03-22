@@ -20,6 +20,8 @@ import game.config.Config;
 
 public class DoorTrigger extends NonPlayableEntity {
 	
+	private static final int DOOR_TRIGGER_DEFAULT_LAYER = -200;
+	
 	private final Animation s;
 	private Door trigger;
 	
@@ -68,6 +70,11 @@ public class DoorTrigger extends NonPlayableEntity {
 		if(e == MapLoader.getCurrentCell().getPlayer()){
 			trigger.setTriggered();
 		}
+	}
+
+	@Override
+	public int getLayer() {
+		return DOOR_TRIGGER_DEFAULT_LAYER;
 	}
 	
 }
