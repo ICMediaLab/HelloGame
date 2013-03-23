@@ -19,7 +19,7 @@ import org.newdawn.slick.tiled.ObjectGroup;
 import org.newdawn.slick.tiled.TiledMap;
 
 import utils.LayerRenderable;
-import entities.Entity;
+import entities.AbstractEntity;
 import entities.enemies.Enemy;
 import entities.objects.Door;
 import entities.objects.DoorTrigger;
@@ -30,9 +30,9 @@ import entities.players.Player;
 public class Cell extends TiledMap{
 
 	private final Tile[][] properties = new Tile[getHeight()][getWidth()];
-	private final Set<Entity> defaultEntities = new HashSet<Entity>();
-	private final Set<Entity> entities = new HashSet<Entity>();
-	private final Set<Entity> entitiesToRemove = new HashSet<Entity>(); 
+	private final Set<AbstractEntity> defaultEntities = new HashSet<AbstractEntity>();
+	private final Set<AbstractEntity> entities = new HashSet<AbstractEntity>();
+	private final Set<AbstractEntity> entitiesToRemove = new HashSet<AbstractEntity>(); 
 	private final Set<Projectile> projectiles = new HashSet<Projectile>();
 	private Set<Projectile> projectilesToRemove = new HashSet<Projectile>();
 	private static final long DELTA = 1000/60;
@@ -78,7 +78,7 @@ public class Cell extends TiledMap{
 				}
 			}
 		}
-		for(Entity e : defaultEntities){
+		for(AbstractEntity e : defaultEntities){
 			addEntity(e.clone());
 		}
 	}
@@ -108,7 +108,7 @@ public class Cell extends TiledMap{
 	}
 	
 	
-	public void addEntity(Entity newEntity) {
+	public void addEntity(AbstractEntity newEntity) {
 		entities.add(newEntity);
 	}
 	
@@ -145,16 +145,16 @@ public class Cell extends TiledMap{
 		projectiles.clear();
 	}
 	
-	public Set<Entity> getEntities() {
+	public Set<AbstractEntity> getEntities() {
 	    return entities;
 	}
 	
 	public void updateEntities(GameContainer gc, StateBasedGame sbg, int delta){
 		entitiesToRemove.clear();
-		for(Entity e : entities){
+		for(AbstractEntity e : entities){
 			e.update(gc, sbg, delta);
 			
-			for (Entity e2 : entities){
+			for (AbstractEntity e2 : entities){
 				if (e.intersects(e2) && !e.equals(e2)){
 					e.collide(e2);
 				}
@@ -168,7 +168,7 @@ public class Cell extends TiledMap{
         projectiles.removeAll(projectilesToRemove);
 	}
     
-    public void removeEntity(Entity e) {
+    public void removeEntity(AbstractEntity e) {
         entitiesToRemove.add(e);
     }
     

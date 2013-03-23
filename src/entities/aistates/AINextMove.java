@@ -1,9 +1,9 @@
 package entities.aistates;
 
-import entities.Entity;
+import entities.AbstractEntity;
 
 public interface AINextMove {
 
-	public abstract void updateEntity(Entity e);
+	public abstract void updateEntity(AbstractEntity e);
 	
 }

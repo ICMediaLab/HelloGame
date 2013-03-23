@@ -3,16 +3,16 @@ package entities.aistates;
 import map.Cell;
 import map.tileproperties.TileProperty;
 import utils.MapLoader;
-import entities.Entity;
+import entities.AbstractEntity;
 
 public class RetreatingEntity implements AINextMove {
 	
 	private static final float XMARGIN = 0.1f, MARGIN = 0.25f;
 
 	@Override
-	public void updateEntity(Entity e) {
+	public void updateEntity(AbstractEntity e) {
 		Cell cell = MapLoader.getCurrentCell();
-		Entity player = cell.getPlayer();
+		AbstractEntity player = cell.getPlayer();
 		int curX, nextX, nextNextX;
 		if(e.getX() < player.getX()){
 			e.accelerate(-0.1f, 0f);

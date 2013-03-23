@@ -16,10 +16,11 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
-
 import utils.ImageUtils;
 import utils.MapLoader;
+
+import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
+
 import entities.Entity;
 import entities.NonPlayableEntity;
 import entities.aistates.decisiontree.AIDecisionTree;

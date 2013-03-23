@@ -3,7 +3,7 @@ package entities;
 import entities.aistates.decisiontree.AIDecisionTree;
 
 
-public abstract class NonPlayableEntity extends Entity {
+public abstract class NonPlayableEntity extends AbstractEntity {
 	
 	private final AIDecisionTree aitree;
 	

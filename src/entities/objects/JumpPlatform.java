@@ -5,13 +5,13 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
+import utils.Dimension;
 import utils.Position;
-
+import entities.AbstractEntity;
 import entities.Entity;
 import game.config.Config;
-import utils.Dimension;
 
-public class JumpPlatform extends Entity {
+public class JumpPlatform extends AbstractEntity {
 	
 	private static final int JUMP_PLATFORM_DEFAULT_LAYER = -100;
 	
@@ -41,7 +41,7 @@ public class JumpPlatform extends Entity {
 	}
 
 	@Override
-	public Entity clone() {
+	public AbstractEntity clone() {
 		return this;
 	}
 

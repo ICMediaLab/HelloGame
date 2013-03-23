@@ -7,6 +7,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.state.StateBasedGame;
 
+import entities.AbstractEntity;
 import entities.Entity;
 import entities.StaticEntity;
 import game.config.Config;
@@ -50,7 +51,7 @@ public class LeafTest extends StaticEntity {
 	}
 
 	@Override
-	public Entity clone() {
+	public AbstractEntity clone() {
 		return this;
 	}
 	

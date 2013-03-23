@@ -1,6 +1,6 @@
 package entities.aistates.decisiontree;
 
-import entities.IEntity;
+import entities.Entity;
 import entities.aistates.AINextMove;
 
 
@@ -21,7 +21,7 @@ public class AIDecisionTree {
 		root = newRoot;
 	}
 
-	public AINextMove evaluate(IEntity e) {
+	public AINextMove evaluate(Entity e) {
 		return root.evaluate(e);
 	}
 	

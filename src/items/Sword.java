@@ -8,7 +8,7 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import sounds.SoundGroup;
-import entities.Entity;
+import entities.AbstractEntity;
 import entities.players.Player;
 import game.config.Config;
 
@@ -55,7 +55,7 @@ public class Sword extends Weapon {
     }
 
     @Override
-    public void update(long delta, Set<Entity> enemies, Player p) {
+    public void update(long delta, Set<AbstractEntity> enemies, Player p) {
         counter += delta;
         // if counter hasn't played full sword animation
         // TODO: for some reason this turns out to be twice the animation length.  I made a quick fix by setting the sprite to ping pong mode, doubling the length
@@ -73,7 +73,7 @@ public class Sword extends Weapon {
             
             // do NOT pass in ALL enemies in cell, or this will be slow
             // find some way to pass only adjacent enemies to player.
-            for (Entity e : enemies) {
+            for (AbstractEntity e : enemies) {
                 if (e.intersects(hitbox)) {
                     e.takeDamage(damage); //take damage
                     if (dir == 1) {

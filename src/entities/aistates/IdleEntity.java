@@ -1,11 +1,11 @@
 package entities.aistates;
 
-import entities.Entity;
+import entities.AbstractEntity;
 
 public class IdleEntity implements AINextMove {
 
 	@Override
-	public void updateEntity(Entity e) {
+	public void updateEntity(AbstractEntity e) {
 		//do nothing
 	}
 

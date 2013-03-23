@@ -22,11 +22,12 @@ import org.newdawn.slick.state.StateBasedGame;
 import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.MapLoader;
+import entities.AbstractEntity;
 import entities.Entity;
 import entities.players.abilities.AbilityFinder;
 import entities.players.abilities.IPlayerAbility;
 
-public class Player extends Entity {
+public class Player extends AbstractEntity {
 	
 	private static final int PLAYER_DEFAULT_LAYER = 0;
 	private static final Dimension PLAYER_DEFAULT_SIZE = new Dimension(1, 1);

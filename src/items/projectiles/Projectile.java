@@ -15,7 +15,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import utils.MapLoader;
 import utils.Position;
-import entities.Entity;
+import entities.AbstractEntity;
 import game.config.Config;
 
 public class Projectile extends AbstractLayerRenderable {
@@ -70,7 +70,7 @@ public class Projectile extends AbstractLayerRenderable {
 		        currentCell.getTile((int)(x + 0.5), (int)(y + 0.5)).lookupProperty(TileProperty.BLOCKED).getBoolean()) {
             MapLoader.getCurrentCell().removeProjectile(this);
 		}
-		for (Entity e : MapLoader.getCurrentCell().getEntities()) {
+		for (AbstractEntity e : MapLoader.getCurrentCell().getEntities()) {
 		    // apply damage
 		    if (e.intersects(hitbox) && !e.equals(currentCell.getPlayer())) {
 	            e.takeDamage(damage);

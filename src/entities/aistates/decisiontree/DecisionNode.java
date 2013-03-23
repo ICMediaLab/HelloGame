@@ -1,6 +1,6 @@
 package entities.aistates.decisiontree;
 
-import entities.IEntity;
+import entities.Entity;
 import entities.aistates.AINextMove;
 import entities.aistates.AIState;
 
@@ -21,7 +21,7 @@ abstract class DecisionNode {
 		}
 	}
 
-	public abstract AINextMove evaluate(IEntity e);
+	public abstract AINextMove evaluate(Entity e);
 	
 }
 
@@ -31,13 +31,13 @@ class ConditionBranch extends DecisionNode {
 	private final DecisionNode accept,reject;
 	
 	ConditionBranch(String condition, String accept, String reject) throws IllegalArgumentException, NoSuchFieldException {
-		cond = new Condition(condition);
+		cond = Condition.getCondition(condition);
 		this.accept = DecisionNode.getNode(accept);
 		this.reject = DecisionNode.getNode(reject);
 	}
 	
 	@Override
-	public AINextMove evaluate(IEntity e){
+	public AINextMove evaluate(Entity e){
 		return cond.evaluate(e) ? accept.evaluate(e) : reject.evaluate(e);
 	}
 }
@@ -57,7 +57,7 @@ class Leaf extends DecisionNode {
 	}
 
 	@Override
-	public AINextMove evaluate(IEntity e) {
+	public AINextMove evaluate(Entity e) {
 		return state.getStateClass();
 	}
 	
