@@ -7,10 +7,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.state.StateBasedGame;
 
-import entities.AbstractEntity;
 import entities.Entity;
 import entities.StaticEntity;
-import game.config.Config;
 
 public class LeafTest extends StaticEntity {
 	
@@ -47,14 +45,9 @@ public class LeafTest extends StaticEntity {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, org.newdawn.slick.Graphics g) {
-		moving.draw(((getX()-1)*Config.getTileSize()-5), ((getY()-1)*Config.getTileSize())-54);
+		renderSprite(moving, -5, -54);
 	}
 
-	@Override
-	public AbstractEntity clone() {
-		return this;
-	}
-	
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		if (!moving.isStopped()){

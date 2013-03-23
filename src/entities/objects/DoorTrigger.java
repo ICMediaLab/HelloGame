@@ -13,7 +13,6 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.BufferedImageUtil;
 
 import utils.MapLoader;
-import entities.AbstractEntity;
 import entities.Entity;
 import entities.StaticEntity;
 import game.config.Config;
@@ -50,11 +49,6 @@ public class DoorTrigger extends StaticEntity {
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 	}
 	
-	@Override
-	public AbstractEntity clone() {
-		return this;
-	}
-
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg,
 			org.newdawn.slick.Graphics g) {

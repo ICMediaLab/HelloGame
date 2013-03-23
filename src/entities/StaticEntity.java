@@ -7,4 +7,9 @@ public abstract class StaticEntity extends AbstractEntity {
 		super(x,y,width,height);
 	}
 	
+	@Override
+	public StaticEntity clone() {
+		return this;
+	}
+	
 }

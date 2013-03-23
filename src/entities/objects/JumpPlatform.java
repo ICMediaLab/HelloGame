@@ -5,22 +5,16 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-import utils.Dimension;
-import utils.Position;
-import entities.AbstractEntity;
 import entities.Entity;
+import entities.StaticEntity;
 import game.config.Config;
 
-public class JumpPlatform extends AbstractEntity {
+public class JumpPlatform extends StaticEntity {
 	
 	private static final int JUMP_PLATFORM_DEFAULT_LAYER = -100;
 	
-	public JumpPlatform(Position xy,Dimension size, int maxhealth){
-		super(xy, size, maxhealth);
-	}
-	
 	public JumpPlatform(float x, float y){
-		this(new Position(x, y), new Dimension(1f, 0.2f), 100);
+		super(x,y, 1f, 0.2f);
 	}
 
 	@Override
@@ -38,11 +32,6 @@ public class JumpPlatform extends AbstractEntity {
 	@Override
 	public void collide(Entity e){
 		e.setVelocity(e.getdX(),-1.2f);
-	}
-
-	@Override
-	public AbstractEntity clone() {
-		return this;
 	}
 
 	@Override
