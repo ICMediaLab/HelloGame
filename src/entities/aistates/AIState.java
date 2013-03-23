@@ -2,7 +2,7 @@ package entities.aistates;
 
 
 public enum AIState {
-	IDLE(IdleEntity.class),ROAMING(RoamingEntity.class);
+	IDLE(IdleEntity.class),ROAMING(RoamingEntity.class),RETREATING(RetreatingEntity.class);
 	
 	private final Class<? extends AINextMove> nextMove;
 

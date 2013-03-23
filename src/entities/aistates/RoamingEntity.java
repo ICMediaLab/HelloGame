@@ -4,7 +4,7 @@ import map.tileproperties.TileProperty;
 import utils.MapLoader;
 import entities.Entity;
 
-public class RoamingEntity extends AINextMove {
+public class RoamingEntity implements AINextMove {
 	
 	private static final float MARGIN = 0.25f;
 	
