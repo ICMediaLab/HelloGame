@@ -1,10 +1,10 @@
 <enemies>
   <enemy name="rawr" maxhealth="50">
-    <leftimages duration="50">
+    <leftimages duration="200">
       data/images/dvl1_lf1.png
       data/images/dvl1_lf2.png
     </leftimages>
-    <rightimages duration="50">
+    <rightimages duration="200">
       data/images/dvl1_rt1.png
       data/images/dvl1_rt2.png
     </rightimages>

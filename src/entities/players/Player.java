@@ -261,13 +261,13 @@ public class Player extends Entity {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		//sprite.draw((int)((getX()-1)*Config.getTileSize() - 4), (int)((getY()-1)*Config.getTileSize() - 25), new Color(255,255,255));
 		
-		renderSprite(sprite, -4f, -25f);
+		renderSprite(sprite, -4, -25);
 		
 		if (sword != null && sword.used()) {
 		    sword.render();
 		}
 		// Health bar above player
-		renderHealthBar(-15f);
+		renderHealthBar(-15);
 	}
 
 	@Override

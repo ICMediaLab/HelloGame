@@ -193,8 +193,8 @@ public class Enemy extends NonPlayableEntity{
 	
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		renderSprite(sprite,0f,0f);
-		renderHealthBar(-4f);
+		renderSprite(sprite,0,0);
+		renderHealthBar(-4);
 	}
 
 	@Override
