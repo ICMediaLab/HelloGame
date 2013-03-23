@@ -1,11 +1,14 @@
 package entities.aistates;
 
-import entities.AbstractEntity;
+import entities.Entity;
 
+/**
+ * The entity should remain idle and not move.
+ */
 public class IdleEntity implements AINextMove {
 
 	@Override
-	public void updateEntity(AbstractEntity e) {
+	public void updateEntity(Entity e) {
 		//do nothing
 	}
 
