@@ -8,10 +8,10 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.state.StateBasedGame;
 
 import entities.Entity;
-import entities.NonPlayableEntity;
+import entities.StaticEntity;
 import game.config.Config;
 
-public class LeafTest extends NonPlayableEntity {
+public class LeafTest extends StaticEntity {
 	
 	private static  final int LEAF_DEFAULT_LAYER = 100; 
 	

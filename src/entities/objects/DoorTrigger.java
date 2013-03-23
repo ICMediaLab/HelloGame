@@ -1,5 +1,9 @@
 package entities.objects;
 
+import entities.Entity;
+import entities.StaticEntity;
+import game.config.Config;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -14,11 +18,7 @@ import org.newdawn.slick.util.BufferedImageUtil;
 
 import utils.MapLoader;
 
-import entities.Entity;
-import entities.NonPlayableEntity;
-import game.config.Config;
-
-public class DoorTrigger extends NonPlayableEntity {
+public class DoorTrigger extends StaticEntity {
 	
 	private static final int DOOR_TRIGGER_DEFAULT_LAYER = -200;
 	

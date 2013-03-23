@@ -6,18 +6,23 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import entities.Entity;
 import entities.NonPlayableEntity;
+import entities.aistates.decisiontree.AIDecisionTree;
 
 public class NPC extends NonPlayableEntity{
 	
 	private static final int NPC_DEFAULT_LAYER = -10;
 	
-	public NPC(float x, float y, float width, float height, int maxhealth) {
-		super(x,y,width,height,maxhealth);
+	public NPC(float x, float y, float width, float height, int maxhealth, String AIStr) {
+		super(x,y,width,height,maxhealth,AIStr);
 	}
 	
+	public NPC(float x, float y, float width, float height, int maxHealth,AIDecisionTree aiDecisionTree) {
+		super(x,y,width,height,maxHealth,aiDecisionTree);
+	}
+
 	@Override
 	public NPC clone() {
-		return new NPC(getX(), getY(), getWidth(), getHeight(),getMaxHealth());
+		return new NPC(getX(), getY(), getWidth(), getHeight(),getMaxHealth(),getAIDecisionTree());
 	}
 	
 	public void render() {

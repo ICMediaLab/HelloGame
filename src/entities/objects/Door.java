@@ -1,5 +1,9 @@
 package entities.objects;
 
+import entities.Entity;
+import entities.StaticEntity;
+import game.config.Config;
+
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -16,11 +20,7 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.BufferedImageUtil;
 
-import entities.Entity;
-import entities.NonPlayableEntity;
-import game.config.Config;
-
-public class Door extends NonPlayableEntity {
+public class Door extends StaticEntity {
 	
 	private static final int DOOR_DEFAULT_LAYER = 100;
 	

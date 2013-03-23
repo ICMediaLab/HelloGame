@@ -22,6 +22,7 @@ import utils.ImageUtils;
 import utils.MapLoader;
 import entities.Entity;
 import entities.NonPlayableEntity;
+import entities.aistates.decisiontree.AIDecisionTree;
 import entities.players.Player;
 
 public class Enemy extends NonPlayableEntity{
@@ -38,15 +39,15 @@ public class Enemy extends NonPlayableEntity{
 	 */
 	private static final Map<String,Enemy> enemies = new HashMap<String,Enemy>();
 
-	private Enemy(float width,float height, int maxhealth, Animation left, Animation right){
-		super(0,0,width,height,maxhealth);
+	private Enemy(float width,float height, int maxhealth, Animation left, Animation right, String aistr){
+		super(0,0,width,height,maxhealth,aistr);
 		this.left = left;
 		this.right = right;
 		sprite = right;
 	}
 	
-	private Enemy(float x, float y, float width,float height, int maxhealth, Animation left, Animation right){
-		super(x,y,width,height,maxhealth);
+	private Enemy(float x, float y, float width,float height, int maxhealth, Animation left, Animation right, AIDecisionTree aiDecisionTree){
+		super(x,y,width,height,maxhealth,aiDecisionTree);
 		this.left = left;
 		this.right = right;
 		sprite = right;
@@ -54,7 +55,7 @@ public class Enemy extends NonPlayableEntity{
 
 	@Override
 	public Enemy clone() {
-		return new Enemy(getX(), getY(), getWidth(), getHeight(),getMaxHealth(), left, right);
+		return new Enemy(getX(), getY(), getWidth(), getHeight(),getMaxHealth(), left, right,getAIDecisionTree());
 	}
 
 	/**
@@ -83,7 +84,7 @@ public class Enemy extends NonPlayableEntity{
 			return null;
 		}
 		Enemy base = enemies.get(name.toLowerCase());
-		return new Enemy(x,y, base.getWidth(), base.getHeight(),base.getMaxHealth(),base.left,base.right);
+		return new Enemy(x,y, base.getWidth(), base.getHeight(),base.getMaxHealth(),base.left,base.right,base.getAIDecisionTree());
 	}
 	
 	/**
@@ -124,12 +125,14 @@ public class Enemy extends NonPlayableEntity{
 			height = Float.parseFloat(attrs.getNamedItem("width").getNodeValue());
 		}catch(NullPointerException e){ }
 		
+		Element elemNode = (Element) node;
+		
 		//set up animation
 		Animation leftAni,rightAni;
 		{
 			Image[] leftImages,rightImages;
-			Node leftImagesNode = ((Element) node).getElementsByTagName("leftimages").item(0);
-			Node rightImagesNode = ((Element) node).getElementsByTagName("rightimages").item(0);
+			Node leftImagesNode = elemNode.getElementsByTagName("leftimages").item(0);
+			Node rightImagesNode = elemNode.getElementsByTagName("rightimages").item(0);
 			int duration;
 			if(leftImagesNode == null){
 				if(rightImagesNode == null){
@@ -155,7 +158,14 @@ public class Enemy extends NonPlayableEntity{
 			leftAni = new Animation(leftImages, duration);
 			rightAni = new Animation(rightImages, duration);
 		}
-		Enemy e = new Enemy(width,height,health, leftAni, rightAni);
+		
+		//parse AI
+		Node AINode = elemNode.getElementsByTagName("ai").item(0);
+		if(AINode == null){
+			AINode = elemNode.getElementsByTagName("AI").item(0);
+		}
+
+		Enemy e = new Enemy(width,height,health, leftAni, rightAni,AINode.getTextContent());
 		loadEnemy(name, e);
 	}
 	

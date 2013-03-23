@@ -8,5 +8,11 @@
       data/images/dvl1_rt1.png
       data/images/dvl1_rt2.png
     </rightimages>
+    <ai>
+      if $health_percent :less than: 0.8 {
+        >retreat
+      }
+      >roam
+    </ai>
   </enemy>
 </enemies>

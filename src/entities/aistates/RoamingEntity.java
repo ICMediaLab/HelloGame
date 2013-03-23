@@ -8,10 +8,14 @@ public class RoamingEntity implements AINextMove {
 	
 	private static final float MARGIN = 0.25f;
 	
-	private float dx = 0.2f * ((int) (Math.random()*2) - 0.5f);
-
 	@Override
 	public void updateEntity(Entity e) {
+		float dx = 0.2f * ((int) (Math.random()*2) - 0.5f);
+		if(e.getdX() > 0f){
+			dx = Math.abs(dx);
+		}else if(e.getdX() < 0f){
+			dx = -Math.abs(dx);
+		}
 		if(dx > 0){
 			if(!MapLoader.getCurrentCell().getTile((int) (e.getX() + e.getWidth()), (int) (e.getY() + e.getHeight())).lookupProperty(TileProperty.BLOCKED).getBoolean()){
 				dx *= -1;

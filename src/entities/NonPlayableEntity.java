@@ -1,30 +1,26 @@
 package entities;
 
-import entities.aistates.AINextMove;
-import entities.aistates.AIState;
+import entities.aistates.decisiontree.AIDecisionTree;
 
 
-public abstract class NonPlayableEntity extends Entity implements INonPlayableEntity {
+public abstract class NonPlayableEntity extends Entity {
 	
-	private AINextMove nextMove = AIState.RETREATING.getStateClass();
+	private final AIDecisionTree aitree;
 	
-	public NonPlayableEntity(float x, float y, float width, float height, int maxhealth) {
+	public NonPlayableEntity(float x, float y, float width, float height, int maxhealth, String AI) {
+		this(x,y,width,height,maxhealth,new AIDecisionTree(AI));
+	}
+	
+	public NonPlayableEntity(float x, float y, float width, float height, int maxhealth, AIDecisionTree aitree) {
 		super(x,y,width,height,maxhealth);
-	}
-	
-	public NonPlayableEntity(float x, float y, float width, float height){
-		super(x,y,width,height);
-	}
-	
-	public NonPlayableEntity(){
-		super();
-	}
-	
-	public void setAIState(AIState state){
-		nextMove = state.getStateClass();
+		this.aitree = aitree;
 	}
 	
 	protected void updateEntity() {
-		nextMove.updateEntity(this);
+		aitree.evaluate(this).updateEntity(this);
+	}
+	
+	protected AIDecisionTree getAIDecisionTree(){
+		return aitree;
 	}
 }
