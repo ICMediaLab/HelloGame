@@ -13,12 +13,7 @@ public class RangedAttackAbility extends PlayerAbility {
 	    Projectile pro = null;
 	    Position vec = GameplayMouseInput.getMousePosition().clone();
 	    vec.translate(-p.getCentreX(), -p.getCentreY());
-	    /*if (p.getDirection() == 1) {
-	        pro = new Projectile(p.getX(), p.getY(), 1, 1, 10, 0);
-	    } else {
-	        pro = new Projectile(p.getX(), p.getY(), 1, 1, 10, Math.PI);
-	    }*/
-	    pro = new Projectile(p.getX(), p.getY(), 1, 1, 10, vec.getAngle());
+	    pro = new Projectile(p.getX(), p.getY(), 1f, 0.25f, 10, vec.getAngle());
 		MapLoader.getCurrentCell().addProjectile(pro);
 	}
 

@@ -5,17 +5,18 @@ import map.Cell;
 import map.tileproperties.TileProperty;
 
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.state.StateBasedGame;
 
 import utils.MapLoader;
 import utils.Position;
-import entities.AbstractEntity;
+import entities.Entity;
 import game.config.Config;
 
 public class Projectile extends AbstractLayerRenderable {
@@ -25,33 +26,31 @@ public class Projectile extends AbstractLayerRenderable {
 	private final Animation moving;
 	private Animation sprite;
 	private static final float NORMAL_SPEED = 0.0765f;
-	private final Position xy,dxdy;
+	private final Position dxdy;
 	private final float width,height;
 	private final int damage;
 	private final double angle;
-	private Rectangle hitbox;
+	private Shape hitbox;
 	
 
-	public Projectile(Position xy,float width,float height, int damage, double angle ){
+	public Projectile(Position centre,float width,float height, int damage, double angle ){
 		Image[] movementForward = null;
 		try {
-//			movementForward = new Image[]{new Image("data/images/nyan_0.gif"),new Image("data/images/nyan_1.gif"),new Image("data/images/nyan_2.gif"),new Image("data/images/nyan_3.gif"),
-//					new Image("data/images/nyan_4.gif"), new Image("data/images/nyan_5.gif")};
 		    Image projImage = new Image("data/images/projectile.png");
 		    projImage.rotate((float)(angle * 180/Math.PI));
 		    movementForward = new Image[]{projImage};
 		} catch (SlickException e) {
 			//do shit all
 		}
-//		int[] duration = {200,200,200,200,200,200};
 		moving = new Animation(movementForward, 200, false);
 		sprite=moving;
 		
 		this.angle = angle;
 		this.damage = damage;
-		this.width = width; this.height = height; this.hitbox = new Rectangle(xy.getX(), xy.getY(), width, height);
-		this.xy = xy;
-		this.dxdy = new Position((float)Math.cos(angle),(float)Math.sin(angle)); //currently only works horizontally
+		this.width = width;
+		this.height = height;
+		this.hitbox = new Rectangle(centre.getX()-width/2, centre.getY()-height/2, width, height).transform(Transform.createRotateTransform((float) angle,centre.getX(),centre.getY()));
+		this.dxdy = new Position((float)Math.cos(angle),(float)Math.sin(angle));
 		this.dxdy.scale(NORMAL_SPEED);
 		
 	}
@@ -61,18 +60,17 @@ public class Projectile extends AbstractLayerRenderable {
 	}
 	
 	public void update(long DELTA) {
-		xy.translate(dxdy); //ignores gravity
-		hitbox.setLocation(xy.getX(), xy.getY());
+		hitbox = hitbox.transform(Transform.createTranslateTransform(dxdy.getX(), dxdy.getY()));
 		sprite.update(DELTA);
 		Cell currentCell = MapLoader.getCurrentCell();
-		float x = xy.getX(); float y = xy.getY();
-		if((int)x < 0 || (int)y <= 0 || (int)x >= currentCell.getWidth() - 1 || (int)y >= currentCell.getHeight() - 1 || 
-		        currentCell.getTile((int)(x + 0.5), (int)(y + 0.5)).lookupProperty(TileProperty.BLOCKED).getBoolean()) {
+		int x = (int) hitbox.getCenterX(); int y = (int) hitbox.getCenterY();
+		if(x < 0 || y <= 0 || x >= currentCell.getWidth() - 1 || y >= currentCell.getHeight() - 1 || 
+		        currentCell.getTile(x, y).lookupProperty(TileProperty.BLOCKED).getBoolean()) {
             MapLoader.getCurrentCell().removeProjectile(this);
 		}
-		for (AbstractEntity e : MapLoader.getCurrentCell().getEntities()) {
+		for (Entity e : MapLoader.getCurrentCell().getEntities()) {
 		    // apply damage
-		    if (e.intersects(hitbox) && !e.equals(currentCell.getPlayer())) {
+		    if (hitbox.intersects(e.getHitbox()) && !e.equals(currentCell.getPlayer())) {
 	            e.takeDamage(damage);
 	            currentCell.removeProjectile(this);
 	        }
@@ -82,12 +80,15 @@ public class Projectile extends AbstractLayerRenderable {
 	
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
-		return new Projectile(xy.getX(), xy.getY(), width, height,damage,angle);
+		return new Projectile(hitbox.getCenterX(),hitbox.getCenterY(), width, height,damage,angle);
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		sprite.draw((int)((xy.getX()-1)*Config.getTileSize()), (int)((xy.getY()-1)*Config.getTileSize()), new Color(255,255,255));
+		sprite.draw((int)((hitbox.getCenterX()-1f)*Config.getTileSize()-sprite.getWidth()/2), (int)((hitbox.getCenterY()-1)*Config.getTileSize()-sprite.getHeight()/2));
+		/* For debugging purposes.
+		g.setColor(Color.green); 
+		g.draw(hitbox.transform(Transform.createTranslateTransform(-1, -1)).transform(Transform.createScaleTransform(Config.getTileSize(), Config.getTileSize())));//*/
 		
 	}
 

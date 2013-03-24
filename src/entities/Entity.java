@@ -2,6 +2,7 @@ package entities;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.StateBasedGame;
 
 import utils.LayerRenderable;
@@ -141,7 +142,30 @@ public interface Entity extends Cloneable, LayerRenderable {
 	/**
 	 * Returns true if and only if the hitbox given intersects with the bounding box of this entity.
 	 */
-	boolean intersects(Rectangle hitbox);
+	boolean intersects(Entity e2);
+	
+	/**
+	 * Returns true if and only if the rectangle given intersects with the bounding box of this entity.
+	 */
+	boolean intersects(Rectangle r2);
+	
+	/**
+	 * Returns true if and only if the hitbox given intersects with the bounding box of this entity.
+	 */
+	boolean intersects(Shape e2);
 
+	/**
+	 * Triggered when an entity is found to be intersecting another entity.
+	 */
 	void collide(Entity e);
+
+	/**
+	 * Returns a clone of this entity with all non-static fields also cloned.
+	 */
+	Entity clone();
+
+	/**
+	 * Returns the hitbox of this entity.
+	 */
+	Shape getHitbox();
 }

@@ -9,7 +9,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.geom.Rectangle;
 
 import utils.ImageUtils;
-import entities.AbstractEntity;
+import entities.Entity;
 import entities.players.Player;
 import game.config.Config;
 
@@ -37,7 +37,7 @@ public abstract class Weapon implements Renderable {
     
     public abstract void attack(Player p);
     
-    public abstract void update(long delta, Set<AbstractEntity> enemies, Player p);
+    public abstract void update(long delta, Set<? extends Entity> set, Player p);
     
     public void render() {
         sprite.draw((int)((hitbox.getX()-1)*Config.getTileSize()), (int)((hitbox.getY()-1)*Config.getTileSize()), new Color(255,255,255));
