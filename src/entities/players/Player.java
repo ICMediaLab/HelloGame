@@ -1,5 +1,6 @@
 package entities.players;
 
+import game.GameplayState;
 import game.config.Config;
 import items.Sword;
 import items.Weapon;
@@ -9,6 +10,12 @@ import java.util.Map;
 
 import map.Cell;
 
+import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -48,6 +55,8 @@ public class Player extends Entity {
 	private Weapon sword;
 	private boolean onGround = true;
 	private boolean isRight = true;
+	
+	private Body body;
 
 	public Player(float x, float y, float width, float height, int maxhealth) {
 		super(x,y, width,height, maxhealth);
@@ -94,6 +103,23 @@ public class Player extends Entity {
 		leftPause = new Animation(movementLeftSheet, 0, 0, 0, 0, true, 1000, false);
 		sprite = rightPause;
 		
+		
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = BodyType.DYNAMIC;
+		bodyDef.position.set(x + 0.5f, y + 0.5f);
+		
+		body = GameplayState.getWorld().createBody(bodyDef);
+		
+		CircleShape shape = new CircleShape();
+		shape.m_radius = 0.5f;
+		
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = shape;
+		fixtureDef.density = 90f;
+		fixtureDef.restitution = 0.05f;
+		fixtureDef.friction = 0.7f;
+		
+		body.createFixture(fixtureDef);
 	}
 
 	public Player(float x, float y) {
@@ -165,12 +191,14 @@ public class Player extends Entity {
 			sprite = left;
 			isRight = false;
 			sprite.update(DELTA);
+			body.m_linearVelocity.x = -speed*32;
 		}
 		else if (input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT)) {
 			accelerate(speed,0f);
 			sprite = right;
 			isRight = true;
 			sprite.update(DELTA);
+			body.m_linearVelocity.x = speed*32;
 		}
 		else if (!input.isKeyPressed(Input.KEY_SPACE)) {
 			if (sprite == left)
@@ -209,6 +237,8 @@ public class Player extends Entity {
 		updateTranslateSmooth();
 		frameMove();
 		checkMapChanged();
+		
+		body.setTransform(new Vec2(getX() + 0.5f, getY() + 0.5f), 0);
 	}
 	
 	/**
@@ -265,7 +295,6 @@ public class Player extends Entity {
 
 	@Override
 	public void collide(Entity e) {
-		// TODO Auto-generated method stub
 		
 	}
 }

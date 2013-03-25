@@ -20,10 +20,10 @@ import entities.Entity;
 import entities.enemies.Enemy;
 import entities.objects.Door;
 import entities.objects.DoorTrigger;
-import entities.players.Player;
-
-//test
+import entities.objects.JumpPlatform;
 import entities.objects.LeafTest;
+import entities.players.Player;
+//test
 
 
 public class Cell extends TiledMap{
@@ -73,6 +73,8 @@ public class Cell extends TiledMap{
 						}
 					}else if(go.type.equalsIgnoreCase("leafTest")){
 						defaultEntities.add(new LeafTest(x,y));
+					} else if(go.type.equalsIgnoreCase("jumpPlatform")){
+						defaultEntities.add(new JumpPlatform(x,y));
 					}
 				}
 			}
