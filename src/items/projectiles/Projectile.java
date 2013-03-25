@@ -23,13 +23,14 @@ public class Projectile extends AbstractLayerRenderable {
 	
 	private static final int PROJECTILE_DEFAULT_LAYER = -500;
 	
-	private final Animation moving;
+	private Animation moving;
 	private Animation sprite;
-	private static final float NORMAL_SPEED = 0.0765f;
+	private static final float NORMAL_SPEED = 0.2f;
+	private static final float ACCEL_DUE_TO_G = 0.005f;
 	private final Position dxdy;
 	private final float width,height;
 	private final int damage;
-	private final double angle;
+	private double angle;
 	private Shape hitbox;
 	
 
@@ -76,6 +77,23 @@ public class Projectile extends AbstractLayerRenderable {
 	        }
 		}
 		
+		// gravity
+		dxdy.setY(dxdy.getY() + ACCEL_DUE_TO_G); 
+		
+		// update angle
+		angle = Math.atan2(dxdy.getY(), dxdy.getX());
+		
+		// update animation (copied and pasted from above)
+		Image[] movementForward = null;
+		try {
+		    Image projImage = new Image("data/images/projectile.png");
+		    projImage.rotate((float)(angle * 180/Math.PI));
+		    movementForward = new Image[]{projImage};
+		} catch (SlickException e) {
+			//do shit all
+		}
+		moving = new Animation(movementForward, 200, false);
+		sprite=moving;
 	}
 	
 	@Override
@@ -86,10 +104,10 @@ public class Projectile extends AbstractLayerRenderable {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		sprite.draw((int)((hitbox.getCenterX()-1f)*Config.getTileSize()-sprite.getWidth()/2), (int)((hitbox.getCenterY()-1)*Config.getTileSize()-sprite.getHeight()/2));
-		/* For debugging purposes.
+		/*For debugging purposes.
 		g.setColor(Color.green); 
-		g.draw(hitbox.transform(Transform.createTranslateTransform(-1, -1)).transform(Transform.createScaleTransform(Config.getTileSize(), Config.getTileSize())));//*/
-		
+		g.draw(hitbox.transform(Transform.createTranslateTransform(-1, -1)).transform(Transform.createScaleTransform(Config.getTileSize(), Config.getTileSize())));
+		*/
 	}
 
 	@Override
