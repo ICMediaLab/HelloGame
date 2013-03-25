@@ -71,6 +71,7 @@ public class GameplayState extends BasicGameState {
 		currentCell.addEntity(new FloorPhysics(7, 13, 1, 1, world));
 		currentCell.addEntity(new FloorPhysics(8, 14, 3, 1, world));
 		currentCell.addEntity(new FloorPhysics(11, 15, 4, 1, world));
+		currentCell.addEntity(new FloorPhysics(16, 15, 1, 1, world));
 		currentCell.addEntity(new FloorPhysics(15, 16, 4, 1, world));
 		currentCell.addEntity(new FloorPhysics(19, 17, 5, 1, world));
 		currentCell.addEntity(new FloorPhysics(24, 18, 3, 1, world));
