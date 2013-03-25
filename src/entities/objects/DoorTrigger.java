@@ -13,12 +13,13 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.BufferedImageUtil;
 
 import utils.MapLoader;
-
 import entities.Entity;
-import entities.NonPlayableEntity;
+import entities.StaticEntity;
 import game.config.Config;
 
-public class DoorTrigger extends NonPlayableEntity {
+public class DoorTrigger extends StaticEntity {
+	
+	private static final int DOOR_TRIGGER_DEFAULT_LAYER = -200;
 	
 	private final Animation s;
 	private Door trigger;
@@ -49,11 +50,6 @@ public class DoorTrigger extends NonPlayableEntity {
 	}
 	
 	@Override
-	public Entity clone() {
-		return this;
-	}
-
-	@Override
 	public void render(GameContainer gc, StateBasedGame sbg,
 			org.newdawn.slick.Graphics g) {
 		s.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());
@@ -68,6 +64,11 @@ public class DoorTrigger extends NonPlayableEntity {
 		if(e == MapLoader.getCurrentCell().getPlayer()){
 			trigger.setTriggered();
 		}
+	}
+
+	@Override
+	public int getLayer() {
+		return DOOR_TRIGGER_DEFAULT_LAYER;
 	}
 	
 }

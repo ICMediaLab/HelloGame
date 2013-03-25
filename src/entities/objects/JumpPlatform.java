@@ -5,20 +5,16 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-import utils.Position;
-
 import entities.Entity;
+import entities.StaticEntity;
 import game.config.Config;
-import utils.Dimension;
 
-public class JumpPlatform extends Entity {
+public class JumpPlatform extends StaticEntity {
 	
-	public JumpPlatform(Position xy,Dimension size, int maxhealth){
-		super(xy, size, maxhealth);
-	}
+	private static final int JUMP_PLATFORM_DEFAULT_LAYER = -100;
 	
 	public JumpPlatform(float x, float y){
-		this(new Position(x, y), new Dimension(1f, 0.2f), 100);
+		super(x,y, 1f, 0.2f);
 	}
 
 	@Override
@@ -39,8 +35,8 @@ public class JumpPlatform extends Entity {
 	}
 
 	@Override
-	public Entity clone() {
-		return this;
+	public int getLayer() {
+		return JUMP_PLATFORM_DEFAULT_LAYER;
 	}
 
 	

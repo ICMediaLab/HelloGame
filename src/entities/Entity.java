@@ -1,345 +1,171 @@
 package entities;
 
-import game.debug.FrameTrace;
-
-import map.Cell;
-import map.tileproperties.TileProperty;
-
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.StateBasedGame;
 
-import utils.MapLoader;
+import utils.LayerRenderable;
 import utils.Position;
-import utils.Dimension;
 
 
-public abstract class Entity implements IEntity {
-	
-	private static final float HITBOX_MARGIN = 0.25f;
-	private static final int DEFAULT_MAXHEALTH = 100;
-	
-	private final Position xy, dxdy = new Position(0f,0f);
-	private final Dimension size;
-	
-	//TODO:	Implement entity image system.
-	//		No idea how at the moment.
-	
-	private int health,maxhealth;
-	private int counter, time;
-	private float destX, destY, initX, initY;
-	
-	//for debugging purposes:
-	private final FrameTrace frameTrace = new FrameTrace();
-
-	public Entity(Position xy,Dimension size, int maxhealth) {
-		this.xy = xy;
-		this.size = size;
-		this.health = maxhealth;
-		this.maxhealth = maxhealth;
-	}
-	
-	public Entity(float x, float y, float width, float height, int maxhealth) {
-		this(new Position(x,y),new Dimension(width,height),maxhealth);
-	}
-	
-	public Entity(float x, float y, float width, float height){
-		this(new Position(x,y),new Dimension(width,height),DEFAULT_MAXHEALTH);
-	}
-	
-	public Entity(){
-		this(new Position(0,0),new Dimension(1,1),DEFAULT_MAXHEALTH);
-	}
+public interface Entity extends Cloneable, LayerRenderable {
+	Position FRICTION = new Position(0.6f,0.04f);
+	float GRAVITY = 0.04f;
+	float JUMP_AMOUNT = 0.5f;
+	long DELTA = 1000/60;
 	
 	/**
 	 * Returns the current x-position of this entity.
 	 */
-	@Override
-	public float getX(){
-		return xy.getX();
-	}
+	float getX();
 	
 	/**
 	 * Returns the current y-position of this entity.
 	 */
-	@Override
-	public float getY(){
-		return xy.getY();
-	}
+	float getY();
 	
 	/**
 	 * Returns the current x-velocity of this entity.
 	 */
-	@Override
-	public float getdX(){
-		return dxdy.getX();
-	}
+	float getdX();
 	
 	/**
 	 * Returns the current y-velocity of this entity.
 	 */
-	@Override
-	public float getdY(){
-		return dxdy.getY();
-	}
+	float getdY();
 	
 	/**
 	 * Returns the width of the hitbox of this entity.
 	 */
-	@Override
-	public float getWidth(){
-		return size.getWidth();
-	}
+	float getWidth();
 	
 	/**
 	 * Returns the height of the hitbox of this entity;
 	 */
-	@Override
-	public float getHeight(){
-		return size.getHeight();
-	}
+	float getHeight();
+	
 	
 	/**
 	 * Reduces this entity's health by an amount influenced by the argument provided according to some formula.
 	 * @param normalDamage The damage dealt normally ignoring special hits and armour effects etc...
 	 * @return The actual amount of damage taken by this entity.
 	 */
-	@Override
-	public int takeDamage(int normalDamage){
-		//TODO: update for armour etc...
-		int originalHealth = health;
-		health = Math.max(0, health - normalDamage);
-		return originalHealth - health;
-	}
+	int takeDamage(int normalDamage);
 	
 	/**
 	 * Returns the amount of damage done by this entity when taking into account critical hits etc...
 	 */
-	@Override
-	public int getDamage(){
-		//TODO: implement
-		return -1;
-	}
+	int getDamage();
 	
 	/**
 	 * Returns the normal damage (excluding critical hits etc...) done by this entity. 
 	 */
-	@Override
-	public int getNormalDamage(){
-		//TODO: implement
-		return -1;
-	}
+	int getNormalDamage();
 	
 	/**
 	 * Returns the absolute value of this entity's current health.
 	 */
-	@Override
-	public int getHealth(){
-		return health;
-	}
+	int getHealth();
 	
 	/**
 	 * Returns a float value in the range [0.0 - 1.0] inclusive representing the entity's current health.
 	 */
-	@Override
-	public float getHealthPercent(){
-		return (float)health/maxhealth;
-	}
+	float getHealthPercent();
 	
 	/**
 	 * Returns the absolute value of this entity's maximum possible health.
 	 */
-	@Override
-	public int getMaxHealth(){
-		return maxhealth;
-	}
+	int getMaxHealth();
 	
 	/**
-	 * Moves this entity by it's current velocity values and applies constants such as friction and gravity.
+	 * Moves this entity by it's current velocity values and applies constants such as friction and gravity.<br />
+	 * This method should only be used if update is not called in the same frame.
 	 * @param delta The time in microseconds since the last frame update.
 	 */
-	@Override
-	public void frameMove() {
-//		float modFriction = getFrictionDelta(delta);
-//		float modGravity  = getGravityDelta(delta);
-		
-		//both x and y axis are affected by scalar friction
-		if (!isOnGround()) {
-			dxdy.translate(0f,GRAVITY); //fall if not on the ground
-		} else if (getdY() > 0) {
-			dxdy.setY(0);
-		}
-		dxdy.translate(-getdX()*FRICTION.getX(), -getdY()*FRICTION.getY());
-		//dxdy.scale(FRICTION);
-		frameTrace.add(xy,dxdy);
-		xy.translate(dxdy); //move to new location
-		
-		//collision stuff
-		try{
-			int bottom = bottom();
-			int top    = top();
-			if (bottom > top) {
-				//if the new location is on the ground, set it so entity isn't clipping into the ground
-				setPosition(getX(), (int)getY());
-			}
-			//vertical collision
-			if (top > bottom) {
-			    dxdy.setY(0f);
-			    setPosition(getX(), (int)getY() + 1);
-			}
-			int left   = left();
-			int right  = right();
-			//horizontal collision
-			if (left > right) {
-			    dxdy.setX(0f);
-			    setPosition((int)getX() + 1, getY());
-			}
-			if (right > left) {
-			    dxdy.setX(0f);
-			    setPosition((int)getX(), getY());
-			}
-		}catch(RuntimeException e){
-			System.out.println(e.getMessage());
-			frameTrace.printTrace();
-			throw e;
-		}
-		
-	}
+	void frameMove();
 	
-	@Override
-	public void setPosition(float x, float y) {
-		xy.set(x,y);
-	}
+	
 	
 	/**
 	 * Returns true if and only if this entity has an absolute health equal to zero.
 	 */
-	@Override
-	public boolean isDead() {
-		return health <= 0;
-	}
+	boolean isDead();
 	
 	/**
 	 * returns whether the entity is touching the ground
-	 * @return true if touching ground
+	 * @return
 	 */
-	@Override
-	public boolean isOnGround() {
-		return bottom() > 0;
-	}
-	
-	//collision checkers
-	private int top() {
-		Cell currentCell = MapLoader.getCurrentCell();
-		int count = 0;
-		for(float x=getX()+HITBOX_MARGIN;x<getX()+getWidth()-HITBOX_MARGIN;x+=0.5f){
-			if(currentCell.getTile((int) x, (int) getY()).lookupProperty(TileProperty.BLOCKED).getBoolean()){
-				++count;
-			}
-		}
-		return count;
-	}
-	
-	private int bottom() {
-		Cell currentCell = MapLoader.getCurrentCell();
-		int count = 0;
-		for(float x=getX()+HITBOX_MARGIN;x<=getX()+getWidth()-HITBOX_MARGIN;x+=0.5f){
-			if(currentCell.getTile((int) x, (int) (getY() + getHeight())).lookupProperty(TileProperty.BLOCKED).getBoolean()){
-				++count;
-			}
-		}
-		return count;          
-	}
-	
-	private int left() {
-		Cell currentCell = MapLoader.getCurrentCell();
-		int count = 0;
-		for(float y=getY()+HITBOX_MARGIN;y<getY()+getHeight()-HITBOX_MARGIN;y+=0.5f){
-			if(currentCell.getTile((int) getX(), (int) y).lookupProperty(TileProperty.BLOCKED).getBoolean()){
-				++count;
-			}
-		}
-		return count;
-	}
-	
-	private int right() {
-		Cell currentCell = MapLoader.getCurrentCell();
-		int count = 0;
-		for(float y=getY()+HITBOX_MARGIN;y<getY()+getHeight()-HITBOX_MARGIN;y+=0.5f){
-			if(currentCell.getTile((int) (getX() + getWidth()), (int) y).lookupProperty(TileProperty.BLOCKED).getBoolean()){
-				++count;
-			}
-		}
-		return count;
-	}
-	
-	public void scale(float sx, float f){
-		size.scale(sx,f);
-	}
+	boolean isOnGround();
 	
 	/**
-	 * makes the entity jump. if it is falling, sets its vertical change to zero first.
+	 * Modified this entity's dx,dy values corresponding to a player jumping.<br />
+	 * Note the precondition of the entity touching a surface should NOT be checked.
 	 */
-	@Override
-	public void jump() {
-		dxdy.translate(0f,-JUMP_AMOUNT);
-	}
+	void jump();
 	
-	@Override
-	public void accelerate(float ddx, float ddy){
-		dxdy.translate(ddx,ddy);
-	}
+	/**
+	 * Accelerates this entity in the vector specified.
+	 * @param ddx
+	 * @param ddy
+	 */
+	void accelerate(float ddx, float ddy);
 	
-	@Override
-	public void setVelocity(float dx, float dy) {
-		dxdy.set(dx, dy);
-	}
+	/**
+	 * Sets this entity's velocity vector equal to that specified.
+	 * @param dx
+	 * @param dy
+	 */
+	void setVelocity(float dx, float dy);
 	
-	public void translateSmooth(int time, float destX, float destY){
-		this.time = time; this.destX = destX; this.destY = destY; this.counter = 0; this.initX = getX(); this.initY = getY();
-	}
+	/**
+	 * Should only be used if you desperately need to teleport the player.
+	 * @param x position
+	 * @param y position
+	 */
+	void setPosition(float x, float y);
 	
-	public void updateTranslateSmooth(){
-		counter ++;
-		if (counter < time){
-			accelerate((destX - initX)/(time/2 + counter),(destY - initY)/(time/2 + counter));
-		}
-	}
+	/**
+	 * Updates this entity given keyboard input, tile properties and the time delta.<br />
+	 * This method should make exactly one call to frameMove();
+	 * @param input The current state of the keyboard.
+	 * @param delta The time in microseconds since the last update.
+	 */
+	void update(GameContainer gc, StateBasedGame sbg, int delta);
 	
-	public boolean isMovingX(){
-		return Math.abs(dxdy.getX()) > 0.02f;
-	}
-	
-	public abstract void render(GameContainer gc, StateBasedGame sbg, Graphics g);
+	/**
+	 * Forces this entity to stop all currently playing sounds.<br />
+	 * Includes sounds produced by contained objects such as Ability classes.
+	 */
+	void stop_sounds();
 
-	@Override
-	public abstract void update(GameContainer gc, StateBasedGame sbg, int delta);
+	/**
+	 * Returns true if and only if the hitbox given intersects with the bounding box of this entity.
+	 */
+	boolean intersects(Entity e2);
 	
-	@Override
-	public abstract Entity clone();
+	/**
+	 * Returns true if and only if the rectangle given intersects with the bounding box of this entity.
+	 */
+	boolean intersects(Rectangle r2);
+	
+	/**
+	 * Returns true if and only if the hitbox given intersects with the bounding box of this entity.
+	 */
+	boolean intersects(Shape e2);
 
-	@Override
-	public void stop_sounds(){
-		//left blank in case sounds are moved to this class.
-		//should be overridden to add class-specific sounds with a call to the super method.
-	}
+	/**
+	 * Triggered when an entity is found to be intersecting another entity.
+	 */
+	void collide(Entity e);
 
-	@Override
-	public boolean intersects(Rectangle hitbox) {
-		return hitbox.getX() + hitbox.getWidth() > getX() && 
-				hitbox.getX() < getX() + getWidth() &&
-				hitbox.getY() + hitbox.getHeight() > getY() &&
-				hitbox.getY() < getY() + getHeight();
-	}
-	
-	public boolean intersects(Entity e) {
-        return e.getX() + e.getWidth() > getX() && 
-                e.getX() < getX() + getWidth() &&
-                e.getY() + e.getHeight() > getY() &&
-                e.getY() < getY() + getHeight();
-    }
-	
-	abstract public void collide(Entity e);
-	
+	/**
+	 * Returns a clone of this entity with all non-static fields also cloned.
+	 */
+	Entity clone();
+
+	/**
+	 * Returns the hitbox of this entity.
+	 */
+	Shape getHitbox();
 }

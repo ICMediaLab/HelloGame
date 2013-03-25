@@ -15,6 +15,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import sounds.Sounds;
 import utils.EnemyLoader;
+import utils.GameplayMouseInput;
 import utils.MapLoader;
 import entities.objects.Bricks;
 import entities.objects.CirclePhysics;
@@ -106,5 +107,25 @@ public class GameplayState extends BasicGameState {
 
 	public static World getWorld() {
 		return world;
+	}
+	
+	@Override
+	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
+		GameplayMouseInput.mouseDragged(oldx, oldy, newx, newy);
+	}
+	
+	@Override
+	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
+		GameplayMouseInput.mouseMoved(oldx, oldy, newx, newy);
+	}
+	
+	@Override
+	public void mousePressed(int button, int x, int y) {
+		GameplayMouseInput.mousePressed(button, x, y);
+	}
+	
+	@Override
+	public void mouseReleased(int button, int x, int y) {
+		GameplayMouseInput.mouseReleased(button, x, y);
 	}
 }

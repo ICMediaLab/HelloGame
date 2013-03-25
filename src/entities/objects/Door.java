@@ -17,10 +17,12 @@ import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.BufferedImageUtil;
 
 import entities.Entity;
-import entities.NonPlayableEntity;
+import entities.StaticEntity;
 import game.config.Config;
 
-public class Door extends NonPlayableEntity {
+public class Door extends StaticEntity {
+	
+	private static final int DOOR_DEFAULT_LAYER = 100;
 	
 	private final Cell cell;
 	private final Animation openSprite, closedSprite;
@@ -73,11 +75,6 @@ public class Door extends NonPlayableEntity {
 	}
 
 	@Override
-	public Entity clone() {
-		return this;
-	}
-	
-	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		if(trigger == null){
 			closeDoor();
@@ -105,5 +102,10 @@ public class Door extends NonPlayableEntity {
 		if(trigger == null){
 			openDoor();
 		}
+	}
+
+	@Override
+	public int getLayer() {
+		return DOOR_DEFAULT_LAYER;
 	}
 }

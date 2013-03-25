@@ -8,10 +8,11 @@ import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.state.StateBasedGame;
 
 import entities.Entity;
-import entities.NonPlayableEntity;
-import game.config.Config;
+import entities.StaticEntity;
 
-public class LeafTest extends NonPlayableEntity {
+public class LeafTest extends StaticEntity {
+	
+	private static  final int LEAF_DEFAULT_LAYER = 100; 
 	
 	private final Animation moving; //,stopped; //removed this as it wasn't being used.
 	//private Animation sprite; //likewise 
@@ -44,14 +45,9 @@ public class LeafTest extends NonPlayableEntity {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, org.newdawn.slick.Graphics g) {
-		moving.draw(((getX()-1)*Config.getTileSize()-5), ((getY()-1)*Config.getTileSize())-54);
+		renderSprite(moving, -5, -54);
 	}
 
-	@Override
-	public Entity clone() {
-		return this;
-	}
-	
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		if (!moving.isStopped()){
@@ -64,5 +60,10 @@ public class LeafTest extends NonPlayableEntity {
 	@Override
 	public void collide(Entity e) {
 		moving.start();
+	}
+
+	@Override
+	public int getLayer() {
+		return LEAF_DEFAULT_LAYER;
 	}
 }

@@ -1,6 +1,6 @@
 package utils;
 
-public class Position {
+public class Position implements Cloneable {
 	
 	private float x,y;
 
@@ -57,5 +57,31 @@ public class Position {
 	public void scale(float s) {
 		x *= s;
 		y *= s;
+	}
+	
+	public float getMagnitudeSquared(){
+		return x*x + y*y;
+	}
+	
+	public float getMagnitude(){
+		return (float) Math.sqrt(getMagnitudeSquared());
+	}
+	
+	@Override
+	public Position clone() {
+		return new Position(x,y);
+	}
+	
+	public void normalise(){
+		scale(1f/getMagnitude());
+	}
+
+	public double getAngle() {
+		return Math.atan2(y, x);
+	}
+	
+	@Override
+	public String toString() {
+		return x + "\t" + y;
 	}
 }

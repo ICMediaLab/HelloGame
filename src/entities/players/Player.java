@@ -1,7 +1,6 @@
 package entities.players;
 
 import game.GameplayState;
-import game.config.Config;
 import items.Sword;
 import items.Weapon;
 
@@ -17,7 +16,6 @@ import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -31,12 +29,14 @@ import org.newdawn.slick.state.StateBasedGame;
 import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.MapLoader;
+import entities.AbstractEntity;
 import entities.Entity;
 import entities.players.abilities.AbilityFinder;
 import entities.players.abilities.IPlayerAbility;
 
-public class Player extends Entity {
+public class Player extends AbstractEntity {
 	
+	private static final int PLAYER_DEFAULT_LAYER = 0;
 	private static final Dimension PLAYER_DEFAULT_SIZE = new Dimension(1, 1);
 	private static final int PLAYER_DEFAULT_MAXHEALTH = 100;
 	
@@ -47,9 +47,6 @@ public class Player extends Entity {
 	SoundGroup footsteps;
 	
 	private static SoundGroup SOUND_LANDING; 
-	//TODO ^ Why is this not being used anywhere? 
-	//TODO ^ Because if it is enabled it crashes if you try to jump just as you hit the ground; When it is disabled as it is now and you jump just as you hit the ground, the jump sound is being played but it looks as if double_jump is performed because player moves only slightly up; I belive there is something wrong with the isOnGround or jumping method
-	
 	
 	private float speed = 0.3f;
 	private Weapon sword;
@@ -210,10 +207,10 @@ public class Player extends Entity {
 				sprite = rightPause;
 			}
 		}
-		if (input.isKeyPressed(Input.KEY_W)) {
+		if (input.isKeyPressed(Input.KEY_W) || input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 		    sword.attack(this);
 		}
-		if (input.isKeyPressed(Input.KEY_S)) {
+		if (input.isKeyPressed(Input.KEY_S) || input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
 		    useAbility("rangedattack");
 		}
 		if (input.isKeyPressed(Input.KEY_E)){
@@ -223,19 +220,28 @@ public class Player extends Entity {
 			useAbility("forwardteleport");
 		}
 		
-		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)){
+		if (input.isMouseButtonDown(Input.MOUSE_MIDDLE_BUTTON)){
 			translateSmooth(10, input.getMouseX()/32f + getWidth()/2f, input.getMouseY()/32f + getHeight()/2f);
 		}
 		
-		if (!onGround && this.isOnGround()){
-			//SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
-		}
-		onGround = this.isOnGround();
 		footsteps.playRandom(gc, this, 150, 0.8f, 0.2f, 0.05f, 0.02f);
 		
 		sword.update(DELTA, MapLoader.getCurrentCell().getEntities(), this);
+		
 		updateTranslateSmooth();
 		frameMove();
+		
+		//TODO: changing this back to this.isOnGround in if statement fixes crashes for me..
+		boolean newOnGround = isOnGround();
+		if (!onGround && newOnGround){
+			SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
+		}
+		onGround = newOnGround;
+		
+//		if (!onGround && this.isOnGround()){
+//			SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
+//		}
+//		
 		checkMapChanged();
 		
 		body.setTransform(new Vec2(getX() + 0.5f, getY() + 0.5f), 0);
@@ -284,17 +290,24 @@ public class Player extends Entity {
 	
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		sprite.draw((int)((getX()-1)*Config.getTileSize() - 4), (int)((getY()-1)*Config.getTileSize() - 25), new Color(255,255,255));
+		//sprite.draw((int)((getX()-1)*Config.getTileSize() - 4), (int)((getY()-1)*Config.getTileSize() - 25), new Color(255,255,255));
+		
+		renderSprite(sprite, -4, -25);
 		
 		if (sword != null && sword.used()) {
 		    sword.render();
 		}
 		// Health bar above player
-		new Graphics().fillRect(getX()*32 - 32, getY()*32 - 32 - 25, 32*getHealth()/100, 3);
+		renderHealthBar(-15);
 	}
 
 	@Override
 	public void collide(Entity e) {
 		
+	}
+
+	@Override
+	public int getLayer() {
+		return PLAYER_DEFAULT_LAYER;
 	}
 }
