@@ -24,9 +24,9 @@ public class Projectile extends AbstractLayerRenderable {
 	
 	private static final int PROJECTILE_DEFAULT_LAYER = -500;
 	
-	private static final float NORMAL_SPEED = 0.15f;
+	private static final float NORMAL_SPEED = 0.5f;
 	private static final float ACCEL_DUE_TO_G = 0.005f;
-	private static final double SPEED_POWER = 0.1;
+	private static final float MAX_SPEED = 0.5f;
 	
 	private Animation moving;
 	private Animation sprite;
@@ -55,7 +55,7 @@ public class Projectile extends AbstractLayerRenderable {
 		this.damage = damage;
 		this.hitbox = new Rectangle(centre.getX()-width/2, centre.getY()-height/2, width, height).transform(Transform.createRotateTransform((float) angle,centre.getX(),centre.getY()));
 		this.dxdy = new Position((float)Math.cos(angle),(float)Math.sin(angle));
-		this.dxdy.scale(NORMAL_SPEED*(float) Math.pow(speed,SPEED_POWER));
+		this.dxdy.scale(Math.min(NORMAL_SPEED * speed, MAX_SPEED));
 		
 	}
 	

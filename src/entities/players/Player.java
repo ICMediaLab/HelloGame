@@ -52,6 +52,7 @@ public class Player extends AbstractEntity {
 	private Weapon sword;
 	private boolean onGround = true;
 	private boolean isRight = true;
+	private float rangedCounter = 0;
 	
 	private Body body;
 
@@ -210,8 +211,14 @@ public class Player extends AbstractEntity {
 		if (input.isKeyPressed(Input.KEY_W) || input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 		    sword.attack(this);
 		}
-		if (input.isKeyPressed(Input.KEY_S) || input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
-		    useAbility("rangedattack");
+//		if (input.isKeyPressed(Input.KEY_S) || input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
+//		    useAbility("rangedattack");
+//		}
+		if (input.isKeyDown(Input.KEY_S) || input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
+		    rangedCounter += DELTA; // accumulate time button held
+		} else if (rangedCounter != 0) {
+		    useAbility("rangedattack"); // fire projectile
+		    rangedCounter = 0; // reset time
 		}
 		if (input.isKeyPressed(Input.KEY_E)){
 			useAbility("speeddash");
@@ -309,5 +316,9 @@ public class Player extends AbstractEntity {
 	@Override
 	public int getLayer() {
 		return PLAYER_DEFAULT_LAYER;
+	}
+	
+	public float getRangedCounter() {
+	    return rangedCounter / 1000;
 	}
 }
