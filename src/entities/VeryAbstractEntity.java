@@ -63,6 +63,16 @@ public abstract class VeryAbstractEntity extends AbstractLayerRenderable impleme
 	}
 	
 	@Override
+	public final boolean isDead() {
+		return getHealth() <= 0;
+	}
+	
+	@Override
+	public final float getHealthPercent(){
+		return (float)getHealth()/getMaxHealth();
+	}
+	
+	@Override
 	public final float getCentreY() {
 		return getHitbox().getCenterY();
 	}

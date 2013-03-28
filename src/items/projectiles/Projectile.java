@@ -117,12 +117,6 @@ public class Projectile extends VeryAbstractEntity {
 	}
 
 	@Override
-	public float getHealthPercent() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	public int getMaxHealth() {
 		// TODO Auto-generated method stub
 		return 0;
@@ -153,11 +147,6 @@ public class Projectile extends VeryAbstractEntity {
 		}
 		moving = new Animation(movementForward, 200, false);
 		sprite=moving;
-	}
-
-	@Override
-	public boolean isDead() {
-		return false;
 	}
 
 	@Override
