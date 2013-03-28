@@ -43,6 +43,8 @@ public class Cell extends TiledMap{
 	
 	public void loadDefaultEntities(){
 		entities.clear();
+		entitiesToAdd.clear();
+		entitiesToRemove.clear();
 		if(defaultEntities.isEmpty()){
 			Map<String,Door> doors = new HashMap<String,Door>();
 			Map<String,DoorTrigger> triggers = new HashMap<String,DoorTrigger>();
@@ -81,7 +83,6 @@ public class Cell extends TiledMap{
 			addEntity(e.clone());
 		}
 	}
-	
 	
 	public Tile getTile(int x, int y) {
 		return properties[y][x];
@@ -146,7 +147,7 @@ public class Cell extends TiledMap{
 		for(Entity e : entities){
 			e.update(gc, sbg, delta);
 			for (Entity e2 : entities){
-				if (e.intersects(e2) && !e.equals(e2)){
+				if (e != e2 && e.intersects(e2)){
 					e.collide(e2);
 				}
 			}
