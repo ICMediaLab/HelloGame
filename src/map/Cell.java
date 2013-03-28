@@ -1,10 +1,13 @@
 package map;
 
+import game.GameplayState;import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
+
+import map.tileproperties.TileProperty;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -18,8 +21,10 @@ import org.newdawn.slick.tiled.TiledMap;
 import utils.LayerRenderable;
 import entities.Entity;
 import entities.enemies.Enemy;
+import entities.objects.Bricks;
 import entities.objects.Door;
 import entities.objects.DoorTrigger;
+import entities.objects.FloorPhysics;
 import entities.objects.JumpPlatform;
 import entities.objects.LeafTest;
 import entities.players.Player;
@@ -31,6 +36,8 @@ public class Cell extends TiledMap{
 	private final Tile[][] properties = new Tile[getHeight()][getWidth()];
 	private final Set<Entity> defaultEntities = new HashSet<Entity>();
 	private final Set<Entity> entities = new HashSet<Entity>();
+	private static final long DELTA = 1000/60;
+	private ArrayList<FloorPhysics> floor = new ArrayList<FloorPhysics>();
 	private final Set<Entity> entitiesToRemove = new HashSet<Entity>();
 	private final Set<Entity> entitiesToAdd = new HashSet<Entity>();
     private Player player;
@@ -75,6 +82,8 @@ public class Cell extends TiledMap{
 						defaultEntities.add(new LeafTest(x,y));
 					} else if(go.type.equalsIgnoreCase("jumpPlatform")){
 						defaultEntities.add(new JumpPlatform(x,y));
+					} else if(go.type.equalsIgnoreCase("bricks")){
+						defaultEntities.add(new Bricks(x, y));
 					}
 				}
 			}
@@ -134,6 +143,9 @@ public class Cell extends TiledMap{
 	
 	public void clearEntities() {
 		entitiesToRemove.addAll(entities);
+		for (Entity e : entities) {
+			if (!e.equals(player)) e.destroy();
+		}
 	}
 	
 	public Set<Entity> getEntities() {
@@ -165,6 +177,24 @@ public class Cell extends TiledMap{
     
     public Player getPlayer() {
         return player;
+    }
+    
+    public void addPhysicsEntities() {
+    	for (int xAxis = 0; xAxis < width; xAxis++) { 
+			for (int yAxis = 0; yAxis < height; yAxis++) {
+				if (getTile(xAxis, yAxis).lookupProperty(TileProperty.BLOCKED).getBoolean()) {
+					FloorPhysics f = new FloorPhysics(xAxis, yAxis, 1, 1, GameplayState.getWorld());
+					floor.add(f);
+					addEntity(f);
+				}
+			}
+		}
+    }
+    
+    public void removePhysicsEntities() {
+    	for (int i = 0; i < floor.size(); i++) {
+    		GameplayState.getWorld().destroyBody(floor.get(i).getBody());
+    	}
     }
 
 }

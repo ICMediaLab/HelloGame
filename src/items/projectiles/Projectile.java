@@ -198,4 +198,16 @@ public class Projectile extends VeryAbstractEntity {
 		return hitbox;
 	}
 
+	@Override
+	public void endCollide(Entity e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

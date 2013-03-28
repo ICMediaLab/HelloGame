@@ -1,5 +1,6 @@
 package entities.players.abilities;
 
+import org.jbox2d.common.Vec2;
 import org.newdawn.slick.Sound;
 
 import sounds.Sounds;
@@ -20,7 +21,7 @@ public class DoubleJumpAbility extends PlayerAbility {
 			if (!hasJumped) {
 				hasJumped = true;
 				Sounds.play(SOUND_DOUBLE_JUMP);
-				p.jump();
+				p.getBody().setLinearVelocity(new Vec2(p.getBody().getLinearVelocity().x, p.getBody().getLinearVelocity().y - 8));
 			}
 		} else {
 			hasJumped = false;

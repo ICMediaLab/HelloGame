@@ -57,6 +57,7 @@ public final class MapLoader {
 	 */
 	public static Cell setCurrentCell(Player player, int x, int y) {
 		if(getCurrentCell() != null){
+			getCurrentCell().removePhysicsEntities();
 			getCurrentCell().clearEntities();
 		}
 		currentX = x;
@@ -65,6 +66,7 @@ public final class MapLoader {
 		currentCell.loadDefaultEntities();
 		currentCell.addEntity(player);
 		currentCell.setPlayer(player);
+		currentCell.addPhysicsEntities();
 		return currentCell;
 	}
 	

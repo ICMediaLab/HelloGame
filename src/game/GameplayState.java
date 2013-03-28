@@ -14,12 +14,11 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import sounds.Sounds;
+import utils.ContactListenerSlick;
 import utils.EnemyLoader;
 import utils.GameplayMouseInput;
 import utils.MapLoader;
 import entities.objects.Bricks;
-import entities.objects.CirclePhysics;
-import entities.objects.FloorPhysics;
 import entities.players.Player;
 
 public class GameplayState extends BasicGameState {
@@ -28,7 +27,7 @@ public class GameplayState extends BasicGameState {
 	private Cell currentCell;
 	private Player player;
 	private Music music;
-	private static World world = new World(new Vec2(0,  9.8f), false);
+	private static World world = new World(new Vec2(0,  2*9.8f), false);
 	Image image;
 	  
     GameplayState(int stateID) {
@@ -59,27 +58,14 @@ public class GameplayState extends BasicGameState {
 		currentCell.addEntity(player);
 		
 		//audio
-		music = new Music("data/sounds/theme.ogg", true);
-		music.play(1.0f, 0.07f);
+		music = new Music("data/sounds/RedCurtain.ogg", true);
+		music.loop(1.0f, 0.4f);
 		
-		currentCell.addEntity(new Bricks(3, 3, world));
-		currentCell.addEntity(new Bricks(5, 3, world));
-		currentCell.addEntity(new Bricks(10, 5, world));
-		currentCell.addEntity(new FloorPhysics(1, 8, 1, 1, world));
-		currentCell.addEntity(new FloorPhysics(2, 9, 2, 3, world));
-		currentCell.addEntity(new FloorPhysics(4, 12, 3, 1, world));
-		currentCell.addEntity(new FloorPhysics(7, 13, 1, 1, world));
-		currentCell.addEntity(new FloorPhysics(8, 14, 3, 1, world));
-		currentCell.addEntity(new FloorPhysics(11, 15, 4, 1, world));
-		currentCell.addEntity(new FloorPhysics(16, 15, 1, 1, world));
-		currentCell.addEntity(new FloorPhysics(15, 16, 4, 1, world));
-		currentCell.addEntity(new FloorPhysics(19, 17, 5, 1, world));
-		currentCell.addEntity(new FloorPhysics(24, 18, 3, 1, world));
-		currentCell.addEntity(new FloorPhysics(27, 17, 2, 1, world));
-		currentCell.addEntity(new FloorPhysics(29, 16, 3, 1, world));
-		currentCell.addEntity(new FloorPhysics(32, 15, 1, 1, world));
-		currentCell.addEntity(new CirclePhysics(5, 1, 0.5f, world));
-		currentCell.addEntity(new CirclePhysics(5, 3, 0.5f, world));
+		world.setContactListener(new ContactListenerSlick());
+		
+		currentCell.addEntity(new Bricks(13, 3));
+		currentCell.addEntity(new Bricks(5, 3));
+		currentCell.addEntity(new Bricks(10, 5));
 	}
 
 	@Override
@@ -103,7 +89,7 @@ public class GameplayState extends BasicGameState {
 		}
 		
 		currentCell.updateEntities(gc, sbg, delta);
-		world.step(delta/1000f, 8, 3);
+		world.step(1/60f, 8, 3);
 	}
 
 	public static World getWorld() {

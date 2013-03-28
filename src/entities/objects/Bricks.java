@@ -1,11 +1,9 @@
 package entities.objects;
 
 import org.jbox2d.collision.shapes.PolygonShape;
-import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
-import org.jbox2d.dynamics.World;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -14,17 +12,22 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import entities.AbstractEntity;
 import entities.Entity;
+import game.GameplayState;
 import game.config.Config;
 
 public class Bricks extends AbstractEntity {
 	
 	Image image;
-	Body body;
 	float width; // in tiles
 	float height; // in tiles
 	
-	public Bricks(float x, float y, World world) throws SlickException {
-		this.image = new Image("data/images/bricks.png");
+	public Bricks(float x, float y) {
+		try {
+			this.image = new Image("data/images/bricks.png");
+		} catch (SlickException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		this.image.setCenterOfRotation(image.getWidth()/2f, image.getHeight()/2f);
 		this.width = image.getWidth() / Config.getTileSize();
 		this.height = image.getHeight() / Config.getTileSize();
@@ -33,7 +36,7 @@ public class Bricks extends AbstractEntity {
 		bodyDef.type = BodyType.DYNAMIC;
 		bodyDef.position.set(x + width/2f, y + height/2f);
 		
-		body = world.createBody(bodyDef);
+		body = GameplayState.getWorld().createBody(bodyDef);
 		
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(width/2f, height/2f);
@@ -45,6 +48,7 @@ public class Bricks extends AbstractEntity {
 		fixtureDef.friction = 0.7f;
 		
 		body.createFixture(fixtureDef);
+		body.setUserData(this);
 	}
 
 	@Override
@@ -71,8 +75,9 @@ public class Bricks extends AbstractEntity {
 
 	@Override
 	public AbstractEntity clone() {
-		// TODO Auto-generated method stub
-		return null;
+		Bricks bricks = new Bricks(getX(), getY());
+		destroy();
+		return bricks;
 	}
 
 	

@@ -17,7 +17,6 @@ import entities.Entity;
 
 public class FloorPhysics extends AbstractEntity {
 
-	Body body;
 	float width;
 	float height;
 	Shape renderShape;
@@ -38,10 +37,12 @@ public class FloorPhysics extends AbstractEntity {
 		fixtureDef.shape = shape;
 		fixtureDef.density = 0;
 		fixtureDef.restitution = 0.0f;
-		fixtureDef.friction = 2f;
+		fixtureDef.friction = 0.5f;
 		
 		body.createFixture(fixtureDef);
+		body.setUserData(this);
 		
+		this.setPosition(x, y);
 	}
 
 	public Body getBody() {
