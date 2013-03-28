@@ -82,7 +82,7 @@ abstract class ConditionFloatVariables {
 			case PLAYER_HEALTH_ABS: return player.getHealth();
 			case PLAYER_HEALTH_MAX: return player.getMaxHealth();
 			case PLAYER_HEALTH_PERCENT: return player.getHealthPercent();
-			case ENTITY_DISTANCE_TO_PLAYER: return new Position(e.getX() - player.getX(), e.getY() - player.getY()).getMagnitudeSquared();
+			case ENTITY_DISTANCE_TO_PLAYER: return new Position(e.getCentreX() - player.getCentreX(), e.getCentreY() - player.getCentreY()).getMagnitudeSquared();
 			}
 			throw new IllegalArgumentException("No such variable function defined (" + this + ").");
 		}

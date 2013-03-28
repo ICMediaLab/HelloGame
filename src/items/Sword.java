@@ -74,7 +74,7 @@ public class Sword extends Weapon {
             // do NOT pass in ALL enemies in cell, or this will be slow
             // find some way to pass only adjacent enemies to player.
             for (Entity e : enemies) {
-                if (e.intersects(hitbox)) {
+                if (e != p && e.intersects(hitbox)) {
                     e.takeDamage(damage); //take damage
                     if (dir == 1) {
                         e.accelerate(1.5f,0); //move enemy right or left

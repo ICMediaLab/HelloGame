@@ -1,7 +1,6 @@
 package entities;
 
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.state.StateBasedGame;
 
@@ -18,12 +17,12 @@ public interface Entity extends Cloneable, LayerRenderable {
 	/**
 	 * Returns the current x-position of this entity.
 	 */
-	float getX();
+	float getCentreX();
 	
 	/**
 	 * Returns the current y-position of this entity.
 	 */
-	float getY();
+	float getCentreY();
 	
 	/**
 	 * Returns the current x-velocity of this entity.
@@ -123,7 +122,7 @@ public interface Entity extends Cloneable, LayerRenderable {
 	 * @param x position
 	 * @param y position
 	 */
-	void setPosition(float x, float y);
+	void setCentre(float x, float y);
 	
 	/**
 	 * Updates this entity given keyboard input, tile properties and the time delta.<br />
@@ -145,14 +144,13 @@ public interface Entity extends Cloneable, LayerRenderable {
 	boolean intersects(Entity e2);
 	
 	/**
-	 * Returns true if and only if the rectangle given intersects with the bounding box of this entity.
-	 */
-	boolean intersects(Rectangle r2);
-	
-	/**
 	 * Returns true if and only if the hitbox given intersects with the bounding box of this entity.
 	 */
 	boolean intersects(Shape e2);
+	
+	boolean contains(Position p2);
+	boolean contains(Shape s2);
+	boolean contains(Entity e2);
 
 	/**
 	 * Triggered when an entity is found to be intersecting another entity.

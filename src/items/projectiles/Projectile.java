@@ -1,6 +1,5 @@
 package items.projectiles;
 
-import map.AbstractLayerRenderable;
 import map.Cell;
 import map.tileproperties.TileProperty;
 
@@ -18,9 +17,10 @@ import org.newdawn.slick.state.StateBasedGame;
 import utils.MapLoader;
 import utils.Position;
 import entities.Entity;
+import entities.VeryAbstractEntity;
 import game.config.Config;
 
-public class Projectile extends AbstractLayerRenderable {
+public class Projectile extends VeryAbstractEntity {
 	
 	private static final int PROJECTILE_DEFAULT_LAYER = -500;
 	
@@ -63,22 +63,75 @@ public class Projectile extends AbstractLayerRenderable {
 		this(new Position(x,y),damage,angle,speed);
 	}
 	
-	public void update(long DELTA) {
+	@Override
+	public Projectile clone() {
+		return this; //TODO
+	}
+
+	@Override
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+		sprite.draw((int)((hitbox.getCenterX()-1f)*Config.getTileSize()-sprite.getWidth()/2), (int)((hitbox.getCenterY()-1)*Config.getTileSize()-sprite.getHeight()/2));
+		/*For debugging purposes.*/
+		g.setColor(Color.green); 
+		g.draw(hitbox.transform(Transform.createTranslateTransform(-1, -1)).transform(Transform.createScaleTransform(Config.getTileSize(), Config.getTileSize())));
+		//*/
+	}
+
+	@Override
+	public int getLayer() {
+		return PROJECTILE_DEFAULT_LAYER;
+	}
+
+	@Override
+	public float getdX() {
+		return dxdy.getX();
+	}
+
+	@Override
+	public float getdY() {
+		return dxdy.getY();
+	}
+
+	@Override
+	public int takeDamage(int normalDamage) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getDamage() {
+		// TODO Auto-generated method stub
+		return damage;
+	}
+
+	@Override
+	public int getNormalDamage() {
+		// TODO Auto-generated method stub
+		return damage;
+	}
+
+	@Override
+	public int getHealth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public float getHealthPercent() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getMaxHealth() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void frameMove() {
 		hitbox = hitbox.transform(Transform.createTranslateTransform(dxdy.getX(), dxdy.getY()));
 		sprite.update(DELTA);
-		Cell currentCell = MapLoader.getCurrentCell();
-		int x = (int) hitbox.getCenterX(); int y = (int) hitbox.getCenterY();
-		if(x < 0 || y <= 0 || x >= currentCell.getWidth() - 1 || y >= currentCell.getHeight() - 1 || 
-		        currentCell.getTile(x, y).lookupProperty(TileProperty.BLOCKED).getBoolean()) {
-            MapLoader.getCurrentCell().removeProjectile(this);
-		}
-		for (Entity e : MapLoader.getCurrentCell().getEntities()) {
-		    // apply damage
-		    if (hitbox.intersects(e.getHitbox()) && !e.equals(currentCell.getPlayer())) {
-	            e.takeDamage(damage);
-	            currentCell.removeProjectile(this);
-	        }
-		}
 		
 		// gravity
 		dxdy.setY(dxdy.getY() + ACCEL_DUE_TO_G); 
@@ -101,24 +154,59 @@ public class Projectile extends AbstractLayerRenderable {
 		moving = new Animation(movementForward, 200, false);
 		sprite=moving;
 	}
-	
+
 	@Override
-	protected Projectile clone() throws CloneNotSupportedException {
-		return this; //TODO
+	public boolean isDead() {
+		return false;
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		sprite.draw((int)((hitbox.getCenterX()-1f)*Config.getTileSize()-sprite.getWidth()/2), (int)((hitbox.getCenterY()-1)*Config.getTileSize()-sprite.getHeight()/2));
-		/*For debugging purposes.*/
-		g.setColor(Color.green); 
-		g.draw(hitbox.transform(Transform.createTranslateTransform(-1, -1)).transform(Transform.createScaleTransform(Config.getTileSize(), Config.getTileSize())));
-		//*/
+	public boolean isOnGround() {
+		return false;
 	}
 
 	@Override
-	public int getLayer() {
-		return PROJECTILE_DEFAULT_LAYER;
+	public void jump() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void accelerate(float ddx, float ddy) {
+		dxdy.translate(ddx, ddy);
+	}
+
+	@Override
+	public void setVelocity(float dx, float dy) {
+		dxdy.set(dx, dy);
+	}
+
+	@Override
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+		frameMove();
+		int x = (int) getCentreX(), y = (int) getCentreY();
+		Cell cell = MapLoader.getCurrentCell();
+		if(x < 0 || y <= 0 || x >= cell.getWidth() - 1 || y >= cell.getHeight() - 1 || 
+		        cell.getTile(x, y).lookupProperty(TileProperty.BLOCKED).getBoolean()) {
+            MapLoader.getCurrentCell().removeEntity(this);
+		}
+	}
+
+	@Override
+	public void stop_sounds() {
+	}
+
+	@Override
+	public void collide(Entity e) {
+		if(e != MapLoader.getCurrentCell().getPlayer()){
+			e.takeDamage(damage);
+	        MapLoader.getCurrentCell().removeEntity(this);
+		}
+	}
+
+	@Override
+	public Shape getHitbox() {
+		return hitbox;
 	}
 
 }

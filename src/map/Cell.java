@@ -1,8 +1,5 @@
 package map;
 
-import game.config.Config;
-import items.projectiles.Projectile;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -26,7 +23,7 @@ import entities.objects.DoorTrigger;
 import entities.objects.JumpPlatform;
 import entities.objects.LeafTest;
 import entities.players.Player;
-//test
+import game.config.Config;
 
 
 public class Cell extends TiledMap{
@@ -34,10 +31,8 @@ public class Cell extends TiledMap{
 	private final Tile[][] properties = new Tile[getHeight()][getWidth()];
 	private final Set<Entity> defaultEntities = new HashSet<Entity>();
 	private final Set<Entity> entities = new HashSet<Entity>();
-	private final Set<Entity> entitiesToRemove = new HashSet<Entity>(); 
-	private final Set<Projectile> projectiles = new HashSet<Projectile>();
-	private Set<Projectile> projectilesToRemove = new HashSet<Projectile>();
-	private static final long DELTA = 1000/60;
+	private final Set<Entity> entitiesToRemove = new HashSet<Entity>();
+	private final Set<Entity> entitiesToAdd = new HashSet<Entity>();
     private Player player;
 			
 	public Cell(String location) throws SlickException {
@@ -113,18 +108,13 @@ public class Cell extends TiledMap{
 	
 	
 	public void addEntity(Entity newEntity) {
-		entities.add(newEntity);
-	}
-	
-	public void addProjectile(Projectile projectile){
-		projectiles.add(projectile);
+		entitiesToAdd.add(newEntity);
 	}
 	
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		//super.render(-Config.getTileSize(),-Config.getTileSize());
 		PriorityQueue<LayerRenderable> orderedLayers = new PriorityQueue<LayerRenderable>();
 		orderedLayers.addAll(entities);
-		orderedLayers.addAll(projectiles);
 		for(Layer l : layers){
 			try{
 				orderedLayers.add(new LayeredLayer(l));
@@ -145,19 +135,16 @@ public class Cell extends TiledMap{
 		entitiesToRemove.addAll(entities);
 	}
 	
-	public void clearProjectiles(){
-		projectiles.clear();
-	}
-	
 	public Set<Entity> getEntities() {
 	    return entities;
 	}
 	
 	public void updateEntities(GameContainer gc, StateBasedGame sbg, int delta){
 		entitiesToRemove.clear();
+		entities.addAll(entitiesToAdd);
+		entitiesToAdd.clear();
 		for(Entity e : entities){
 			e.update(gc, sbg, delta);
-			
 			for (Entity e2 : entities){
 				if (e.intersects(e2) && !e.equals(e2)){
 					e.collide(e2);
@@ -165,21 +152,12 @@ public class Cell extends TiledMap{
 			}
 		}
 		entities.removeAll(entitiesToRemove);
-        projectilesToRemove.clear();
-		for(Projectile p : projectiles){
-			p.update(DELTA);
-		}
-        projectiles.removeAll(projectilesToRemove);
 	}
     
     public void removeEntity(Entity e) {
         entitiesToRemove.add(e);
     }
     
-    public void removeProjectile(Projectile p) {
-        projectilesToRemove .add(p);
-    }
-
     public void setPlayer(Player player) {
         this.player = player;
     }

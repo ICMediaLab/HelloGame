@@ -2,14 +2,14 @@ package entities.aistates;
 
 import map.tileproperties.TileProperty;
 import utils.MapLoader;
-import entities.Entity;
+import entities.FixedRotationEntity;
 
 public class RoamingEntity implements AINextMove {
 	
 	private static final float MARGIN = 0.25f;
 	
 	@Override
-	public void updateEntity(Entity e) {
+	public void updateEntity(FixedRotationEntity e) {
 		//set up dx based on current entity direction.
 		float dx = 0.2f * ((int) (Math.random()*2) - 0.5f);
 		if(e.getdX() > 0f){
