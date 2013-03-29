@@ -9,7 +9,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class HelloGame extends StateBasedGame {
 
-	//int representations for the game states.
+	//int representations for the game states. 
 	public static final int MAINMENUSTATE = 0;
 	public static final int GAMEPLAYSTATE = 1;
   
