@@ -88,8 +88,12 @@ public class GameplayState extends BasicGameState {
 			gc.exit();
 		}
 		
+		long start = System.currentTimeMillis();
 		currentCell.updateEntities(gc, sbg, delta);
-		world.step(1/60f, 8, 3);
+		long start2 = System.currentTimeMillis();
+		world.step(1/60f, 1, 1);
+		long start3 = System.currentTimeMillis();
+		System.out.println("update: " + (start2 - start) + "\t step: " + (start3 - start2));
 	}
 
 	public static World getWorld() {

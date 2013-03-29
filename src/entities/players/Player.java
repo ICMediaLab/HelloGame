@@ -49,7 +49,7 @@ public class Player extends AbstractEntity {
 	
 	private float speed = 0.3f;
 	private Weapon sword;
-	private boolean onGround = true;
+	private boolean onGround = false;
 	private boolean isRight = true;
 	private float rangedCounter = 0;
 	
@@ -242,7 +242,7 @@ public class Player extends AbstractEntity {
 		
 		//TODO: changing this back to this.isOnGround in if statement fixes crashes for me..
 		boolean newOnGround = isOnGround();
-		if (!isOnGround() && newOnGround){
+		if (!onGround && newOnGround){
 			SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
 		}
 		onGround = newOnGround;
