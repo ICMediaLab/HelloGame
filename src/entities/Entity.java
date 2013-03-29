@@ -156,12 +156,6 @@ public interface Entity extends Cloneable, LayerRenderable {
 	 * Triggered when an entity is found to be intersecting another entity.
 	 */
 	void collide(Entity e);
-	
-	/**
-	 * Triggered when entity end collision
-	 */
-	
-	void endCollide(Entity e);
 
 	/**
 	 * Returns a clone of this entity with all non-static fields also cloned.
@@ -172,10 +166,4 @@ public interface Entity extends Cloneable, LayerRenderable {
 	 * Returns the hitbox of this entity.
 	 */
 	Shape getHitbox();
-	
-	/**
-	 * Whatever needs to be done when destroying entity
-	 */
-	
-	void destroy();
 }

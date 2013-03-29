@@ -11,6 +11,7 @@ import map.Cell;
 
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
+import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
@@ -49,10 +50,12 @@ public class Player extends AbstractEntity {
 	
 	private float speed = 0.3f;
 	private Weapon sword;
-	private boolean onGround = false;
+	private boolean onGround = true;
 	private boolean isRight = true;
 	private float rangedCounter = 0;
 	
+	private Body body;
+
 	public Player(float x, float y, float width, float height, int maxhealth) {
 		super(x,y, width,height, maxhealth);
 		//Image[] movementRight = null;
@@ -104,19 +107,17 @@ public class Player extends AbstractEntity {
 		bodyDef.position.set(x + 0.5f, y + 0.5f);
 		
 		body = GameplayState.getWorld().createBody(bodyDef);
-				
+		
 		CircleShape shape = new CircleShape();
-		shape.m_radius = 0.48f;
+		shape.m_radius = 0.5f;
 		
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = shape;
 		fixtureDef.density = 90f;
-		fixtureDef.restitution = 0.0f;
-		fixtureDef.friction = 0.0f;
+		fixtureDef.restitution = 0.05f;
+		fixtureDef.friction = 0.7f;
 		
 		body.createFixture(fixtureDef);
-		body.setFixedRotation(true);
-		body.setUserData(this);
 	}
 
 	public Player(float x, float y) {
@@ -149,11 +150,9 @@ public class Player extends AbstractEntity {
 	private void playerJump() {
 		useAbility("doublejump");
 		if (isOnGround()) {
-//			super.jump();
-			body.setLinearVelocity(new Vec2(body.getLinearVelocity().x, body.getLinearVelocity().y - 8));
+			super.jump();
 			Sounds.play(SOUND_JUMP, 1.0f, 0.3f);
 		}
-		
 	}
 
 	/**
@@ -186,14 +185,14 @@ public class Player extends AbstractEntity {
 			
 		}
 		if (input.isKeyDown(Input.KEY_A) || input.isKeyDown(Input.KEY_LEFT)) {
-//			accelerate(-speed,0f);
+			accelerate(-speed,0f);
 			sprite = left;
 			isRight = false;
 			sprite.update(DELTA);
 			body.m_linearVelocity.x = -speed*32;
 		}
 		else if (input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT)) {
-//			accelerate(speed,0f);
+			accelerate(speed,0f);
 			sprite = right;
 			isRight = true;
 			sprite.update(DELTA);
@@ -208,7 +207,6 @@ public class Player extends AbstractEntity {
 			{
 				sprite = rightPause;
 			}
-			body.m_linearVelocity.x = 0;
 		}
 		if (input.isKeyPressed(Input.KEY_W) || input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
 		    sword.attack(this);
@@ -250,12 +248,11 @@ public class Player extends AbstractEntity {
 //		if (!onGround && this.isOnGround()){
 //			SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
 //		}
-//		onGround = isOnGround();
 		
+		checkMapChanged();
 		
-		this.setPosition(body.getPosition().x - 0.5f, body.getPosition().y - 0.5f);
-		checkMapChanged();		
-		}
+		body.setTransform(new Vec2(getX() + 0.5f, getY() + 0.5f), 0);
+	}
 	
 	/**
 	 * Checks the player's x and y position to see if they have reached the edge of the map. 
@@ -264,32 +261,24 @@ public class Player extends AbstractEntity {
 	public void checkMapChanged() {
 		Cell currentCell = MapLoader.getCurrentCell();
 		//check top
-//		if (getY() < 1 && getdY() < 0) {
-		if (body.getPosition().y < 1) {
+		if (getY() < 1 && getdY() < 0) {
 			currentCell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX(), MapLoader.getCurrentY() - 1);
-//			setPosition(getX(), currentCell.getHeight() - getHeight() - 1);
-			body.setTransform(new Vec2(getX(), currentCell.getHeight() - getHeight() - 1), 0);
+			setPosition(getX(), currentCell.getHeight() - getHeight() - 1);
 		}
 		//right
-//		if (getX() >= currentCell.getWidth() - 1 - getWidth() && getdX() > 0) {
-		if (body.getPosition().x > currentCell.getWidth() - 1) {
+		if (getX() >= currentCell.getWidth() - 1 - getWidth() && getdX() > 0) {
 			currentCell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX() + 1, MapLoader.getCurrentY());
-//			setPosition(1, getY());
-			body.setTransform(new Vec2(1, getY()), 0);
+			setPosition(1, getY());
 		}
 		//bottom
-//		if (getY() >= currentCell.getHeight() - 1 - getHeight() && getdY() > 0) {
-		if (body.getPosition().y > currentCell.getHeight() - 1) {
+		if (getY() >= currentCell.getHeight() - 1 - getHeight() && getdY() > 0) {
 			currentCell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX(), MapLoader.getCurrentY() + 1);
-//			setPosition(getX(), 1);
-			body.setTransform(new Vec2(getX(), 1), 0);
+			setPosition(getX(), 1);
 		}
 		//left
-//		if (getX() < 1 && getdX() < 0) {
-		if (body.getPosition().x < 1) {
+		if (getX() < 1 && getdX() < 0) {
 			currentCell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX() - 1, MapLoader.getCurrentY());
-//			setPosition(currentCell.getWidth() - getWidth() - 1, getY());
-			body.setTransform(new Vec2(currentCell.getWidth() - getWidth() - 1, getY()), 0);
+			setPosition(currentCell.getWidth() - getWidth() - 1, getY());
 		}
 	}
 	
@@ -321,11 +310,6 @@ public class Player extends AbstractEntity {
 
 	@Override
 	public void collide(Entity e) {
-		
-	}
-	
-	@Override
-	public void endCollide(Entity e) {
 		
 	}
 

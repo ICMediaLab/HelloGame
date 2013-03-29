@@ -17,6 +17,7 @@ import entities.Entity;
 
 public class FloorPhysics extends AbstractEntity {
 
+	Body body;
 	float width;
 	float height;
 	Shape renderShape;
@@ -37,12 +38,10 @@ public class FloorPhysics extends AbstractEntity {
 		fixtureDef.shape = shape;
 		fixtureDef.density = 0;
 		fixtureDef.restitution = 0.0f;
-		fixtureDef.friction = 0.5f;
+		fixtureDef.friction = 2f;
 		
 		body.createFixture(fixtureDef);
-		body.setUserData(this);
 		
-		this.setPosition(x, y);
 	}
 
 	public Body getBody() {
@@ -61,23 +60,7 @@ public class FloorPhysics extends AbstractEntity {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
 		g.setColor(Color.cyan);
 		g.fillRect(body.getPosition().x - width, body.getPosition().y - height, width, height);
-	}
-	
-	@Override
-	public boolean equals(Object obj) {
-		if(obj == this){
-			return true;
-		}
-		if(!(obj instanceof FloorPhysics)){
-			return false;
-		}
-		FloorPhysics phy = (FloorPhysics) obj;
-		return body.equals(phy.body);
-	}
-	
-	@Override
-	public int hashCode() {
-		return body.hashCode();
+		
 	}
 
 	@Override
@@ -100,7 +83,8 @@ public class FloorPhysics extends AbstractEntity {
 
 	@Override
 	public AbstractEntity clone() {
-		return this;
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
