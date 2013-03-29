@@ -17,9 +17,6 @@ import sounds.Sounds;
 import utils.GameplayMouseInput;
 import utils.MapLoader;
 import utils.npeloader.EnemyLoader;
-import entities.objects.Bricks;
-import entities.objects.CirclePhysics;
-import entities.objects.FloorPhysics;
 import entities.players.Player;
 
 public class GameplayState extends BasicGameState {
@@ -60,26 +57,7 @@ public class GameplayState extends BasicGameState {
 		
 		//audio
 		music = new Music("data/sounds/theme.ogg", true);
-		music.play(1.0f, 0.07f);
-		
-		currentCell.addEntity(new Bricks(3, 3, world));
-		currentCell.addEntity(new Bricks(5, 3, world));
-		currentCell.addEntity(new Bricks(10, 5, world));
-		currentCell.addEntity(new FloorPhysics(1, 8, 1, 1, world));
-		currentCell.addEntity(new FloorPhysics(2, 9, 2, 3, world));
-		currentCell.addEntity(new FloorPhysics(4, 12, 3, 1, world));
-		currentCell.addEntity(new FloorPhysics(7, 13, 1, 1, world));
-		currentCell.addEntity(new FloorPhysics(8, 14, 3, 1, world));
-		currentCell.addEntity(new FloorPhysics(11, 15, 4, 1, world));
-		currentCell.addEntity(new FloorPhysics(16, 15, 1, 1, world));
-		currentCell.addEntity(new FloorPhysics(15, 16, 4, 1, world));
-		currentCell.addEntity(new FloorPhysics(19, 17, 5, 1, world));
-		currentCell.addEntity(new FloorPhysics(24, 18, 3, 1, world));
-		currentCell.addEntity(new FloorPhysics(27, 17, 2, 1, world));
-		currentCell.addEntity(new FloorPhysics(29, 16, 3, 1, world));
-		currentCell.addEntity(new FloorPhysics(32, 15, 1, 1, world));
-		currentCell.addEntity(new CirclePhysics(5, 1, 0.5f, world));
-		currentCell.addEntity(new CirclePhysics(5, 3, 0.5f, world));
+		music.play(1.0f, 0.15f);
 	}
 
 	@Override

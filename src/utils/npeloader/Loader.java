@@ -13,20 +13,35 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import utils.XMLDocumentLoader;
+import entities.Entity;
 
 public abstract class Loader {
 
 	private final Method loadMethod;
+	private final Method clearMethod;
 
-	protected Loader(Method loadMethod){
+	protected Loader(Method loadMethod, Method clearMethod){
 		this.loadMethod = loadMethod;
+		this.clearMethod = clearMethod;
 	}
 	
-	public abstract void clearLoaded();
-	
-	private void loadItem(Node item){
+	public Loader(Class<? extends Entity> clazz, String loadMethodName, String clearMethodName) {
+		Method load = null, clear = null;
 		try {
-			loadMethod.invoke(null,item);
+			load  = clazz.getMethod(loadMethodName, Node.class);
+			clear = clazz.getMethod(clearMethodName);
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		}
+		loadMethod = load;
+		clearMethod = clear;
+	}
+	
+	private void printStackTraceInvoke(Method method, Object... args){
+		try {
+			method.invoke(null, args);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
@@ -35,12 +50,20 @@ public abstract class Loader {
 			e.printStackTrace();
 		}
 	}
-	
-	protected void load(Document d, String root, String node){
-		loadOnly(d, root, node, null, null, loadMethod);
+
+	public void clearLoaded(){
+		printStackTraceInvoke(clearMethod);
 	}
 	
-	protected void loadOnly(Document d, String root, String node, String lookup, Collection<String> only, Method loadMethod){
+	private void loadItem(Node item){
+		printStackTraceInvoke(loadMethod, item);
+	}
+	
+	protected final void load(Document d, String root, String node){
+		loadOnly(d, root, node, null, null);
+	}
+	
+	protected final void loadOnly(Document d, String root, String node, String lookup, Collection<String> only){
 		if(d.getDocumentElement().getNodeName().equalsIgnoreCase(root)){
 			NodeList nList = d.getElementsByTagName(node);
 			for (int i = nList.getLength()-1; i >= 0; --i) {
@@ -54,11 +77,11 @@ public abstract class Loader {
 		}
 	}
 	
-	public void load(String... paths){
+	public final void load(String... paths){
 		load(null,paths);
 	}
 
-	private void load(Collection<String> only, String... paths) {
+	private final void load(Collection<String> only, String... paths) {
 		try {
 			Document[] docs = XMLDocumentLoader.getXMLDocument(paths);
 			for(Document d : docs){
