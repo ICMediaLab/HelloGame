@@ -111,7 +111,7 @@ public class Enemy extends NonPlayableEntity{
 	 * @throws SlickException 
 	 * @throws DOMException 
 	 */
-	public static void loadEnemy(Node node) throws ParseException, DOMException, SlickException {
+	public static void loadEnemyFromNode(Node node) throws ParseException, DOMException, SlickException {
 		NamedNodeMap attrs = node.getAttributes();
 		
 		String name = attrs.getNamedItem("name").getNodeValue();

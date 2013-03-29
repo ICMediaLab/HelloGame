@@ -14,9 +14,9 @@ import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import sounds.Sounds;
-import utils.EnemyLoader;
 import utils.GameplayMouseInput;
 import utils.MapLoader;
+import utils.npeloader.EnemyLoader;
 import entities.objects.Bricks;
 import entities.objects.CirclePhysics;
 import entities.objects.FloorPhysics;
@@ -44,7 +44,7 @@ public class GameplayState extends BasicGameState {
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
 		//load enemy data
-		EnemyLoader.loadEnemies("data/enemydata.xml");
+		new EnemyLoader().load("data/enemydata.xml");
 		//map loading goes here. Needs a better home
 		//method needed to load all maps into their correct index in the array
 		MapLoader.setDimensions(3,2);
