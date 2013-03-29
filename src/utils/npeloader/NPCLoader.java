@@ -4,18 +4,18 @@ import java.util.Collection;
 
 import org.w3c.dom.Document;
 
-import entities.enemies.Enemy;
+import entities.npcs.NPC;
 
 /**
  * A utility class for loading npc templates from XML documents from specified {@code String} paths.<br />
  * Note additionally that the npc template storage will not be automatically emptied unless {@code clearLoaded()} is run. 
  */
-public final class NPCLoader extends Loader {
+public final class NPCLoader extends Loader<NPC> {
 	
 	private static final String root="npcs",node="npc",lookup="name";
 	
 	public NPCLoader(){
-		super(Enemy.class, "loadNPC", "clearLoadedNPCs");
+		super(NPC.class);
 	}
 	
 	/**

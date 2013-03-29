@@ -63,13 +63,13 @@ public class Enemy extends NonPlayableEntity{
 	 * Gets a new instance of the object.<br />
 	 * Implementations should not be case sensitive and not allow common references between entities.
 	 * @param name The string representation of the entity to be created.
-	 * @return A new INonPlayableEntity object.
+	 * @return A new Enemy object.
 	 */
-	public static Enemy getNewEnemy(String name){
+	public static Enemy getNew(String name){
 		if(name == null){
 			return null;
 		}
-		return (Enemy) enemies.get(name.toLowerCase()).clone();
+		return enemies.get(name.toLowerCase()).clone();
 	}
 	
 	/**
@@ -80,7 +80,7 @@ public class Enemy extends NonPlayableEntity{
 	 * @param y The y coordinate of the newly created enemy.
 	 * @return A new INonPlayableEntity object.
 	 */
-	public static Enemy getNewEnemy(Cell currentCell, String name, float x, float y){
+	public static Enemy getNew(Cell currentCell, String name, float x, float y){
 		if(name == null){
 			return null;
 		}
@@ -91,7 +91,7 @@ public class Enemy extends NonPlayableEntity{
 	/**
 	 * Resets the entity storage such that (A)x.getNewEnemy(x) = null;
 	 */
-	public static void clearLoadedEnemies(){
+	public static void clearLoaded(){
 		enemies.clear();
 	}
 	
@@ -99,7 +99,7 @@ public class Enemy extends NonPlayableEntity{
 	 * Adds an enemy to the enemy copy storage with the specified name.<br />
 	 * Names are not treated as case-sensitive.
 	 */
-	public static void loadEnemy(String name, Enemy e){
+	public static void load(String name, Enemy e){
 		if(name != null){
 			enemies.put(name.toLowerCase(), e);
 		}
@@ -111,7 +111,7 @@ public class Enemy extends NonPlayableEntity{
 	 * @throws SlickException 
 	 * @throws DOMException 
 	 */
-	public static void loadEnemy(Node node) throws ParseException, DOMException, SlickException {
+	public static void load(Node node) throws ParseException, DOMException, SlickException {
 		NamedNodeMap attrs = node.getAttributes();
 		
 		String name = attrs.getNamedItem("name").getNodeValue();
@@ -167,7 +167,7 @@ public class Enemy extends NonPlayableEntity{
 		}
 
 		Enemy e = new Enemy(width,height,health, leftAni, rightAni,AINode.getTextContent());
-		loadEnemy(name, e);
+		load(name, e);
 	}
 	
 	@Override

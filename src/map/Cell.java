@@ -54,7 +54,7 @@ public class Cell extends TiledMap{
 					int x = go.x / Config.getTileSize();
 					int y = go.y / Config.getTileSize();
 					if(go.type.equalsIgnoreCase("enemy")){
-						defaultEntities.add(Enemy.getNewEnemy(this, go.name, x,y));
+						defaultEntities.add(Enemy.getNew(this, go.name, x,y));
 					}else if(go.type.equalsIgnoreCase("door")){
 						if(triggers.containsKey(go.name)){
 							defaultEntities.add(new Door(this,triggers.remove(go.name),x,y));

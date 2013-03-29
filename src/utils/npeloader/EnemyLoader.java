@@ -10,12 +10,12 @@ import entities.enemies.Enemy;
  * A utility class for loading enemy templates from XML documents from specified {@code String} paths.<br />
  * Note additionally that the enemies template storage will not be automatically emptied unless {@code clearLoaded()} is run. 
  */
-public final class EnemyLoader extends Loader {
+public final class EnemyLoader extends Loader<Enemy> {
 	
 	private static final String root="enemies",node="enemy",lookup="name";
 	
 	public EnemyLoader(){
-		super(Enemy.class, "loadEnemy", "clearLoadedEnemies");
+		super(Enemy.class);
 	}
 	
 	/**

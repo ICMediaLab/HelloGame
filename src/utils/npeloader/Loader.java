@@ -15,8 +15,10 @@ import org.xml.sax.SAXException;
 import utils.XMLDocumentLoader;
 import entities.Entity;
 
-public abstract class Loader {
+public abstract class Loader<T extends Entity> {
 
+	private static final String DEFAULT_LOAD = "load";
+	private static final String DEFAULT_CLEAR = "clearLoaded";
 	private final Method loadMethod;
 	private final Method clearMethod;
 
@@ -25,7 +27,7 @@ public abstract class Loader {
 		this.clearMethod = clearMethod;
 	}
 	
-	public Loader(Class<? extends Entity> clazz, String loadMethodName, String clearMethodName) {
+	public Loader(Class<? extends T> clazz, String loadMethodName, String clearMethodName) {
 		Method load = null, clear = null;
 		try {
 			load  = clazz.getMethod(loadMethodName, Node.class);
@@ -39,6 +41,10 @@ public abstract class Loader {
 		clearMethod = clear;
 	}
 	
+	public Loader(Class<? extends T> clazz) {
+		this(clazz,DEFAULT_LOAD,DEFAULT_CLEAR);
+	}
+
 	private void printStackTraceInvoke(Method method, Object... args){
 		try {
 			method.invoke(null, args);
