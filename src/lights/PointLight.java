@@ -1,5 +1,6 @@
 package lights;
 
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -45,11 +46,9 @@ public class PointLight {
         scale = scaleOrig + 1f + .5f*(float)Math.sin(delta);
     }
     
-    public void render(Graphics g) {
-    	//set up our alpha map for the light
-		g.setDrawMode(Graphics.MODE_ALPHA_MAP);
-		//clear the alpha map before we draw to it...
-		g.clearAlphaMap();
+    public void render(GameContainer gc, Graphics g) {
+    	//set up blend functionality
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 		
 		//centre the light
 		int alphaW = (int)(alphaMap.getWidth() * scale);
@@ -63,10 +62,7 @@ public class PointLight {
 		//draw the alpha map
 		alphaMap.draw(alphaX, alphaY, alphaW, alphaH, sharedColor);
 		
-		//start blending in our tiles
-		g.setDrawMode(Graphics.MODE_ALPHA_BLEND);
-		
-		//we'll clip to the alpha rectangle, since anything outside of it will be transparent
-		g.setClip(alphaX, alphaY, alphaW, alphaH);
+		//return to normal rendering mode for any remaining renders
+		g.setDrawMode(Graphics.MODE_NORMAL);
     }
 }

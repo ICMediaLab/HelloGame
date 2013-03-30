@@ -1,9 +1,11 @@
 package game;
 
+import lights.PointLight;
 import map.Cell;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -60,9 +62,24 @@ public class GameplayState extends MouseCapture {
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
-			throws SlickException {  
+			throws SlickException {
 		currentCell.render(gc, sbg, g);
+		renderLighting(gc,g);
 		gui.render(g);
+	}
+	
+	private void renderLighting(GameContainer gc, Graphics g){
+		//clear alpha map in preparation
+		g.clearAlphaMap();
+		
+		//render each light
+		new PointLight(0, 0, 12).render(gc,g);
+		new PointLight(gc.getWidth(), 0, 12).render(gc,g);
+		
+		//fill remaining area with darkness... i think... :/
+		GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_DST_ALPHA);
+		g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
+		g.setDrawMode(Graphics.MODE_NORMAL);
 	}
 
 	@Override
@@ -82,10 +99,11 @@ public class GameplayState extends MouseCapture {
 				gc.exit();
 			}
 		}
-		
-		currentCell.updateEntities(gc, sbg, delta);
-		world.step(delta/1000f, 8, 3);
-		gui.update(gc, sbg, delta);
+		if(!gui.anyWindowOpen()){
+			currentCell.updateEntities(gc, sbg, delta);
+			world.step(delta/1000f, 8, 3);
+			gui.update(gc, sbg, delta);
+		}
 	}
 
 	public static World getWorld() {
