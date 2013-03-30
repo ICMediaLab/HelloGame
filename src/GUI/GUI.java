@@ -14,15 +14,11 @@ public class GUI {
 	}
 	
 	void setActiveWindow(Window window) {
-		if (window == activeWindow) {
-			activeWindow = null;  
-		} else {
-			activeWindow = window;
-		}
+		activeWindow = window == activeWindow ? null : window;
 	}
 
 	public AbstractWindow getActiveWindow() {
-		return activeWindow.getInstance();
+		return activeWindow == null ? null : activeWindow.getInstance();
 	}
 	
 	public void closeWindow(){
