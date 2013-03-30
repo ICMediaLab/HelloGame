@@ -5,7 +5,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class MenuWindow extends Window {
+class MenuWindow extends AbstractWindow {
 
 	@Override
 	public void render(Graphics gr) {

@@ -10,7 +10,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import entities.players.abilities.PlayerAbility;
 
-public class AbilitiesWindow extends Window {
+class AbilitiesWindow extends AbstractWindow {
 	
 	private int numberOfAbilities = 6;
 	private ArrayList<PlayerAbility> abilities  = new ArrayList<PlayerAbility>(numberOfAbilities);

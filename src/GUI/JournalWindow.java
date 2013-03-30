@@ -7,7 +7,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
-public class JournalWindow extends Window {
+class JournalWindow extends AbstractWindow {
 	
 	private ArrayList<String> objectives;
 

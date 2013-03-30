@@ -1,48 +1,35 @@
 package GUI;
 
-import game.config.Config;
+import org.newdawn.slick.Input;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.state.StateBasedGame;
-
-import utils.Dimension;
-import utils.Position;
-
-
-public abstract class Window {
+public enum Window {
+	ABILITIES(AbilitiesWindow.class,Input.KEY_I),
+	JOURNAL(JournalWindow.class,Input.KEY_J),
+	MAP(MapWindow.class,Input.KEY_M),
+	MENU(MenuWindow.class,Input.KEY_O);
 	
-	private static final Position NORMAL_TOPLEFT = new Position(Config.getScreenWidth()*0.25f,Config.getScreenHeight()*0.25f);
-	private static final Dimension NORMAL_DIMENSIONS = new Dimension(Config.getScreenWidth()*0.5f,Config.getScreenHeight()*0.5f);
-
-	private final Position topleft;
-	private final Dimension dimension;
+	private final AbstractWindow inst;
+	private final int windowKey;
 	
-	public Window(){
-		this(NORMAL_TOPLEFT,NORMAL_DIMENSIONS);
+	private Window(Class<? extends AbstractWindow> clazz, int windowKey){
+		AbstractWindow tryinst = null;
+		try {
+			tryinst = clazz.newInstance();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		this.inst = tryinst;
+		this.windowKey = windowKey;
 	}
 	
-	public Window(float x, float y, float width, float height) {
-		this.topleft = new Position(x,y);
-		this.dimension = new Dimension(width, height);
+	AbstractWindow getInstance(){
+		return inst;
 	}
-	public Window(Position topleft, Dimension dimension) {
-		this.topleft = topleft;
-		this.dimension = dimension;
+	
+	boolean isWindowKeyPressed(Input input){
+		return input.isKeyPressed(windowKey);
 	}
-
-	public float getX() {
-		return topleft.getX();
-	}
-	public float getY() {
-		return topleft.getY();
-	}
-	public float getWidth() {
-		return dimension.getWidth();
-	}
-	public float getHeight() {
-		return dimension.getHeight();
-	}
-	public abstract void render(Graphics gr);
-	public abstract void update(GameContainer gc, StateBasedGame sbg, float delta);
+	
 }
