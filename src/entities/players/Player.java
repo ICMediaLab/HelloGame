@@ -321,4 +321,5 @@ public class Player extends AbstractEntity {
 	public float getRangedCounter() {
 	    return rangedCounter / 1000;
 	}
+	
 }

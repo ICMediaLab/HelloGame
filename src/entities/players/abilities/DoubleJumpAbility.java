@@ -10,6 +10,11 @@ public class DoubleJumpAbility extends PlayerAbility {
 	
 	private static final  Sound SOUND_DOUBLE_JUMP = Sounds.loadSound("double_jump.ogg");
 	private boolean hasJumped = false;
+	
+	public DoubleJumpAbility() {
+		this.name = "Double jump";
+		this.description = "Press SPACE twice to double jump";
+	}
 
 	@Override
 	/**
