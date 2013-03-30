@@ -59,7 +59,7 @@ public abstract class Loader<T extends Entity> {
 	}
 	
 	/**
-	 * Creates a new Loader object based on the class specified and the default loading and clearing methods (i.e. {@code load} and {@code clearLoaded})
+	 * Creates a new Loader object based on the class specified and the default loading and clearing methods (i.e. {@code load} and {@code clearLoaded}d)
 	 * @param clazz The class containing the two method members. Note both methods must be public and static.
 	 */
 	public Loader(Class<? extends T> clazz) {
