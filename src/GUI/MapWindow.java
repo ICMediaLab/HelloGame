@@ -19,6 +19,7 @@ class MapWindow extends AbstractWindow {
 		gr.drawString("Green - explored cell", x + 20, y + 70);
 		gr.drawString("White - unexplored cell", x + 20, y + 90);
 		gr.drawString("Line - connection", x + 20, y + 110);
+		gr.drawString("Dot - contains item", x + 20, y + 130);
 		
 		gr.setColor(Color.orange);
 		gr.fillRoundRect(x + width/2 - 3, y + height/2 - 3, 46, 46, 5);
@@ -40,6 +41,9 @@ class MapWindow extends AbstractWindow {
 		gr.drawLine(x + width/2 + 40 + 50, y + height/2 + 20, x + width/2 + 50 + 50, y + height/2 + 20);
 		gr.drawLine(x + width/2 + 120, y + height/2 + 40, x + width/2 +	120, y + height/2 + 50);
 		
+
+        gr.setColor(Color.cyan);
+        gr.fillOval(x + width/2 - 3 + 120, y + height/2 + 17, 6, 6);
 		
 	}
 
