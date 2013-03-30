@@ -7,6 +7,11 @@ import entities.players.Player;
 import items.projectiles.Projectile;
 
 public class RangedAttackAbility extends PlayerAbility {
+	
+	public RangedAttackAbility() {
+		this.name = "Ranged attack";
+		this.description = "Hold RMB and then release to shoot";
+	}
 
 	@Override
 	public void use(Player p) {
