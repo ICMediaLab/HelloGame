@@ -1,22 +1,17 @@
 package entities.players.abilities;
 
-import utils.GameplayMouseInput;
+import game.MouseCapture;
+import items.projectiles.Projectile;
 import utils.MapLoader;
 import utils.Position;
 import entities.players.Player;
-import items.projectiles.Projectile;
 
 public class RangedAttackAbility extends PlayerAbility {
 	
-	public RangedAttackAbility() {
-		this.name = "Ranged attack";
-		this.description = "Hold RMB and then release to shoot";
-	}
-
 	@Override
 	public void use(Player p) {
 	    Projectile pro = null;
-	    Position vec = GameplayMouseInput.getMousePosition().clone();
+	    Position vec = MouseCapture.getMousePositionRelative();
 	    vec.translate(-p.getCentreX(), -p.getCentreY());
 	    pro = new Projectile(p.getCentreX(), p.getCentreY(), 10, vec.getAngle(), p.getRangedCounter());
 		MapLoader.getCurrentCell().addEntity(pro);

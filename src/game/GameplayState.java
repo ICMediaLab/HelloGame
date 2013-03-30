@@ -9,17 +9,15 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
 import sounds.Sounds;
-import utils.GameplayMouseInput;
 import utils.MapLoader;
 import utils.npeloader.EnemyLoader;
 import GUI.GUI;
 import entities.players.Player;
 
-public class GameplayState extends BasicGameState {
+public class GameplayState extends MouseCapture {
 	
 	private final int stateID;
 	private Cell currentCell;
@@ -74,7 +72,7 @@ public class GameplayState extends BasicGameState {
 		currentCell = MapLoader.getCurrentCell();
 		//check input
 		Input input = gc.getInput();
-		if (input.isKeyDown(Input.KEY_ESCAPE)){
+		if (input.isKeyPressed(Input.KEY_ESCAPE)){
 			if(gui.anyWindowOpen()){
 				gui.closeWindow();
 			}else{
@@ -93,25 +91,4 @@ public class GameplayState extends BasicGameState {
 	public static World getWorld() {
 		return world;
 	}
-	
-	@Override
-	public void mouseDragged(int oldx, int oldy, int newx, int newy) {
-		GameplayMouseInput.mouseDragged(oldx, oldy, newx, newy);
-	}
-	
-	@Override
-	public void mouseMoved(int oldx, int oldy, int newx, int newy) {
-		GameplayMouseInput.mouseMoved(oldx, oldy, newx, newy);
-	}
-	
-	@Override
-	public void mousePressed(int button, int x, int y) {
-		GameplayMouseInput.mousePressed(button, x, y);
-	}
-	
-	@Override
-	public void mouseReleased(int button, int x, int y) {
-		GameplayMouseInput.mouseReleased(button, x, y);
-	}
-	
 }

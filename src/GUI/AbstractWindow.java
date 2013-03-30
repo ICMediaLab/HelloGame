@@ -1,5 +1,7 @@
 package GUI;
 
+import java.awt.event.MouseAdapter;
+
 import game.config.Config;
 
 import org.newdawn.slick.GameContainer;
@@ -10,7 +12,7 @@ import utils.Dimension;
 import utils.Position;
 
 
-public abstract class AbstractWindow {
+public abstract class AbstractWindow extends MouseAdapter {
 	
 	private static final Position NORMAL_TOPLEFT = new Position(Config.getScreenWidth()*0.25f,Config.getScreenHeight()*0.25f);
 	private static final Dimension NORMAL_DIMENSIONS = new Dimension(Config.getScreenWidth()*0.5f,Config.getScreenHeight()*0.5f);

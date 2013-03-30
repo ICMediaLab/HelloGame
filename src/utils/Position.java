@@ -1,5 +1,7 @@
 package utils;
 
+import java.awt.Point;
+
 public class Position implements Cloneable {
 	
 	private float x,y;
@@ -10,7 +12,11 @@ public class Position implements Cloneable {
 	}
 	
 	public Position(){
-		x=0f; y=0f;
+		this(0f,0f);
+	}
+
+	public Position(Point p) {
+		this(p.x, p.y);
 	}
 
 	public float getX() {
