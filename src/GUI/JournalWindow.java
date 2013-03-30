@@ -11,8 +11,8 @@ class JournalWindow extends AbstractWindow {
 	
 	private ArrayList<String> objectives;
 
-	public JournalWindow() {
-		super();
+	public JournalWindow(GUI gui) {
+		super(gui);
 		this.objectives = new ArrayList<String>();
 		
 		addObjective("-Kill the princess");

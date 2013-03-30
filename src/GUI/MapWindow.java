@@ -6,6 +6,10 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
 class MapWindow extends AbstractWindow {
+	
+	public MapWindow(GUI gui) {
+		super(gui);
+	}
 
 	@Override
 	public void render(Graphics gr) {

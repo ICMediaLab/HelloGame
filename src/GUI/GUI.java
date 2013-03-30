@@ -1,5 +1,7 @@
 package GUI;
 
+import game.MouseCapture;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -14,11 +16,17 @@ public class GUI {
 	}
 	
 	void setActiveWindow(Window window) {
-		activeWindow = window == activeWindow ? null : window;
+		MouseCapture.removeListener(getActiveWindow());
+		if(window == activeWindow){
+			activeWindow = null;
+		}else{
+			activeWindow = window;
+			MouseCapture.addListener(getActiveWindow());
+		}
 	}
 
 	public AbstractWindow getActiveWindow() {
-		return activeWindow == null ? null : activeWindow.getInstance();
+		return activeWindow == null ? null : activeWindow.getInstance(this);
 	}
 	
 	public void closeWindow(){

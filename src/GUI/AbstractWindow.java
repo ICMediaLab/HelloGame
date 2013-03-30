@@ -1,6 +1,5 @@
 package GUI;
 
-import java.awt.event.MouseAdapter;
 
 import game.config.Config;
 
@@ -10,6 +9,7 @@ import org.newdawn.slick.state.StateBasedGame;
 
 import utils.Dimension;
 import utils.Position;
+import utils.mouse.MouseAdapter;
 
 
 public abstract class AbstractWindow extends MouseAdapter {
@@ -19,16 +19,17 @@ public abstract class AbstractWindow extends MouseAdapter {
 
 	private final Position topleft;
 	private final Dimension dimension;
+	private final GUI parent;
 	
-	public AbstractWindow(){
-		this(NORMAL_TOPLEFT,NORMAL_DIMENSIONS);
+	public AbstractWindow(GUI gui){
+		this(gui,NORMAL_TOPLEFT,NORMAL_DIMENSIONS);
 	}
 	
-	public AbstractWindow(float x, float y, float width, float height) {
-		this.topleft = new Position(x,y);
-		this.dimension = new Dimension(width, height);
+	public AbstractWindow(GUI gui, float x, float y, float width, float height) {
+		this(gui, new Position(x,y), new Dimension(width, height));
 	}
-	public AbstractWindow(Position topleft, Dimension dimension) {
+	public AbstractWindow(GUI gui, Position topleft, Dimension dimension) {
+		this.parent = gui;
 		this.topleft = topleft;
 		this.dimension = dimension;
 	}
@@ -45,6 +46,11 @@ public abstract class AbstractWindow extends MouseAdapter {
 	public float getHeight() {
 		return dimension.getHeight();
 	}
+	
+	public GUI getGUI(){
+		return parent;
+	}
+	
 	public abstract void render(Graphics gr);
 	public abstract void update(GameContainer gc, StateBasedGame sbg, float delta);
 }

@@ -18,7 +18,9 @@ public abstract class MouseCapture extends BasicGameState {
 	private static final Position mousePosition = new Position();
 	
 	public static void addListener(MouseListener listener){
-		listeners.add(listener);
+		if(listener != null){
+			listeners.add(listener);
+		}
 	}
 	
 	public static boolean removeListener(MouseListener listener){

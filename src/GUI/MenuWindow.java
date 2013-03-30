@@ -5,7 +5,24 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.state.StateBasedGame;
 
+import utils.mouse.MouseContainer;
+
 class MenuWindow extends AbstractWindow {
+	
+	private final Button res;
+	private final Button opt;
+	private final Button exit;
+	
+	private boolean halt = false;
+	
+	public MenuWindow(GUI gui) {
+		super(gui);
+		float width = 160, height=60, cornerRadius = 5;
+		float x = getX() + (getWidth() - width)*0.5f;
+		res  = new Button("Resume",x, getY() + 30, width, height, cornerRadius);
+		opt  = new Button("Options",x, getY() + 100, width, height, cornerRadius);
+		exit = new Button("Exit Game",x, getY() + 170, width, height, cornerRadius);
+	}
 
 	@Override
 	public void render(Graphics gr) {
@@ -13,25 +30,27 @@ class MenuWindow extends AbstractWindow {
 		gr.setColor(new Color(0.5f, 0.5f, 0.5f, 0.8f));
 		gr.fillRoundRect(x, y, width, height, 5);
 		
-		gr.setColor(Color.darkGray);
-		gr.fillRoundRect(x + width * 0.5f - 80, y + 30, 160, 60, 5);
-		gr.setColor(Color.black);
-		gr.drawString("Resume", x + width * 0.5f - gr.getFont().getWidth("Resume")/2 , y + 30 + 30 - gr.getFont().getHeight("Resume")/2);
-		
-		gr.setColor(Color.darkGray);
-		gr.fillRoundRect(x + width * 0.5f - 80, y + 100, 160, 60, 5);
-		gr.setColor(Color.black);
-		gr.drawString("Options", x + width * 0.5f - gr.getFont().getWidth("Options")/2 , y + 100 + 30 - gr.getFont().getHeight("Options")/2);
-		
-		gr.setColor(Color.darkGray);
-		gr.fillRoundRect(x + width * 0.5f - 80, y + 170, 160, 60, 5);
-		gr.setColor(Color.black);
-		gr.drawString("Exit", x + width * 0.5f - gr.getFont().getWidth("Exit")/2 , y + 170 + 30 - gr.getFont().getHeight("Exit")/2);
+		res.render( gr, Color.darkGray, Color.black);
+		opt.render( gr, Color.darkGray, Color.black);
+		exit.render(gr, Color.darkGray, Color.black);
 	}
 
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, float delta) {
-		
+		if(halt){
+			gc.exit();
+		}
+	}
+	
+	@Override
+	public void mouseReleased(MouseContainer mc) {
+		if(res.contains(mc.getX(), mc.getY())){
+			getGUI().closeWindow();
+		}else if(opt.contains(mc.getX(), mc.getY())){
+			//option stuff :/
+		}else if(exit.contains(mc.getX(), mc.getY())){
+			halt = true;
+		}
 	}
 
 }

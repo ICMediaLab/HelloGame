@@ -20,7 +20,8 @@ class AbilitiesWindow extends AbstractWindow {
 	private ArrayList<PlayerAbility> abilitiesList = new ArrayList<PlayerAbility>(numberOfAbilities);
 	private int abilitySelected = 0;
 	
-	public AbilitiesWindow() {
+	public AbilitiesWindow(GUI gui) {
+		super(gui);
 		abilitiesList.add((PlayerAbility) abilities.get("rangedattack"));
 		abilitiesList.add((PlayerAbility) abilities.get("doublejump"));
 		abilitiesList.add((PlayerAbility) abilities.get("speeddash"));
