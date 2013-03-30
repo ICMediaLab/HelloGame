@@ -73,8 +73,9 @@ public class GameplayState extends MouseCapture {
 		g.clearAlphaMap();
 		
 		//render each light
-		new PointLight(0, 0, 12).render(gc,g);
-		new PointLight(gc.getWidth(), 0, 12).render(gc,g);
+		new PointLight(0, 0, 5).render(gc,g);
+		new PointLight(gc.getWidth(), 0, 5).render(gc,g);
+		player.getLight().render(gc, g);
 		
 		//fill remaining area with darkness... i think... :/
 		GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_DST_ALPHA);

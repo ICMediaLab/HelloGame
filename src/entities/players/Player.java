@@ -1,12 +1,14 @@
 package entities.players;
 
 import game.GameplayState;
+import game.config.Config;
 import items.Sword;
 import items.Weapon;
 
 import java.awt.Dimension;
 import java.util.Map;
 
+import lights.PointLight;
 import map.Cell;
 
 import org.jbox2d.collision.shapes.CircleShape;
@@ -53,6 +55,7 @@ public class Player extends AbstractEntity {
 	private boolean onGround = true;
 	private boolean isRight = true;
 	private float rangedCounter = 0;
+	private PointLight light;
 	
 	private Body body;
 
@@ -100,7 +103,7 @@ public class Player extends AbstractEntity {
 		rightPause = new Animation(movementRightSheet, 0, 0, 0, 0, true, 1000, false);
 		leftPause = new Animation(movementLeftSheet, 0, 0, 0, 0, true, 1000, false);
 		sprite = rightPause;
-		
+		light = new PointLight(x, y, 5);
 		
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DYNAMIC;
@@ -252,6 +255,8 @@ public class Player extends AbstractEntity {
 		checkMapChanged();
 		
 		body.setTransform(new Vec2(getX() + 0.5f, getY() + 0.5f), 0);
+		
+		light.setPosition((getCentreX() - 1)*Config.getTileSize(), (getCentreY() - 1)*Config.getTileSize());
 	}
 	
 	/**
@@ -320,6 +325,10 @@ public class Player extends AbstractEntity {
 	
 	public float getRangedCounter() {
 	    return rangedCounter / 1000;
+	}
+
+	public PointLight getLight() {
+		return light;
 	}
 	
 }

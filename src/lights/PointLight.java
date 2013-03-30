@@ -65,4 +65,9 @@ public class PointLight {
 		//return to normal rendering mode for any remaining renders
 		g.setDrawMode(Graphics.MODE_NORMAL);
     }
+    
+    public void setPosition(float x, float y) {
+    	this.x = x;
+    	this.y = y;
+    }
 }
