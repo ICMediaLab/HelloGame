@@ -9,7 +9,6 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
 import entities.players.abilities.PlayerAbility;
-import game.config.Config;
 
 public class AbilitiesWindow extends Window {
 	
@@ -17,15 +16,9 @@ public class AbilitiesWindow extends Window {
 	private ArrayList<PlayerAbility> abilities  = new ArrayList<PlayerAbility>(numberOfAbilities);
 	private int abilitySelected = 0;
 	
-	public AbilitiesWindow() {
-		this.x = Config.getScreenWidth() * 0.25f;
-		this.y = Config.getScreenHeight() * 0.25f;
-		this.width = Config.getScreenWidth() * 0.5f;
-		this.height = Config.getScreenHeight() * 0.5f;
-	}
-
 	@Override
 	public void render(Graphics gr) {
+		float x = getX(), y = getY(), width = getWidth(), height = getHeight();
 		gr.setColor(new Color(0.5f, 0.5f, 0.5f, 0.8f));
 		gr.fillRoundRect(x, y, width, height, 5);
 		

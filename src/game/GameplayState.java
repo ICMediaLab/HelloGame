@@ -75,10 +75,14 @@ public class GameplayState extends BasicGameState {
 		//check input
 		Input input = gc.getInput();
 		if (input.isKeyDown(Input.KEY_ESCAPE)){
-			gc.sleep(300);
-			music.release();
-			Sounds.releaseSounds();
-			gc.exit();
+			if(gui.anyWindowOpen()){
+				gui.closeWindow();
+			}else{
+				gc.sleep(300);
+				music.release();
+				Sounds.releaseSounds();
+				gc.exit();
+			}
 		}
 		
 		currentCell.updateEntities(gc, sbg, delta);

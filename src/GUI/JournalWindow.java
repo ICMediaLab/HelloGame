@@ -1,7 +1,5 @@
 package GUI;
 
-import game.config.Config;
-
 import java.util.ArrayList;
 
 import org.newdawn.slick.Color;
@@ -14,20 +12,18 @@ public class JournalWindow extends Window {
 	private ArrayList<String> objectives;
 
 	public JournalWindow() {
-		this.x = Config.getScreenWidth() * 0.25f;
-		this.y = Config.getScreenHeight() * 0.25f;
-		this.width = Config.getScreenWidth() * 0.5f;
-		this.height = Config.getScreenHeight() * 0.5f;
+		super();
 		this.objectives = new ArrayList<String>();
 		
 		addObjective("-Kill the princess");
-		addObjective("-Rape the dragon");
+		addObjective("-Rape the dragon"); //NSFL
 		addObjective("-???");
 		addObjective("-Profit!");
 	}
 
 	@Override
 	public void render(Graphics gr) {
+		float x = getX(), y = getY(), width = getWidth(), height = getHeight();
 		gr.setColor(new Color(0.5f, 0.5f, 0.5f, 0.8f));
 		gr.fillRoundRect(x, y, width, height, 5);
 		
