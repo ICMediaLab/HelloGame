@@ -241,16 +241,11 @@ public class Player extends AbstractEntity {
 		updateTranslateSmooth();
 		frameMove();
 		
-		//TODO: changing this back to this.isOnGround in if statement fixes crashes for me..
 		boolean newOnGround = isOnGround();
-		if (!onGround && newOnGround){
-//			SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
+		if (!onGround && newOnGround && getdY() > 0){
+			SOUND_LANDING.playSingle(1.0f, 0.3f * getdY());
 		}
 		onGround = newOnGround;
-		
-//		if (!onGround && this.isOnGround()){
-//			SOUND_LANDING.playSingle(1.0f, 0.3f * this.getdY());
-//		}
 		
 		checkMapChanged();
 		

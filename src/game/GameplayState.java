@@ -56,7 +56,7 @@ public class GameplayState extends MouseCapture {
 		currentCell.addEntity(player);
 		
 		//audio
-		music = new Music("data/sounds/theme.ogg", true);
+		music = new Music("data/sounds/RedCurtain.ogg", true);
 		music.play(1.0f, 0.15f);		
 	}
 
