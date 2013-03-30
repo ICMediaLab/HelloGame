@@ -6,7 +6,6 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
@@ -17,6 +16,7 @@ import sounds.Sounds;
 import utils.GameplayMouseInput;
 import utils.MapLoader;
 import utils.npeloader.EnemyLoader;
+import GUI.Journal;
 import entities.players.Player;
 
 public class GameplayState extends BasicGameState {
@@ -26,7 +26,7 @@ public class GameplayState extends BasicGameState {
 	private Player player;
 	private Music music;
 	private static World world = new World(new Vec2(0,  9.8f), false);
-	Image image;
+	private Journal journal = new Journal();
 	  
     GameplayState(int stateID) {
        this.stateID = stateID;
@@ -57,13 +57,14 @@ public class GameplayState extends BasicGameState {
 		
 		//audio
 		music = new Music("data/sounds/theme.ogg", true);
-		music.play(1.0f, 0.15f);
+		music.play(1.0f, 0.15f);		
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {  
 		currentCell.render(gc, sbg, g);
+		journal.render(g);
 	}
 
 	@Override
@@ -82,6 +83,7 @@ public class GameplayState extends BasicGameState {
 		
 		currentCell.updateEntities(gc, sbg, delta);
 		world.step(delta/1000f, 8, 3);
+		journal.update(gc, sbg, delta);
 	}
 
 	public static World getWorld() {
@@ -107,4 +109,5 @@ public class GameplayState extends BasicGameState {
 	public void mouseReleased(int button, int x, int y) {
 		GameplayMouseInput.mouseReleased(button, x, y);
 	}
+	
 }
