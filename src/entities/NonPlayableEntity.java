@@ -5,6 +5,8 @@ import entities.aistates.decisiontree.AIDecisionTree;
 
 public abstract class NonPlayableEntity extends AbstractEntity {
 	
+	protected static final String DEFAULT_AI_STRING = ">idle";
+	
 	private final AIDecisionTree aitree;
 	
 	public NonPlayableEntity(float x, float y, float width, float height, int maxhealth, String AI) {

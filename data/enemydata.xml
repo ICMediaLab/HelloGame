@@ -1,12 +1,7 @@
 <enemies>
   <enemy name="rawr" maxhealth="50">
-    <leftimages duration="200">
-      data/images/dvl1_lf1.png
-      data/images/dvl1_lf2.png
-    </leftimages>
-    <rightimages duration="200">
-      data/images/dvl1_rt1.png
-      data/images/dvl1_rt2.png
+    <rightimages duration="200" sliced="true" width="50" offsetDispY="3">
+      data/images/walk2.png
     </rightimages>
     <ai>
       if $health_percent :less than: 0.8 {

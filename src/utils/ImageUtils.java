@@ -53,4 +53,8 @@ public class ImageUtils {
 	public static Image[] loadImages(Node node) throws SlickException{
 		return loadImages(node.getTextContent().trim().split("\\s+"));
 	}
+
+	public static ImageContainer flipImages(ImageContainer images, boolean h, boolean v) {
+		return images.flippedCopy(h,v);
+	}
 }

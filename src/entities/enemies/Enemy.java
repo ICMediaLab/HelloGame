@@ -5,10 +5,8 @@ import java.util.Map;
 
 import map.Cell;
 
-import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.w3c.dom.DOMException;
@@ -16,7 +14,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import utils.ImageUtils;
+import utils.AnimationContainer;
 import utils.MapLoader;
 
 import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
@@ -30,8 +28,8 @@ public class Enemy extends NonPlayableEntity{
 	
 	private static final int ENEMY_DEFAULT_LAYER = -20;
 	
-	private final Animation left, right;
-	private Animation sprite;
+	private final AnimationContainer left, right;
+	private AnimationContainer sprite;
 	
 	/**
 	 * Map containing default representations of all enemies currently required.<br />
@@ -40,14 +38,14 @@ public class Enemy extends NonPlayableEntity{
 	 */
 	private static final Map<String,Enemy> enemies = new HashMap<String,Enemy>();
 
-	private Enemy(float width,float height, int maxhealth, Animation left, Animation right, String aistr){
+	private Enemy(float width,float height, int maxhealth, AnimationContainer left, AnimationContainer right, String aistr){
 		super(0,0,width,height,maxhealth,aistr);
 		this.left = left;
 		this.right = right;
 		sprite = right;
 	}
 	
-	private Enemy(float x, float y, float width,float height, int maxhealth, Animation left, Animation right, AIDecisionTree aiDecisionTree){
+	private Enemy(float x, float y, float width,float height, int maxhealth, AnimationContainer left, AnimationContainer right, AIDecisionTree aiDecisionTree){
 		super(x,y,width,height,maxhealth,aiDecisionTree);
 		this.left = left;
 		this.right = right;
@@ -129,44 +127,43 @@ public class Enemy extends NonPlayableEntity{
 		Element elemNode = (Element) node;
 		
 		//set up animation
-		Animation leftAni,rightAni;
+		AnimationContainer leftAni,rightAni;
 		{
-			Image[] leftImages,rightImages;
 			Node leftImagesNode = elemNode.getElementsByTagName("leftimages").item(0);
 			Node rightImagesNode = elemNode.getElementsByTagName("rightimages").item(0);
-			int duration;
 			if(leftImagesNode == null){
 				if(rightImagesNode == null){
 					throw new ParseException("Must have at least either 'leftimages' or 'rightimages' tag defined.");
 				}else{
-					rightImages = ImageUtils.loadImages(rightImagesNode);
-					leftImages = ImageUtils.flipImages(rightImages, true, false);
-					duration = Integer.parseInt(rightImagesNode.getAttributes().getNamedItem("duration").getTextContent());
+					AnimationContainer cont = new AnimationContainer(rightImagesNode);
+					rightAni = cont;
+					leftAni  = cont.flippedCopy(true,false);
 				}
 			}else {
 				if(rightImagesNode == null){
-					leftImages = ImageUtils.loadImages(leftImagesNode);
-					rightImages = ImageUtils.flipImages(leftImages, true, false);
-					duration = Integer.parseInt(leftImagesNode.getAttributes().getNamedItem("duration").getTextContent());
+					AnimationContainer cont = new AnimationContainer(leftImagesNode);
+					leftAni  = cont;
+					rightAni = cont.flippedCopy(true, false);
 				}else{
-					leftImages = ImageUtils.loadImages(leftImagesNode);
-					rightImages = ImageUtils.loadImages(rightImagesNode);
-					duration = Integer.parseInt(rightImagesNode.getAttributes().getNamedItem("duration").getTextContent());
-					duration += Integer.parseInt(leftImagesNode.getAttributes().getNamedItem("duration").getTextContent());
-					duration /= 2;
+					leftAni  = new AnimationContainer(leftImagesNode);
+					rightAni = new AnimationContainer(rightImagesNode);
 				}
 			}
-			leftAni = new Animation(leftImages, duration);
-			rightAni = new Animation(rightImages, duration);
 		}
 		
 		//parse AI
-		Node AINode = elemNode.getElementsByTagName("ai").item(0);
-		if(AINode == null){
-			AINode = elemNode.getElementsByTagName("AI").item(0);
+		String AIText = DEFAULT_AI_STRING;
+		{
+			Node AINode = elemNode.getElementsByTagName("ai").item(0);
+			if(AINode == null){
+				AINode = elemNode.getElementsByTagName("AI").item(0);
+			}
+			if(AINode != null){
+				AIText = AINode.getTextContent();
+			}
 		}
 
-		Enemy e = new Enemy(width,height,health, leftAni, rightAni,AINode.getTextContent());
+		Enemy e = new Enemy(width,height,health, leftAni, rightAni,AIText);
 		load(name, e);
 	}
 	
@@ -204,8 +201,8 @@ public class Enemy extends NonPlayableEntity{
 	
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
-		renderSprite(sprite,0,0);
-		renderHealthBar(-4);
+		renderSprite(sprite);
+		renderHealthBar((int) (sprite.getOffset().getY()/2f));
 	}
 
 	@Override
