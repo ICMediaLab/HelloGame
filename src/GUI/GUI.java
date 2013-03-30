@@ -6,17 +6,16 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.state.StateBasedGame;
 
 public class GUI {
-	
-	private Window activeWindow;
-	private JournalWindow journalWindow;
-	private EmptyWindow emptyWindow;
-	private MapWindow mapWindow;
+
+	private final EmptyWindow emptyWindow = new EmptyWindow();
+	private Window activeWindow = emptyWindow;
+	private final JournalWindow journalWindow = new JournalWindow();
+	private final MapWindow mapWindow = new MapWindow();
+	private final AbilitiesWindow abilitiesWindow = new AbilitiesWindow();
+	private final MenuWindow menuWindow = new MenuWindow();
 
 	public GUI() {
-		this.activeWindow = new EmptyWindow();
-		this.journalWindow = new JournalWindow();
-		this.emptyWindow = new EmptyWindow();
-		this.mapWindow = new MapWindow();
+
 	}
 	
 	public Window setActiveWindow(Window window) {
@@ -41,6 +40,8 @@ public class GUI {
 		
 		     if (input.isKeyPressed(Input.KEY_J)) setActiveWindow(journalWindow);
 		else if (input.isKeyPressed(Input.KEY_M)) setActiveWindow(mapWindow);
+		else if (input.isKeyPressed(Input.KEY_I)) setActiveWindow(abilitiesWindow);
+		else if (input.isKeyPressed(Input.KEY_O)) setActiveWindow(menuWindow);
 	}
 
 	public JournalWindow getJournal() {
