@@ -16,7 +16,7 @@ import sounds.Sounds;
 import utils.GameplayMouseInput;
 import utils.MapLoader;
 import utils.npeloader.EnemyLoader;
-import GUI.Journal;
+import GUI.GUI;
 import entities.players.Player;
 
 public class GameplayState extends BasicGameState {
@@ -26,7 +26,7 @@ public class GameplayState extends BasicGameState {
 	private Player player;
 	private Music music;
 	private static World world = new World(new Vec2(0,  9.8f), false);
-	private Journal journal = new Journal();
+	private GUI gui = new GUI();
 	  
     GameplayState(int stateID) {
        this.stateID = stateID;
@@ -64,7 +64,7 @@ public class GameplayState extends BasicGameState {
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {  
 		currentCell.render(gc, sbg, g);
-		journal.render(g);
+		gui.render(g);
 	}
 
 	@Override
@@ -83,7 +83,7 @@ public class GameplayState extends BasicGameState {
 		
 		currentCell.updateEntities(gc, sbg, delta);
 		world.step(delta/1000f, 8, 3);
-		journal.update(gc, sbg, delta);
+		gui.update(gc, sbg, delta);
 	}
 
 	public static World getWorld() {

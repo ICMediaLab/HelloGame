@@ -11,7 +11,6 @@ public abstract class Window {
 	float y;
 	float width;
 	float height;
-	boolean active;
 	
 	public abstract void render(Graphics gr);
 	public abstract void update(GameContainer gc, StateBasedGame sbg, float delta);
