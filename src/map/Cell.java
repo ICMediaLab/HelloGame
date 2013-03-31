@@ -9,6 +9,7 @@ import java.util.Set;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.GroupObject;
@@ -37,6 +38,8 @@ public class Cell extends TiledMap{
 	private final Set<Entity> entitiesToAdd = new HashSet<Entity>();
     private Player player;
     private boolean visited = false;
+    private int counter = 150;
+    private float fadeOut = 1;
 			
 	public Cell(String location) throws SlickException {
 		super(location);
@@ -133,10 +136,18 @@ public class Cell extends TiledMap{
 			orderedLayers.poll().render(gc, sbg, g);
 		}
 		
+		Input input = gc.getInput();
 		
+		if (input.isKeyPressed(Input.KEY_K)) {
+			counter = 0;
+			fadeOut = 1;
+		}
+		
+		if (counter < 150) {
+			if (counter > 100) fadeOut -= 0.02;
 		// render minimap
 		Cell[][] mini = MapLoader.getSurroundingCells();
-		g.setColor(Color.orange);
+		g.setColor(Color.orange.scaleCopy(fadeOut));
         g.fillRoundRect(width * Config.getTileSize() - 128, 48, 24, 24, 5);
         g.setColor(Color.white);
         for (int j = 0; j < 3; j++) {
@@ -144,20 +155,24 @@ public class Cell extends TiledMap{
                 if (mini[i][j] != null) {
                     if (i != 1 || j != 1) {
                         if (mini[i][j].visited) {
-                            g.setColor(Color.green);
+                            g.setColor(Color.green.scaleCopy(fadeOut));
                         } else {
-                            g.setColor(Color.white);
+                            g.setColor(Color.white.scaleCopy(fadeOut));
                         }
                         g.fillRoundRect(width * Config.getTileSize() - (154 - (i * 26)), 22 + (j * 26), 24, 24, 5);
                     }
-                    g.setColor(Color.darkGray);
+                    g.setColor(Color.darkGray.scaleCopy(fadeOut));
                     g.fillRoundRect(width * Config.getTileSize() - (154 - (i * 26)) + 2, 22 + (j * 26) +  2, 20, 20, 5);
                 }
              }
         }
         
-        g.setColor(Color.darkGray);
+        g.setColor(Color.darkGray.scaleCopy(fadeOut));
         g.fillRoundRect(width * Config.getTileSize() - 128 + 2, 48 + 2, 20, 20, 5);
+        
+        counter++;
+		}
+		
 	}
 	
 	public void clearEntities() {
