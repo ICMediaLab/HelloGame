@@ -20,6 +20,9 @@ public class OptionsWindow extends AbstractWindow {
 	private boolean isFullscreen = Config.isFullscreen();
 	private boolean isMusic = true;
 	private boolean isSound = true;
+	
+	private boolean musicChanged = false;
+	private boolean soundChanged = false;
 
 	public OptionsWindow(GUI gui) {
 		super(gui);
@@ -54,8 +57,16 @@ public class OptionsWindow extends AbstractWindow {
 			e.printStackTrace();
 			isFullscreen = false;
 		}
-		gc.setMusicOn(isMusic);
-		gc.setSoundOn(isSound);
+		if (musicChanged) {
+			gc.setMusicOn(isMusic);
+			musicChanged = false;
+		}
+		if (soundChanged) {
+			gc.setSoundOn(isSound);
+			soundChanged = false;
+		}
+		
+		
 	}
 	
 	@Override
@@ -67,8 +78,10 @@ public class OptionsWindow extends AbstractWindow {
 		} else if(fullscreen.contains(mc)){
 			isFullscreen = !isFullscreen;
 		} else if(music.contains(mc)){
+			musicChanged = true;
 			isMusic = !isMusic;
 		} else if(sound.contains(mc)){
+			soundChanged = true;
 			isSound = !isSound;
 		}
 		
