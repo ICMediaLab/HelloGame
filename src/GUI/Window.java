@@ -8,7 +8,8 @@ public enum Window {
 	ABILITIES(AbilitiesWindow.class,Input.KEY_I),
 	JOURNAL(JournalWindow.class,Input.KEY_J),
 	MAP(MapWindow.class,Input.KEY_M),
-	MENU(MenuWindow.class,Input.KEY_O,Input.KEY_ESCAPE);
+	MENU(MenuWindow.class,Input.KEY_O,Input.KEY_ESCAPE),
+	OPTIONS(OptionsWindow.class);
 	
 	private final Class<? extends AbstractWindow> clazz;
 	private final int[] windowKeys;
