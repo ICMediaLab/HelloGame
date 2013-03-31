@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -16,6 +17,7 @@ import org.newdawn.slick.tiled.ObjectGroup;
 import org.newdawn.slick.tiled.TiledMap;
 
 import utils.LayerRenderable;
+import utils.MapLoader;
 import entities.Entity;
 import entities.enemies.Enemy;
 import entities.objects.Door;
@@ -34,6 +36,7 @@ public class Cell extends TiledMap{
 	private final Set<Entity> entitiesToRemove = new HashSet<Entity>();
 	private final Set<Entity> entitiesToAdd = new HashSet<Entity>();
     private Player player;
+    private boolean visited = false;
 			
 	public Cell(String location) throws SlickException {
 		super(location);
@@ -130,6 +133,31 @@ public class Cell extends TiledMap{
 			orderedLayers.poll().render(gc, sbg, g);
 		}
 		
+		
+		// render minimap
+		Cell[][] mini = MapLoader.getSurroundingCells();
+		g.setColor(Color.orange);
+        g.fillRoundRect(width * Config.getTileSize() - 128, 48, 24, 24, 5);
+        g.setColor(Color.white);
+        for (int j = 0; j < 3; j++) {
+            for (int i = 0; i < 3; i++) {
+                if (mini[i][j] != null) {
+                    if (i != 1 || j != 1) {
+                        if (mini[i][j].visited) {
+                            g.setColor(Color.green);
+                        } else {
+                            g.setColor(Color.white);
+                        }
+                        g.fillRoundRect(width * Config.getTileSize() - (154 - (i * 26)), 22 + (j * 26), 24, 24, 5);
+                    }
+                    g.setColor(Color.darkGray);
+                    g.fillRoundRect(width * Config.getTileSize() - (154 - (i * 26)) + 2, 22 + (j * 26) +  2, 20, 20, 5);
+                }
+             }
+        }
+        
+        g.setColor(Color.darkGray);
+        g.fillRoundRect(width * Config.getTileSize() - 128 + 2, 48 + 2, 20, 20, 5);
 	}
 	
 	public void clearEntities() {
@@ -165,6 +193,14 @@ public class Cell extends TiledMap{
     
     public Player getPlayer() {
         return player;
+    }
+    
+    public void setVisited() {
+        visited = true;
+    }
+    
+    public boolean isVisited() {
+        return visited;
     }
 
 }
