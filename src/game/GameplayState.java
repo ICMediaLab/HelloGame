@@ -55,7 +55,7 @@ public class GameplayState extends MouseCapture {
 		
 		//audio
 		music = new Music("data/sounds/RedCurtain.ogg", true);
-		music.play(1.0f, 0.15f);		
+		music.play(1.0f, 0.15f);
 	}
 
 	@Override

@@ -88,6 +88,6 @@ public class Position implements Cloneable {
 	
 	@Override
 	public String toString() {
-		return x + "\t" + y;
+		return x + ", " + y;
 	}
 }
