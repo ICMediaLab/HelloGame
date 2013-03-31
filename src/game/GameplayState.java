@@ -96,32 +96,39 @@ public class GameplayState extends MouseCapture {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
-		//update map
-		currentCell = MapLoader.getCurrentCell();
-		//check input
-		Input input = gc.getInput();
-		
-		for(PointLight l : lights){
-			l.update(gc, sbg, delta);
-		}
-		
-		if (input.isKeyPressed(Input.KEY_ESCAPE)){
-			if(gui.anyWindowOpen()){
-				gui.closeWindow();
-			}else{
-				gc.sleep(300);
-				music.release();
-				Sounds.releaseSounds();
-				gc.exit();
+		if(HelloGameContainer.isRunning()){
+			//update map
+			currentCell = MapLoader.getCurrentCell();
+			//check input
+			Input input = gc.getInput();
+			
+			for(PointLight l : lights){
+				l.update(gc, sbg, delta);
 			}
+			
+			if(gui.anyWindowOpen()){
+				if (input.isKeyPressed(Input.KEY_ESCAPE)){
+					gui.closeWindow();
+				}
+			}else {
+				currentCell.updateEntities(gc, sbg, delta);
+				world.step(delta/1000f, 8, 3);
+			}
+			gui.update(gc, sbg, delta);
 		}
-		if(!gui.anyWindowOpen()){
-			currentCell.updateEntities(gc, sbg, delta);
-			world.step(delta/1000f, 8, 3);
-		}
-		gui.update(gc, sbg, delta);
 	}
-
+	
+	@Override
+	public void leave(GameContainer gc, StateBasedGame game)
+			throws SlickException {
+		super.leave(gc, game);
+		if(!HelloGameContainer.isRunning()){
+			gc.sleep(300);
+			music.release();
+			Sounds.releaseSounds();
+		}
+	}
+	
 	public static World getWorld() {
 		return world;
 	}

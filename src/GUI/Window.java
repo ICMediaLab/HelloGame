@@ -8,15 +8,15 @@ public enum Window {
 	ABILITIES(AbilitiesWindow.class,Input.KEY_I),
 	JOURNAL(JournalWindow.class,Input.KEY_J),
 	MAP(MapWindow.class,Input.KEY_M),
-	MENU(MenuWindow.class,Input.KEY_O);
+	MENU(MenuWindow.class,Input.KEY_O,Input.KEY_ESCAPE);
 	
 	private final Class<? extends AbstractWindow> clazz;
-	private final int windowKey;
+	private final int[] windowKeys;
 	private AbstractWindow inst = null;
 	
-	private Window(Class<? extends AbstractWindow> clazz, int windowKey){
+	private Window(Class<? extends AbstractWindow> clazz, int... windowKeys){
 		this.clazz = clazz;
-		this.windowKey = windowKey;
+		this.windowKeys = windowKeys;
 	}
 	
 	AbstractWindow getInstance(GUI gui){
@@ -41,7 +41,12 @@ public enum Window {
 	}
 	
 	boolean isWindowKeyPressed(Input input){
-		return input.isKeyPressed(windowKey);
+		for(int key : windowKeys){
+			if(input.isKeyPressed(key)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }
