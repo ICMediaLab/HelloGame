@@ -16,10 +16,5 @@ public class SpeedDashAbility extends PlayerAbility {
 			p.translateSmooth(10, (p.getX() - 10f), p.getY());
 		}
 	}
-
-	@Override
-	public void stop_sounds() {
-		// TODO Auto-generated method stub
-		
-	}
+	
 }

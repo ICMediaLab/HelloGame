@@ -33,8 +33,4 @@ public class DoubleJumpAbility extends PlayerAbility {
 		
 	}
 
-	@Override
-	public void stop_sounds() {
-	}
-
 }

@@ -18,7 +18,21 @@ public class TextField {
 	private int cornerRadius, counterOut = 0;
 	private int counterIn = 0;
 
-	
+	/**
+	 * 
+	 * @param str Text to be displayed
+	 * @param triggerX Centre of triggering circle
+	 * @param triggerY Centre of triggering circle
+	 * @param cornerRadius Corner radius for text field
+	 * @param triggerRadius Radius of triggering circle
+	 * @param player Player
+	 * @param textOffsetX Distance of centre of text from trigger circle
+	 * @param textOffsetY Distance of centre of text from trigger circle
+	 * @param fieldColour Colour of text field
+	 * @param textColour Colour of text
+	 * @param fadeIn Fade in time
+	 * @param fadeOut Fade out time
+	 */
 
 	public TextField(String str, float triggerX, float triggerY, int cornerRadius, float triggerRadius, Player player, float textOffsetX, float textOffsetY, Color fieldColour, Color textColour, float fadeIn, float fadeOut) {
 		this.player = player;

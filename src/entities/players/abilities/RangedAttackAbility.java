@@ -22,10 +22,4 @@ public class RangedAttackAbility extends PlayerAbility {
 		MapLoader.getCurrentCell().addEntity(pro);
 	}
 
-	@Override
-	public void stop_sounds() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

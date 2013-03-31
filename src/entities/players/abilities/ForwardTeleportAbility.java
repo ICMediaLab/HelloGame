@@ -3,6 +3,7 @@ package entities.players.abilities;
 import map.tileproperties.TileProperty;
 import utils.MapLoader;
 import entities.players.Player;
+import game.config.Config;
 
 public class ForwardTeleportAbility extends PlayerAbility {
 	
@@ -14,21 +15,15 @@ public class ForwardTeleportAbility extends PlayerAbility {
 	}
 	
     public void use(Player p){
-		if (p.getDirection() == 1){
+		if (p.getDirection() == 1 && (p.getX() - 1 + distance < Config.getScreenWidth()/Config.getTileSize())){
 			if (MapLoader.getCurrentCell().getTile((int) p.getX() + (int) distance, (int) p.getY()).lookupProperty(TileProperty.BLOCKED).getBoolean()){
 				p.accelerate(distance,0);
 			}
-		} else {
+		} else if (p.getDirection() == -1 && (p.getX() - 1 - distance > 0)) {
 			if (MapLoader.getCurrentCell().getTile((int) p.getX() - (int) distance, (int) p.getY()).lookupProperty(TileProperty.BLOCKED).getBoolean()){
 				p.accelerate(-distance,0);
 			}
 		}
-	}
-
-	@Override
-	public void stop_sounds() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public static float getDistance() {
