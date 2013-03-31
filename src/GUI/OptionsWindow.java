@@ -65,11 +65,11 @@ public class OptionsWindow extends AbstractWindow {
 		} else if(ok.contains(mc.getX(), mc.getY())){
 			getGUI().setActiveWindow(Window.MENU);
 		} else if(fullscreen.contains(mc.getX(), mc.getY())){
-			isFullscreen = isFullscreen ? false : true;
+			isFullscreen = !isFullscreen;
 		} else if(music.contains(mc.getX(), mc.getY())){
-			isMusic = isMusic ? false : true;
+			isMusic = !isMusic;
 		} else if(sound.contains(mc.getX(), mc.getY())){
-			isSound = isSound ? false : true;
+			isSound = !isSound;
 		}
 		
 		

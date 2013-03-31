@@ -21,11 +21,6 @@ public class HelloGameContainer extends AppGameContainer {
 	}
 	
 	@Override
-	protected void updateAndRender(int delta) throws SlickException {
-		super.updateAndRender(delta);
-	}
-	
-	@Override
 	public void exit() {
 		running = false;
 		game.closeRequested();
