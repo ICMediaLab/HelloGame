@@ -25,7 +25,6 @@ public class EntityLight extends AbstractLight {
 
 	@Override
 	public float getX() {
-		System.out.println(e);
 		return (e.getCentreX() - 1)*Config.getTileSize();
 	}
 

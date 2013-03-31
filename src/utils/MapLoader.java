@@ -65,6 +65,7 @@ public final class MapLoader {
 		currentCell.loadDefaultEntities();
 		currentCell.addEntity(player);
 		currentCell.setPlayer(player);
+		currentCell.setVisited();
 		return currentCell;
 	}
 	
@@ -83,6 +84,27 @@ public final class MapLoader {
 	
 	public static int getCurrentY() {
 		return currentY;
+	}
+	
+	/**
+	 * Method to generate the cells needed for the minimap.
+	 * @return 3x3 array of cells
+	 */
+	public static Cell[][] getSurroundingCells() {
+	    Cell[][] res = new Cell[3][3];
+	    
+	    for (int j = 0; j < 3; j++) {
+	        for (int i = 0; i < 3; i++) {
+	            try {
+	                res[i][j] = maps[currentY + j - 1][currentX + i - 1];
+	            } 
+	            catch (IndexOutOfBoundsException e) {
+	                res[i][j] = null;
+	            }
+	        }
+	    }
+	    
+	    return res;
 	}
 	
 }
