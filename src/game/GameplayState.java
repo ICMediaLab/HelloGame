@@ -64,8 +64,8 @@ public class GameplayState extends MouseCapture {
 		lights.add(new PointLight(gc.getWidth(), 0, 5));
 		
 		//audio
-		music = new Music("data/sounds/theme.ogg", true);
-		music.play(1.0f, 0.15f);
+		music = new Music("data/sounds/RedCurtain.ogg", true);
+		music.play(1.0f, 0.15f);		
 	}
 
 	@Override
