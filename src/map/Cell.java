@@ -6,6 +6,9 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+import lights.EntityLight;
+import lights.PointLight;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -33,6 +36,7 @@ public class Cell extends TiledMap{
 	private final Set<Entity> entities = new HashSet<Entity>();
 	private final Set<Entity> entitiesToRemove = new HashSet<Entity>();
 	private final Set<Entity> entitiesToAdd = new HashSet<Entity>();
+	private final LightMap lightmap = new LightMap();
     private Player player;
 			
 	public Cell(String location) throws SlickException {
@@ -82,6 +86,9 @@ public class Cell extends TiledMap{
 		for(Entity e : defaultEntities){
 			addEntity(e.clone());
 		}
+		
+		lightmap.addLight(new PointLight(800, 0, 5));
+		lightmap.addLight(new PointLight(0, 0, 5));
 	}
 	
 	public Tile getTile(int x, int y) {
@@ -130,6 +137,7 @@ public class Cell extends TiledMap{
 			orderedLayers.poll().render(gc, sbg, g);
 		}
 		
+		lightmap.render(gc, sbg, g);
 	}
 	
 	public void clearEntities() {
@@ -138,6 +146,11 @@ public class Cell extends TiledMap{
 	
 	public Set<Entity> getEntities() {
 	    return entities;
+	}
+	
+	public void update(GameContainer gc, StateBasedGame sbg, int delta){
+		updateEntities(gc,sbg,delta);
+		lightmap.update(delta);
 	}
 	
 	public void updateEntities(GameContainer gc, StateBasedGame sbg, int delta){
@@ -161,6 +174,7 @@ public class Cell extends TiledMap{
     
     public void setPlayer(Player player) {
         this.player = player;
+        lightmap.addLight(new EntityLight(player, 7f));
     }
     
     public Player getPlayer() {
