@@ -6,7 +6,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
 
 import utils.mouse.MouseContainer;
 
@@ -32,23 +31,23 @@ public class OptionsWindow extends AbstractWindow {
 	}
 
 	@Override
-	public void render(Graphics gr) {
+	public void render(GameContainer gc, Graphics g) {
 		float x = getX(), y = getY(), width = getWidth(), height = getHeight();
-		gr.setColor(new Color(0.5f, 0.5f, 0.5f, 0.8f));
-		gr.fillRoundRect(x, y, width, height, 5);
+		g.setColor(new Color(0.5f, 0.5f, 0.5f, 0.8f));
+		g.fillRoundRect(x, y, width, height, 5);
 		
-		gr.setColor(Color.black);
-		gr.drawString("Options", x + width/2 - gr.getFont().getWidth("Options")/2, y + 10);
+		g.setColor(Color.black);
+		g.drawString("Options", x + width/2 - g.getFont().getWidth("Options")/2, y + 10);
 		
-		cancel.render(gr, Color.darkGray, Color.black);
-		ok.render(gr, Color.darkGray, Color.black);
-		fullscreen.render(gr, Color.darkGray, Color.black);
-		music.render(gr, Color.darkGray, Color.black);
-		sound.render(gr, Color.darkGray, Color.black);
+		cancel.render(g, Color.darkGray, Color.black);
+		ok.render(g, Color.darkGray, Color.black);
+		fullscreen.render(g, Color.darkGray, Color.black);
+		music.render(g, Color.darkGray, Color.black);
+		sound.render(g, Color.darkGray, Color.black);
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, float delta) {
+	public void update(GameContainer gc) {
 		try {
 			gc.setFullscreen(isFullscreen); // For now it doesn't work, don't know why...
 		} catch (SlickException e) {
