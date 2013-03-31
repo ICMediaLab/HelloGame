@@ -2,17 +2,14 @@ package GUI;
 
 
 import game.config.Config;
-
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.state.StateBasedGame;
-
 import utils.Dimension;
 import utils.Position;
+import utils.Renderable;
+import utils.Updatable;
 import utils.mouse.MouseAdapter;
 
 
-public abstract class AbstractWindow extends MouseAdapter {
+public abstract class AbstractWindow extends MouseAdapter implements Updatable, Renderable {
 	
 	private static final Position NORMAL_TOPLEFT = new Position(Config.getScreenWidth()*0.25f,Config.getScreenHeight()*0.25f);
 	private static final Dimension NORMAL_DIMENSIONS = new Dimension(Config.getScreenWidth()*0.5f,Config.getScreenHeight()*0.5f);
@@ -50,7 +47,4 @@ public abstract class AbstractWindow extends MouseAdapter {
 	public GUI getGUI(){
 		return parent;
 	}
-	
-	public abstract void render(Graphics gr);
-	public abstract void update(GameContainer gc, StateBasedGame sbg, float delta);
 }

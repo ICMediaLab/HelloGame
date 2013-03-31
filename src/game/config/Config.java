@@ -17,6 +17,7 @@ public final class Config {
 	private Config(){}; //this class should not be instantiated. 
 	
 	private static final String CONFIG_FILE_NAME = ".config";
+	public static final int DELTA = 1000/60;
 	
 	static {
 		setDefaultConfig();

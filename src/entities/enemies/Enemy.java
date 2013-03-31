@@ -8,7 +8,6 @@ import map.Cell;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -23,6 +22,7 @@ import entities.Entity;
 import entities.NonPlayableEntity;
 import entities.aistates.decisiontree.AIDecisionTree;
 import entities.players.Player;
+import game.config.Config;
 
 public class Enemy extends NonPlayableEntity{
 	
@@ -168,7 +168,7 @@ public class Enemy extends NonPlayableEntity{
 	}
 	
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+	public void update(GameContainer gc) {
 		
 		checkMapChanged();
 		
@@ -186,7 +186,7 @@ public class Enemy extends NonPlayableEntity{
 		if (intersects(p)) {
 		    p.takeDamage(1);
 		}
-		sprite.update(DELTA);
+		sprite.update(Config.DELTA);
 		frameMove();
 	}
 	
@@ -200,7 +200,7 @@ public class Enemy extends NonPlayableEntity{
 	}
 	
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+	public void render(GameContainer gc, Graphics g) {
 		renderSprite(sprite);
 		renderHealthBar((int) (sprite.getOffset().getY()/2f));
 	}

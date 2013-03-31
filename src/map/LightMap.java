@@ -10,9 +10,11 @@ import lights.Light;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.state.StateBasedGame;
 
-public class LightMap {
+import utils.Renderable;
+import utils.Updatable;
+
+public class LightMap implements Updatable, Renderable {
 
 	private final Set<Light> lights = new HashSet<Light>();
 	
@@ -35,7 +37,7 @@ public class LightMap {
 		return lights;
 	}
 	
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g){
+	public void render(GameContainer gc, Graphics g){
 		
 		//clear alpha map in preparation
 		g.clearAlphaMap();
@@ -44,7 +46,7 @@ public class LightMap {
 		
 		//render each light
 		for(Light l : lights){
-			l.render(gc, sbg, g);
+			l.render(gc,g);
 		}
 		
 		//fill remaining area with darkness... i think... :/
@@ -54,7 +56,7 @@ public class LightMap {
 		AbstractLight.renderPost(g);
 	}
 
-	public void update(int delta) {
+	public void update(GameContainer gc) {
 		// TODO Auto-generated method stub
 		
 	}

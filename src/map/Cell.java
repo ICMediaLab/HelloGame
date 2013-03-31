@@ -1,5 +1,6 @@
 package map;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -14,7 +15,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.GroupObject;
 import org.newdawn.slick.tiled.Layer;
 import org.newdawn.slick.tiled.ObjectGroup;
@@ -22,6 +22,8 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import utils.LayerRenderable;
 import utils.MapLoader;
+import utils.Renderable;
+import utils.Updatable;
 import entities.Entity;
 import entities.enemies.Enemy;
 import entities.objects.Door;
@@ -32,8 +34,9 @@ import entities.players.Player;
 import game.config.Config;
 
 
-public class Cell extends TiledMap{
+public class Cell extends TiledMap implements Updatable, Renderable {
 
+	private static final Comparator<? super LayerRenderable> LAYER_COMPARATOR = new LayerComparator();
 	private final Tile[][] properties = new Tile[getHeight()][getWidth()];
 	private final Set<Entity> defaultEntities = new HashSet<Entity>();
 	private final Set<Entity> entities = new HashSet<Entity>();
@@ -125,9 +128,9 @@ public class Cell extends TiledMap{
 		entitiesToAdd.add(newEntity);
 	}
 	
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+	public void render(GameContainer gc, Graphics g) {
 		//super.render(-Config.getTileSize(),-Config.getTileSize());
-		PriorityQueue<LayerRenderable> orderedLayers = new PriorityQueue<LayerRenderable>();
+		PriorityQueue<LayerRenderable> orderedLayers = new PriorityQueue<LayerRenderable>(11,LAYER_COMPARATOR);
 		orderedLayers.addAll(entities);
 		for(Layer l : layers){
 			try{
@@ -140,10 +143,10 @@ public class Cell extends TiledMap{
 			}
 		}
 		while(!orderedLayers.isEmpty()){
-			orderedLayers.poll().render(gc, sbg, g);
+			orderedLayers.poll().render(gc, g);
 		}
 		
-		lightmap.render(gc, sbg, g);
+		lightmap.render(gc,g);
 		Input input = gc.getInput();
 		
 		if (input.isKeyPressed(Input.KEY_K)) {
@@ -190,17 +193,17 @@ public class Cell extends TiledMap{
 	    return entities;
 	}
 	
-	public void update(GameContainer gc, StateBasedGame sbg, int delta){
-		updateEntities(gc,sbg,delta);
-		lightmap.update(delta);
+	public void update(GameContainer gc){
+		updateEntities(gc);
+		lightmap.update(gc);
 	}
 	
-	public void updateEntities(GameContainer gc, StateBasedGame sbg, int delta){
+	public void updateEntities(GameContainer gc){
 		entitiesToRemove.clear();
 		entities.addAll(entitiesToAdd);
 		entitiesToAdd.clear();
 		for(Entity e : entities){
-			e.update(gc, sbg, delta);
+			e.update(gc);
 			for (Entity e2 : entities){
 				if (e != e2 && e.intersects(e2)){
 					e.collide(e2);

@@ -2,12 +2,17 @@ package items;
 
 import java.util.Set;
 
+import map.Cell;
+
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import sounds.SoundGroup;
+import utils.MapLoader;
 import entities.Entity;
 import entities.players.Player;
 import game.config.Config;
@@ -55,11 +60,16 @@ public class Sword extends Weapon {
     }
 
     @Override
-    public void update(long delta, Set<? extends Entity> enemies, Player p) {
-        counter += delta;
+    public void update(GameContainer gc) {
+        counter += Config.DELTA;
         // if counter hasn't played full sword animation
         // TODO: for some reason this turns out to be twice the animation length.  I made a quick fix by setting the sprite to ping pong mode, doubling the length
         if (swung && counter <= defaultDuration * duration.length * 2) {
+        	Cell cell = MapLoader.getCurrentCell();
+        	Set<Entity> entities = cell.getEntities();
+        	Player p = cell.getPlayer();
+        	
+        	
             dir = p.getDirection(); //update sword location
             sprite.restart(); // restart sprite's internal counter
             if (dir == 1) {
@@ -73,7 +83,7 @@ public class Sword extends Weapon {
             
             // do NOT pass in ALL enemies in cell, or this will be slow
             // find some way to pass only adjacent enemies to player.
-            for (Entity e : enemies) {
+            for (Entity e : entities) {
                 if (e != p && e.intersects(hitbox)) {
                     e.takeDamage(damage); //take damage
                     if (dir == 1) {
@@ -93,7 +103,7 @@ public class Sword extends Weapon {
     }
     
     @Override
-    public void render() {
+    public void render(GameContainer gc, Graphics g) {
         int xOffset = 2 * dir;
         if (dir == -1) {
             xOffset /= 2;

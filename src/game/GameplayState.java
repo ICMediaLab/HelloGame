@@ -1,14 +1,9 @@
 package game;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import lights.PointLight;
 import map.Cell;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
-import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -66,7 +61,7 @@ public class GameplayState extends MouseCapture {
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
-		currentCell.render(gc, sbg, g);
+		currentCell.render(gc, g);
 		//renderLighting(gc,g);
 		gui.render(gc, g);
 	}
@@ -85,10 +80,10 @@ public class GameplayState extends MouseCapture {
 					gui.closeWindow();
 				}
 			}else {
-				currentCell.updateEntities(gc, sbg, delta);
+				currentCell.updateEntities(gc);
 				world.step(delta/1000f, 8, 3);
 			}
-			gui.update(gc, sbg, delta);
+			gui.update(gc);
 		}
 	}
 	

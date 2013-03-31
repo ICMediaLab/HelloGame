@@ -1,12 +1,11 @@
 package entities;
 
-import map.AbstractLayerRenderable;
-
 import org.newdawn.slick.geom.Shape;
 
+import utils.LayerRenderable;
 import utils.Position;
 
-public abstract class VeryAbstractEntity extends AbstractLayerRenderable implements Entity {
+public abstract class VeryAbstractEntity implements Entity, LayerRenderable {
 	
 	@Override
 	public final boolean intersects(Entity e2) {

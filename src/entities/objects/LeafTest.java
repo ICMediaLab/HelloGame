@@ -2,10 +2,10 @@ package entities.objects;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.state.StateBasedGame;
 
 import entities.Entity;
 import entities.StaticEntity;
@@ -44,12 +44,12 @@ public class LeafTest extends StaticEntity {
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, org.newdawn.slick.Graphics g) {
+	public void render(GameContainer gc, Graphics g) {
 		renderSprite(moving, -5, -54);
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+	public void update(GameContainer gc) {
 		if (!moving.isStopped()){
 			if (moving.getFrame() == 0) {
 				moving.stop();

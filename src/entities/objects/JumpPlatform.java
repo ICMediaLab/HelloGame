@@ -3,7 +3,6 @@ package entities.objects;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.state.StateBasedGame;
 
 import entities.Entity;
 import entities.StaticEntity;
@@ -18,13 +17,13 @@ public class JumpPlatform extends StaticEntity {
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+	public void render(GameContainer gc, Graphics g) {
 		g.setColor(Color.pink);
 		g.fillRect((this.getX()-1)*Config.getTileSize(), (this.getY()-1)*Config.getTileSize(), Config.getTileSize(), 0.2f*Config.getTileSize());
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+	public void update(GameContainer gc) {
 		// TODO Auto-generated method stub
 		
 	}

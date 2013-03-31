@@ -10,7 +10,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.state.StateBasedGame;
 
 import entities.AbstractEntity;
 import entities.Entity;
@@ -57,14 +56,14 @@ public class FloorPhysics extends AbstractEntity {
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+	public void render(GameContainer gc, Graphics g) {
 		g.setColor(Color.cyan);
 		g.fillRect(body.getPosition().x - width, body.getPosition().y - height, width, height);
 		
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+	public void update(GameContainer gc) {
 		// TODO Auto-generated method stub
 		
 	}

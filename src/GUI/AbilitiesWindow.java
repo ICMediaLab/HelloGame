@@ -7,7 +7,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.state.StateBasedGame;
 
 import entities.players.abilities.AbilityFinder;
 import entities.players.abilities.IPlayerAbility;
@@ -29,40 +28,40 @@ class AbilitiesWindow extends AbstractWindow {
 	}
 	
 	@Override
-	public void render(Graphics gr) {
+	public void render(GameContainer gc, Graphics g) {
 		float x = getX(), y = getY(), width = getWidth(), height = getHeight();
-		gr.setColor(new Color(0.5f, 0.5f, 0.5f, 0.8f));
-		gr.fillRoundRect(x, y, width, height, 5);
+		g.setColor(new Color(0.5f, 0.5f, 0.5f, 0.8f));
+		g.fillRoundRect(x, y, width, height, 5);
 		
-		gr.setColor(Color.black);
-		gr.drawString("Abilities", x + (width - gr.getFont().getWidth("Abilities")) * 0.5f , y + 10);
+		g.setColor(Color.black);
+		g.drawString("Abilities", x + (width - g.getFont().getWidth("Abilities")) * 0.5f , y + 10);
 		
-		gr.setColor(new Color(0.8f, 0, 0, 0.7f));
-		gr.fillRoundRect(x + 15, y + 35 + abilitySelected*40, 40, 40, 5);
+		g.setColor(new Color(0.8f, 0, 0, 0.7f));
+		g.fillRoundRect(x + 15, y + 35 + abilitySelected*40, 40, 40, 5);
 		
 		for (int i = 0; i < abilitiesList.size(); i++) {
-			gr.setColor(Color.darkGray);
-			gr.fillRoundRect(x + 20, y + 40 + i*40, 30, 30, 5);
+			g.setColor(Color.darkGray);
+			g.fillRoundRect(x + 20, y + 40 + i*40, 30, 30, 5);
 			abilitiesList.get(i).getImage().draw(x + 20, y + 40 + i*40, 0.3f);
 			
-			gr.setColor(Color.black);
-			gr.drawString(new Integer(i + 1).toString(), x + 33, y + 45 + i*40);
-			gr.drawString(abilitiesList.get(i).getName(), x + 20 + 30 + 10, y + 45 + i*40);
+			g.setColor(Color.black);
+			g.drawString(new Integer(i + 1).toString(), x + 33, y + 45 + i*40);
+			g.drawString(abilitiesList.get(i).getName(), x + 20 + 30 + 10, y + 45 + i*40);
 		}
 		
-		gr.setColor(Color.darkGray);
-		gr.fillRoundRect(x + width * 0.5f, y + 40, 100, 100, 5);
+		g.setColor(Color.darkGray);
+		g.fillRoundRect(x + width * 0.5f, y + 40, 100, 100, 5);
 		abilitiesList.get(abilitySelected).getImage().draw(x + width * 0.5f, y + 40, 1);
 		
-		gr.setColor(Color.black);
-		gr.drawString(new Integer(abilitySelected + 1).toString(), x + width * 0.5f + 40 , y + 50);
-		gr.drawString("Nice image for ability", x + width*0.5f + 50 - gr.getFont().getWidth("Nice image for ability")/2 , y + 80);
-		gr.drawString(abilitiesList.get(abilitySelected).getDescription(), x + width * 0.5f , y + 150);
+		g.setColor(Color.black);
+		g.drawString(new Integer(abilitySelected + 1).toString(), x + width * 0.5f + 40 , y + 50);
+		g.drawString("Nice image for ability", x + width*0.5f + 50 - g.getFont().getWidth("Nice image for ability")/2 , y + 80);
+		g.drawString(abilitiesList.get(abilitySelected).getDescription(), x + width * 0.5f , y + 150);
 		
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, float delta) {
+	public void update(GameContainer gc) {
 		Input input = gc.getInput();
 		
 		if (input.isKeyPressed(Input.KEY_TAB)) {

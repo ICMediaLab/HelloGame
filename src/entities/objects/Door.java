@@ -1,7 +1,5 @@
 package entities.objects;
 
-import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -11,9 +9,9 @@ import map.tileproperties.TileProperty;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.util.BufferedImageUtil;
 
 import entities.Entity;
@@ -38,8 +36,8 @@ public class Door extends StaticEntity {
 		}
 		{
 			BufferedImage i = new BufferedImage(Config.getTileSize(), Config.getTileSize(), BufferedImage.TYPE_INT_ARGB);
-			Graphics g = i.createGraphics();
-			g.setColor(Color.BLACK);
+			java.awt.Graphics g = i.createGraphics();
+			g.setColor(java.awt.Color.BLACK);
 			g.fillRect(0, 0, Config.getTileSize(), Config.getTileSize());
 			Texture t = null;
 			try {
@@ -51,8 +49,8 @@ public class Door extends StaticEntity {
 		}
 		{
 			BufferedImage i = new BufferedImage(Config.getTileSize(), Config.getTileSize(), BufferedImage.TYPE_INT_ARGB);
-			Graphics g = i.createGraphics();
-			g.setColor(Color.GREEN);
+			java.awt.Graphics g = i.createGraphics();
+			g.setColor(java.awt.Color.GREEN);
 			g.fillRect(0, 0, Config.getTileSize(), Config.getTileSize());
 			Texture t = null;
 			try {
@@ -65,8 +63,7 @@ public class Door extends StaticEntity {
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg,
-		org.newdawn.slick.Graphics g) {
+	public void render(GameContainer gc, Graphics g) {
 		if(!cell.getTile((int) getX(),(int) getY()).lookupProperty(TileProperty.BLOCKED).getBoolean()){
 			openSprite.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());
 		}else{
@@ -75,7 +72,7 @@ public class Door extends StaticEntity {
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+	public void update(GameContainer gc) {
 		if(trigger == null){
 			closeDoor();
 		}

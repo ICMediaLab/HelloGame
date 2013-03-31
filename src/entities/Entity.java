@@ -1,18 +1,16 @@
 package entities;
 
-import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.state.StateBasedGame;
 
 import utils.LayerRenderable;
 import utils.Position;
+import utils.Updatable;
 
 
-public interface Entity extends Cloneable, LayerRenderable {
+public interface Entity extends Cloneable, Updatable, LayerRenderable {
 	Position FRICTION = new Position(0.6f,0.04f);
 	float GRAVITY = 0.04f;
 	float JUMP_AMOUNT = 0.5f;
-	long DELTA = 1000/60;
 	
 	/**
 	 * Returns the current x-position of this entity.
@@ -123,14 +121,6 @@ public interface Entity extends Cloneable, LayerRenderable {
 	 * @param y position
 	 */
 	void setCentre(float x, float y);
-	
-	/**
-	 * Updates this entity given keyboard input, tile properties and the time delta.<br />
-	 * This method should make exactly one call to frameMove();
-	 * @param input The current state of the keyboard.
-	 * @param delta The time in microseconds since the last update.
-	 */
-	void update(GameContainer gc, StateBasedGame sbg, int delta);
 	
 	/**
 	 * Forces this entity to stop all currently playing sounds.<br />

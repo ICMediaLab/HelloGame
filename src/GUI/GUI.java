@@ -5,9 +5,11 @@ import game.MouseCapture;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.state.StateBasedGame;
 
-public class GUI {
+import utils.Renderable;
+import utils.Updatable;
+
+public class GUI implements Updatable, Renderable{
 
 	private Window activeWindow = null;
 
@@ -39,13 +41,13 @@ public class GUI {
 	
 	public void render(GameContainer gc, Graphics g) {
 		if(anyWindowOpen()){
-			getActiveWindow().render(g);
+			getActiveWindow().render(gc,g);
 		}
 	}
 	
-	public void update(GameContainer gc, StateBasedGame sbg, float delta) {
+	public void update(GameContainer gc) {
 		if(anyWindowOpen()){
-			getActiveWindow().update(gc, sbg, delta);
+			getActiveWindow().update(gc);
 		}
 		Input input = gc.getInput();
 		

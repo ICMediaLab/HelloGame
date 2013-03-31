@@ -9,7 +9,6 @@ import org.jbox2d.dynamics.World;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.state.StateBasedGame;
 
 import entities.AbstractEntity;
 import entities.Entity;
@@ -46,13 +45,13 @@ public class CirclePhysics extends AbstractEntity {
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+	public void render(GameContainer gc, Graphics g) {
 		g.setColor(Color.magenta);
 		g.fillOval((body.getPosition().x - 1 - radius)*Config.getTileSize(), (body.getPosition().y - 1 - radius)*Config.getTileSize(), radius*2f*Config.getTileSize(), radius*2f*Config.getTileSize());
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+	public void update(GameContainer gc) {
 
 	}
 

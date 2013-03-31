@@ -4,10 +4,11 @@ import game.config.Config;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.state.StateBasedGame;
 import org.newdawn.slick.tiled.Layer;
 
-public class LayeredLayer extends AbstractLayerRenderable {
+import utils.LayerRenderable;
+
+public class LayeredLayer implements LayerRenderable {
 	
 	private int depth;
 	private Layer layer;
@@ -29,7 +30,7 @@ public class LayeredLayer extends AbstractLayerRenderable {
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+	public void render(GameContainer gc, Graphics g) {
 		for(int i=0;i<layer.height-2;i++){
 			layer.render(0, 0, 1, 1, layer.width-2, i, false, Config.getTileSize(), Config.getTileSize());
 		}

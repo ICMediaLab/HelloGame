@@ -6,7 +6,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
 
 public abstract class AbstractLight implements Light {
 	
@@ -42,7 +41,7 @@ public abstract class AbstractLight implements Light {
 		this.tint = tint;
 	}
 	
-	public void update(GameContainer gc, StateBasedGame sbg, float delta) {
+	public void update(GameContainer gc) {
         //effect: scale the light slowly using a sin func
 		scale += 0.01f*(float)Math.sin(updateTime += 0.05);
     }
@@ -55,7 +54,7 @@ public abstract class AbstractLight implements Light {
     	g.setDrawMode(Graphics.MODE_NORMAL);
     }
     
-    public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+    public void render(GameContainer gc, Graphics g) {
     	//set up blend functionality
         //pre: GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE);
 		

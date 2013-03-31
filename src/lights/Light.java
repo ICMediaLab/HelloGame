@@ -1,13 +1,10 @@
 package lights;
 
-import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
-import org.newdawn.slick.state.StateBasedGame;
+import utils.Renderable;
+import utils.Updatable;
 
-public interface Light {
+public interface Light extends Updatable, Renderable{
 	
-	void update(GameContainer gc, StateBasedGame sbg, float delta);
-	void render(GameContainer gc, StateBasedGame sbg, Graphics g);
     float getX();
     float getY();
 

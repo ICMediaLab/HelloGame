@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.state.StateBasedGame;
 
 class JournalWindow extends AbstractWindow {
 	
@@ -22,21 +21,21 @@ class JournalWindow extends AbstractWindow {
 	}
 
 	@Override
-	public void render(Graphics gr) {
+	public void render(GameContainer gc, Graphics g) {
 		float x = getX(), y = getY(), width = getWidth(), height = getHeight();
-		gr.setColor(new Color(0.5f, 0.5f, 0.5f, 0.8f));
-		gr.fillRoundRect(x, y, width, height, 5);
+		g.setColor(new Color(0.5f, 0.5f, 0.5f, 0.8f));
+		g.fillRoundRect(x, y, width, height, 5);
 		
-		gr.setColor(Color.black);
+		g.setColor(Color.black);
 			
-		gr.drawString("Journal", x + (width - gr.getFont().getWidth("Journal")) * 0.25f , y + 20);
-		gr.drawString("Woke up in forest.", x + 20 , y + 60);
+		g.drawString("Journal", x + (width - g.getFont().getWidth("Journal")) * 0.25f , y + 20);
+		g.drawString("Woke up in forest.", x + 20 , y + 60);
 		
-		gr.drawLine(x + width * 0.5f - 2, y + 10, x + width * 0.5f - 2, y + height - 10);
-		gr.drawLine(x + width * 0.5f + 2, y + 10, x + width * 0.5f + 2, y + height - 10);
+		g.drawLine(x + width * 0.5f - 2, y + 10, x + width * 0.5f - 2, y + height - 10);
+		g.drawLine(x + width * 0.5f + 2, y + 10, x + width * 0.5f + 2, y + height - 10);
 			
-		gr.drawString("Objectives", x + (width - gr.getFont().getWidth("Objectives")) * 0.75f , y + 20);
-		for (int i = 0; i < objectives.size(); i++) gr.drawString(objectives.get(i), x + width * 0.5f + 20 , y + (i + 3)*20);
+		g.drawString("Objectives", x + (width - g.getFont().getWidth("Objectives")) * 0.75f , y + 20);
+		for (int i = 0; i < objectives.size(); i++) g.drawString(objectives.get(i), x + width * 0.5f + 20 , y + (i + 3)*20);
 	}
 	
 	public void addObjective(String s) {
@@ -44,7 +43,7 @@ class JournalWindow extends AbstractWindow {
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, float delta) {
+	public void update(GameContainer gc) {
 		
 	}
 

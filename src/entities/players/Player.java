@@ -1,6 +1,7 @@
 package entities.players;
 
 import game.GameplayState;
+import game.config.Config;
 import items.Sword;
 import items.Weapon;
 
@@ -24,7 +25,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.state.StateBasedGame;
 
 import sounds.SoundGroup;
 import sounds.Sounds;
@@ -163,7 +163,7 @@ public class Player extends AbstractEntity {
 	 */
 	@Override
 	  
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+	public void update(GameContainer gc) {
 		Input input = gc.getInput();
 		
         if (isDead()) {
@@ -188,14 +188,14 @@ public class Player extends AbstractEntity {
 			accelerate(-speed,0f);
 			sprite = left;
 			isRight = false;
-			sprite.update(DELTA);
+			sprite.update(Config.DELTA);
 			body.m_linearVelocity.x = -speed*32;
 		}
 		else if (input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT)) {
 			accelerate(speed,0f);
 			sprite = right;
 			isRight = true;
-			sprite.update(DELTA);
+			sprite.update(Config.DELTA);
 			body.m_linearVelocity.x = speed*32;
 		}
 		else if (!input.isKeyPressed(Input.KEY_SPACE)) {
@@ -215,7 +215,7 @@ public class Player extends AbstractEntity {
 //		    useAbility("rangedattack");
 //		}
 		if (input.isKeyDown(Input.KEY_S) || input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
-		    rangedCounter += DELTA; // accumulate time button held
+		    rangedCounter += Config.DELTA; // accumulate time button held
 		} else if (rangedCounter != 0) {
 		    useAbility("rangedattack"); // fire projectile
 		    rangedCounter = 0; // reset time
@@ -233,7 +233,7 @@ public class Player extends AbstractEntity {
 		
 		footsteps.playRandom(gc, this, 150, 0.8f, 0.2f, 0.05f, 0.02f);
 		
-		sword.update(DELTA, MapLoader.getCurrentCell().getEntities(), this);
+		sword.update(gc);
 		
 		updateTranslateSmooth();
 		frameMove();
@@ -291,13 +291,13 @@ public class Player extends AbstractEntity {
 	
 	
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+	public void render(GameContainer gc, Graphics g) {
 		//sprite.draw((int)((getX()-1)*Config.getTileSize() - 4), (int)((getY()-1)*Config.getTileSize() - 25), new Color(255,255,255));
 		
 		renderSprite(sprite, -4, -25);
 		
 		if (sword != null && sword.used()) {
-		    sword.render();
+		    sword.render(gc,g);
 		}
 		// Health bar above player
 		renderHealthBar(-15);

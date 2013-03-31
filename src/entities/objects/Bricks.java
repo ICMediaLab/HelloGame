@@ -10,7 +10,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
 
 import entities.AbstractEntity;
 import entities.Entity;
@@ -48,13 +47,13 @@ public class Bricks extends AbstractEntity {
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+	public void render(GameContainer gc, Graphics g) {
 		image.drawCentered((body.getPosition().x - 1)*Config.getTileSize(), (body.getPosition().y - 1)*Config.getTileSize());
 		
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+	public void update(GameContainer gc) {
 		image.rotate((float) Math.toDegrees(body.getAngle()) - image.getRotation());
 	}
 

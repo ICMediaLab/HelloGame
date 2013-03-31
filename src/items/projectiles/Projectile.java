@@ -12,7 +12,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
-import org.newdawn.slick.state.StateBasedGame;
 
 import utils.MapLoader;
 import utils.Position;
@@ -69,7 +68,7 @@ public class Projectile extends VeryAbstractEntity {
 	}
 
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+	public void render(GameContainer gc, Graphics g) {
 		sprite.draw((int)((hitbox.getCenterX()-1f)*Config.getTileSize()-sprite.getWidth()/2), (int)((hitbox.getCenterY()-1)*Config.getTileSize()-sprite.getHeight()/2));
 		/*For debugging purposes.*/
 		g.setColor(Color.green); 
@@ -125,7 +124,7 @@ public class Projectile extends VeryAbstractEntity {
 	@Override
 	public void frameMove() {
 		hitbox = hitbox.transform(Transform.createTranslateTransform(dxdy.getX(), dxdy.getY()));
-		sprite.update(DELTA);
+		sprite.update(Config.DELTA);
 		
 		// gravity
 		dxdy.setY(dxdy.getY() + ACCEL_DUE_TO_G); 
@@ -171,7 +170,7 @@ public class Projectile extends VeryAbstractEntity {
 	}
 
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+	public void update(GameContainer gc) {
 		frameMove();
 		int x = (int) getCentreX(), y = (int) getCentreY();
 		Cell cell = MapLoader.getCurrentCell();

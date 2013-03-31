@@ -9,7 +9,6 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.state.StateBasedGame;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
@@ -90,7 +89,7 @@ public class NPC extends NonPlayableEntity{
 	}
 	
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) {
+	public void render(GameContainer gc, Graphics g) {
 		renderSprite(sprite, 0, 0);
 		renderHealthBar(-5);
 	}
@@ -106,7 +105,7 @@ public class NPC extends NonPlayableEntity{
 	}
 	
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
+	public void update(GameContainer gc) {
 		// TODO Auto-generated method stub
 		
 	}
