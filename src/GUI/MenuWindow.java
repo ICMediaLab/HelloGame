@@ -46,7 +46,7 @@ class MenuWindow extends AbstractWindow {
 		if(res.contains(mc.getX(), mc.getY())){
 			getGUI().closeWindow();
 		}else if(opt.contains(mc.getX(), mc.getY())){
-			//option stuff :/
+			getGUI().setActiveWindow(Window.OPTIONS);
 		}else if(exit.contains(mc.getX(), mc.getY())){
 			halt = true;
 		}
