@@ -11,12 +11,18 @@ public class Button extends RoundedRectangle {
 
 	private static final long serialVersionUID = 7699309243884769844L;
 	
+	private static final Color DEFAULT_BUTTON = Color.darkGray, DEFAULT_TEXT = Color.white;
+	
 	private final String str;
 	
 	public Button(String text, float x, float y, float width, float height,
 			float cornerRadius) {
 		super(x, y, width, height, cornerRadius);
 		str = text;
+	}
+	
+	public void render(Graphics g){
+		render(g, DEFAULT_BUTTON, DEFAULT_TEXT);
 	}
 	
 	public void render(Graphics g, Color buttonColour, Color textColour) {

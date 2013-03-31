@@ -42,11 +42,11 @@ public class OptionsWindow extends AbstractWindow {
 		g.setColor(Color.black);
 		g.drawString("Options", x + width/2 - g.getFont().getWidth("Options")/2, y + 10);
 		
-		cancel.render(g, Color.darkGray, Color.black);
-		ok.render(g, Color.darkGray, Color.black);
-		fullscreen.render(g, Color.darkGray, Color.black);
-		music.render(g, Color.darkGray, Color.black);
-		sound.render(g, Color.darkGray, Color.black);
+		cancel.render(g);
+		ok.render(g);
+		fullscreen.render(g);
+		music.render(g);
+		sound.render(g);
 	}
 
 	@Override

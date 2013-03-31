@@ -9,37 +9,31 @@ import org.newdawn.slick.SpriteSheet;
 
 import entities.Entity;
 import entities.StaticEntity;
+import game.config.Config;
 
 public class LeafTest extends StaticEntity {
 	
 	private static  final int LEAF_DEFAULT_LAYER = 100; 
 	
-	private final Animation moving; //,stopped; //removed this as it wasn't being used.
-	//private Animation sprite; //likewise 
+	private boolean running = false;
+	private final Animation moving;
 	
 	public LeafTest(int x, int y){
 		super(x,y,4f,1f);
 
 		//initialise graphics
-		//Image staticRaw = null; //unused
 		Image movingRaw = null;
-		//SpriteSheet staticSheet = null; //unused
 		SpriteSheet movingSheet = null;
 		
 		try {
-			//staticRaw = new Image("data/images/leafTest01.png"); //unused
 			movingRaw = new Image("data/images/leafTest01.png");
-			//staticSheet = new SpriteSheet(staticRaw, 131, 88); //unused
 			movingSheet = new SpriteSheet(movingRaw, 131, 88);
-			
 		} catch (SlickException e) {
-			//do shit all
+			e.printStackTrace();
 		}
 
 		moving = new Animation(movingSheet, 150);
-		//moving.setAutoUpdate(false);
-		//stopped = new Animation(staticSheet, 0, 0, 0, 0, true, 1000, false); //unused
-		//sprite = stopped;
+		moving.setAutoUpdate(false);
 		moving.stop();
 	}
 
@@ -50,16 +44,20 @@ public class LeafTest extends StaticEntity {
 
 	@Override
 	public void update(GameContainer gc) {
-		if (!moving.isStopped()){
-			if (moving.getFrame() == 0) {
+		if(running){
+			if(moving.isStopped()){
+				moving.start();
+			}else if (moving.getFrame() == 0) {
 				moving.stop();
+				running = false;
 			}
+			moving.update(Config.DELTA);
 		}
 	}
 
 	@Override
 	public void collide(Entity e) {
-		moving.start();
+		running = true;
 	}
 
 	@Override

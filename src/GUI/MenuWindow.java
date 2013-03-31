@@ -29,9 +29,9 @@ class MenuWindow extends AbstractWindow {
 		g.setColor(new Color(0.5f, 0.5f, 0.5f, 0.8f));
 		g.fillRoundRect(x, y, width, height, 5);
 		
-		res.render( g, Color.darkGray, Color.black);
-		opt.render( g, Color.darkGray, Color.black);
-		exit.render(g, Color.darkGray, Color.black);
+		res.render(g);
+		opt.render(g);
+		exit.render(g);
 	}
 
 	@Override

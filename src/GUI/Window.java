@@ -24,6 +24,7 @@ public enum Window {
 		if(inst == null){
 			try {
 				inst = clazz.getConstructor(GUI.class).newInstance(gui);
+				return inst;
 			} catch (IllegalArgumentException e) {
 				e.printStackTrace();
 			} catch (SecurityException e) {
@@ -37,6 +38,7 @@ public enum Window {
 			} catch (NoSuchMethodException e) {
 				e.printStackTrace();
 			}
+			System.out.println("could not load " + clazz);
 		}
 		return inst;
 	}
