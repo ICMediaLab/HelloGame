@@ -20,8 +20,9 @@ public class PointLight {
     //original scale
     private float scaleOrig;
     
+    private double updateTime = 0;
+    
     private Image alphaMap;
-    private Color sharedColor = new Color(1f, 1f, 1f, 1f);
 
     public PointLight(float x, float y, float scale, Color tint) {
         this.x = x;
@@ -43,7 +44,7 @@ public class PointLight {
 
     public void update(GameContainer gc, StateBasedGame sbg, float delta) {
         //effect: scale the light slowly using a sin func
-        scale = scaleOrig + 1f + .5f*(float)Math.sin(delta);
+        scale += 0.01f*(float)Math.sin(updateTime += 0.05);
     }
     
     public void render(GameContainer gc, Graphics g) {
@@ -56,11 +57,8 @@ public class PointLight {
 		int alphaX = (int)(x - alphaW/2f);
 		int alphaY = (int)(y - alphaH/2f);
 		
-		//we apply the light alpha here; RGB will be ignored
-		sharedColor.a = alpha;
-		
 		//draw the alpha map
-		alphaMap.draw(alphaX, alphaY, alphaW, alphaH, sharedColor);
+		alphaMap.draw(alphaX, alphaY, alphaW, alphaH, tint);
 		
 		//return to normal rendering mode for any remaining renders
 		g.setDrawMode(Graphics.MODE_NORMAL);

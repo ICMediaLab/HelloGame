@@ -37,11 +37,12 @@ public class GUI {
 		return getActiveWindow() != null;
 	}
 	
-	public void render(Graphics gr) {
+	public void render(GameContainer gc, Graphics g) {
 		if(anyWindowOpen()){
-			getActiveWindow().render(gr);
+			getActiveWindow().render(g);
 		}
 	}
+	
 	public void update(GameContainer gc, StateBasedGame sbg, float delta) {
 		if(anyWindowOpen()){
 			getActiveWindow().update(gc, sbg, delta);

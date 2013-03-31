@@ -1,5 +1,8 @@
 package game;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import lights.PointLight;
 import map.Cell;
 
@@ -20,6 +23,8 @@ import GUI.GUI;
 import entities.players.Player;
 
 public class GameplayState extends MouseCapture {
+	
+	private final Set<PointLight> lights = new HashSet<PointLight>();
 	
 	private final int stateID;
 	private Cell currentCell;
@@ -55,9 +60,12 @@ public class GameplayState extends MouseCapture {
 		//create player
 		currentCell.addEntity(player);
 		
+		lights.add(new PointLight(0, 0, 5));
+		lights.add(new PointLight(gc.getWidth(), 0, 5));
+		
 		//audio
 		music = new Music("data/sounds/theme.ogg", true);
-		music.play(1.0f, 0.15f);		
+		music.play(1.0f, 0.15f);
 	}
 
 	@Override
@@ -65,7 +73,7 @@ public class GameplayState extends MouseCapture {
 			throws SlickException {
 		currentCell.render(gc, sbg, g);
 		renderLighting(gc,g);
-		gui.render(g);
+		gui.render(gc, g);
 	}
 	
 	private void renderLighting(GameContainer gc, Graphics g){
@@ -73,16 +81,18 @@ public class GameplayState extends MouseCapture {
 		g.clearAlphaMap();
 		
 		//render each light
-		new PointLight(0, 0, 5).render(gc,g);
-		new PointLight(gc.getWidth(), 0, 5).render(gc,g);
 		player.getLight().render(gc, g);
+		for(PointLight l : lights){
+			l.render(gc, g);
+		}
 		
 		//fill remaining area with darkness... i think... :/
 		GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_DST_ALPHA);
 		g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
 		g.setDrawMode(Graphics.MODE_NORMAL);
+		
 	}
-
+	
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
@@ -90,6 +100,11 @@ public class GameplayState extends MouseCapture {
 		currentCell = MapLoader.getCurrentCell();
 		//check input
 		Input input = gc.getInput();
+		
+		for(PointLight l : lights){
+			l.update(gc, sbg, delta);
+		}
+		
 		if (input.isKeyPressed(Input.KEY_ESCAPE)){
 			if(gui.anyWindowOpen()){
 				gui.closeWindow();

@@ -169,6 +169,9 @@ public class Player extends AbstractEntity {
 	  
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) {
 		Input input = gc.getInput();
+		
+		light.update(gc, sbg, delta);
+		
         if (isDead()) {
             //MapLoader.getCurrentCell().removeEntity(this);
         	this.takeDamage(-100); // auto-consume-reviving-potion upon the event of death
