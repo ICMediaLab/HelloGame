@@ -5,7 +5,7 @@ import org.newdawn.slick.Color;
 import entities.Entity;
 import game.config.Config;
 
-public class EntityLight extends AbstractLight {
+public class EntityLight extends AbstractPointLight {
 	private final Entity e;
 	
 	public EntityLight(Entity e) {

@@ -60,15 +60,15 @@ public class OptionsWindow extends AbstractWindow {
 	
 	@Override
 	public void mouseReleased(MouseContainer mc) {
-		if(cancel.contains(mc.getX(), mc.getY())){
+		if(cancel.contains(mc)){
 			getGUI().setActiveWindow(Window.MENU);
-		} else if(ok.contains(mc.getX(), mc.getY())){
+		} else if(ok.contains(mc)){
 			getGUI().setActiveWindow(Window.MENU);
-		} else if(fullscreen.contains(mc.getX(), mc.getY())){
+		} else if(fullscreen.contains(mc)){
 			isFullscreen = !isFullscreen;
-		} else if(music.contains(mc.getX(), mc.getY())){
+		} else if(music.contains(mc)){
 			isMusic = !isMusic;
-		} else if(sound.contains(mc.getX(), mc.getY())){
+		} else if(sound.contains(mc)){
 			isSound = !isSound;
 		}
 		

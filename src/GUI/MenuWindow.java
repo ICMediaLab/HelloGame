@@ -43,11 +43,11 @@ class MenuWindow extends AbstractWindow {
 	
 	@Override
 	public void mouseReleased(MouseContainer mc) {
-		if(res.contains(mc.getX(), mc.getY())){
+		if(res.contains(mc)){
 			getGUI().closeWindow();
-		}else if(opt.contains(mc.getX(), mc.getY())){
+		}else if(opt.contains(mc)){
 			getGUI().setActiveWindow(Window.OPTIONS);
-		}else if(exit.contains(mc.getX(), mc.getY())){
+		}else if(exit.contains(mc)){
 			halt = true;
 		}
 	}

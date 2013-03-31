@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+import lights.AmbientLight;
 import lights.EntityLight;
 import lights.PointLight;
 
@@ -96,6 +97,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 			addEntity(e.clone());
 		}
 		
+		lightmap.addLight(new AmbientLight(new Color(1f, 1f, 1f, 0.3f)));
 		lightmap.addLight(new PointLight(800, 0, 5));
 		lightmap.addLight(new PointLight(0, 0, 5));
 	}

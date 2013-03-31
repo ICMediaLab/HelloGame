@@ -5,7 +5,4 @@ import utils.Updatable;
 
 public interface Light extends Updatable, Renderable{
 	
-    float getX();
-    float getY();
-
 }

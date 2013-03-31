@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import lights.AbstractLight;
 import lights.Light;
+import lights.AbstractLight;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.GameContainer;

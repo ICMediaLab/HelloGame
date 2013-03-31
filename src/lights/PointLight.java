@@ -4,7 +4,7 @@ import org.newdawn.slick.Color;
 
 import utils.Position;
 
-public class PointLight extends AbstractLight {
+public class PointLight extends AbstractPointLight {
     private final Position p;
     
     public PointLight(float x, float y, float scale, Color tint) {

@@ -4,6 +4,9 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.RoundedRectangle;
 
+import utils.Position;
+import utils.mouse.MouseContainer;
+
 public class Button extends RoundedRectangle {
 
 	private static final long serialVersionUID = 7699309243884769844L;
@@ -30,6 +33,14 @@ public class Button extends RoundedRectangle {
 		g.drawString(str, x, y);
 		
 		g.setColor(oldColour);
+	}
+	
+	public boolean contains(MouseContainer mc){
+		return contains(mc.getX(), mc.getY());
+	}
+	
+	public boolean contains(Position p){
+		return contains(p.getX(), p.getY());
 	}
 
 }
