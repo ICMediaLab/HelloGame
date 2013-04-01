@@ -3,14 +3,18 @@ package map;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 
+import lights.AbstractLight;
 import lights.AmbientLight;
 import lights.EntityLight;
+import lights.Light;
 import lights.PointLight;
 
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -38,12 +42,18 @@ import game.config.Config;
 public class Cell extends TiledMap implements Updatable, Renderable {
 
 	private static final Comparator<? super LayerRenderable> LAYER_COMPARATOR = new LayerComparator();
+	
 	private final Tile[][] properties = new Tile[getHeight()][getWidth()];
+	
 	private final Set<Entity> defaultEntities = new HashSet<Entity>();
+	
 	private final Set<Entity> entities = new HashSet<Entity>();
 	private final Set<Entity> entitiesToRemove = new HashSet<Entity>();
 	private final Set<Entity> entitiesToAdd = new HashSet<Entity>();
-	private final LightMap lightmap = new LightMap();
+	
+	private final Set<Light> lights = new LinkedHashSet<Light>();
+	private final Map<Entity,Light> entityLights = new HashMap<Entity,Light>();
+	
     private Player player;
     private boolean visited = false;
     private int counter = 150;
@@ -59,6 +69,8 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		entities.clear();
 		entitiesToAdd.clear();
 		entitiesToRemove.clear();
+		lights.clear();
+		entityLights.clear();
 		if(defaultEntities.isEmpty()){
 			Map<String,Door> doors = new HashMap<String,Door>();
 			Map<String,DoorTrigger> triggers = new HashMap<String,DoorTrigger>();
@@ -94,18 +106,26 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 			}
 		}
 		for(Entity e : defaultEntities){
-			addEntity(e.clone());
+			Entity clo = e.clone();
+			addEntity(clo);
+			addLight(new EntityLight(clo, 3f, new Color(1f,1f,1f,0.6f)));
 		}
 		
-		lightmap.addLight(new AmbientLight(new Color(1f, 1f, 1f, 0.3f)));
-		lightmap.addLight(new PointLight(800, 0, 5));
-		lightmap.addLight(new PointLight(0, 0, 5));
+		addLight(new AmbientLight(new Color(0.5f, 0.5f, 1f, 0.4f)));
+		addLight(new PointLight(1020, 0, 5));
+		addLight(new PointLight(0, 0, 5));
 	}
 	
 	public Tile getTile(int x, int y) {
 		return properties[y][x];
 	}
 	
+	private void addLight(Light l){
+		if(l instanceof EntityLight){
+			entityLights.put(((EntityLight) l).getEntity(), l);
+		}
+		lights.add(l);
+	}
 	
 	/**
 	 * Extracts the properties of each cell in the map to a
@@ -131,6 +151,9 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	}
 	
 	public void render(GameContainer gc, Graphics g) {
+		
+		System.out.println(entityLights.keySet().removeAll(defaultEntities));
+		
 		//super.render(-Config.getTileSize(),-Config.getTileSize());
 		PriorityQueue<LayerRenderable> orderedLayers = new PriorityQueue<LayerRenderable>(11,LAYER_COMPARATOR);
 		orderedLayers.addAll(entities);
@@ -148,7 +171,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 			orderedLayers.poll().render(gc, g);
 		}
 		
-		lightmap.render(gc,g);
+		renderLightmap(gc,g);
 		Input input = gc.getInput();
 		
 		if (input.isKeyPressed(Input.KEY_K)) {
@@ -187,6 +210,27 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		}
 	}
 	
+	private void renderLightmap(GameContainer gc, Graphics g){
+		
+		//clear alpha map in preparation
+		g.clearAlphaMap();
+		
+		AbstractLight.renderPre(g);
+		
+		System.out.println("\nRendering " + lights.size() + " lights:");
+		
+		//render each light
+		for(Light l : lights){
+			l.render(gc,g);
+		}
+		
+		//fill remaining area with darkness... i think... :/
+		GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_DST_ALPHA);
+		g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
+		
+		AbstractLight.renderPost(g);
+	}
+
 	public void clearEntities() {
 		entitiesToRemove.addAll(entities);
 	}
@@ -197,11 +241,16 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	
 	public void update(GameContainer gc){
 		updateEntities(gc);
-		lightmap.update(gc);
+		updateLightmap(gc);
 	}
 	
+	private void updateLightmap(GameContainer gc) {
+		for(Light l : lights){
+			l.update(gc);
+		}
+	}
+
 	public void updateEntities(GameContainer gc){
-		entitiesToRemove.clear();
 		entities.addAll(entitiesToAdd);
 		entitiesToAdd.clear();
 		for(Entity e : entities){
@@ -213,6 +262,10 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 			}
 		}
 		entities.removeAll(entitiesToRemove);
+		for(Entity e : entitiesToRemove){
+			lights.remove(entityLights.remove(e));
+		}
+		entitiesToRemove.clear();
 	}
     
     public void removeEntity(Entity e) {
@@ -221,7 +274,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
     
     public void setPlayer(Player player) {
         this.player = player;
-        lightmap.addLight(new EntityLight(player, 7f));
+        addLight(new EntityLight(player, 7f));
     }
     
     public Player getPlayer() {
