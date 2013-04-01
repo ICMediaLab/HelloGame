@@ -24,7 +24,6 @@ public class GameplayState extends MouseCapture {
 	private final int stateID;
 	private Cell currentCell;
 	private Player player;
-	private Music music;
 	private static World world = new World(new Vec2(0,  9.8f), false);
 	private GUI gui = new GUI();
 	private TextField text;
@@ -57,8 +56,8 @@ public class GameplayState extends MouseCapture {
 		currentCell.addEntity(player);
 		
 		//audio
-		music = new Music("data/sounds/RedCurtain.ogg", true);
-		music.play(1.0f, 0.15f);	
+		Sounds.setMusic(new Music("data/sounds/RedCurtain.ogg", true));
+		Sounds.getMusic().play(1, 0.15f);	
 		
 		text = new TextField("'Tis a silly place", 21*32, 15*32, 5, 100, player, 0, -50, Color.transparent, Color.white, 50, 50);
 	}
@@ -99,7 +98,7 @@ public class GameplayState extends MouseCapture {
 		super.leave(gc, game);
 		if(!HelloGameContainer.isRunning()){
 			gc.sleep(300);
-			music.release();
+			Sounds.releaseMusic();
 			Sounds.releaseSounds();
 		}
 	}

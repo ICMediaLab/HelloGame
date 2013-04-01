@@ -10,6 +10,8 @@ class MapWindow extends AbstractWindow {
 		super(gui);
 	}
 
+	
+	// TODO: It would be nice to display actual maps inside those boxes so player could recognise the cells. It would need to be 1 tile = 1 pixel I think
 	@Override
 	public void render(GameContainer gc, Graphics g) {
 		float x = getX(), y = getY(), width = getWidth(), height = getHeight();

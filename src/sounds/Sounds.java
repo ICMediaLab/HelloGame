@@ -3,14 +3,16 @@ package sounds;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.util.EFXEffect;
 import org.newdawn.slick.util.EFXFilter;
 
-public class Sounds {
+public abstract class Sounds {
 	
 	private static final List<Sound> SOUNDS_PLAYING = new ArrayList<Sound>();
+	private static Music music; 
 	
 	public static Sound loadSound(String path){
 		Sound s = null;
@@ -88,6 +90,18 @@ public class Sounds {
 		for (int i = 0; i < SOUNDS_PLAYING.size(); i++){
 			SOUNDS_PLAYING.get(i).release();
 		}
+	}
+
+	public static Music getMusic() {
+		return music;
+	}
+
+	public static void setMusic(Music music) {
+		Sounds.music = music;
+	}
+	
+	public static void releaseMusic() {
+		music.release();
 	}
 
 }

@@ -32,12 +32,12 @@ public class Button extends RoundedRectangle {
 		g.fill(this);
 		
 		g.setColor(textColour);
-		float width = g.getFont().getWidth(str);
-		float height = g.getFont().getHeight(str);
-		int x = (int) (getX() + (getWidth() - width)/2f);
-		int y = (int) (getY() + (getHeight() - height)/2f);
+		float textWidth = g.getFont().getWidth(str);
+		float textHeight = g.getFont().getHeight(str);
+		int x = (int) (getX() + (getWidth() - textWidth)/2f);
+		int y = (int) (getY() + (getHeight() - textHeight)/2f);
 		g.drawString(str, x, y);
-		
+
 		g.setColor(oldColour);
 	}
 	
