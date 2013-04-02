@@ -25,7 +25,7 @@ public class GameplayState extends MouseCapture {
 	private Cell currentCell;
 	private Player player;
 	private static World world = new World(new Vec2(0,  9.8f), false);
-	private GUI gui = new GUI();
+	private GUI gui;
 	private TextField text;
 	  
     GameplayState(int stateID) {
@@ -57,7 +57,9 @@ public class GameplayState extends MouseCapture {
 		
 		//audio
 		Sounds.setMusic(new Music("data/sounds/RedCurtain.ogg", true));
-		Sounds.getMusic().play(1, 0.15f);	
+		gc.setMusicVolume(0.5f);
+		
+		gui = new GUI(gc.getGraphics());
 		
 		text = new TextField("'Tis a silly place", 21*32, 15*32, 5, 100, player, 0, -50, Color.transparent, Color.white, 50, 50);
 	}
@@ -101,6 +103,12 @@ public class GameplayState extends MouseCapture {
 			Sounds.releaseMusic();
 			Sounds.releaseSounds();
 		}
+	}
+	
+	@Override
+	public void enter(GameContainer gc, StateBasedGame game) throws SlickException {
+		super.enter(gc, game);
+		Sounds.getMusic().play(1, 0.3f);
 	}
 	
 	public static World getWorld() {

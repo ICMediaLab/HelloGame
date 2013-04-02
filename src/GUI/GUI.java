@@ -12,9 +12,10 @@ import utils.Updatable;
 public class GUI implements Updatable, Renderable{
 
 	private Window activeWindow = null;
+	private Graphics graphics;
 
-	public GUI() {
-
+	public GUI(Graphics g) {
+		this.graphics = g;
 	}
 	
 	void setActiveWindow(Window window) {
@@ -56,5 +57,9 @@ public class GUI implements Updatable, Renderable{
 				setActiveWindow(w);
 			}
 		}
+	}
+
+	public Graphics getGraphics() {
+		return graphics;
 	}
 }

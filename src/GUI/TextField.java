@@ -75,6 +75,4 @@ public class TextField {
 		g.setColor(oldColour);
 	}
 	
-	
-	
 }
