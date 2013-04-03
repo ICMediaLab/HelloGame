@@ -31,7 +31,7 @@ import utils.LayerRenderable;
 import utils.MapLoader;
 import utils.Renderable;
 import utils.Updatable;
-import utils.particles.ParticleEngine;
+import utils.particles.ParticleEmitter;
 import GUI.TextField;
 import entities.Entity;
 import entities.MovingEntity;
@@ -64,7 +64,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	private final Set<MovingEntity> entitiesToRemove = new HashSet<MovingEntity>();
 	private final Set<MovingEntity> entitiesToAdd = new HashSet<MovingEntity>();
 	
-	private final Set<ParticleEngine> particleEmmiters = new HashSet<ParticleEngine>();
+	private final Set<ParticleEmitter> particleEmitters = new HashSet<ParticleEmitter>();
 	
 	private final Set<Light> lights = new LinkedHashSet<Light>();
 	private final Map<Entity,Light> entityLights = new HashMap<Entity,Light>();
@@ -173,7 +173,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		PriorityQueue<LayerRenderable> orderedLayers = new PriorityQueue<LayerRenderable>(11,LAYER_COMPARATOR);
 		orderedLayers.addAll(entities);
 		orderedLayers.addAll(staticEntities);
-		orderedLayers.addAll(particleEmmiters);
+		orderedLayers.addAll(particleEmitters);
 		for(Layer l : layers){
 			try{
 				orderedLayers.add(new LayeredLayer(l));
@@ -265,14 +265,14 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	}
 	
 	private void updateEmmiters(GameContainer gc) {
-		Set<ParticleEngine> toRemove = new HashSet<ParticleEngine>();
-		for(ParticleEngine pe : particleEmmiters){
+		Set<ParticleEmitter> toRemove = new HashSet<ParticleEmitter>();
+		for(ParticleEmitter pe : particleEmitters){
 			pe.update(gc);
 			if(!pe.isEmitting()){
 				toRemove.add(pe);
 			}
 		}
-		particleEmmiters.removeAll(toRemove);
+		particleEmitters.removeAll(toRemove);
 	}
 
 	private void updateLightmap(GameContainer gc) {
@@ -329,8 +329,8 @@ public class Cell extends TiledMap implements Updatable, Renderable {
         return visited;
     }
 
-	public void addParticleEmmiter(ParticleEngine particleEngine) {
-		particleEmmiters.add(particleEngine);
+	public void addParticleEmmiter(ParticleEmitter particleEngine) {
+		particleEmitters.add(particleEngine);
 	}
 
 }

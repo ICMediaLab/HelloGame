@@ -32,7 +32,7 @@ import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.MapLoader;
 import utils.Position;
-import utils.particles.ParticleEngine;
+import utils.particles.ParticleEmitter;
 import entities.AbstractEntity;
 import entities.MovingEntity;
 import entities.StaticEntity;
@@ -252,7 +252,7 @@ public class Player extends AbstractEntity {
 			SOUND_LANDING.playSingle(1.0f, 0.3f * getdY());
 			
 			MapLoader.getCurrentCell().addParticleEmmiter(
-					new ParticleEngine(dust, this, new Position((getX() - 0.5f) * Config.getTileSize(), getY() * Config.getTileSize()), 20));
+					new ParticleEmitter(dust, this, new Position((getX() - 0.5f) * Config.getTileSize(), getY() * Config.getTileSize()), 20));
 		}
 		onGround = newOnGround;
 		
