@@ -17,12 +17,14 @@ public class AnimationContainer {
 		this.base = new Animation(base,duration);
 		this.images = new ArrayImageContainer(base);
 		this.offset = offset;
+		this.base.setAutoUpdate(false);
 	}
 	
 	public AnimationContainer(ImageContainer base, int duration, Position offset){
 		this.base = base.getAnimation(duration);
 		this.images = base;
 		this.offset = offset;
+		this.base.setAutoUpdate(false);
 	}
 	
 	public AnimationContainer(Node node) throws SlickException {
@@ -61,6 +63,7 @@ public class AnimationContainer {
 			offsetY += Float.parseFloat(attrs.getNamedItem("offsetDispY").getTextContent());
 		}catch(NullPointerException e){ }
 		offset = new Position(offsetX, offsetY);
+		this.base.setAutoUpdate(false);
 	}
 
 	public Animation getAnimation(){
