@@ -44,14 +44,18 @@ class JournalWindow extends AbstractWindow {
 		g.setColor(Color.black);
 			
 		g.drawString("Journal", x + (width - g.getFont().getWidth("Journal")) * 0.25f , y + 20);
-		for (int i = currentRow; i < Math.min(journal.size(), 11 + currentRow); i++) g.drawString(journal.get(i), x + 20, y + (i - currentRow + 3)*20);
+		for (int i = currentRow; i < Math.min(journal.size(), 11 + currentRow); i++){
+			g.drawString(journal.get(i), x + 20, y + (i - currentRow + 3)*20);
+		}
 		
 		g.setLineWidth(2);
 		g.drawLine(x + width * 0.5f - 2, y + 10, x + width * 0.5f - 2, y + height - 10);
 		g.drawLine(x + width * 0.5f + 2, y + 10, x + width * 0.5f + 2, y + height - 10);
-			
+		
 		g.drawString("Objectives", x + (width - g.getFont().getWidth("Objectives")) * 0.75f , y + 20);
-		for (int i = 0; i < objectives.size(); i++) g.drawString(objectives.get(i), x + width * 0.5f + 20 , y + (i + 3)*20);
+		for (int i = 0; i < objectives.size(); i++){
+			g.drawString(objectives.get(i), x + width * 0.5f + 20 , y + (i + 3)*20);
+		}
 	}
 	
 	public void addObjective(String s) {
@@ -62,17 +66,21 @@ class JournalWindow extends AbstractWindow {
 	public void update(GameContainer gc) {
 		Input input = gc.getInput();
 		
-		if (input.isKeyPressed(Input.KEY_DOWN)) currentRow++;
-		if (input.isKeyPressed(Input.KEY_UP)) currentRow--;
-		if (currentRow < 0) currentRow = 0;		
+		if (input.isKeyPressed(Input.KEY_DOWN)){
+			scroll(1);
+		}
+		if (input.isKeyPressed(Input.KEY_UP)){
+			scroll(-1);
+		}
 	}
 	
 	public void addJournalEntry(String str) {
 		journal.add("Entry " + new Integer(entryIndex).toString());
 		
-		if (graphics.getFont().getWidth(str) < journalWidth) journal.add(str);
-		else {
-			String[] tmpArray = str.split(" ");
+		if (graphics.getFont().getWidth(str) < journalWidth){
+			journal.add(str);
+		}else {
+			String[] tmpArray = str.split("\\s+");
 			String tmpString;
 			int j = 0;
 			for (int i = 0; i <= tmpArray.length; i++) {
@@ -89,10 +97,11 @@ class JournalWindow extends AbstractWindow {
 	} 
 	
 	public void mouseWheelMoved(int amount) {
-		if (amount > 0) currentRow--;
-		else currentRow++;
-		
-		if (currentRow < 0) currentRow = 0;
+		scroll((int) -Math.signum(amount));
+	}
+	
+	private void scroll(int amount){
+		currentRow = Math.max(0, Math.min(journal.size()-10, currentRow + amount));
 	}
 
 }
