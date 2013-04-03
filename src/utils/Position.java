@@ -90,4 +90,8 @@ public class Position implements Cloneable {
 	public String toString() {
 		return x + ", " + y;
 	}
+
+	public Position scaledCopy(float s) {
+		return new Position(x*s,y*s);
+	}
 }
