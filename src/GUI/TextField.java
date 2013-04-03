@@ -1,5 +1,7 @@
 package GUI;
 
+import map.Cell;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -8,6 +10,8 @@ import org.newdawn.slick.geom.Shape;
 import utils.MapLoader;
 import entities.MovingEntity;
 import entities.StaticEntity;
+import entities.players.Player;
+import game.config.Config;
 
 public class TextField<S extends Shape> extends StaticEntity<S> {
 	
@@ -15,10 +19,10 @@ public class TextField<S extends Shape> extends StaticEntity<S> {
 	
 	private final float textOffsetX, textOffsetY;
 	private final float fadeIn, fadeOut;
-	private float filter = 0;
+	private float filter = 0f;
 	private String str = "Text";
 	private Color fieldColour, textColour;
-
+	
 	/**
 	 * 
 	 * @param str Text to be displayed
@@ -46,21 +50,22 @@ public class TextField<S extends Shape> extends StaticEntity<S> {
 		Shape s = getHitbox();
 		
 		g.setColor(fieldColour.scaleCopy(filter));
-		g.draw(s);
+		g.draw(s.transform(Cell.SHAPE_DRAW_TRANSFORM));
 		
 		g.setColor(textColour.scaleCopy(filter));
-		g.drawString(str, s.getCenterX() - g.getFont().getWidth(str)/2 + textOffsetX,
-				s.getCenterY() - g.getFont().getHeight(str)/2 + textOffsetY);
+		g.drawString(str, (s.getCenterX()-1)*Config.getTileSize() - g.getFont().getWidth(str)/2 + textOffsetX,
+				(s.getCenterY()-1)*Config.getTileSize() - g.getFont().getHeight(str)/2 + textOffsetY);
 	}
 
 	@Override
 	public void update(GameContainer gc) {
-		if (contains(MapLoader.getCurrentCell().getPlayer())) {
-			if (filter < 1) {
+		Player player = MapLoader.getCurrentCell().getPlayer();
+		if (intersects(player) || contains(player)) {
+			if (filter < 1f) {
 				filter = Math.min(1, filter + fadeIn);
 			}
 		} else {
-			if (filter < 1) {
+			if (filter > 0f) {
 				filter = Math.max(0, filter - fadeOut);
 			}
 		}

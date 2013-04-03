@@ -20,18 +20,18 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.tiled.GroupObject;
 import org.newdawn.slick.tiled.Layer;
 import org.newdawn.slick.tiled.ObjectGroup;
 import org.newdawn.slick.tiled.TiledMap;
 
-import GUI.TextField;
-
 import utils.LayerRenderable;
 import utils.MapLoader;
 import utils.Renderable;
 import utils.Updatable;
+import GUI.TextField;
 import entities.Entity;
 import entities.MovingEntity;
 import entities.StaticEntity;
@@ -48,6 +48,11 @@ import game.config.Config;
 public class Cell extends TiledMap implements Updatable, Renderable {
 
 	private static final Comparator<? super LayerRenderable> LAYER_COMPARATOR = new LayerComparator();
+	
+	/**
+	 * A transformation that can be applied when drawing slick shapes to the window in order to ensure they are drawn correctly.
+	 */
+	public static final Transform SHAPE_DRAW_TRANSFORM = Transform.createTranslateTransform(-1, -1).concatenate(Transform.createScaleTransform(Config.getTileSize(), Config.getTileSize()));
 	
 	private final Tile[][] properties = new Tile[getHeight()][getWidth()];
 	
@@ -79,7 +84,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		lights.clear();
 		entityLights.clear();
 		if(defaultEntities.isEmpty()){
-			staticEntities.add(new TextField<Circle>("'Tis a silly place", new Circle(21, 15, 3), 0, -50, Color.transparent, Color.white, 50, 50));
+			staticEntities.add(new TextField<Rectangle>("'Tis a silly place", new Rectangle(19, 14, 5,3), 0, -50, Color.transparent, Color.white, 50, 50));
 			
 			Map<String,Door> doors = new HashMap<String,Door>();
 			Map<String,DoorTrigger> triggers = new HashMap<String,DoorTrigger>();
@@ -162,10 +167,6 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	}
 	
 	public void render(GameContainer gc, Graphics g) {
-		
-		System.out.println(entityLights.keySet().removeAll(defaultEntities));
-		
-		//super.render(-Config.getTileSize(),-Config.getTileSize());
 		PriorityQueue<LayerRenderable> orderedLayers = new PriorityQueue<LayerRenderable>(11,LAYER_COMPARATOR);
 		orderedLayers.addAll(entities);
 		orderedLayers.addAll(staticEntities);
