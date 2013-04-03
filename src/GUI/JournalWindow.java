@@ -8,6 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Input;
 
 class JournalWindow extends AbstractWindow {
 	
@@ -16,6 +17,7 @@ class JournalWindow extends AbstractWindow {
 	private Graphics graphics;
 	private float journalWidth;
 	private int entryIndex = 1;
+	private int currentRow = 0;
 
 	public JournalWindow(GUI gui) {
 		super(gui);
@@ -30,6 +32,7 @@ class JournalWindow extends AbstractWindow {
 		
 		addJournalEntry("Woke up in forest. There was some light in the distance.");
 		addJournalEntry("Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.");
+		addJournalEntry("I like trains.");
 		}
 
 	@Override
@@ -41,7 +44,7 @@ class JournalWindow extends AbstractWindow {
 		g.setColor(Color.black);
 			
 		g.drawString("Journal", x + (width - g.getFont().getWidth("Journal")) * 0.25f , y + 20);
-		for (int i = 0; i < journal.size(); i++) g.drawString(journal.get(i), x + 20, y + (i + 3)*20);
+		for (int i = currentRow; i < Math.min(journal.size(), 11 + currentRow); i++) g.drawString(journal.get(i), x + 20, y + (i - currentRow + 3)*20);
 		
 		g.setLineWidth(2);
 		g.drawLine(x + width * 0.5f - 2, y + 10, x + width * 0.5f - 2, y + height - 10);
@@ -57,7 +60,11 @@ class JournalWindow extends AbstractWindow {
 
 	@Override
 	public void update(GameContainer gc) {
+		Input input = gc.getInput();
 		
+		if (input.isKeyPressed(Input.KEY_DOWN)) currentRow++;
+		if (input.isKeyPressed(Input.KEY_UP)) currentRow--;
+		if (currentRow < 0) currentRow = 0;		
 	}
 	
 	public void addJournalEntry(String str) {
@@ -80,5 +87,12 @@ class JournalWindow extends AbstractWindow {
 		journal.add(" ");
 		entryIndex++;
 	} 
+	
+	public void mouseWheelMoved(int amount) {
+		if (amount > 0) currentRow--;
+		else currentRow++;
+		
+		if (currentRow < 0) currentRow = 0;
+	}
 
 }
