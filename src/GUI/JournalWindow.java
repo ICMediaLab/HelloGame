@@ -4,6 +4,7 @@ import game.config.Config;
 
 import java.util.ArrayList;
 
+import org.apache.commons.lang3.StringUtils;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -14,6 +15,7 @@ class JournalWindow extends AbstractWindow {
 	private ArrayList<String> journal;
 	private Graphics graphics;
 	private float journalWidth;
+	private int entryIndex = 1;
 
 	public JournalWindow(GUI gui) {
 		super(gui);
@@ -26,9 +28,9 @@ class JournalWindow extends AbstractWindow {
 		this.journalWidth = Config.getScreenWidth()*0.25f - 20;
 		this.journal = new ArrayList<String>();
 		
-		addJournalEntry("Woke up in forest.");
-		addJournalEntry("There was some light in the distance.");
-	}
+		addJournalEntry("Woke up in forest. There was some light in the distance.");
+		addJournalEntry("Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.");
+		}
 
 	@Override
 	public void render(GameContainer gc, Graphics g) {
@@ -59,7 +61,24 @@ class JournalWindow extends AbstractWindow {
 	}
 	
 	public void addJournalEntry(String str) {
+		journal.add("Entry " + new Integer(entryIndex).toString());
+		
 		if (graphics.getFont().getWidth(str) < journalWidth) journal.add(str);
+		else {
+			String[] tmpArray = str.split(" ");
+			String tmpString;
+			int j = 0;
+			for (int i = 0; i <= tmpArray.length; i++) {
+				tmpString = StringUtils.join(tmpArray, " ", j, i);
+				if (graphics.getFont().getWidth(tmpString) > journalWidth) {
+					journal.add(StringUtils.join(tmpArray, " ", j, i - 1));
+					j = i - 1;
+				}
+			}
+			journal.add(StringUtils.join(tmpArray, " ", j, tmpArray.length));
+		}
+		journal.add(" ");
+		entryIndex++;
 	} 
 
 }
