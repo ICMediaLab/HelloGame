@@ -1,10 +1,10 @@
 <npcs>
   <npc name="bob" maxhealth="50">
-    <rightimages duration="200" width="50">
+    <rightimages duration="200" sliced="true" width="50" offsetDispY="3">
       data/images/walk2.png
     </rightimages>
     <ai>
       >idle
     </ai>
-  </enemy>
-</enemies>
+  </npc>
+</npcs>

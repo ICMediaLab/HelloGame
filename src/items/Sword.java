@@ -104,11 +104,9 @@ public class Sword extends Weapon {
     
     @Override
     public void render(GameContainer gc, Graphics g) {
-        int xOffset = 2 * dir;
-        if (dir == -1) {
-            xOffset /= 2;
-        }
-        sprite.draw((int)((hitbox.getX()-xOffset)*Config.getTileSize()), (int)((hitbox.getY()-2.5)*Config.getTileSize()), new Color(255,255,255));
+        int absxOffset = -sprite.getWidth();
+        float relxOffset = 1f; 
+        sprite.draw((int)((hitbox.getX() + relxOffset)*Config.getTileSize() + absxOffset), (int)((hitbox.getY()-2.5)*Config.getTileSize()), new Color(255,255,255));
     }
 
 }

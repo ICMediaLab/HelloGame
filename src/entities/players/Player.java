@@ -168,18 +168,16 @@ public class Player extends AbstractEntity {
 		
         if (isDead()) {
             //MapLoader.getCurrentCell().removeEntity(this);
-        	this.takeDamage(-100); // auto-consume-reviving-potion upon the event of death
+        	takeDamage(-100); // auto-consume-reviving-potion upon the event of death
             return;
         }
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			playerJump();
 			
-			if (sprite == left)
-			{
+			if (sprite == left){
 				sprite = leftPause;
 			}
-			else if (sprite == right)
-			{
+			else if (sprite == right){
 				sprite = rightPause;
 			}
 			
@@ -253,28 +251,33 @@ public class Player extends AbstractEntity {
 	 * Checks the player's x and y position to see if they have reached the edge of the map. 
 	 * @return -1 for no change, 0 for up, 1 for right, 2 for down, 3 for left
 	 */
-	public void checkMapChanged() {
-		Cell currentCell = MapLoader.getCurrentCell();
+	@Override
+	public boolean checkMapChanged() {
+		Cell cell = MapLoader.getCurrentCell();
+		boolean changed = false;
 		//check top
 		if (getY() < 1 && getdY() < 0) {
-			currentCell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX(), MapLoader.getCurrentY() - 1);
-			setPosition(getX(), currentCell.getHeight() - getHeight() - 1);
+			cell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX(), MapLoader.getCurrentY() - 1);
+			setPosition(getX(), cell.getHeight() - getHeight() - 1);
+			changed = true;
+		//bottom
+		}else if (getY() >= cell.getHeight() - 1 - getHeight() && getdY() > 0) {
+			cell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX(), MapLoader.getCurrentY() + 1);
+			setPosition(getX(), 1);
+			changed = true;
 		}
 		//right
-		if (getX() >= currentCell.getWidth() - 1 - getWidth() && getdX() > 0) {
-			currentCell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX() + 1, MapLoader.getCurrentY());
+		if (getX() >= cell.getWidth() - 1 - getWidth() && getdX() > 0) {
+			cell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX() + 1, MapLoader.getCurrentY());
 			setPosition(1, getY());
-		}
-		//bottom
-		if (getY() >= currentCell.getHeight() - 1 - getHeight() && getdY() > 0) {
-			currentCell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX(), MapLoader.getCurrentY() + 1);
-			setPosition(getX(), 1);
-		}
+			changed = true;
 		//left
-		if (getX() < 1 && getdX() < 0) {
-			currentCell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX() - 1, MapLoader.getCurrentY());
-			setPosition(currentCell.getWidth() - getWidth() - 1, getY());
+		}else if (getX() < 1 && getdX() < 0) {
+			cell = MapLoader.setCurrentCell(this,MapLoader.getCurrentX() - 1, MapLoader.getCurrentY());
+			setPosition(cell.getWidth() - getWidth() - 1, getY());
+			changed = true;
 		}
+		return changed;
 	}
 	
 	/** 

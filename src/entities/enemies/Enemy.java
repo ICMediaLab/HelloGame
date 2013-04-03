@@ -121,7 +121,7 @@ public class Enemy extends NonPlayableEntity{
 			width = Float.parseFloat(attrs.getNamedItem("width").getNodeValue());
 		}catch(NullPointerException e){ }
 		try{
-			height = Float.parseFloat(attrs.getNamedItem("width").getNodeValue());
+			height = Float.parseFloat(attrs.getNamedItem("height").getNodeValue());
 		}catch(NullPointerException e){ }
 		
 		Element elemNode = (Element) node;
@@ -169,14 +169,11 @@ public class Enemy extends NonPlayableEntity{
 	
 	@Override
 	public void update(GameContainer gc) {
-		
-		checkMapChanged();
-		
-	    if (isDead()) {
+		super.update(gc);
+	    if (checkMapChanged()) {
 	        MapLoader.getCurrentCell().removeEntity(this);
 	        return;
 	    }
-		super.updateEntity();
 		if(getdX() < 0){
 			sprite = left;
 		}else if(getdX() > 0){
@@ -188,15 +185,6 @@ public class Enemy extends NonPlayableEntity{
 		}
 		sprite.update(Config.DELTA);
 		frameMove();
-	}
-	
-	public void checkMapChanged() {
-		Cell currentCell = MapLoader.getCurrentCell();
-		//check top
-		if ((getY() < 1 && getdY() < 0) || (getX() >= currentCell.getWidth() - (1 + getWidth()) && getdX() > 0) || 
-		(getY() >= currentCell.getHeight() - (1 + getHeight()) && getdY() > 0) || (getX() < 1 && getdX() < 0)) {
-			currentCell.removeEntity(this);
-		}
 	}
 	
 	@Override

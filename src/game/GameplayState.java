@@ -15,6 +15,7 @@ import org.newdawn.slick.state.StateBasedGame;
 import sounds.Sounds;
 import utils.MapLoader;
 import utils.npeloader.EnemyLoader;
+import utils.npeloader.NPCLoader;
 import GUI.GUI;
 import GUI.TextField;
 import entities.players.Player;
@@ -42,6 +43,7 @@ public class GameplayState extends MouseCapture {
 			throws SlickException {
 		//load enemy data
 		new EnemyLoader().load("data/enemydata.xml");
+		new NPCLoader().load("data/npcdata.xml");
 		//map loading goes here. Needs a better home
 		//method needed to load all maps into their correct index in the array
 		MapLoader.setDimensions(3,2);

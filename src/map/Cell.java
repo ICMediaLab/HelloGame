@@ -31,6 +31,7 @@ import utils.Renderable;
 import utils.Updatable;
 import entities.Entity;
 import entities.enemies.Enemy;
+import entities.npcs.NPC;
 import entities.objects.Door;
 import entities.objects.DoorTrigger;
 import entities.objects.JumpPlatform;
@@ -81,6 +82,8 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 					int y = go.y / Config.getTileSize();
 					if(go.type.equalsIgnoreCase("enemy")){
 						defaultEntities.add(Enemy.getNew(this, go.name, x,y));
+					}else if(go.type.equalsIgnoreCase("npc")){
+						defaultEntities.add(NPC.getNew(this, go.name, x,y));
 					}else if(go.type.equalsIgnoreCase("door")){
 						if(triggers.containsKey(go.name)){
 							defaultEntities.add(new Door(this,triggers.remove(go.name),x,y));

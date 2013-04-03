@@ -1,8 +1,11 @@
 package entities;
 
+import map.Cell;
+
 import org.newdawn.slick.geom.Shape;
 
 import utils.LayerRenderable;
+import utils.MapLoader;
 import utils.Position;
 
 public abstract class VeryAbstractEntity implements Entity, LayerRenderable {
@@ -78,5 +81,17 @@ public abstract class VeryAbstractEntity implements Entity, LayerRenderable {
 	
 	@Override
 	public abstract VeryAbstractEntity clone();
+	
+	/**
+	 * Returns true if and only if this entity is touching the edge of the map.
+	 */
+	protected boolean checkMapChanged() {
+		Cell cell = MapLoader.getCurrentCell();
+		float y = getCentreY() - getHeight()/2;
+		float x = getCentreX() - getWidth()/2;
+		return ((y < 1 && getdY() < 0) || (x < 1 && getdX() < 0) ||
+				(x >= cell.getWidth() - (1 + getWidth()) && getdX() > 0) || 
+				(y >= cell.getHeight() - (1 + getHeight()) && getdY() > 0));
+	}
 	
 }

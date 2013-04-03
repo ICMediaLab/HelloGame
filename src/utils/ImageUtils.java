@@ -14,9 +14,7 @@ public class ImageUtils {
 	 * Does not affect the original image.
 	 */
 	public static Image flipImage(Image i, boolean xAxis, boolean yAxis){
-		return i.getScaledCopy(
-				xAxis ? -i.getWidth() : i.getWidth(), 
-				yAxis ? -i.getHeight() : i.getHeight());		
+		return i.getFlippedCopy(xAxis, yAxis);		
 	}
 	
 	/**
