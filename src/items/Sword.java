@@ -79,7 +79,7 @@ public class Sword extends Weapon {
                 hitbox.setLocation(p.getX() - 1.0f, p.getY());
                 sprite = left;
             }
-            sprite.update(Config.DELTA); //update sprite to correct frame in anim
+            sprite.update(counter); //update sprite to correct frame in anim
             
             // do NOT pass in ALL enemies in cell, or this will be slow
             // find some way to pass only adjacent enemies to player.
