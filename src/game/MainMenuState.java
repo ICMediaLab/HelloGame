@@ -44,7 +44,7 @@ public class MainMenuState extends BasicGameState {
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta)
 			throws SlickException {
-		if(gc.getInput().isKeyDown(Input.KEY_ENTER)){
+		if(gc.getInput().isKeyDown(Input.KEY_ENTER) || gc.getInput().isKeyDown(Input.KEY_NUMPADENTER)){
 			sbg.enterState(HelloGame.GAMEPLAYSTATE);
 		}
 	}
