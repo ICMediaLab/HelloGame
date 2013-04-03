@@ -83,7 +83,7 @@ public class GameplayState extends MouseCapture {
 					gui.closeWindow();
 				}
 			}else {
-				currentCell.updateEntities(gc);
+				currentCell.update(gc);
 				world.step(delta/1000f, 8, 3);
 			}
 			gui.update(gc);

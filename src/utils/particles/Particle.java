@@ -6,38 +6,38 @@ import org.newdawn.slick.Color;
 import utils.Position;
 
 public class Particle {
-        private Image Texture;
-        private Position Position;
-        private Position Velocity;
-        private float Angle;
-        private float AngularVelocity;
-        private Color Color;
-        private float Size;
-        int TTL;
+        private Image texture;
+        private Position position;
+        private Position velocity;
+        private float angle;
+        private float angularVelocity;
+        private Color colour;
+        private float size;
+        int ttl;
 
         public Particle(Image texture, Position position, Position velocity,
             float angle, float angularVelocity, Color color, float size, int ttl) {
-            Texture = texture;
-            Position = position;
-            Velocity = velocity;
-            Angle = angle;
-            AngularVelocity = angularVelocity;
-            Color = color;
-            Size = size;
-            TTL = ttl;
+            this.texture = texture;
+            this.position = position;
+            this.velocity = velocity;
+            this.angle = angle;
+            this.angularVelocity = angularVelocity;
+            this.colour = color;
+            this.size = size;
+            this.ttl = ttl;
         }
 
         public void update() {
-            TTL--;
-            Position.translate(Velocity);
-            Angle += AngularVelocity;
+            ttl--;
+            position.translate(velocity);
+            angle += angularVelocity;
         }
 
         public void render() {
-            Position origin = new Position(Texture.getWidth() / 2, Texture.getHeight() / 2);
+            //Position origin = new Position(texture.getWidth() / 2, texture.getHeight() / 2);
             
-            Texture.setRotation(Angle); // rotate
-            Texture.draw(Position.getX(), Position.getY(), Size, Color); // render
+            texture.setRotation(angle); // rotate
+            texture.draw(position.getX(), position.getY(), size, colour); // render
         }
     
 }

@@ -5,55 +5,39 @@ import java.util.List;
 import java.util.Random;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+import utils.LayerRenderable;
 import utils.Position;
+import utils.Updatable;
+import entities.Entity;
 
-public class ParticleEngine {
-    private Random random;
-    public Position EmitterLocation;
-    private List<Particle> particles;
-    private List<Image> textures;
+public class ParticleEngine implements Updatable, LayerRenderable {
+    private static final Random random = new Random();
+    
+    private final int layer;
+    private final Position emitterLocation;
+    private final List<Particle> particles;
+    private final List<Image> textures;
+    
     private int total = 1;
-    private int Length;
+    private int lifespan;
     private boolean isEmitting;
 
-    public ParticleEngine(List<Image> textures, Position location, int length)
-    {
-        EmitterLocation = location;
+    public ParticleEngine(List<Image> textures, Entity trigger, Position location, int length){
+    	this.layer = trigger.getLayer()-1;
+        emitterLocation = location;
         this.textures = textures;
         this.particles = new ArrayList<Particle>();
-        Length = length;
+        this.lifespan = length;
         isEmitting = true;
-        random = new Random();
     }
 
-    public void update(int counter)
-    {
-        if (counter > Length) {
-            isEmitting = particles.size() > 0;
-        } else {
-            for (int i = 0; i < total; i++) {
-                particles.add(GenerateNewParticle());
-            }
-        }
-        
-
-        for (int particle = 0; particle < particles.size(); particle++)
-        {
-            particles.get(particle).update();
-            if (particles.get(particle).TTL <= 0)
-            {
-                particles.remove(particle);
-                particle--;
-            }
-        }
-    }
-
-    private Particle GenerateNewParticle()
-    {
+    private Particle GenerateNewParticle(){
         Image texture = textures.get(random.nextInt(textures.size()));
-        Position position = new Position(EmitterLocation.getX(), EmitterLocation.getY());
+        Position position = new Position(emitterLocation.getX(), emitterLocation.getY());
         Position velocity = (new Position(random.nextFloat() - 0.5f, (random.nextFloat() * -0.3f)));
         velocity.scale((random.nextFloat() * 2));
         
@@ -66,15 +50,36 @@ public class ParticleEngine {
         return new Particle(texture, position, velocity, angle, angularVelocity, color, size, ttl);
     }
 
-    public void render()
-    {
-        for (int index = 0; index < particles.size(); index++)
-        {
-            particles.get(index).render();
-        }
-    }
-    
     public boolean isEmitting() {
         return isEmitting;
     }
+
+	public void render(GameContainer gc, Graphics g) {
+		for (int index = 0; index < particles.size(); index++){
+            particles.get(index).render();
+        }
+	}
+
+	public void update(GameContainer gc) {
+		if (lifespan-- <= 0) {
+            isEmitting = particles.size() > 0;
+        } else {
+            for (int i = 0; i < total; i++) {
+                particles.add(GenerateNewParticle());
+            }
+        }
+        
+
+        for (int particle = 0; particle < particles.size(); particle++){
+            particles.get(particle).update();
+            if (particles.get(particle).ttl <= 0){
+                particles.remove(particle);
+                particle--;
+            }
+        }
+	}
+
+	public int getLayer() {
+		return layer;
+	}
 }

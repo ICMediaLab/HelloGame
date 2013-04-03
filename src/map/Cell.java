@@ -31,6 +31,7 @@ import utils.LayerRenderable;
 import utils.MapLoader;
 import utils.Renderable;
 import utils.Updatable;
+import utils.particles.ParticleEngine;
 import GUI.TextField;
 import entities.Entity;
 import entities.MovingEntity;
@@ -62,6 +63,8 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	private final Set<MovingEntity> entities = new HashSet<MovingEntity>();
 	private final Set<MovingEntity> entitiesToRemove = new HashSet<MovingEntity>();
 	private final Set<MovingEntity> entitiesToAdd = new HashSet<MovingEntity>();
+	
+	private final Set<ParticleEngine> particleEmmiters = new HashSet<ParticleEngine>();
 	
 	private final Set<Light> lights = new LinkedHashSet<Light>();
 	private final Map<Entity,Light> entityLights = new HashMap<Entity,Light>();
@@ -170,6 +173,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		PriorityQueue<LayerRenderable> orderedLayers = new PriorityQueue<LayerRenderable>(11,LAYER_COMPARATOR);
 		orderedLayers.addAll(entities);
 		orderedLayers.addAll(staticEntities);
+		orderedLayers.addAll(particleEmmiters);
 		for(Layer l : layers){
 			try{
 				orderedLayers.add(new LayeredLayer(l));
@@ -256,9 +260,21 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	
 	public void update(GameContainer gc){
 		updateEntities(gc);
+		updateEmmiters(gc);
 		updateLightmap(gc);
 	}
 	
+	private void updateEmmiters(GameContainer gc) {
+		Set<ParticleEngine> toRemove = new HashSet<ParticleEngine>();
+		for(ParticleEngine pe : particleEmmiters){
+			pe.update(gc);
+			if(!pe.isEmitting()){
+				toRemove.add(pe);
+			}
+		}
+		particleEmmiters.removeAll(toRemove);
+	}
+
 	private void updateLightmap(GameContainer gc) {
 		for(Light l : lights){
 			l.update(gc);
@@ -312,5 +328,9 @@ public class Cell extends TiledMap implements Updatable, Renderable {
     public boolean isVisited() {
         return visited;
     }
+
+	public void addParticleEmmiter(ParticleEngine particleEngine) {
+		particleEmmiters.add(particleEngine);
+	}
 
 }

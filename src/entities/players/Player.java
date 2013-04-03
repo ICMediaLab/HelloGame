@@ -60,8 +60,6 @@ public class Player extends AbstractEntity {
 	private float rangedCounter = 0;
 
     private List<Image> dust = null;
-    private ParticleEngine landing = null;
-    private int dustCounter;
 	
 	private Body body;
 
@@ -253,19 +251,10 @@ public class Player extends AbstractEntity {
 		if (!onGround && newOnGround && getdY() > 0){
 			SOUND_LANDING.playSingle(1.0f, 0.3f * getdY());
 			
-			landing = new ParticleEngine(dust, new Position((getX() - 0.5f) * Config.getTileSize(), getY() * Config.getTileSize()), 20);
-            dustCounter = 0; // destroy engine after time
+			MapLoader.getCurrentCell().addParticleEmmiter(
+					new ParticleEngine(dust, this, new Position((getX() - 0.5f) * Config.getTileSize(), getY() * Config.getTileSize()), 20));
 		}
 		onGround = newOnGround;
-		
-		if (landing != null) {
-		    // dust particles check
-		    landing.update(dustCounter);
-		    dustCounter++;
-            if (!landing.isEmitting()) {
-                landing = null;
-            }
-		}
 		
 		checkMapChanged();
 		
@@ -328,14 +317,8 @@ public class Player extends AbstractEntity {
 		    sword.render(gc,g);
 		}
 		
-		
-		
 		// Health bar above player
 		renderHealthBar(-15);
-		
-		if (landing != null) {
-            landing.render();
-        }
 	}
 
 	@Override
