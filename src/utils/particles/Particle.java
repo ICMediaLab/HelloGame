@@ -37,7 +37,7 @@ public class Particle {
             Position origin = new Position(Texture.getWidth() / 2, Texture.getHeight() / 2);
             
             Texture.setRotation(Angle); // rotate
-            Texture.draw(origin.getX(), origin.getY(), Size, Color); // render
+            Texture.draw(Position.getX(), Position.getY(), Size, Color); // render
         }
     
 }

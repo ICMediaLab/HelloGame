@@ -14,20 +14,28 @@ public class ParticleEngine {
     public Position EmitterLocation;
     private List<Particle> particles;
     private List<Image> textures;
-    private int total = 5;
+    private int total = 1;
+    private int Length;
+    private boolean isEmitting;
 
-    public ParticleEngine(List<Image> textures, Position location)
+    public ParticleEngine(List<Image> textures, Position location, int length)
     {
         EmitterLocation = location;
         this.textures = textures;
         this.particles = new ArrayList<Particle>();
+        Length = length;
+        isEmitting = true;
         random = new Random();
     }
 
-    public void update()
+    public void update(int counter)
     {
-        for (int i = 0; i < total; i++) {
-            particles.add(GenerateNewParticle());
+        if (counter > Length) {
+            isEmitting = particles.size() > 0;
+        } else {
+            for (int i = 0; i < total; i++) {
+                particles.add(GenerateNewParticle());
+            }
         }
         
 
@@ -45,15 +53,15 @@ public class ParticleEngine {
     private Particle GenerateNewParticle()
     {
         Image texture = textures.get(random.nextInt(textures.size()));
-        Position position = EmitterLocation;
-        Position velocity = (new Position((float)(random.nextDouble()) * 0.1f, 1f * (float)(random.nextDouble() * 4 + 1)));
+        Position position = new Position(EmitterLocation.getX(), EmitterLocation.getY());
+        Position velocity = (new Position(random.nextFloat() - 0.5f, (random.nextFloat() * -0.3f)));
         velocity.scale((random.nextFloat() * 2));
         
         float angle = 0;
         float angularVelocity = 0.0f;
-        Color color = new Color(0, 0, (float)random.nextDouble());
+        Color color = new Color(random.nextFloat() * 0.2f + 0.2f, random.nextFloat() * 0.3f + 0.1f, random.nextFloat() * 0.3f + 0.1f);
         float size = 0.5f * (float)random.nextDouble();
-        int ttl = 50 + random.nextInt(60);
+        int ttl = random.nextInt(60);
 
         return new Particle(texture, position, velocity, angle, angularVelocity, color, size, ttl);
     }
@@ -64,5 +72,9 @@ public class ParticleEngine {
         {
             particles.get(index).render();
         }
+    }
+    
+    public boolean isEmitting() {
+        return isEmitting;
     }
 }

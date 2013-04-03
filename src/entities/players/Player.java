@@ -6,6 +6,8 @@ import items.Sword;
 import items.Weapon;
 
 import java.awt.Dimension;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import map.Cell;
@@ -29,6 +31,8 @@ import org.newdawn.slick.geom.Rectangle;
 import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.MapLoader;
+import utils.Position;
+import utils.particles.ParticleEngine;
 import entities.AbstractEntity;
 import entities.MovingEntity;
 import entities.StaticEntity;
@@ -54,6 +58,10 @@ public class Player extends AbstractEntity {
 	private boolean onGround = true;
 	private boolean isRight = true;
 	private float rangedCounter = 0;
+
+    private List<Image> dust = null;
+    private ParticleEngine landing = null;
+    private int dustCounter;
 	
 	private Body body;
 
@@ -88,6 +96,10 @@ public class Player extends AbstractEntity {
 				new Image("data/images/stick/stick_0001_Vector-Smart-Object-copy-13.png"),
 				new Image("data/images/stick/stick_0000_Vector-Smart-Object-copy-14.png")},			
 					5);
+			
+			// particle effect for landing
+			dust = new ArrayList<Image>();
+            dust.add(new Image("data/images/circle.png"));
 			
 			SOUND_LANDING = new SoundGroup("player/landing");
 			footsteps = new SoundGroup("player/footsteps/grass");
@@ -240,8 +252,20 @@ public class Player extends AbstractEntity {
 		boolean newOnGround = isOnGround();
 		if (!onGround && newOnGround && getdY() > 0){
 			SOUND_LANDING.playSingle(1.0f, 0.3f * getdY());
+			
+			landing = new ParticleEngine(dust, new Position((getX() - 0.5f) * Config.getTileSize(), getY() * Config.getTileSize()), 20);
+            dustCounter = 0; // destroy engine after time
 		}
 		onGround = newOnGround;
+		
+		if (landing != null) {
+		    // dust particles check
+		    landing.update(dustCounter);
+		    dustCounter++;
+            if (!landing.isEmitting()) {
+                landing = null;
+            }
+		}
 		
 		checkMapChanged();
 		
@@ -303,8 +327,15 @@ public class Player extends AbstractEntity {
 		if (sword != null && sword.used()) {
 		    sword.render(gc,g);
 		}
+		
+		
+		
 		// Health bar above player
 		renderHealthBar(-15);
+		
+		if (landing != null) {
+            landing.render();
+        }
 	}
 
 	@Override
