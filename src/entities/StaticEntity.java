@@ -1,15 +1,18 @@
 package entities;
 
+import org.newdawn.slick.geom.Shape;
 
-public abstract class StaticEntity extends AbstractEntity {
 
-	public StaticEntity(float x, float y, float width, float height) {
-		super(x,y,width,height);
+public abstract class StaticEntity<S extends Shape> extends VeryAbstractStaticEntity {
+	
+	private final S hitbox;
+
+	public StaticEntity(S s) {
+		hitbox = s;
 	}
 	
 	@Override
-	public StaticEntity clone() {
-		return this;
+	public final S getHitbox() {
+		return hitbox;
 	}
-	
 }

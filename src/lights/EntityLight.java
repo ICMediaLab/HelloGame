@@ -46,7 +46,6 @@ public class EntityLight extends AbstractPointLight {
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) {
-		System.out.print("(" + e.getClass().getSimpleName() + "\t" + e + ") ");
 		super.render(gc, g);
 	}
 	

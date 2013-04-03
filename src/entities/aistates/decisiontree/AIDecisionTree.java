@@ -1,6 +1,7 @@
 package entities.aistates.decisiontree;
 
 import entities.Entity;
+import entities.MovingEntity;
 import entities.aistates.AINextMove;
 
 /**
@@ -37,7 +38,7 @@ public class AIDecisionTree {
 	 * Evaluates this Decision Tree with respect to an {@link Entity} specified.
 	 * @return An instantiation of a AINextMove object which can be used to update an entity.
 	 */
-	public AINextMove evaluate(Entity e) {
+	public AINextMove evaluate(MovingEntity e) {
 		return root.evaluate(e);
 	}
 	

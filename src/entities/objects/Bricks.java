@@ -12,7 +12,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import entities.AbstractEntity;
-import entities.Entity;
+import entities.MovingEntity;
+import entities.StaticEntity;
 import game.config.Config;
 
 public class Bricks extends AbstractEntity {
@@ -58,7 +59,14 @@ public class Bricks extends AbstractEntity {
 	}
 
 	@Override
-	public void collide(Entity e) {
+	public void collide(MovingEntity e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void collide(StaticEntity<?> e) {
+		// TODO Auto-generated method stub
 		
 	}
 

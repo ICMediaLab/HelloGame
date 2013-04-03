@@ -17,8 +17,9 @@ import utils.AnimationContainer;
 
 import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
 
-import entities.Entity;
+import entities.MovingEntity;
 import entities.NonPlayableEntity;
+import entities.StaticEntity;
 import entities.aistates.decisiontree.AIDecisionTree;
 
 public class NPC extends NonPlayableEntity{
@@ -120,7 +121,13 @@ public class NPC extends NonPlayableEntity{
 	}
 	
 	@Override
-	public void collide(Entity e) {
+	public void collide(MovingEntity e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void collide(StaticEntity<?> e) {
 		// TODO Auto-generated method stub
 		
 	}

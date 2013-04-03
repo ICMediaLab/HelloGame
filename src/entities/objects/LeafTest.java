@@ -7,11 +7,11 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.SpriteSheet;
 
-import entities.Entity;
-import entities.StaticEntity;
+import entities.MovingEntity;
+import entities.StaticRectEntity;
 import game.config.Config;
 
-public class LeafTest extends StaticEntity {
+public class LeafTest extends StaticRectEntity {
 	
 	private static  final int LEAF_DEFAULT_LAYER = 100; 
 	
@@ -34,6 +34,7 @@ public class LeafTest extends StaticEntity {
 
 		moving = new Animation(movingSheet, 150);
 		moving.setAutoUpdate(false);
+		moving.setLooping(false);
 		moving.stop();
 	}
 
@@ -47,7 +48,8 @@ public class LeafTest extends StaticEntity {
 		if(running){
 			if(moving.isStopped()){
 				moving.start();
-			}else if (moving.getFrame() == 0) {
+			}else if (moving.getFrame() == moving.getFrameCount()-1) {
+				moving.setCurrentFrame(0);
 				moving.stop();
 				running = false;
 			}
@@ -56,7 +58,7 @@ public class LeafTest extends StaticEntity {
 	}
 
 	@Override
-	public void collide(Entity e) {
+	public void collide(MovingEntity e) {
 		running = true;
 	}
 

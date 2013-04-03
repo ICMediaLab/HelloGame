@@ -35,7 +35,6 @@ public abstract class AbstractLight extends Image implements Light {
 	
 	protected void renderCentre(float scale, float x, float y){
 		//centre the light
-		System.out.println("Rendering " + getClass().getSimpleName() + " at " + x + ", " + y);
 		float alphaW = i.getWidth() * scale;
 		float alphaH = i.getHeight() * scale;
 		float alphaX = x - alphaW/2f;

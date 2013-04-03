@@ -63,7 +63,7 @@ public final class MapLoader {
 		currentY = y;
 		currentCell = maps[y][x];
 		currentCell.loadDefaultEntities();
-		currentCell.addEntity(player);
+		currentCell.addMovingEntity(player);
 		currentCell.setPlayer(player);
 		currentCell.setVisited();
 		return currentCell;

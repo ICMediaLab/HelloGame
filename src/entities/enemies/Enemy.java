@@ -18,8 +18,9 @@ import utils.MapLoader;
 
 import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
 
-import entities.Entity;
+import entities.MovingEntity;
 import entities.NonPlayableEntity;
+import entities.StaticEntity;
 import entities.aistates.decisiontree.AIDecisionTree;
 import entities.players.Player;
 import game.config.Config;
@@ -171,7 +172,7 @@ public class Enemy extends NonPlayableEntity{
 	public void update(GameContainer gc) {
 		super.update(gc);
 	    if (checkMapChanged()) {
-	        MapLoader.getCurrentCell().removeEntity(this);
+	        MapLoader.getCurrentCell().removeMovingEntity(this);
 	        return;
 	    }
 		if(getdX() < 0){
@@ -194,7 +195,13 @@ public class Enemy extends NonPlayableEntity{
 	}
 
 	@Override
-	public void collide(Entity e) {
+	public void collide(MovingEntity e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void collide(StaticEntity<?> e) {
 		// TODO Auto-generated method stub
 		
 	}

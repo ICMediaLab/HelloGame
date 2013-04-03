@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import utils.MapLoader;
-
-import entities.Entity;
+import entities.MovingEntity;
+import entities.players.Player;
 
 /**
  * An abstract interface for boolean variables to express
@@ -16,7 +16,7 @@ interface ConditionBooleanVariable {
 	 * Returns the evaluation of this variable with respect to the entity provided.
 	 * @throws IllegalArgumentException If the variable definition is missing.
 	 */
-	boolean evaluate(Entity e) throws IllegalArgumentException;
+	boolean evaluate(MovingEntity e) throws IllegalArgumentException;
 	
 }
 
@@ -68,8 +68,8 @@ abstract class ConditionBooleanVariables {
 		}
 
 		@Override
-		public boolean evaluate(Entity e) throws IllegalArgumentException {
-			Entity player = MapLoader.getCurrentCell().getPlayer();
+		public boolean evaluate(MovingEntity e) throws IllegalArgumentException {
+			Player player = MapLoader.getCurrentCell().getPlayer();
 			switch(this){
 			case ENTITY_ON_GROUND: return e.isOnGround();
 			case PLAYER_ON_GROUND: return player.isOnGround();
@@ -91,7 +91,7 @@ abstract class ConditionBooleanVariables {
 		}
 	
 		@Override
-		public boolean evaluate(Entity e) {
+		public boolean evaluate(MovingEntity e) {
 			return value;
 		}
 		

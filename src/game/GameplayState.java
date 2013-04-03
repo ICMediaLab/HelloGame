@@ -4,7 +4,6 @@ import map.Cell;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -17,7 +16,6 @@ import utils.MapLoader;
 import utils.npeloader.EnemyLoader;
 import utils.npeloader.NPCLoader;
 import GUI.GUI;
-import GUI.TextField;
 import entities.players.Player;
 
 public class GameplayState extends MouseCapture {
@@ -27,7 +25,6 @@ public class GameplayState extends MouseCapture {
 	private Player player;
 	private static World world = new World(new Vec2(0,  9.8f), false);
 	private GUI gui;
-	private TextField text;
 	  
     GameplayState(int stateID) {
        this.stateID = stateID;
@@ -55,15 +52,13 @@ public class GameplayState extends MouseCapture {
 		player = new Player(2,2);
 		currentCell = MapLoader.setCurrentCell(player,0,0);
 		//create player
-		currentCell.addEntity(player);
+		currentCell.addMovingEntity(player);
 		
 		//audio
 		Sounds.setMusic(new Music("data/sounds/RedCurtain.ogg", true));
 		gc.setMusicVolume(0.5f);
 		
 		gui = new GUI(gc.getGraphics());
-		
-		text = new TextField("'Tis a silly place", 21*32, 15*32, 5, 100, player, 0, -50, Color.transparent, Color.white, 50, 50);
 	}
 
 	@Override
@@ -72,7 +67,6 @@ public class GameplayState extends MouseCapture {
 		currentCell.render(gc, g);
 		//renderLighting(gc,g);
 		gui.render(gc, g);
-		text.render(g);
 	}
 	
 	@Override

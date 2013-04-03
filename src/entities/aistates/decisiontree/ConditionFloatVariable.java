@@ -5,8 +5,8 @@ import java.util.Map;
 
 import utils.MapLoader;
 import utils.Position;
-
-import entities.Entity;
+import entities.MovingEntity;
+import entities.players.Player;
 
 /**
  * An abstract interface for storing non-boolean variables or values.
@@ -17,7 +17,7 @@ interface ConditionFloatVariable {
 	 * Returns the evaluation of this variable with respect to the entity provided.
 	 * @throws IllegalArgumentException If the variable definition is missing.
 	 */
-	float evaluate(Entity e) throws IllegalArgumentException;
+	float evaluate(MovingEntity e) throws IllegalArgumentException;
 }
 
 /**
@@ -73,8 +73,8 @@ abstract class ConditionFloatVariables {
 		}
 		
 		@Override
-		public float evaluate(Entity e) throws IllegalArgumentException {
-			Entity player = MapLoader.getCurrentCell().getPlayer();
+		public float evaluate(MovingEntity e) throws IllegalArgumentException {
+			Player player = MapLoader.getCurrentCell().getPlayer();
 			switch(this){
 			case ENTITY_HEALTH_ABS: return e.getHealth();
 			case ENTITY_HEALTH_MAX: return e.getMaxHealth();
@@ -100,7 +100,7 @@ abstract class ConditionFloatVariables {
 		}
 		
 		@Override
-		public float evaluate(Entity e) {
+		public float evaluate(MovingEntity e) {
 			return val;
 		}
 	}

@@ -30,7 +30,8 @@ import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.MapLoader;
 import entities.AbstractEntity;
-import entities.Entity;
+import entities.MovingEntity;
+import entities.StaticEntity;
 import entities.players.abilities.AbilityFinder;
 import entities.players.abilities.IPlayerAbility;
 
@@ -307,7 +308,14 @@ public class Player extends AbstractEntity {
 	}
 
 	@Override
-	public void collide(Entity e) {
+	public void collide(MovingEntity e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void collide(StaticEntity<?> e) {
+		// TODO Auto-generated method stub
 		
 	}
 

@@ -25,7 +25,7 @@ public abstract class NonPlayableEntity extends AbstractEntity {
 	public void update(GameContainer gc) {
 		aitree.evaluate(this).updateEntity(this);
 		if(isDead()) {
-	        MapLoader.getCurrentCell().removeEntity(this);
+	        MapLoader.getCurrentCell().removeMovingEntity(this);
 		}
 	}
 	

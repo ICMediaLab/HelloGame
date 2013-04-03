@@ -3,11 +3,11 @@ package entities.aistates.decisiontree;
 import java.util.HashMap;
 import java.util.Map;
 
-import entities.Entity;
+import entities.MovingEntity;
 
 abstract class Condition {
 	
-	abstract boolean evaluate(Entity e);
+	abstract boolean evaluate(MovingEntity e);
 
 	/**
 	 * Returns a new conditional evaluate-able node.
@@ -52,7 +52,7 @@ class DisjunctiveConditions extends Condition {
 	}
 
 	@Override
-	boolean evaluate(Entity e) {
+	boolean evaluate(MovingEntity e) {
 		for(Condition c : conditions){
 			if(c.evaluate(e)){
 				return true;
@@ -97,7 +97,7 @@ class ThreePartCondition extends Condition {
 	}
 	
 	@Override
-	boolean evaluate(Entity e){
+	boolean evaluate(MovingEntity e){
 		return Math.signum(Float.compare(lhs.evaluate(e),rhs.evaluate(e))) == trueIfCompareTo;
 	}
 }
@@ -121,7 +121,7 @@ class SinglePartCondition extends Condition {
 	}
 
 	@Override
-	boolean evaluate(Entity e) {
+	boolean evaluate(MovingEntity e) {
 		return value.evaluate(e);
 	}
 	

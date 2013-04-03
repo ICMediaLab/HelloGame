@@ -14,11 +14,11 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.BufferedImageUtil;
 
-import entities.Entity;
-import entities.StaticEntity;
+import entities.MovingEntity;
+import entities.StaticRectEntity;
 import game.config.Config;
 
-public class Door extends StaticEntity {
+public class Door extends StaticRectEntity {
 	
 	private static final int DOOR_DEFAULT_LAYER = 100;
 	
@@ -64,7 +64,7 @@ public class Door extends StaticEntity {
 
 	@Override
 	public void render(GameContainer gc, Graphics g) {
-		if(!cell.getTile((int) getX(),(int) getY()).lookupProperty(TileProperty.BLOCKED).getBoolean()){
+		if(!cell.getTile((int) getCentreX(),(int) getCentreY()).lookupProperty(TileProperty.BLOCKED).getBoolean()){
 			openSprite.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());
 		}else{
 			closedSprite.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());
@@ -79,11 +79,11 @@ public class Door extends StaticEntity {
 	}
 	
 	private void openDoor(){
-		cell.getTile((int) getX(),(int) getY()).addProperty(TileProperty.BLOCKED, new BooleanTilePropertyValue(false));
+		cell.getTile((int) getCentreX(),(int) getCentreY()).addProperty(TileProperty.BLOCKED, new BooleanTilePropertyValue(false));
 	}
 	
 	private void closeDoor(){
-		cell.getTile((int) getX(),(int) getY()).addProperty(TileProperty.BLOCKED, new BooleanTilePropertyValue(true));
+		cell.getTile((int) getCentreX(),(int) getCentreY()).addProperty(TileProperty.BLOCKED, new BooleanTilePropertyValue(true));
 	}
 
 	public void assignTrigger(DoorTrigger trigger) {
@@ -95,7 +95,7 @@ public class Door extends StaticEntity {
 	}
 
 	@Override
-	public void collide(Entity e) {
+	public void collide(MovingEntity e) {
 		if(trigger == null){
 			openDoor();
 		}

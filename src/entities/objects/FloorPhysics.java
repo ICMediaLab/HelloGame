@@ -12,7 +12,8 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Shape;
 
 import entities.AbstractEntity;
-import entities.Entity;
+import entities.MovingEntity;
+import entities.StaticEntity;
 
 public class FloorPhysics extends AbstractEntity {
 
@@ -47,14 +48,6 @@ public class FloorPhysics extends AbstractEntity {
 		return body;
 	}
 
-	public float getWidth() {
-		return width;
-	}
-
-	public float getHeight() {
-		return height;
-	}
-
 	@Override
 	public void render(GameContainer gc, Graphics g) {
 		g.setColor(Color.cyan);
@@ -69,7 +62,13 @@ public class FloorPhysics extends AbstractEntity {
 	}
 
 	@Override
-	public void collide(Entity e) {
+	public void collide(MovingEntity e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void collide(StaticEntity<?> e) {
 		// TODO Auto-generated method stub
 		
 	}

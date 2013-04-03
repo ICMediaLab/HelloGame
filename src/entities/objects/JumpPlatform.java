@@ -4,11 +4,11 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import entities.Entity;
-import entities.StaticEntity;
+import entities.MovingEntity;
+import entities.StaticRectEntity;
 import game.config.Config;
 
-public class JumpPlatform extends StaticEntity {
+public class JumpPlatform extends StaticRectEntity {
 	
 	private static final int JUMP_PLATFORM_DEFAULT_LAYER = -100;
 	
@@ -29,8 +29,11 @@ public class JumpPlatform extends StaticEntity {
 	}
 	
 	@Override
-	public void collide(Entity e){
-		e.setVelocity(e.getdX(),-1.2f);
+	public void collide(MovingEntity e){
+		if(e instanceof MovingEntity){
+			MovingEntity me = (MovingEntity) e;
+			me.setVelocity(me.getdX(),-1.2f);
+		}
 	}
 
 	@Override

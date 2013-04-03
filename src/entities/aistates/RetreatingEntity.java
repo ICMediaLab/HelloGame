@@ -4,7 +4,7 @@ import map.Cell;
 import map.tileproperties.TileProperty;
 import utils.MapLoader;
 import entities.AbstractEntity;
-import entities.FixedRotationEntity;
+import entities.NonPlayableEntity;
 
 /**
  * The entity should attempt to escape in the direction opposite to that
@@ -15,7 +15,7 @@ public class RetreatingEntity implements AINextMove {
 	private static final float XMARGIN = 0.1f, MARGIN = 0.25f;
 
 	@Override
-	public void updateEntity(FixedRotationEntity e) {
+	public void updateEntity(NonPlayableEntity e) {
 		Cell cell = MapLoader.getCurrentCell();
 		AbstractEntity player = cell.getPlayer();
 		

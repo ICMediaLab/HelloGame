@@ -20,16 +20,21 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.tiled.GroupObject;
 import org.newdawn.slick.tiled.Layer;
 import org.newdawn.slick.tiled.ObjectGroup;
 import org.newdawn.slick.tiled.TiledMap;
+
+import GUI.TextField;
 
 import utils.LayerRenderable;
 import utils.MapLoader;
 import utils.Renderable;
 import utils.Updatable;
 import entities.Entity;
+import entities.MovingEntity;
+import entities.StaticEntity;
 import entities.enemies.Enemy;
 import entities.npcs.NPC;
 import entities.objects.Door;
@@ -46,11 +51,12 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	
 	private final Tile[][] properties = new Tile[getHeight()][getWidth()];
 	
-	private final Set<Entity> defaultEntities = new HashSet<Entity>();
+	private final Set<MovingEntity> defaultEntities = new HashSet<MovingEntity>();
+	private final Set<StaticEntity<?>> staticEntities = new HashSet<StaticEntity<?>>();
 	
-	private final Set<Entity> entities = new HashSet<Entity>();
-	private final Set<Entity> entitiesToRemove = new HashSet<Entity>();
-	private final Set<Entity> entitiesToAdd = new HashSet<Entity>();
+	private final Set<MovingEntity> entities = new HashSet<MovingEntity>();
+	private final Set<MovingEntity> entitiesToRemove = new HashSet<MovingEntity>();
+	private final Set<MovingEntity> entitiesToAdd = new HashSet<MovingEntity>();
 	
 	private final Set<Light> lights = new LinkedHashSet<Light>();
 	private final Map<Entity,Light> entityLights = new HashMap<Entity,Light>();
@@ -73,6 +79,8 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		lights.clear();
 		entityLights.clear();
 		if(defaultEntities.isEmpty()){
+			staticEntities.add(new TextField<Circle>("'Tis a silly place", new Circle(21, 15, 3), 0, -50, Color.transparent, Color.white, 50, 50));
+			
 			Map<String,Door> doors = new HashMap<String,Door>();
 			Map<String,DoorTrigger> triggers = new HashMap<String,DoorTrigger>();
 			
@@ -86,31 +94,31 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 						defaultEntities.add(NPC.getNew(this, go.name, x,y));
 					}else if(go.type.equalsIgnoreCase("door")){
 						if(triggers.containsKey(go.name)){
-							defaultEntities.add(new Door(this,triggers.remove(go.name),x,y));
+							staticEntities.add(new Door(this,triggers.remove(go.name),x,y));
 						}else{
 							Door d = new Door(this,null,x,y);
 							doors.put(go.name,d);
-							defaultEntities.add(d);
+							staticEntities.add(d);
 						}
 					}else if(go.type.equalsIgnoreCase("doorTrigger")){
 						if(doors.containsKey(go.name)){
-							defaultEntities.add(new DoorTrigger(doors.remove(go.name),x,y));
+							staticEntities.add(new DoorTrigger(doors.remove(go.name),x,y));
 						}else{
 							DoorTrigger dt = new DoorTrigger(null, x, y);
 							triggers.put(go.name, dt);
-							defaultEntities.add(dt);
+							staticEntities.add(dt);
 						}
 					}else if(go.type.equalsIgnoreCase("leafTest")){
-						defaultEntities.add(new LeafTest(x,y));
+						staticEntities.add(new LeafTest(x,y));
 					} else if(go.type.equalsIgnoreCase("jumpPlatform")){
-						defaultEntities.add(new JumpPlatform(x,y));
+						staticEntities.add(new JumpPlatform(x,y));
 					}
 				}
 			}
 		}
-		for(Entity e : defaultEntities){
-			Entity clo = e.clone();
-			addEntity(clo);
+		for(MovingEntity e : defaultEntities){
+			MovingEntity clo = e.clone();
+			addMovingEntity(clo);
 			addLight(new EntityLight(clo, 3f, new Color(1f,1f,1f,0.6f)));
 		}
 		
@@ -149,7 +157,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	}
 	
 	
-	public void addEntity(Entity newEntity) {
+	public void addMovingEntity(MovingEntity newEntity) {
 		entitiesToAdd.add(newEntity);
 	}
 	
@@ -160,6 +168,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		//super.render(-Config.getTileSize(),-Config.getTileSize());
 		PriorityQueue<LayerRenderable> orderedLayers = new PriorityQueue<LayerRenderable>(11,LAYER_COMPARATOR);
 		orderedLayers.addAll(entities);
+		orderedLayers.addAll(staticEntities);
 		for(Layer l : layers){
 			try{
 				orderedLayers.add(new LayeredLayer(l));
@@ -220,8 +229,6 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		
 		AbstractLight.renderPre(g);
 		
-		System.out.println("\nRendering " + lights.size() + " lights:");
-		
 		//render each light
 		for(Light l : lights){
 			l.render(gc,g);
@@ -238,8 +245,12 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		entitiesToRemove.addAll(entities);
 	}
 	
-	public Set<Entity> getEntities() {
+	public Set<MovingEntity> getMovingEntities() {
 	    return entities;
+	}
+	
+	public Set<StaticEntity<?>> getStaticEntities() {
+	    return staticEntities;
 	}
 	
 	public void update(GameContainer gc){
@@ -256,13 +267,22 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	public void updateEntities(GameContainer gc){
 		entities.addAll(entitiesToAdd);
 		entitiesToAdd.clear();
-		for(Entity e : entities){
+		for(MovingEntity e : entities){
 			e.update(gc);
-			for (Entity e2 : entities){
+			for (MovingEntity e2 : entities){
 				if (e != e2 && e.intersects(e2)){
 					e.collide(e2);
 				}
 			}
+			for(StaticEntity<?> s : staticEntities){
+				if(e.intersects(s)){
+					e.collide(s);
+					s.collide(e);
+				}
+			}
+		}
+		for(StaticEntity<?> s : staticEntities){
+			s.update(gc);
 		}
 		entities.removeAll(entitiesToRemove);
 		for(Entity e : entitiesToRemove){
@@ -271,7 +291,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		entitiesToRemove.clear();
 	}
     
-    public void removeEntity(Entity e) {
+    public void removeMovingEntity(MovingEntity e) {
         entitiesToRemove.add(e);
     }
     

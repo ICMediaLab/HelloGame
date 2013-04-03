@@ -1,6 +1,6 @@
 package entities.aistates.decisiontree;
 
-import entities.Entity;
+import entities.MovingEntity;
 import entities.aistates.AINextMove;
 import entities.aistates.AIState;
 
@@ -32,7 +32,7 @@ abstract class DecisionNode {
 		}
 	}
 
-	public abstract AINextMove evaluate(Entity e);
+	public abstract AINextMove evaluate(MovingEntity e);
 	
 }
 
@@ -57,7 +57,7 @@ class ConditionBranch extends DecisionNode {
 	}
 	
 	@Override
-	public AINextMove evaluate(Entity e){
+	public AINextMove evaluate(MovingEntity e){
 		return cond.evaluate(e) ? accept.evaluate(e) : reject.evaluate(e);
 	}
 }
@@ -82,7 +82,7 @@ class Leaf extends DecisionNode {
 	}
 
 	@Override
-	public AINextMove evaluate(Entity e) {
+	public AINextMove evaluate(MovingEntity e) {
 		return state.getStateClass();
 	}
 	

@@ -1,6 +1,6 @@
 package entities.aistates;
 
-import entities.FixedRotationEntity;
+import entities.NonPlayableEntity;
 
 /**
  * The entity should remain idle and not move.
@@ -8,7 +8,7 @@ import entities.FixedRotationEntity;
 public class IdleEntity implements AINextMove {
 
 	@Override
-	public void updateEntity(FixedRotationEntity e) {
+	public void updateEntity(NonPlayableEntity e) {
 		//do nothing
 	}
 

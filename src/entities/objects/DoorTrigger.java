@@ -11,11 +11,11 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.BufferedImageUtil;
 
 import utils.MapLoader;
-import entities.Entity;
-import entities.StaticEntity;
+import entities.MovingEntity;
+import entities.StaticRectEntity;
 import game.config.Config;
 
-public class DoorTrigger extends StaticEntity {
+public class DoorTrigger extends StaticRectEntity {
 	
 	private static final int DOOR_TRIGGER_DEFAULT_LAYER = -200;
 	
@@ -57,7 +57,7 @@ public class DoorTrigger extends StaticEntity {
 	}
 
 	@Override
-	public void collide(Entity e) {
+	public void collide(MovingEntity e) {
 		if(e == MapLoader.getCurrentCell().getPlayer()){
 			trigger.setTriggered();
 		}

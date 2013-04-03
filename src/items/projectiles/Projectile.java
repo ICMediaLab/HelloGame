@@ -15,7 +15,8 @@ import org.newdawn.slick.geom.Transform;
 
 import utils.MapLoader;
 import utils.Position;
-import entities.Entity;
+import entities.MovingEntity;
+import entities.StaticEntity;
 import entities.VeryAbstractEntity;
 import game.config.Config;
 
@@ -176,7 +177,7 @@ public class Projectile extends VeryAbstractEntity {
 		Cell cell = MapLoader.getCurrentCell();
 		if(x < 0 || y <= 0 || x >= cell.getWidth() - 1 || y >= cell.getHeight() - 1 || 
 		        cell.getTile(x, y).lookupProperty(TileProperty.BLOCKED).getBoolean()) {
-            MapLoader.getCurrentCell().removeEntity(this);
+            MapLoader.getCurrentCell().removeMovingEntity(this);
 		}
 	}
 
@@ -185,11 +186,16 @@ public class Projectile extends VeryAbstractEntity {
 	}
 
 	@Override
-	public void collide(Entity e) {
+	public void collide(MovingEntity e) {
 		if(e != MapLoader.getCurrentCell().getPlayer()){
 			e.takeDamage(damage);
-	        MapLoader.getCurrentCell().removeEntity(this);
+			MapLoader.getCurrentCell().removeMovingEntity(this);
 		}
+	}
+
+	@Override
+	public void collide(StaticEntity<?> e) {
+		MapLoader.getCurrentCell().removeMovingEntity(this);
 	}
 
 	@Override

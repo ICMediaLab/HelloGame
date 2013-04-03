@@ -11,7 +11,8 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import entities.AbstractEntity;
-import entities.Entity;
+import entities.MovingEntity;
+import entities.StaticEntity;
 import game.config.Config;
 
 public class CirclePhysics extends AbstractEntity {
@@ -56,7 +57,13 @@ public class CirclePhysics extends AbstractEntity {
 	}
 
 	@Override
-	public void collide(Entity e) {
+	public void collide(MovingEntity e) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void collide(StaticEntity<?> e) {
 		// TODO Auto-generated method stub
 		
 	}
