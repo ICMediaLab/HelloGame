@@ -104,7 +104,7 @@ public class GameplayState extends MouseCapture {
 	@Override
 	public void enter(GameContainer gc, StateBasedGame game) throws SlickException {
 		super.enter(gc, game);
-		Sounds.getMusic().play(1, 0.3f);
+		Sounds.getMusic().loop(1, 0.3f);
 	}
 	
 	public static World getWorld() {

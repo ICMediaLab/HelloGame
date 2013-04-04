@@ -12,6 +12,8 @@ import org.newdawn.slick.Image;
 import utils.LayerRenderable;
 import utils.Position;
 import utils.Updatable;
+import utils.interval.Interval2D;
+import utils.interval.Range2D;
 import entities.Entity;
 
 public class ParticleEmitter implements Updatable, LayerRenderable {
@@ -19,6 +21,7 @@ public class ParticleEmitter implements Updatable, LayerRenderable {
     
     private final int layer;
     private final Position emitterLocation;
+    private final Range2D emitterRange;
     private final List<Particle> particles;
     private final List<Image> textures;
     
@@ -32,13 +35,14 @@ public class ParticleEmitter implements Updatable, LayerRenderable {
         this.particles = new ArrayList<Particle>();
         this.lifespan = length;
         isEmitting = true;
+        //emitterRange = new Sector2D(new Position(), 0f, 2f, Math.PI*3/4, -Math.PI*3/4);
+        emitterRange = new Interval2D(new Position(), -0.5f, 0.5f, -0.4f, 0f);
     }
     
     private Particle GenerateNewParticle(){
         Image texture = textures.get(random.nextInt(textures.size()));
         Position position = new Position(emitterLocation.getX(), emitterLocation.getY());
-        Position velocity = (new Position(random.nextFloat() - 0.5f, (random.nextFloat() * -0.3f)));
-        velocity.scale((random.nextFloat() * 2));
+        Position velocity = emitterRange.random();
         
         float angle = 0;
         float angularVelocity = 0.0f;
