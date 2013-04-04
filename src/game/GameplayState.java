@@ -58,7 +58,7 @@ public class GameplayState extends MouseCapture {
 		Sounds.setMusic(new Music("data/sounds/RedCurtain.ogg", true));
 		gc.setMusicVolume(0.5f);
 		
-		gui = new GUI(gc.getGraphics());
+		gui = new GUI(gc.getGraphics());		
 	}
 
 	@Override

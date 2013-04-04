@@ -1,5 +1,18 @@
 package map;
 
+import entities.Entity;
+import entities.MovingEntity;
+import entities.StaticEntity;
+import entities.enemies.Enemy;
+import entities.npcs.NPC;
+import entities.objects.Cage;
+import entities.objects.Door;
+import entities.objects.DoorTrigger;
+import entities.objects.JumpPlatform;
+import entities.objects.LeafTest;
+import entities.players.Player;
+import game.config.Config;
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,6 +33,7 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.tiled.GroupObject;
@@ -33,17 +47,6 @@ import utils.Renderable;
 import utils.Updatable;
 import utils.particles.ParticleEmitter;
 import GUI.TextField;
-import entities.Entity;
-import entities.MovingEntity;
-import entities.StaticEntity;
-import entities.enemies.Enemy;
-import entities.npcs.NPC;
-import entities.objects.Door;
-import entities.objects.DoorTrigger;
-import entities.objects.JumpPlatform;
-import entities.objects.LeafTest;
-import entities.players.Player;
-import game.config.Config;
 
 
 public class Cell extends TiledMap implements Updatable, Renderable {
@@ -88,6 +91,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		entityLights.clear();
 		if(defaultEntities.isEmpty()){
 			staticEntities.add(new TextField<Rectangle>("'Tis a silly place", new Rectangle(19, 14, 5,3), 0, -50, Color.transparent, Color.white, 50, 50));
+			staticEntities.add(new TextField<Circle>("Help, help, I'm being repressed!", new Circle(25, 16, 10), 0, -50, Color.transparent, Color.white, 50, 50));
 			
 			Map<String,Door> doors = new HashMap<String,Door>();
 			Map<String,DoorTrigger> triggers = new HashMap<String,DoorTrigger>();
@@ -120,6 +124,8 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 						staticEntities.add(new LeafTest(x,y));
 					} else if(go.type.equalsIgnoreCase("jumpPlatform")){
 						staticEntities.add(new JumpPlatform(x,y));
+					} else if(go.type.equalsIgnoreCase("cage")){
+						staticEntities.add(new Cage(x, y));
 					}
 				}
 			}
