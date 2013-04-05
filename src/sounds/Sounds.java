@@ -25,6 +25,17 @@ public abstract class Sounds {
 		return s;
 	}
 	
+	public static SoundGroup loadSoundGroup(String path) {
+		SoundGroup s = null;
+		try {
+			s = new SoundGroup(path);
+		} catch (SlickException e) {
+			System.out.println("Tried to load from: " + path);
+			e.printStackTrace();
+		}
+		return s;
+	}
+	
 	/**
 	 * Stop all the sounds currently played
 	 */

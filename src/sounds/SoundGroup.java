@@ -5,40 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.util.EFXEffect;
 import org.newdawn.slick.util.EFXFilter;
 
-import entities.players.Player;
-
 public class SoundGroup {
 	
 	public List<Sound> SOUNDS;
-	private long accumulator = 0;
-	private long oldTime = 0;
 	private Random rnd = new Random();
-	private String s;
 	
 	public SoundGroup(String s) throws SlickException{
-		this.s = s;
 		SOUNDS = new ArrayList<Sound>();
-		
 		for (File file : (new File("data/sounds/" + s).listFiles())){
 			SOUNDS.add(Sounds.loadSound(s + "/" + file.getName()));
-		}
-		
-	}
-	
-	public void playRandom(GameContainer gc, Player player, int frequencyTime, float pitchavg, float pitchrnd, float volavg, float volrnd){
-		if (player.isOnGround() && player.isMovingX()){
-			accumulator += gc.getTime() - oldTime;
-			if (accumulator > frequencyTime){
-				Sounds.play(SOUNDS.get(rnd.nextInt(SOUNDS.size())), rnd.nextFloat()*pitchrnd + pitchavg, rnd.nextFloat()*volrnd + volavg);
-				accumulator = 0;
-			}
-			oldTime = gc.getTime();
 		}
 	}
 	
@@ -54,6 +34,10 @@ public class SoundGroup {
 		Sounds.play(SOUNDS.get(rnd.nextInt(SOUNDS.size())), pitch, volume);
 	}
 	
+	public void playSingle(float pitchAverage, float pitchDeviation, float volumeAverage, float volumeDeviation){
+		Sounds.play(SOUNDS.get(rnd.nextInt(SOUNDS.size())), pitchAverage + (rnd.nextFloat() - 0.5f)*pitchDeviation, volumeAverage + (rnd.nextFloat() - 0.5f)*volumeDeviation);
+	}
+	
 	public void stopSounds(){
 		for (int i = 0; i < SOUNDS.size(); i++){
 			SOUNDS.get(i).stop();
@@ -66,8 +50,4 @@ public class SoundGroup {
 		}
 	}
 	
-	public String toString(){
-		return s; 
-		//yeah i made this just to get rid of the warning icon...
-	}
 }

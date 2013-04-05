@@ -49,16 +49,17 @@ public class Player extends AbstractEntity {
 	private final Animation left, right, leftPause, rightPause;
 	private Animation sprite;
 	private final Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
-	private static final Sound SOUND_JUMP = Sounds.loadSound("jump.ogg");
-	SoundGroup footsteps;
 	
-	private static SoundGroup SOUND_LANDING; 
+	private static final Sound SOUND_JUMP = Sounds.loadSound("jump.ogg");
+	private static final SoundGroup FOOTSTEPS = Sounds.loadSoundGroup("player/footsteps/grass");
+	private static final SoundGroup SOUND_LANDING = Sounds.loadSoundGroup("player/landing");; 
 	
 	private float speed = 0.3f;
 	private Weapon sword;
 	private boolean onGround = true;
 	private boolean isRight = true;
 	private float rangedCounter = 0;
+	private float walkingCounter = 0;
 
     private List<Image> dust = null;
 	
@@ -100,8 +101,6 @@ public class Player extends AbstractEntity {
 			dust = new ArrayList<Image>();
             dust.add(new Image("data/images/circle.png"));
 			
-			SOUND_LANDING = new SoundGroup("player/landing");
-			footsteps = new SoundGroup("player/footsteps/grass");
 		} catch (SlickException e) {
 			//do shit all
 		}
@@ -162,7 +161,7 @@ public class Player extends AbstractEntity {
 		useAbility("doublejump");
 		if (isOnGround()) {
 			super.jump();
-			Sounds.play(SOUND_JUMP, 1.0f, 0.3f);
+//			Sounds.play(SOUND_JUMP, 1.0f, 0.3f);
 		}
 	}
 
@@ -241,7 +240,16 @@ public class Player extends AbstractEntity {
 			translateSmooth(10, input.getMouseX()/32f + getWidth()/2f, input.getMouseY()/32f + getHeight()/2f);
 		}
 		
-		footsteps.playRandom(gc, this, 150, 0.8f, 0.2f, 0.05f, 0.02f);
+		if (isOnGround() && isMovingX()) {
+			walkingCounter += Config.DELTA;
+			if (walkingCounter > 200) {
+				walkingCounter = 0;
+				FOOTSTEPS.playSingle(0.8f, 0.2f, 0.1f, 0.02f);
+				
+				MapLoader.getCurrentCell().addParticleEmmiter(
+						new ParticleEmitter(dust, this, new Position((getX() - 0.5f) * Config.getTileSize(), getY() * Config.getTileSize()), 2));
+			}
+		}
 		
 		sword.update(gc);
 		
@@ -252,6 +260,7 @@ public class Player extends AbstractEntity {
 		if (!onGround && newOnGround && getdY() > 0){
 			SOUND_LANDING.playSingle(1.0f, 0.3f * getdY());
 			
+			// Would be nice to make it bigger (more particles) in shorter time and dependent on player falling speed
 			MapLoader.getCurrentCell().addParticleEmmiter(
 					new ParticleEmitter(dust, this, new Position((getX() - 0.5f) * Config.getTileSize(), getY() * Config.getTileSize()), 20));
 		}

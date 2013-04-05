@@ -24,7 +24,7 @@ public class DoubleJumpAbility extends PlayerAbility {
 		if(!p.isOnGround()) {
 			if (!hasJumped) {
 				hasJumped = true;
-				Sounds.play(SOUND_DOUBLE_JUMP);
+//				Sounds.play(SOUND_DOUBLE_JUMP);
 				p.jump();
 			}
 		} else {
