@@ -34,6 +34,7 @@ import utils.MapLoader;
 import utils.Position;
 import utils.particles.ParticleEmitter;
 import entities.AbstractEntity;
+import entities.DestructibleEntity;
 import entities.MovingEntity;
 import entities.StaticEntity;
 import entities.players.abilities.AbilityFinder;
@@ -340,5 +341,11 @@ public class Player extends AbstractEntity {
 	
 	public float getRangedCounter() {
 	    return rangedCounter / 1000;
+	}
+
+	@Override
+	public void collide(DestructibleEntity d) {
+		// TODO Auto-generated method stub
+		
 	}
 }

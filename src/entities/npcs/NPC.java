@@ -17,6 +17,7 @@ import utils.AnimationContainer;
 
 import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
 
+import entities.DestructibleEntity;
 import entities.MovingEntity;
 import entities.NonPlayableEntity;
 import entities.StaticEntity;
@@ -199,6 +200,12 @@ public class NPC extends NonPlayableEntity{
 	@Override
 	public int getLayer() {
 		return NPC_DEFAULT_LAYER;
+	}
+
+	@Override
+	public void collide(DestructibleEntity d) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

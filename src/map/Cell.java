@@ -1,5 +1,6 @@
 package map;
 
+import entities.DestructibleEntity;
 import entities.Entity;
 import entities.MovingEntity;
 import entities.StaticEntity;
@@ -61,11 +62,15 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	private final Tile[][] properties = new Tile[getHeight()][getWidth()];
 	
 	private final Set<MovingEntity> defaultEntities = new HashSet<MovingEntity>();
+	private final Set<DestructibleEntity> defaultDestructibleEntities = new HashSet<DestructibleEntity>();
 	private final Set<StaticEntity<?>> staticEntities = new HashSet<StaticEntity<?>>();
 	
 	private final Set<MovingEntity> entities = new HashSet<MovingEntity>();
 	private final Set<MovingEntity> entitiesToRemove = new HashSet<MovingEntity>();
 	private final Set<MovingEntity> entitiesToAdd = new HashSet<MovingEntity>();
+	
+	private final Set<DestructibleEntity> destructibleEntities = new HashSet<DestructibleEntity>();
+	private final Set<DestructibleEntity> destructibleEntitiesToRemove = new HashSet<DestructibleEntity>();
 	
 	private final Set<ParticleEmitter> particleEmitters = new HashSet<ParticleEmitter>();
 	
@@ -87,6 +92,8 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		entities.clear();
 		entitiesToAdd.clear();
 		entitiesToRemove.clear();
+		destructibleEntities.clear();
+		destructibleEntitiesToRemove.clear();
 		lights.clear();
 		entityLights.clear();
 		if(defaultEntities.isEmpty()){
@@ -125,7 +132,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 					} else if(go.type.equalsIgnoreCase("jumpPlatform")){
 						staticEntities.add(new JumpPlatform(x,y));
 					} else if(go.type.equalsIgnoreCase("cage")){
-						staticEntities.add(new Cage(x, y));
+						defaultDestructibleEntities.add(new Cage(x, y));
 					}
 				}
 			}
@@ -133,6 +140,11 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		for(MovingEntity e : defaultEntities){
 			MovingEntity clo = e.clone();
 			addMovingEntity(clo);
+			addLight(new EntityLight(clo, 3f, new Color(1f,1f,1f,0.6f)));
+		}
+		for(DestructibleEntity e : defaultDestructibleEntities){
+			DestructibleEntity clo = e.clone();
+			destructibleEntities.add(clo);
 			addLight(new EntityLight(clo, 3f, new Color(1f,1f,1f,0.6f)));
 		}
 		
@@ -179,6 +191,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		PriorityQueue<LayerRenderable> orderedLayers = new PriorityQueue<LayerRenderable>(11,LAYER_COMPARATOR);
 		orderedLayers.addAll(entities);
 		orderedLayers.addAll(staticEntities);
+		orderedLayers.addAll(destructibleEntities);
 		orderedLayers.addAll(particleEmitters);
 		for(Layer l : layers){
 			try{
@@ -264,6 +277,10 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	    return staticEntities;
 	}
 	
+	public Set<DestructibleEntity> getDestructibleEntities() {
+	    return destructibleEntities;
+	}
+	
 	public void update(GameContainer gc){
 		updateEntities(gc);
 		updateEmmiters(gc);
@@ -297,12 +314,21 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 					e.collide(e2);
 				}
 			}
+			for(DestructibleEntity d : destructibleEntities){
+				if(e.intersects(d)){
+					e.collide(d);
+					d.collide(e);
+				}
+			}
 			for(StaticEntity<?> s : staticEntities){
 				if(e.intersects(s)){
 					e.collide(s);
 					s.collide(e);
 				}
 			}
+		}
+		for(DestructibleEntity d : destructibleEntities){
+			d.update(gc);
 		}
 		for(StaticEntity<?> s : staticEntities){
 			s.update(gc);
@@ -311,11 +337,19 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		for(Entity e : entitiesToRemove){
 			lights.remove(entityLights.remove(e));
 		}
+		destructibleEntities.removeAll(destructibleEntitiesToRemove);
+		for(Entity e : destructibleEntitiesToRemove){
+			lights.remove(entityLights.remove(e));
+		}
 		entitiesToRemove.clear();
 	}
     
     public void removeMovingEntity(MovingEntity e) {
         entitiesToRemove.add(e);
+    }
+    
+    public void removeDestructibleEntity(DestructibleEntity e) {
+    	destructibleEntitiesToRemove.add(e);
     }
     
     public void setPlayer(Player player) {

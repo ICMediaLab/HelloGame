@@ -12,6 +12,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import entities.AbstractEntity;
+import entities.DestructibleEntity;
 import entities.MovingEntity;
 import entities.StaticEntity;
 import game.config.Config;
@@ -80,6 +81,12 @@ public class Bricks extends AbstractEntity {
 	public AbstractEntity clone() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void collide(DestructibleEntity d) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

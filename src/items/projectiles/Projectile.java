@@ -15,6 +15,7 @@ import org.newdawn.slick.geom.Transform;
 
 import utils.MapLoader;
 import utils.Position;
+import entities.DestructibleEntity;
 import entities.MovingEntity;
 import entities.StaticEntity;
 import entities.VeryAbstractEntity;
@@ -201,6 +202,11 @@ public class Projectile extends VeryAbstractEntity {
 	@Override
 	public Shape getHitbox() {
 		return hitbox;
+	}
+
+	@Override
+	public void collide(DestructibleEntity d) {
+		MapLoader.getCurrentCell().removeMovingEntity(this);
 	}
 
 }

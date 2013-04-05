@@ -12,6 +12,7 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Shape;
 
 import entities.AbstractEntity;
+import entities.DestructibleEntity;
 import entities.MovingEntity;
 import entities.StaticEntity;
 
@@ -83,6 +84,12 @@ public class FloorPhysics extends AbstractEntity {
 	public AbstractEntity clone() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void collide(DestructibleEntity d) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
