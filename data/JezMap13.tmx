@@ -132,6 +132,9 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="45" name="grassbottom" tilewidth="32" tileheight="32">
+  <image source="images/grassbottom.png" width="128" height="32"/>
+ </tileset>
  <layer name="Tile Layer 1" width="34" height="20">
   <properties>
    <property name="render-index" value="-10000"/>
@@ -142,10 +145,18 @@
  </layer>
  <layer name="Tile Layer 2" width="34" height="20">
   <properties>
-   <property name="render-index" value="-9000"/>
+   <property name="render-index" value="5000"/>
   </properties>
   <data encoding="base64" compression="zlib">
    eJxjYBgFo2B4AkEoHuxABEoLY5HDJkYtIERn+2DmwzCyfSJoNAwIIakTYsDu5uEERBgww2AwA1qnF3QAy8/47KV2noelO+R0i24PoXQ9CsgDoHAEhTMoHEdC/h8FqAAAMrMCxg==
+  </data>
+ </layer>
+ <layer name="infront_grass" width="34" height="20">
+  <properties>
+   <property name="render-index" value="5000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4C6QB+KBzuAudEAjxwt7UUGejS0D2Y+yF6YX9H9roumXh9JXI9haMQnJQDkR/QwGMyA1ukFl33Y8goMUDv8kNOeAZo4sruQ5WHuHO7pldYAPezpnd5GwSgAAQCHjAbp
   </data>
  </layer>
 </map>

@@ -75,6 +75,9 @@
  <tileset firstgid="83" name="branches01" tilewidth="32" tileheight="32">
   <image source="images/branches01.png" width="192" height="779"/>
  </tileset>
+ <tileset firstgid="227" name="GrassBottom" tilewidth="32" tileheight="32">
+  <image source="images/grassbottom.png" width="128" height="32"/>
+ </tileset>
  <layer name="Tile Layer 1" width="34" height="20">
   <properties>
    <property name="render-index" value="-10000"/>
@@ -85,7 +88,7 @@
  </layer>
  <layer name="Tile Layer 2" width="34" height="20">
   <properties>
-   <property name="render-index" value="-8000"/>
+   <property name="render-index" value="5000"/>
   </properties>
   <data encoding="base64" compression="zlib">
    eJxjYBgFo2AUjALygDAQCw20I5CAIBRT28yRCqgdtyIMkPAUprK5lIDBFL+g8IaF0WABILfA3ARzF6XpQpBKZsBoERL0CZOhhxQAMx/mR/S0LsQwcPELK68HU/7DBwDfogKK
@@ -129,4 +132,12 @@
  <objectgroup name="Cage" width="34" height="20">
   <object name="Cage" type="cage" x="800" y="512" width="32" height="64"/>
  </objectgroup>
+ <layer name="grass_infront" width="34" height="20">
+  <properties>
+   <property name="render-index" value="5000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUDDXwFIifDbQjkMBjIH5CAzNHKqB23ILiZrClGWqnF0oALP0+HWiHIAFkN8HijdIwo0Y+hYURqeFF6zB+zIA9zGBgINP/YExfQwEAAAHcIB4=
+  </data>
+ </layer>
 </map>

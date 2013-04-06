@@ -83,6 +83,9 @@
  <tileset firstgid="99" name="branches01" tilewidth="32" tileheight="32">
   <image source="images/branches01.png" width="192" height="779"/>
  </tileset>
+ <tileset firstgid="243" name="GrassBottom" tilewidth="32" tileheight="32">
+  <image source="images/grassbottom.png" width="128" height="32"/>
+ </tileset>
  <layer name="Tile Layer 1" width="34" height="20">
   <properties>
    <property name="render-index" value="-10000"/>
@@ -96,7 +99,7 @@
    <property name="render-index" value="-9000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztlFELgzAMhPu+l2mrtjqt//9XLsIFDjdxYrfswQ8OkzYNp0azc24UTaIk6kSzKIpa0QP5CM1Y73GmobWI89ovoqfuT9gbKO6gi32WZ5ZX+a9JFLe4RgMfyjI7+kyGgn3rA7V5lZf0YfGO35H2SzZrS37flrPG9NYGQMlZO8NobQA01gbA0fm4fcXFto8aCiIPKXeKPeoqijWvqEegfU95oPpP/6nsTfuVRL1793rvF//FExT5CJM=
+   eJztk80KgCAQhL13CzR/Mnv/p2yFEUQKsazt4AeDrq7LoGsQQnjSRjKkhbSTNEmRVsQe2rFucUZmaxrnUz2Nmml/w57L5gs0qBPvLBTx15hsrjBqBh+J2DvpTlzHunNDbijinj443vgMU0+5zO35vzl7LcdyGwA9e+0JntsAkNwGQGt/TK+4+E+fDgZ3OABBJwX8
   </data>
  </layer>
  <layer name="Tile Layer 3" width="34" height="20">
@@ -113,14 +116,6 @@
   </properties>
   <data encoding="base64" compression="zlib">
    eJzt1FcKAzEMRVGvKRAC6b33ZNL7/heRK5gFPBt9JDCC8ylj0JNC+I0qoez85gBDjDDGROipoOr8jylmmGOBpdBTR8v5HyusscEWO6Gng77zP/bIcMARJ6HH8qHML6bOuOCKG+5Cj+VDmV9MPfDEC298hB7LhzK/mKrl7zbQDFr+LB/K/GKqnb/bRS9o+bM9V+YXUyn3w/ZcmV9MpdwP23PvfKTcD9tz73yk3A/bc+98pNwP23PvfKTcj6KK+of6AlvlHiY=
-  </data>
- </layer>
- <layer name="infront_trunks" width="34" height="20">
-  <properties>
-   <property name="render-index" value="5000"/>
-  </properties>
-  <data encoding="base64" compression="zlib">
-   eJztlDEORQAUBPcKOAkFBQWJL0GCBAkFhfsf4u+LQ+wTNpl+mlng2RtJQmqxx0Iy0oo9dlKQQexxkorMYo+YNGQTe6SkJ4fYI8fdyyX2KOGjlx989NLBRy/2px56sT/10Iv96QR9L/anK/S9BCQkkdjj2zv2B6H/DH4=
   </data>
  </layer>
  <layer name="branches" width="34" height="20">
@@ -146,4 +141,20 @@
    </properties>
   </object>
  </objectgroup>
+ <layer name="infront_grass" width="34" height="20">
+  <properties>
+   <property name="render-index" value="5000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztlVEKwCAMQ72Ctve/pNrvObAQpGMIEx30QaDVWIIfGoLzRm4q0MuGDPJQ72JVhjzhrYsy/JUy9DN36TjOmej/c793AjWuocdaG0ld3ERd6hc4T90XodY+wgyGfYKewZ+MzBaYTed9iWYnkHMmFxW/JOs=
+  </data>
+ </layer>
+ <layer name="infront_trunks" width="34" height="20">
+  <properties>
+   <property name="render-index" value="5500"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt1DELgnAUBPD7CuYnsUEHGwpKKEEDFWrQoe+/1b/Ze+TQ0ibcEzv4bW+45R6w7NS0paO4R0sZncU97rSjStxjoAM14h4JFXQT90ippF7cI8dnLw9xjz187OUEH3u5wMde7J962Iv9Uw97sX96xXx7edJrEuj94y583Vrsn3bQ7yWiDcXiHv+sIyNTrxQg
+  </data>
+ </layer>
 </map>
