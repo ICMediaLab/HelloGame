@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import map.Cell;
 
@@ -32,6 +33,9 @@ import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.MapLoader;
 import utils.Position;
+import utils.interval.two.Interval2D;
+import utils.interval.two.Range2D;
+import utils.interval.two.Sector2D;
 import utils.particles.ParticleEmitter;
 import entities.AbstractEntity;
 import entities.DestructibleEntity;
@@ -52,7 +56,9 @@ public class Player extends AbstractEntity {
 	
 	private static final Sound SOUND_JUMP = Sounds.loadSound("jump.ogg");
 	private static final SoundGroup FOOTSTEPS = Sounds.loadSoundGroup("player/footsteps/grass");
-	private static final SoundGroup SOUND_LANDING = Sounds.loadSoundGroup("player/landing");; 
+	private static final SoundGroup SOUND_LANDING = Sounds.loadSoundGroup("player/landing");
+	
+	private static final Random rand = new Random();
 	
 	private float speed = 0.3f;
 	private Weapon sword;
@@ -241,13 +247,20 @@ public class Player extends AbstractEntity {
 		}
 		
 		if (isOnGround() && isMovingX()) {
-			walkingCounter += Config.DELTA;
-			if (walkingCounter > 200) {
-				walkingCounter = 0;
+			walkingCounter -= Config.DELTA;
+			if (walkingCounter < 0) {
+				walkingCounter += rand.nextInt(Config.DELTA*4);
 				FOOTSTEPS.playSingle(0.8f, 0.2f, 0.1f, 0.02f);
 				
+				Range2D spawn;
+				if(getDirection() > 0){ //right
+					spawn = new Sector2D(0.5f, 0.7f, -Math.PI*5/6, -Math.PI*11/12);
+				}else{
+					spawn = new Sector2D(0.5f, 0.7f, -Math.PI/12, -Math.PI/6);
+				}
+				
 				MapLoader.getCurrentCell().addParticleEmmiter(
-						new ParticleEmitter(dust, this, new Position((getX() - 0.5f) * Config.getTileSize(), getY() * Config.getTileSize()), 2));
+						new ParticleEmitter(dust, this, new Position((getX() - 0.5f) * Config.getTileSize(), getY() * Config.getTileSize()), spawn, 3, 2));
 			}
 		}
 		
@@ -262,7 +275,7 @@ public class Player extends AbstractEntity {
 			
 			// Would be nice to make it bigger (more particles) in shorter time and dependent on player falling speed
 			MapLoader.getCurrentCell().addParticleEmmiter(
-					new ParticleEmitter(dust, this, new Position((getX() - 0.5f) * Config.getTileSize(), getY() * Config.getTileSize()), 20));
+					new ParticleEmitter(dust, this, new Position((getX() - 0.5f) * Config.getTileSize(), getY() * Config.getTileSize()), new Interval2D(-0.5f, 0.5f, -0.4f, 0f), 20, 5));
 		}
 		onGround = newOnGround;
 		

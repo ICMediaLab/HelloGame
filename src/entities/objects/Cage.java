@@ -23,7 +23,6 @@ public class Cage extends StaticRectEntity implements DestructibleEntity {
 
 	@Override
 	public void collide(MovingEntity e) {
-		System.out.println("Collided with " + e);
 		// Why is weapon not colliding?
 		// we never had the ability to collide the weapon afaik
 		if (e instanceof Player) health -= 10;

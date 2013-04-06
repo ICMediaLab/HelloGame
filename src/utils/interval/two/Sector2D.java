@@ -21,4 +21,11 @@ public class Sector2D extends Range2D {
 		return new Position(m*(float) Math.cos(a), m*(float) Math.sin(a));
 	}
 
+	@Override
+	public float area() {
+		float min = magRange.getMin();
+		float max = magRange.getMax();
+		return (angRange.length().floatValue()/2f)*(max*max - min*min);
+	}
+
 }

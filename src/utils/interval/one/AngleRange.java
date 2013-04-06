@@ -7,7 +7,6 @@ public class AngleRange extends Range<Double> {
 	public AngleRange(double min, double max) {
 		this.min = min;
 		this.width = max - min;
-		System.out.println("width: " + width);
 	}
 	
 	@Override
@@ -19,8 +18,22 @@ public class AngleRange extends Range<Double> {
 		while(res <= -Math.PI){
 			res += Math.PI + Math.PI;
 		}
-		System.out.println("Returning " + res);
 		return res;
+	}
+
+	@Override
+	public Double length() {
+		return Math.abs(width);
+	}
+
+	@Override
+	public Double getMax() {
+		return width < 0 ? min : min + width;
+	}
+
+	@Override
+	public Double getMin() {
+		return width > 0 ? min : min + width;
 	}
 
 }

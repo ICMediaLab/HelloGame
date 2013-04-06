@@ -1,6 +1,6 @@
 package utils.particles;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -12,9 +12,9 @@ import org.newdawn.slick.Image;
 import utils.LayerRenderable;
 import utils.Position;
 import utils.Updatable;
-import utils.interval.two.Interval2D;
 import utils.interval.two.Range2D;
 import entities.Entity;
+import game.config.Config;
 
 public class ParticleEmitter implements Updatable, LayerRenderable {
     private static final Random random = new Random();
@@ -22,21 +22,21 @@ public class ParticleEmitter implements Updatable, LayerRenderable {
     private final int layer;
     private final Position emitterLocation;
     private final Range2D emitterRange;
-    private final List<Particle> particles;
+    private final List<Particle> particles = new LinkedList<Particle>();
     private final List<Image> textures;
     
+    private final int particleLifespan;
     private int lifespan;
     private boolean isEmitting;
     
-    public ParticleEmitter(List<Image> textures, Entity trigger, Position location, int length){
+    public ParticleEmitter(List<Image> textures, Entity trigger, Position src, Range2D emitRange, int emitterLifespan, int maxParticleLifespan){
     	this.layer = trigger.getLayer()-1;
-        emitterLocation = location;
+        emitterLocation = src;
         this.textures = textures;
-        this.particles = new ArrayList<Particle>();
-        this.lifespan = length;
         isEmitting = true;
-        //emitterRange = new Sector2D(0f, 2f, Math.PI*3/4, Math.PI*5/4);
-        emitterRange = new Interval2D(-0.5f, 0.5f, -0.4f, 0f);
+        emitterRange = emitRange;
+        lifespan = emitterLifespan;
+        particleLifespan = maxParticleLifespan;
     }
     
     private Particle GenerateNewParticle(){
@@ -48,7 +48,7 @@ public class ParticleEmitter implements Updatable, LayerRenderable {
         float angularVelocity = 0.0f;
         Color color = new Color(random.nextFloat() * 0.2f + 0.2f, random.nextFloat() * 0.3f + 0.1f, random.nextFloat() * 0.3f + 0.1f);
         float size = 0.5f * (float)random.nextDouble();
-        int ttl = random.nextInt(60);
+        int ttl = random.nextInt(Config.getTileSize()*particleLifespan);
         
         return new Particle(texture, position, velocity, angle, angularVelocity, color, size, ttl);
     }
