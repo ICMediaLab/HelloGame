@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Set;
+import java.util.TreeSet;
 
 import lights.AbstractLight;
 import lights.AmbientLight;
@@ -51,7 +51,7 @@ import GUI.TextField;
 
 
 public class Cell extends TiledMap implements Updatable, Renderable {
-
+	
 	private static final Comparator<? super LayerRenderable> LAYER_COMPARATOR = new LayerComparator();
 	
 	/**
@@ -60,6 +60,8 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	public static final Transform SHAPE_DRAW_TRANSFORM = Transform.createTranslateTransform(-1, -1).concatenate(Transform.createScaleTransform(Config.getTileSize(), Config.getTileSize()));
 	
 	private final Tile[][] properties = new Tile[getHeight()][getWidth()];
+	
+	private final Set<LayerRenderable> renderables = new TreeSet<LayerRenderable>(LAYER_COMPARATOR);
 	
 	private final Set<MovingEntity> defaultEntities = new HashSet<MovingEntity>();
 	private final Set<DestructibleEntity> defaultDestructibleEntities = new HashSet<DestructibleEntity>();
@@ -77,33 +79,48 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	private final Set<Light> lights = new LinkedHashSet<Light>();
 	private final Map<Entity,Light> entityLights = new HashMap<Entity,Light>();
 	
-    private Player player;
-    private boolean visited = false;
-    private int counter = 150;
-    private float fadeOut = 1;
-			
+	private Player player;
+	private boolean visited = false;
+	private int counter = 150;
+	private float fadeOut = 1;
+	
 	public Cell(String location) throws SlickException {
 		super(location);
+		for(Layer l : layers){
+			try {
+				renderables.add(new LayeredLayer(l));
+			} catch (NoSuchFieldException e) {
+				System.out.println(e.getMessage());
+			}
+		}
 		loadProperties();
 		loadDefaultEntities();
 	}
 	
 	public void loadDefaultEntities(){
+		renderables.removeAll(entities);
+		renderables.removeAll(entitiesToAdd);
+		renderables.removeAll(destructibleEntities);
+
 		entities.clear();
 		entitiesToAdd.clear();
 		entitiesToRemove.clear();
 		destructibleEntities.clear();
 		destructibleEntitiesToRemove.clear();
-		lights.clear();
+		lights.removeAll(entityLights.values());
 		entityLights.clear();
 		if(defaultEntities.isEmpty()){
-			staticEntities.add(new TextField<Rectangle>("'Tis a silly place", new Rectangle(19, 14, 5,3), 0, -50, Color.transparent, Color.white, 50, 50));
-			staticEntities.add(new TextField<Circle>("Help, help, I'm being repressed!", new Circle(25, 16, 10), 0, -50, Color.transparent, Color.white, 50, 50));
+			addStaticEntity(new TextField<Rectangle>("'Tis a silly place", new Rectangle(19, 14, 5,3), 0, -50, Color.transparent, Color.white, 50, 50));
+			addStaticEntity(new TextField<Circle>("Help, help, I'm being repressed!", new Circle(25, 16, 10), 0, -50, Color.transparent, Color.white, 50, 50));
+			
+			addLight(new AmbientLight(new Color(0.5f, 0.5f, 1f, 0.4f)));
+			addLight(new PointLight(1020, 0, 5));
+			addLight(new PointLight(0, 0, 5));
 			
 			Map<String,Door> doors = new HashMap<String,Door>();
 			Map<String,DoorTrigger> triggers = new HashMap<String,DoorTrigger>();
 			
-			for(ObjectGroup og : super.objectGroups){
+			for(ObjectGroup og : objectGroups){
 				for(GroupObject go : og.objects){
 					int x = go.x / Config.getTileSize();
 					int y = go.y / Config.getTileSize();
@@ -113,24 +130,24 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 						defaultEntities.add(NPC.getNew(this, go.name, x,y));
 					}else if(go.type.equalsIgnoreCase("door")){
 						if(triggers.containsKey(go.name)){
-							staticEntities.add(new Door(this,triggers.remove(go.name),x,y));
+							addStaticEntity(new Door(this,triggers.remove(go.name),x,y));
 						}else{
 							Door d = new Door(this,null,x,y);
 							doors.put(go.name,d);
-							staticEntities.add(d);
+							addStaticEntity(d);
 						}
 					}else if(go.type.equalsIgnoreCase("doorTrigger")){
 						if(doors.containsKey(go.name)){
-							staticEntities.add(new DoorTrigger(doors.remove(go.name),x,y));
+							addStaticEntity(new DoorTrigger(doors.remove(go.name),x,y));
 						}else{
 							DoorTrigger dt = new DoorTrigger(null, x, y);
 							triggers.put(go.name, dt);
-							staticEntities.add(dt);
+							addStaticEntity(dt);
 						}
 					}else if(go.type.equalsIgnoreCase("leafTest")){
-						staticEntities.add(new LeafTest(x,y));
+						addStaticEntity(new LeafTest(x,y));
 					} else if(go.type.equalsIgnoreCase("jumpPlatform")){
-						staticEntities.add(new JumpPlatform(x,y));
+						addStaticEntity(new JumpPlatform(x,y));
 					} else if(go.type.equalsIgnoreCase("cage")){
 						defaultDestructibleEntities.add(new Cage(x, y));
 					}
@@ -144,13 +161,9 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		}
 		for(DestructibleEntity e : defaultDestructibleEntities){
 			DestructibleEntity clo = e.clone();
-			destructibleEntities.add(clo);
+			addDestructibleEntity(clo);
 			addLight(new EntityLight(clo, 3f, new Color(1f,1f,1f,0.6f)));
 		}
-		
-		addLight(new AmbientLight(new Color(0.5f, 0.5f, 1f, 0.4f)));
-		addLight(new PointLight(1020, 0, 5));
-		addLight(new PointLight(0, 0, 5));
 	}
 	
 	public Tile getTile(int x, int y) {
@@ -182,29 +195,24 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		}
 	}
 	
-	
 	public void addMovingEntity(MovingEntity newEntity) {
 		entitiesToAdd.add(newEntity);
+		renderables.add(newEntity);
+	}
+	
+	private void addDestructibleEntity(DestructibleEntity newEntity) {
+		destructibleEntities.add(newEntity);
+		renderables.add(newEntity);
+	}
+	
+	private void addStaticEntity(StaticEntity<?> newEntity) {
+		staticEntities.add(newEntity);
+		renderables.add(newEntity);
 	}
 	
 	public void render(GameContainer gc, Graphics g) {
-		PriorityQueue<LayerRenderable> orderedLayers = new PriorityQueue<LayerRenderable>(11,LAYER_COMPARATOR);
-		orderedLayers.addAll(entities);
-		orderedLayers.addAll(staticEntities);
-		orderedLayers.addAll(destructibleEntities);
-		orderedLayers.addAll(particleEmitters);
-		for(Layer l : layers){
-			try{
-				orderedLayers.add(new LayeredLayer(l));
-			}catch(NoSuchFieldException e){
-				System.out.println(e.getMessage());
-				for(int i=0;i<l.height-2;i++){
-					l.render(0, 0, 1, 1, l.width-2, i, false, Config.getTileSize(), Config.getTileSize());
-				}
-			}
-		}
-		while(!orderedLayers.isEmpty()){
-			orderedLayers.poll().render(gc, g);
+		for(LayerRenderable lr : renderables){
+			lr.render(gc, g);
 		}
 		
 		renderLightmap(gc,g);
@@ -220,29 +228,29 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		// render minimap
 		Cell[][] mini = MapLoader.getSurroundingCells();
 		g.setColor(Color.orange.scaleCopy(fadeOut));
-        g.fillRoundRect(width * Config.getTileSize() - 128, 48, 24, 24, 5);
-        g.setColor(Color.white);
-        for (int j = 0; j < 3; j++) {
-            for (int i = 0; i < 3; i++) {
-                if (mini[i][j] != null) {
-                    if (i != 1 || j != 1) {
-                        if (mini[i][j].visited) {
-                            g.setColor(Color.green.scaleCopy(fadeOut));
-                        } else {
-                            g.setColor(Color.white.scaleCopy(fadeOut));
-                        }
-                        g.fillRoundRect(width * Config.getTileSize() - (154 - (i * 26)), 22 + (j * 26), 24, 24, 5);
-                    }
-                    g.setColor(Color.darkGray.scaleCopy(fadeOut));
-                    g.fillRoundRect(width * Config.getTileSize() - (154 - (i * 26)) + 2, 22 + (j * 26) +  2, 20, 20, 5);
-                }
-             }
-        }
-        
-        g.setColor(Color.darkGray.scaleCopy(fadeOut));
-        g.fillRoundRect(width * Config.getTileSize() - 128 + 2, 48 + 2, 20, 20, 5);
-        
-        counter++;
+		g.fillRoundRect(width * Config.getTileSize() - 128, 48, 24, 24, 5);
+		g.setColor(Color.white);
+		for (int j = 0; j < 3; j++) {
+			for (int i = 0; i < 3; i++) {
+				if (mini[i][j] != null) {
+					if (i != 1 || j != 1) {
+						if (mini[i][j].visited) {
+							g.setColor(Color.green.scaleCopy(fadeOut));
+						} else {
+							g.setColor(Color.white.scaleCopy(fadeOut));
+						}
+						g.fillRoundRect(width * Config.getTileSize() - (154 - (i * 26)), 22 + (j * 26), 24, 24, 5);
+					}
+					g.setColor(Color.darkGray.scaleCopy(fadeOut));
+					g.fillRoundRect(width * Config.getTileSize() - (154 - (i * 26)) + 2, 22 + (j * 26) +  2, 20, 20, 5);
+				}
+			 }
+		}
+		
+		g.setColor(Color.darkGray.scaleCopy(fadeOut));
+		g.fillRoundRect(width * Config.getTileSize() - 128 + 2, 48 + 2, 20, 20, 5);
+		
+		counter++;
 		}
 	}
 	
@@ -265,20 +273,20 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		AbstractLight.renderPost(g);
 	}
 
-	public void clearEntities() {
+	public void clearMovingEntities() {
 		entitiesToRemove.addAll(entities);
 	}
 	
 	public Set<MovingEntity> getMovingEntities() {
-	    return entities;
+		return entities;
 	}
 	
 	public Set<StaticEntity<?>> getStaticEntities() {
-	    return staticEntities;
+		return staticEntities;
 	}
 	
 	public Set<DestructibleEntity> getDestructibleEntities() {
-	    return destructibleEntities;
+		return destructibleEntities;
 	}
 	
 	public void update(GameContainer gc){
@@ -293,11 +301,12 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 			pe.update(gc);
 			if(!pe.isEmitting()){
 				toRemove.add(pe);
+				renderables.remove(pe);
 			}
 		}
 		particleEmitters.removeAll(toRemove);
 	}
-
+	
 	private void updateLightmap(GameContainer gc) {
 		for(Light l : lights){
 			l.update(gc);
@@ -343,34 +352,37 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		}
 		entitiesToRemove.clear();
 	}
-    
-    public void removeMovingEntity(MovingEntity e) {
-        entitiesToRemove.add(e);
-    }
-    
-    public void removeDestructibleEntity(DestructibleEntity e) {
-    	destructibleEntitiesToRemove.add(e);
-    }
-    
-    public void setPlayer(Player player) {
-        this.player = player;
-        addLight(new EntityLight(player, 7f));
-    }
-    
-    public Player getPlayer() {
-        return player;
-    }
-    
-    public void setVisited() {
-        visited = true;
-    }
-    
-    public boolean isVisited() {
-        return visited;
-    }
+	
+	public void removeMovingEntity(MovingEntity e) {
+		entitiesToRemove.add(e);
+		renderables.remove(e);
+	}
+	
+	public void removeDestructibleEntity(DestructibleEntity e) {
+		destructibleEntitiesToRemove.add(e);
+		renderables.remove(e);
+	}
+	
+	public void setPlayer(Player player) {
+		this.player = player;
+		addLight(new EntityLight(player, 7f));
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
+	
+	public void setVisited() {
+		visited = true;
+	}
+	
+	public boolean isVisited() {
+		return visited;
+	}
 
 	public void addParticleEmmiter(ParticleEmitter particleEngine) {
 		particleEmitters.add(particleEngine);
+		renderables.add(particleEngine);
 	}
 
 }

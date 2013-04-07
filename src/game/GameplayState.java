@@ -48,11 +48,9 @@ public class GameplayState extends MouseCapture {
 		MapLoader.loadMap("data/JezMap02.tmx", 1, 0);
 		MapLoader.loadMap("data/JezMap03.tmx", 2, 0);
 		MapLoader.loadMap("data/JezMap13.tmx", 2, 1);
-		//set initial map
+		//set initial map and player
 		player = new Player(2,2);
 		currentCell = MapLoader.setCurrentCell(player,0,0);
-		//create player
-		currentCell.addMovingEntity(player);
 		
 		//audio
 		Sounds.setMusic(new Music("data/sounds/RedCurtain.ogg", true));

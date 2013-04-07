@@ -89,7 +89,6 @@ public class NPC extends NonPlayableEntity{
 			return null;
 		}
 		NPC base = npcs.get(name.toLowerCase());
-		System.out.println("Got " + base + " from npc storage: " + npcs);
 		return new NPC(x,y, base.getWidth(), base.getHeight(),base.getMaxHealth(),base.left,base.right,base.getAIDecisionTree());
 	}
 	

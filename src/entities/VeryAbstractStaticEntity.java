@@ -74,4 +74,14 @@ public abstract class VeryAbstractStaticEntity implements Entity {
 	protected void renderSprite(AnimationContainer sprite){
 		renderSprite(sprite.getAnimation(),sprite.getOffset());
 	}
+	
+	@Override
+	public final boolean equals(Object obj) {
+		return super.equals(obj);
+	}
+	
+	@Override
+	public final int hashCode() {
+		return super.hashCode();
+	}
 }

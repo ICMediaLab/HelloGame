@@ -57,7 +57,7 @@ public final class MapLoader {
 	 */
 	public static Cell setCurrentCell(Player player, int x, int y) {
 		if(getCurrentCell() != null){
-			getCurrentCell().clearEntities();
+			getCurrentCell().clearMovingEntities();
 		}
 		currentX = x;
 		currentY = y;
