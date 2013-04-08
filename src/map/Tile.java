@@ -43,7 +43,6 @@ public class Tile {
 	 */
 	public Tile(Cell cell, int layer, int x, int y){
 		Layer l = cell.getLayer(layer);
-		System.out.println("Loading " + x + ", "+ y);
 		TileSet ts = l.data[x][y][0] < 0 ? null : cell.getTileSet(l.data[x][y][0]);
 		
 		//parse tileset properties

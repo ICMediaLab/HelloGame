@@ -81,8 +81,6 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	
 	private Player player;
 	private boolean visited = false;
-	private int counter = 150;
-	private float fadeOut = 1;
 	
 	public Cell(String location) throws SlickException {
 		super(location);
@@ -236,18 +234,23 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		}
 		
 		renderLightmap(gc,g);
+		renderMinimap(gc,g);
+	}
+	
+	private float minimapOpacity = 1f;
+	private float minimapOpacityDelta = 0.05f;
+	
+	private void renderMinimap(GameContainer gc, Graphics g){
 		Input input = gc.getInput();
 		
 		if (input.isKeyPressed(Input.KEY_K)) {
-			counter = 0;
-			fadeOut = 1;
+			minimapOpacityDelta = -minimapOpacityDelta;
 		}
 		
-		if (counter < 150) {
-			if (counter > 100) fadeOut -= 0.02;
 		// render minimap
+		minimapOpacity = Math.min(1f, Math.max(0f, minimapOpacity + minimapOpacityDelta));
 		Cell[][] mini = MapLoader.getSurroundingCells();
-		g.setColor(Color.orange.scaleCopy(fadeOut));
+		g.setColor(Color.orange.scaleCopy(minimapOpacity));
 		g.fillRoundRect(width * Config.getTileSize() - 128, 48, 24, 24, 5);
 		g.setColor(Color.white);
 		for (int j = 0; j < 3; j++) {
@@ -255,23 +258,20 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 				if (mini[i][j] != null) {
 					if (i != 1 || j != 1) {
 						if (mini[i][j].visited) {
-							g.setColor(Color.green.scaleCopy(fadeOut));
+							g.setColor(Color.green.scaleCopy(minimapOpacity));
 						} else {
-							g.setColor(Color.white.scaleCopy(fadeOut));
+							g.setColor(Color.white.scaleCopy(minimapOpacity));
 						}
 						g.fillRoundRect(width * Config.getTileSize() - (154 - (i * 26)), 22 + (j * 26), 24, 24, 5);
 					}
-					g.setColor(Color.darkGray.scaleCopy(fadeOut));
+					g.setColor(Color.darkGray.scaleCopy(minimapOpacity));
 					g.fillRoundRect(width * Config.getTileSize() - (154 - (i * 26)) + 2, 22 + (j * 26) +  2, 20, 20, 5);
 				}
 			 }
 		}
 		
-		g.setColor(Color.darkGray.scaleCopy(fadeOut));
+		g.setColor(Color.darkGray.scaleCopy(minimapOpacity));
 		g.fillRoundRect(width * Config.getTileSize() - 128 + 2, 48 + 2, 20, 20, 5);
-		
-		counter++;
-		}
 	}
 	
 	private void renderLightmap(GameContainer gc, Graphics g){
