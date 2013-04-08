@@ -7,140 +7,28 @@
   <image source="images/GrassTop4_01.png" width="128" height="32"/>
  </tileset>
  <tileset firstgid="21" name="Mud4_02" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="blocked" value="true"/>
+  </properties>
   <image source="images/Mud4_02.png" width="144" height="96"/>
-  <tile id="0">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
-  <tile id="1">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
-  <tile id="2">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
-  <tile id="3">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
-  <tile id="4">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
-  <tile id="5">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
-  <tile id="6">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
-  <tile id="7">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
-  <tile id="8">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
-  <tile id="9">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
-  <tile id="10">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
-  <tile id="11">
-   <properties>
-    <property name="blocked" value="true"/>
-   </properties>
-  </tile>
  </tileset>
- <tileset firstgid="33" name="MudInvisible4_03" tilewidth="32" tileheight="32">
-  <image source="images/Mud4_02.png" width="144" height="96"/>
-  <tile id="0">
-   <properties>
-    <property name="blocked" value="false"/>
-   </properties>
-  </tile>
-  <tile id="1">
-   <properties>
-    <property name="blocked" value="false"/>
-   </properties>
-  </tile>
-  <tile id="2">
-   <properties>
-    <property name="blocked" value="false"/>
-   </properties>
-  </tile>
-  <tile id="3">
-   <properties>
-    <property name="blocked" value="false"/>
-   </properties>
-  </tile>
-  <tile id="4">
-   <properties>
-    <property name="blocked" value="false"/>
-   </properties>
-  </tile>
-  <tile id="5">
-   <properties>
-    <property name="blocked" value="false"/>
-   </properties>
-  </tile>
-  <tile id="6">
-   <properties>
-    <property name="blocked" value="false"/>
-   </properties>
-  </tile>
-  <tile id="7">
-   <properties>
-    <property name="blocked" value="false"/>
-   </properties>
-  </tile>
-  <tile id="8">
-   <properties>
-    <property name="blocked" value="false"/>
-   </properties>
-  </tile>
-  <tile id="9">
-   <properties>
-    <property name="blocked" value="false"/>
-   </properties>
-  </tile>
-  <tile id="10">
-   <properties>
-    <property name="blocked" value="false"/>
-   </properties>
-  </tile>
-  <tile id="11">
-   <properties>
-    <property name="blocked" value="false"/>
-   </properties>
-  </tile>
- </tileset>
- <tileset firstgid="45" name="grassbottom" tilewidth="32" tileheight="32">
+ <tileset firstgid="33" name="grassbottom" tilewidth="32" tileheight="32">
   <image source="images/grassbottom.png" width="128" height="32"/>
  </tileset>
- <layer name="Tile Layer 1" width="34" height="20">
+ <layer name="collide" width="34" height="20">
   <properties>
    <property name="render-index" value="-10000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxdlsFy2zAMRBHHiR0rrXOhZFmWxE6Sdtr6/7+v5GTfcKsDhjIJAgtgAXqJiGuRvkjSdy6yal2K3Ip02qvnlyKj9nuts/Y4T/q92vliOqt+L9IfJFfzO+neqrO69ywdbA1mq5etXmecg3WQTXAnfXNnNgy9xXvV2c3udhZXku5oNsCfN7Gv2k92f5BeslzMpncxfWwPwnHWSh6J/WJ1TDpnxRd5uZg+eAbDN5s/8JAT4jpLf1/kUORY5G6+rtLLVhNyCmduOu+lQ9zTZh9OeZ0nYXnR/tFyVXG8FvmudRbOvXDvijwW+SXsnWQxH+Q8yxdYyD1coV8O+k1enmSnEzbOj8JzkL2T4n4RpkV6cGG1mnpus+WQO6PszPLzLBxZsS/ye9eZc/mk70d9V/lb5N1qSKz0NLXxGlHfvex9RutTattLPK/gTxt/izDcLffwiL65mI1ZK3npZPMerc93kk446YfV1inaLGB+VRw/onGZ3iAnYILL6NS18vCPZBWOvdX6pL0H2XqTHTj8Kv/191l2qAEx45PV+x3OnKPxiTiY9cyXSf7q+ZN0jzojtp32dtHmUI7GzznaW5GjzVt4gs8pGtepx97ifZef35KD6VDLUXlh3pADfvu7kfRdfX2LL77jlzp/yEYWVu4ks53MPjWEK8zIKf7nAf5v9l19P2itPfkWrY8+ovUIXGPujGaH+lIbeitbHq5mY9zUgzn6Gm2e17z+jC++3ze2eR/gWDKb5IzZCTfJCe8RseRo7z6zg97HHvMtyxf75IKZzZ7XnXcOLP5+YI/awlvwMe+YSYvZ5C1gPi9mx/1Pliv21mj9wT1/D7f6+OEdhcs5GmdXu0vMYIF79KPz1vFsc36z++zTqzkaz7Yze7Kc3Ow+3/CA2vE/re79A/zcQKw=
+   eJxdltlu6zAMRNnUbdw4vemLvC/6/6+8FjoHmjoAIZniJnJIZY+I+aT+pKR9PunQup+0ntSJV87Hkybxe62beJwnfR92vpvMoe9d8oNoNr+L9A6dFd6nZLA1mK1etnqdcU6sg2wSd9Ienc1i6O2+s85W0+3sXkmyk9kg/ny5+yF+Mv1BcslysZncaPLYHhTHSyt55O6j1THpnBVf5GU0eeIZLL7N/BEPOeFeL8k3J91PauP3h69ZctlqQk7BzKrzXjLce7nwwZTXeVEsX+K3lqvye570T+umOBvFfTvpXXIl9k60mw9ynuWLWMg9WKFf7vomLx+y0yk2zlvFc5e9h+79pZh2yYGFI2pNPbfZcojOJDub/Hwqjqy77/IbOnMsP7R/1/4R9Zctt2vUnqY2XiPq28heRO1TatuLPK/Eny7+qCd29qg4om9Gs7FpJS+dxUGf30Sd4qQfDluXqLOA+cUPLNMb5ISYwDIyZX2a/qE4mqi1foj3Jls/sgOG0S/fL7sPOaCnNlu938HMKyqeuAeznvmyyF85/5BsqzPudhPvFnUO5aj43KK+FTnqvAUn+FyiYp16NJd8tba/mwy1nJQX5g054NvfjaR98fUdv3jHr9d5k+5qOslsJ7NPDcEKM3KJvzjA/2r74vtNa+nJn6h9FFF7BKwxdyazQ32pDb2VLQ+z2Zgu9WCOPqPO81v8/blt3gcwlswmOWN2gk1ywnvEXXLUd5/ZQe9jj/mW5Qs+uWBmw/O6884Ri78f2KO24Jb4mHfMpN1s8hYwn3ez4/4XyxW8I2p/oOfv4VUeP7yjYDlHxexhutyZWMAe/ei49XiuOV9NHz69mqPi7DqzF8vJavrswQG1439a4f0HYgM82w==
+  </data>
+ </layer>
+ <layer name="nocollide" width="34" height="20">
+  <properties>
+   <property name="render-index" value="-9500"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4A2QGqgHQAFxLpDjKauGLxAkkh1YgyUh5EEhfpBABSfMoPEHcSGHTYgCsXkAuQwoIZ/BjsQh2IQkIZiegB62UMIDLQ7QHkflM7kBtgdo2DkAABEtAJt
   </data>
  </layer>
  <layer name="Tile Layer 2" width="34" height="20">
@@ -156,7 +44,7 @@
    <property name="render-index" value="5000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo4C6QB+KBzuAudEAjxwt7UUGejS0D2Y+yF6YX9H9roumXh9JXI9haMQnJQDkR/QwGMyA1ukFl33Y8goMUDv8kNOeAZo4sruQ5WHuHO7pldYAPezpnd5GwSgAAQCHjAbp
+   eJxjYBgFo4C6QBmKBzuAuVEFjxwt7UUGSjS0D2Y+yF6YX9H9roimXhlJXIlhaMQnJQDkR/QwGMyA1ukFl33Y8goMUDv8kNOeCpo4sruQ5WHuHO7pldYAPezpnd5GwSgAAQAhZQUh
   </data>
  </layer>
 </map>

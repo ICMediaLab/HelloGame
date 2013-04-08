@@ -47,12 +47,4 @@
    eJztkmEKgCAMhb2Cugtou/8ZU3gPNAiilj9qH3wMMZ66FoLjOI7zJbS5wYqq0DJfkc91wbriu3RQYDK6h4Q5s9fcjKhyIeNJTwq0QG7ksdfsrxURcobO4D7/wVtkyBnub+as6XDfVcRBzlxeeP5f2AHljgbg
   </data>
  </layer>
- <layer name="infront_grass" width="34" height="20" visible="0">
-  <properties>
-   <property name="render-index" value="5000"/>
-  </properties>
-  <data encoding="base64" compression="zlib">
-   eJztwTEBAAAAwqD1T20ND6AAAODHAAqgAAE=
-  </data>
- </layer>
 </map>
