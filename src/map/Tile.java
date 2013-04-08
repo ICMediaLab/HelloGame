@@ -1,14 +1,17 @@
 package map;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.Map.Entry;
+import java.util.Properties;
 
 import javax.naming.OperationNotSupportedException;
-
 
 import map.tileproperties.TileProperty;
 import map.tileproperties.TilePropertyValue;
 
-import org.newdawn.slick.tiled.TiledMap;
+import org.newdawn.slick.tiled.Layer;
+import org.newdawn.slick.tiled.TileSet;
 
 import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
 
@@ -18,48 +21,86 @@ public class Tile {
 	 * Holds a map of all properties held by this tile.
 	 */
 	private final HashMap<TileProperty,TilePropertyValue> properties = new HashMap<TileProperty, TilePropertyValue>();
-	
+
 	/**
-	 * The tile ID of this tile relative to the current cell.
+	 * Class to hold a HashMap of properties about the tile.<br />
+	 * Automatically initialises the property map with the data provided.
+	 * @param cell The cell to which this tile belongs
+	 * @param x The x position of this tile
+	 * @param y The y position of this tile
 	 */
-	private final int tileID;
-	
-	/**
-	 * Class to hold a HashMap of properties about the tile.
-	 * Initialises the HashMap.
-	 * @param i The tileID relative to the current cell, x and y coordinates.
-	 */
-	public Tile(int tileID) {
-		this.tileID = tileID;
+	public Tile(Cell cell, int x, int y) {
+		this(cell,0,x,y);
 	}
 	
 	/**
-	 * Class to hold a HashMap of properties about the tile.
-	 * Initialises the HashMap and parses the tile properties.
-	 * @param i The tileID relative to the current cell, x and y coordinates.
+	 * Class to hold a HashMap of properties about the tile.<br />
+	 * Automatically initialises the property map with the data provided.
+	 * @param cell The cell to which this tile belongs
+	 * @param layer The layer of this tile
+	 * @param x The x position of this tile
+	 * @param y The y position of this tile
 	 */
-	public Tile(Cell cell, int tileID) {
-		this.tileID = tileID;
-		parseTileProperties(cell);
-	}
-	
-	/**
-	 * Parses the tile properties from the current cell using the tileID provided at initialisation.
-	 * @param cell The current cell.
-	 */
-	public void parseTileProperties(TiledMap cell){
-		for(TileProperty prop : TileProperty.values()){
-			TilePropertyValue value = prop.getUndefinedValue();
-			String newValue = cell.getTileProperty(tileID, prop.toString(), value.toString());
-			try{
-				value.parse(newValue);
-			}catch(OperationNotSupportedException e){
+	public Tile(Cell cell, int layer, int x, int y){
+		Layer l = cell.getLayer(layer);
+		System.out.println("Loading " + x + ", "+ y);
+		TileSet ts = l.data[x][y][0] < 0 ? null : cell.getTileSet(l.data[x][y][0]);
+		
+		//parse tileset properties
+		if(ts != null){
+			try {
+				Field f = ts.getClass().getDeclaredField("tilesetProperties");
+				f.setAccessible(true);
+				Object res = f.get(ts);
+				if(res != null && res instanceof Properties){
+					Properties p = (Properties) res;
+					for(Entry<Object, Object> entry : p.entrySet()){
+						String key = (String) entry.getKey();
+						TileProperty prop = TileProperty.parseTileProperty(key);
+						String str = (String) entry.getValue();
+						TilePropertyValue value = prop.getUndefinedValue();
+						try{
+							value.parse(str);
+						}catch(OperationNotSupportedException e){
+							e.printStackTrace();
+						}catch(ParseException e){
+							System.out.println("Recieved parse exception while parsing: " + str + " in cell " + cell);
+							e.printStackTrace();
+						}
+						put(prop, value);
+					}
+				}
+			} catch (SecurityException e) {
 				e.printStackTrace();
-			}catch(ParseException e){
-				System.out.println("Recieved parse exception while parsing: " + newValue + " in cell " + cell);
+			} catch (NoSuchFieldException e) {
+				e.printStackTrace();
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
 				e.printStackTrace();
 			}
-			addProperty(prop,value);
+		}
+		
+		//parse individual tile properties
+		for(TileProperty prop : TileProperty.values()){
+			TilePropertyValue value = prop.getUndefinedValue();
+			if(ts != null){
+				Properties props = ts.getProperties(l.getTileID(x, y));
+				if (props != null) {
+					String str = props.getProperty(prop.toString(), null);
+					if(str != null){
+						try{
+							value.parse(str);
+							put(prop,value);
+						}catch(OperationNotSupportedException e){
+							e.printStackTrace();
+						}catch(ParseException e){
+							System.out.println("Recieved parse exception while parsing: " + str + " in cell " + cell);
+							e.printStackTrace();
+						}
+					}
+				}
+			}
 		}
 	}
 	
@@ -68,7 +109,7 @@ public class Tile {
 	 * @param k Key.
 	 * @param v Value.
 	 */
-	public void addProperty(TileProperty k, TilePropertyValue v) {
+	public void put(TileProperty k, TilePropertyValue v) {
 		properties.put(k, v);
 	}
 	
@@ -77,8 +118,9 @@ public class Tile {
 	 * @param k Key.
 	 * @return The value.
 	 */
-	public TilePropertyValue lookupProperty(TileProperty k) {
-		return properties.get(k);
+	public TilePropertyValue lookup(TileProperty k) {
+		TilePropertyValue res = properties.get(k);
+		return res == null ? k.getUndefinedValue() : res;
 	}
 	
 	@Override

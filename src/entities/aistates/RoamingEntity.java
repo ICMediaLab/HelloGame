@@ -25,7 +25,7 @@ public class RoamingEntity implements AINextMove {
 		//     e->
 		//  ####
 		// #######
-		if(!MapLoader.getCurrentCell().getTile(curX, (int) (e.getY() + e.getHeight())).lookupProperty(TileProperty.BLOCKED).getBoolean()){
+		if(!MapLoader.getCurrentCell().getTile(curX, (int) (e.getY() + e.getHeight())).lookup(TileProperty.BLOCKED).getBoolean()){
 			dx *= -1;
 		}else{
 			//checks for
@@ -33,7 +33,7 @@ public class RoamingEntity implements AINextMove {
 			//   e->#
 			// ######
 			for(float y=e.getY() + MARGIN;y<e.getY() + e.getHeight();y+=0.5f){
-				if(MapLoader.getCurrentCell().getTile(curX, (int) y).lookupProperty(TileProperty.BLOCKED).getBoolean()){
+				if(MapLoader.getCurrentCell().getTile(curX, (int) y).lookup(TileProperty.BLOCKED).getBoolean()){
 					dx *= -1;
 					break;
 				}

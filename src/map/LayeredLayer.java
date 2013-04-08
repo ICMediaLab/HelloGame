@@ -10,8 +10,8 @@ import utils.LayerRenderable;
 
 public class LayeredLayer implements LayerRenderable {
 	
-	private int depth;
-	private Layer layer;
+	private final int depth;
+	private final Layer layer;
 
 	/**
 	 * Attempts to create a new layered-layer object using the 'render-layer' property of this layer.<br />
@@ -31,8 +31,8 @@ public class LayeredLayer implements LayerRenderable {
 
 	@Override
 	public void render(GameContainer gc, Graphics g) {
-		for(int i=0;i<layer.height-2;i++){
-			layer.render(0, 0, 1, 1, layer.width-2, i, false, Config.getTileSize(), Config.getTileSize());
+		for(int ty=0;ty<layer.height-2;ty++){
+			layer.render(0, 0, 1, 1, layer.width-2, ty, false, Config.getTileSize(), Config.getTileSize());
 		}
 	}
 

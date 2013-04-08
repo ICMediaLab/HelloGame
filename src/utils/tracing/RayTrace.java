@@ -91,7 +91,7 @@ public class RayTrace {
 		
 		@Override
 		public boolean function(int x, int y) {
-			return cell.getTile(x, y).lookupProperty(TileProperty.BLOCKED).getBoolean();
+			return cell.getTile(x, y).lookup(TileProperty.BLOCKED).getBoolean();
 		}
 		
 	}

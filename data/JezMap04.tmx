@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="34" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Night9_01" tilewidth="32" tileheight="32">
+  <image source="images/Night9_01.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="17" name="GrassTop4_01" tilewidth="32" tileheight="32">
+  <image source="images/GrassTop4_01.png" width="128" height="32"/>
+ </tileset>
+ <tileset firstgid="21" name="Mud4_02" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="blocked" value="true"/>
+  </properties>
+  <image source="images/Mud4_02.png" width="144" height="96"/>
+ </tileset>
+ <tileset firstgid="33" name="GrassBottom" tilewidth="32" tileheight="32">
+  <image source="images/grassbottom.png" width="128" height="32"/>
+ </tileset>
+ <tileset firstgid="37" name="water" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="frictionx" value="0.8"/>
+   <property name="frictiony" value="0.1"/>
+   <property name="gravity" value="0.01"/>
+  </properties>
+  <image source="images/water.png" width="128" height="128"/>
+ </tileset>
+ <layer name="collide" width="34" height="20">
+  <properties>
+   <property name="render-index" value="-10000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxtltuS2jAQRGXANmaNzQsGFoz9spdUkt0Ny/9/W6Sq06UOlYcuSeO59IxGkq8hhGvEOWKIeI44RJxYT3y/gAkdYR8xMs5gwlbrIz7lY4/twFr2XUQZsYvYsE5jEbFEvmVMsiqijajRW7Be8X0d0fAt2TzZfIf+0uTi0ZuO7ApiN3zviC9ukjfGv8B2je6T2ezQXeG3Nh7P7Ifyr6w2vflemM+NxV1ZrRrslhZzY3Vr8VnjTzxaOFyxXfF9i75qXTGv0FmD/qFONZwLOBTIlH9rfhSnZp3qcbRct3BqbW82yJSnclujs2XsjeOG9ZK56tXiszSOC3iMVuOF+SsMO4vZMN9ZrtuQ+1N5aI9qq7f2s0S3Q6bzqZr2ZrO1Oi6tlmv0G4tThdwTnfGvQu61wuJ25FKzTnuiPi0thyfiNkB91cFRdVede2zkX+evR78hh9JqWYMkn423zof2SP2xtj0rQ+4z6ZSWq/Z9YXu0C7lH25DPl+6dZDuY/xJfqp3Oqmx09jvLw8+j9qaCQ/lQA/ets6fYY8h3ieqn+6e0WLr/VGfp6151ftKXnvZQd5zOud8zuj8S9tTnhDxxfIt4j3i1+QvjG/IXw/vDt1f86Q3SvXkJ+S1LPTohk27CIeT+vUX8iviOuNs84UfEF7I0/2T9M+I38k98jyG/acr9QPyZcXzgojtFvFLMP8T6IMaNudbi+YXunVij+T3ie4LLOeS3WG/zxWqm8RDyWz1bvsK3cVJNbthOIb/1g/mdkPk/g2p/tZoNpj+b3QW9CT53OHwYZvIfsZnN9xxy/+1D/rfRnqlGg+2F9+7IKJ9Hq/NgvKWnfyH1n3I4WezBfCln9aU4XVh7jfYP+jMQhzMx/J9Nsfb2/WT+lPcY8tmUzelhT3TWZrjrfHkvqw+V2zH822tHfKsXxPXwn/z+AqZmMeo=
+  </data>
+ </layer>
+ <layer name="water_behind" width="34" height="20" visible="0">
+  <properties>
+   <property name="render-index" value="-11000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztkEsKgDAMBbvwD6Ibf9Vq739KE5hFcV11k4GhSQm8tM4ZhmEYxre0OIg1jmJD3YmVWDKjZ8GM2mfa48QoruKc9Jfoudupg3gkszHTHo68hYyJXuuNeiM7JLuEjPlPdlzJn8n17Kn38cX8J/onJ/n6F2+/3/iXGyw/BaQ=
+  </data>
+ </layer>
+ <layer name="grass" width="34" height="20">
+  <properties>
+   <property name="render-index" value="5000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztkmEKgCAMhb2Cugtou/8ZU3gPNAiilj9qH3wMMZ66FoLjOI7zJbS5wYqq0DJfkc91wbriu3RQYDK6h4Q5s9fcjKhyIeNJTwq0QG7ksdfsrxURcobO4D7/wVtkyBnub+as6XDfVcRBzlxeeP5f2AHljgbg
+  </data>
+ </layer>
+ <layer name="infront_grass" width="34" height="20" visible="0">
+  <properties>
+   <property name="render-index" value="5000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAODHAAqgAAE=
+  </data>
+ </layer>
+</map>

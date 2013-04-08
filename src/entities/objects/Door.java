@@ -64,7 +64,7 @@ public class Door extends StaticRectEntity {
 
 	@Override
 	public void render(GameContainer gc, Graphics g) {
-		if(!cell.getTile((int) getCentreX(),(int) getCentreY()).lookupProperty(TileProperty.BLOCKED).getBoolean()){
+		if(!cell.getTile((int) getCentreX(),(int) getCentreY()).lookup(TileProperty.BLOCKED).getBoolean()){
 			openSprite.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());
 		}else{
 			closedSprite.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());
@@ -79,11 +79,11 @@ public class Door extends StaticRectEntity {
 	}
 	
 	private void openDoor(){
-		cell.getTile((int) getCentreX(),(int) getCentreY()).addProperty(TileProperty.BLOCKED, new BooleanTilePropertyValue(false));
+		cell.getTile((int) getCentreX(),(int) getCentreY()).put(TileProperty.BLOCKED, new BooleanTilePropertyValue(false));
 	}
 	
 	private void closeDoor(){
-		cell.getTile((int) getCentreX(),(int) getCentreY()).addProperty(TileProperty.BLOCKED, new BooleanTilePropertyValue(true));
+		cell.getTile((int) getCentreX(),(int) getCentreY()).put(TileProperty.BLOCKED, new BooleanTilePropertyValue(true));
 	}
 
 	public void assignTrigger(DoorTrigger trigger) {

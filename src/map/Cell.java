@@ -98,8 +98,8 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		}
 		initNewEntities();
 	}
-	
 	private void resetEntities() {
+	
 		entities.clear();
 		entitiesToAdd.clear();
 		entitiesToRemove.clear();
@@ -206,10 +206,13 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		//go through all tiles in map
 		for (int xAxis = 0; xAxis < width; xAxis++) { 
 			for (int yAxis = 0; yAxis < height; yAxis++) {
-				properties[yAxis][xAxis] = new Tile(getTileId(xAxis, yAxis, 0));
-				properties[yAxis][xAxis].parseTileProperties(this);
+				properties[yAxis][xAxis] = new Tile(this,xAxis, yAxis);
 			}
 		}
+	}
+	
+	public Layer getLayer(int index){
+		return layers.get(index);
 	}
 	
 	public void addMovingEntity(MovingEntity newEntity) {
