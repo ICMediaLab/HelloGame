@@ -81,4 +81,9 @@ public class Cage extends StaticRectEntity implements DestructibleEntity {
 	public Cage clone() {
 		return new Cage(getX(), getY(), getWidth(), getHeight());
 	}
+
+	@Override
+	public boolean isSolid() {
+		return true;
+	}
 }

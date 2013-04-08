@@ -1,4 +1,4 @@
-package GUI;
+package entities.objects;
 
 import map.Cell;
 
@@ -84,5 +84,10 @@ public class TextField<S extends Shape> extends StaticEntity<S> {
 	@Override
 	public int getLayer() {
 		return TEXTFIELD_DEFAULT_LAYER;
+	}
+
+	@Override
+	public boolean isSolid() {
+		return false;
 	}
 }

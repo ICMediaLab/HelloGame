@@ -11,6 +11,7 @@ import entities.objects.Door;
 import entities.objects.DoorTrigger;
 import entities.objects.JumpPlatform;
 import entities.objects.LeafTest;
+import entities.objects.TextField;
 import entities.players.Player;
 import game.config.Config;
 
@@ -47,7 +48,6 @@ import utils.MapLoader;
 import utils.Renderable;
 import utils.Updatable;
 import utils.particles.ParticleEmitter;
-import GUI.TextField;
 
 
 public class Cell extends TiledMap implements Updatable, Renderable {

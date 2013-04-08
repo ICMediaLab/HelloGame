@@ -105,4 +105,9 @@ public class Door extends StaticRectEntity {
 	public int getLayer() {
 		return DOOR_DEFAULT_LAYER;
 	}
+
+	@Override
+	public boolean isSolid() {
+		return true;
+	}
 }

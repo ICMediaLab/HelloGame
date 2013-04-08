@@ -45,6 +45,9 @@ public class JumpPlatform extends StaticRectEntity {
 		return JUMP_PLATFORM_DEFAULT_LAYER;
 	}
 
-	
+	@Override
+	public boolean isSolid() {
+		return true;
+	}
 
 }

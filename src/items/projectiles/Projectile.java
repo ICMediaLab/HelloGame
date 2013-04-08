@@ -196,7 +196,9 @@ public class Projectile extends VeryAbstractEntity {
 
 	@Override
 	public void collide(StaticEntity<?> e) {
-		MapLoader.getCurrentCell().removeMovingEntity(this);
+		if(e.isSolid()){
+			MapLoader.getCurrentCell().removeMovingEntity(this);
+		}
 	}
 
 	@Override

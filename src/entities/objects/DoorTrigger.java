@@ -67,5 +67,10 @@ public class DoorTrigger extends StaticRectEntity {
 	public int getLayer() {
 		return DOOR_TRIGGER_DEFAULT_LAYER;
 	}
+
+	@Override
+	public boolean isSolid() {
+		return true;
+	}
 	
 }

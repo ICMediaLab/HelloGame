@@ -66,4 +66,9 @@ public class LeafTest extends StaticRectEntity {
 	public int getLayer() {
 		return LEAF_DEFAULT_LAYER;
 	}
+	
+	@Override
+	public boolean isSolid() {
+		return false;
+	}
 }

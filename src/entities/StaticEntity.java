@@ -15,4 +15,6 @@ public abstract class StaticEntity<S extends Shape> extends VeryAbstractStaticEn
 	public final S getHitbox() {
 		return hitbox;
 	}
+
+	public abstract boolean isSolid();
 }
