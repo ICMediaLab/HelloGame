@@ -1,6 +1,7 @@
 package items.projectiles;
 
 import map.Cell;
+import map.Tile;
 import map.tileproperties.TileProperty;
 
 import org.newdawn.slick.Animation;
@@ -26,7 +27,6 @@ public class Projectile extends VeryAbstractEntity {
 	private static final int PROJECTILE_DEFAULT_LAYER = -500;
 	
 	private static final float NORMAL_SPEED = 0.5f;
-	private static final float ACCEL_DUE_TO_G = 0.005f;
 	private static final float MAX_SPEED = 0.5f;
 	
 	private Animation moving;
@@ -41,11 +41,11 @@ public class Projectile extends VeryAbstractEntity {
 		Image[] movementForward = null;
 		float width = 0f,height = 0f;
 		try {
-		    Image projImage = new Image("data/images/projectile.png");
-		    width  = (float) projImage.getWidth()  / Config.getTileSize();
-		    height = (float) projImage.getHeight() / Config.getTileSize();
-		    projImage.rotate((float)(angle * 180/Math.PI));
-		    movementForward = new Image[]{projImage};
+			Image projImage = new Image("data/images/projectile.png");
+			width  = (float) projImage.getWidth()  / Config.getTileSize();
+			height = (float) projImage.getHeight() / Config.getTileSize();
+			projImage.rotate((float)(angle * 180/Math.PI));
+			movementForward = new Image[]{projImage};
 		} catch (SlickException e) {
 			//do shit all
 		}
@@ -95,7 +95,7 @@ public class Projectile extends VeryAbstractEntity {
 
 	@Override
 	public int takeDamage(int normalDamage) {
-		// TODO Auto-generated method stub
+		MapLoader.getCurrentCell().removeMovingEntity(this);
 		return 0;
 	}
 
@@ -127,10 +127,13 @@ public class Projectile extends VeryAbstractEntity {
 	public void frameMove() {
 		hitbox = hitbox.transform(Transform.createTranslateTransform(dxdy.getX(), dxdy.getY()));
 		sprite.update(Config.DELTA);
-		
-		// gravity
-		dxdy.setY(dxdy.getY() + ACCEL_DUE_TO_G); 
-		
+		{
+			int cX = (int) getCentreX(), cY = (int) getCentreY();
+			Tile cT = MapLoader.getCurrentCell().getTile(cX, cY);
+			// gravity
+			dxdy.translate(0, 0.1f*cT.lookup(TileProperty.GRAVITY).getFloat()); 
+			dxdy.translate(-getdX()*0.02f*cT.lookup(TileProperty.FRICTIONX).getFloat(), -getdY()*0.02f*cT.lookup(TileProperty.FRICTIONY).getFloat());
+		}
 		// update angle and hitbox
 		double lastangle = angle;
 		angle = Math.atan2(dxdy.getY(), dxdy.getX());
@@ -140,9 +143,9 @@ public class Projectile extends VeryAbstractEntity {
 		// there's definitely a better way of doing this...but not at 1am... - G //TODO
 		Image[] movementForward = null;
 		try {
-		    Image projImage = new Image("data/images/projectile.png");
-		    projImage.rotate((float)(angle * 180/Math.PI));
-		    movementForward = new Image[]{projImage};
+			Image projImage = new Image("data/images/projectile.png");
+			projImage.rotate((float)(angle * 180/Math.PI));
+			movementForward = new Image[]{projImage};
 		} catch (SlickException e) {
 			//do shit all
 		}
@@ -177,8 +180,8 @@ public class Projectile extends VeryAbstractEntity {
 		int x = (int) getCentreX(), y = (int) getCentreY();
 		Cell cell = MapLoader.getCurrentCell();
 		if(x < 0 || y <= 0 || x >= cell.getWidth() - 1 || y >= cell.getHeight() - 1 || 
-		        cell.getTile(x, y).lookup(TileProperty.BLOCKED).getBoolean()) {
-            MapLoader.getCurrentCell().removeMovingEntity(this);
+				cell.getTile(x, y).lookup(TileProperty.BLOCKED).getBoolean()) {
+			MapLoader.getCurrentCell().removeMovingEntity(this);
 		}
 	}
 
