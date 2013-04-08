@@ -86,22 +86,20 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	
 	public Cell(String location) throws SlickException {
 		super(location);
-		for(Layer l : layers){
-			try {
-				renderables.add(new LayeredLayer(l));
-			} catch (NoSuchFieldException e) {
-				System.out.println(e.getMessage());
-			}
-		}
 		loadProperties();
-		loadDefaultEntities();
+		initLoad();
 	}
 	
-	public void loadDefaultEntities(){
-		renderables.removeAll(entities);
-		renderables.removeAll(entitiesToAdd);
-		renderables.removeAll(destructibleEntities);
-
+	public void initLoad(){
+		resetRenderables();
+		resetEntities();
+		if(defaultEntities.isEmpty()){
+			setDefaultEntities();
+		}
+		initNewEntities();
+	}
+	
+	private void resetEntities() {
 		entities.clear();
 		entitiesToAdd.clear();
 		entitiesToRemove.clear();
@@ -109,51 +107,70 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		destructibleEntitiesToRemove.clear();
 		lights.removeAll(entityLights.values());
 		entityLights.clear();
-		if(defaultEntities.isEmpty()){
-			addStaticEntity(new TextField<Rectangle>("'Tis a silly place", new Rectangle(19, 14, 5,3), 0, -50, Color.transparent, Color.white, 50, 50));
-			addStaticEntity(new TextField<Circle>("Help, help, I'm being repressed!", new Circle(25, 16, 10), 0, -50, Color.transparent, Color.white, 50, 50));
-			
-			addLight(new AmbientLight(new Color(0.5f, 0.5f, 1f, 0.4f)));
-			addLight(new PointLight(1020, 0, 5));
-			addLight(new PointLight(0, 0, 5));
-			
-			Map<String,Door> doors = new HashMap<String,Door>();
-			Map<String,DoorTrigger> triggers = new HashMap<String,DoorTrigger>();
-			
-			for(ObjectGroup og : objectGroups){
-				for(GroupObject go : og.objects){
-					int x = go.x / Config.getTileSize();
-					int y = go.y / Config.getTileSize();
-					if(go.type.equalsIgnoreCase("enemy")){
-						defaultEntities.add(Enemy.getNew(this, go.name, x,y));
-					}else if(go.type.equalsIgnoreCase("npc")){
-						defaultEntities.add(NPC.getNew(this, go.name, x,y));
-					}else if(go.type.equalsIgnoreCase("door")){
-						if(triggers.containsKey(go.name)){
-							addStaticEntity(new Door(this,triggers.remove(go.name),x,y));
-						}else{
-							Door d = new Door(this,null,x,y);
-							doors.put(go.name,d);
-							addStaticEntity(d);
-						}
-					}else if(go.type.equalsIgnoreCase("doorTrigger")){
-						if(doors.containsKey(go.name)){
-							addStaticEntity(new DoorTrigger(doors.remove(go.name),x,y));
-						}else{
-							DoorTrigger dt = new DoorTrigger(null, x, y);
-							triggers.put(go.name, dt);
-							addStaticEntity(dt);
-						}
-					}else if(go.type.equalsIgnoreCase("leafTest")){
-						addStaticEntity(new LeafTest(x,y));
-					} else if(go.type.equalsIgnoreCase("jumpPlatform")){
-						addStaticEntity(new JumpPlatform(x,y));
-					} else if(go.type.equalsIgnoreCase("cage")){
-						defaultDestructibleEntities.add(new Cage(x, y));
+	}
+
+	private void resetRenderables() {
+		renderables.clear();
+		for(Layer l : layers){
+			try {
+				renderables.add(new LayeredLayer(l));
+			} catch (NoSuchFieldException e) {
+				System.out.println(e.getMessage());
+			}
+		}
+		renderables.addAll(staticEntities);
+	}
+	
+	private void setDefaultEntities() {
+		addStaticEntity(new TextField<Rectangle>("'Tis a silly place", new Rectangle(19, 14, 5,3), 0, -50, Color.transparent, Color.white, 50, 50));
+		addStaticEntity(new TextField<Circle>("Help, help, I'm being repressed!", new Circle(25, 16, 10), 0, -50, Color.transparent, Color.white, 50, 50));
+		
+		addLight(new AmbientLight(new Color(0.5f, 0.5f, 1f, 0.4f)));
+		addLight(new PointLight(1020, 0, 5));
+		addLight(new PointLight(0, 0, 5));
+		
+		Map<String,Door> doors = new HashMap<String,Door>();
+		Map<String,DoorTrigger> triggers = new HashMap<String,DoorTrigger>();
+		
+		for(ObjectGroup og : objectGroups){
+			for(GroupObject go : og.objects){
+				int x = go.x / Config.getTileSize();
+				int y = go.y / Config.getTileSize();
+				int width  = go.width  / Config.getTileSize();
+				int height = go.height / Config.getTileSize();
+				
+				if(go.type.equalsIgnoreCase("enemy")){
+					defaultEntities.add(Enemy.getNew(this, go.name, x,y));
+				}else if(go.type.equalsIgnoreCase("npc")){
+					defaultEntities.add(NPC.getNew(this, go.name, x,y));
+				}else if(go.type.equalsIgnoreCase("door")){
+					if(triggers.containsKey(go.name)){
+						addStaticEntity(new Door(this,triggers.remove(go.name),x,y));
+					}else{
+						Door d = new Door(this,null,x,y);
+						doors.put(go.name,d);
+						addStaticEntity(d);
 					}
+				}else if(go.type.equalsIgnoreCase("doorTrigger")){
+					if(doors.containsKey(go.name)){
+						addStaticEntity(new DoorTrigger(doors.remove(go.name),x,y));
+					}else{
+						DoorTrigger dt = new DoorTrigger(null, x, y);
+						triggers.put(go.name, dt);
+						addStaticEntity(dt);
+					}
+				}else if(go.type.equalsIgnoreCase("leafTest")){
+					addStaticEntity(new LeafTest(x,y));
+				} else if(go.type.equalsIgnoreCase("jumpPlatform")){
+					addStaticEntity(new JumpPlatform(x,y,width));
+				} else if(go.type.equalsIgnoreCase("cage")){
+					defaultDestructibleEntities.add(new Cage(x,y,width,height));
 				}
 			}
 		}
+	}
+	
+	private void initNewEntities() {
 		for(MovingEntity e : defaultEntities){
 			MovingEntity clo = e.clone();
 			addMovingEntity(clo);

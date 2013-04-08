@@ -12,6 +12,10 @@ public class JumpPlatform extends StaticRectEntity {
 	
 	private static final int JUMP_PLATFORM_DEFAULT_LAYER = -100;
 	
+	public JumpPlatform(float x, float y, int width){
+		super(x,y, width, 0.2f);
+	}
+	
 	public JumpPlatform(float x, float y){
 		super(x,y, 1f, 0.2f);
 	}
