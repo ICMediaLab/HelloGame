@@ -80,7 +80,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	private final Set<DestructibleEntity> destructibleEntities = new HashSet<DestructibleEntity>();
 	private final Set<DestructibleEntity> destructibleEntitiesToRemove = new HashSet<DestructibleEntity>();
 	
-	private final Set<ParticleEmitter> particleEmitters = new HashSet<ParticleEmitter>();
+	private final Set<ParticleEmitter<?>> particleEmitters = new HashSet<ParticleEmitter<?>>();
 	
 	private final Set<Light> lights = new LinkedHashSet<Light>();
 	private final Map<Entity,Light> entityLights = new HashMap<Entity,Light>();
@@ -106,7 +106,6 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		initNewEntities();
 	}
 	private void resetEntities() {
-	
 		entities.clear();
 		entitiesToAdd.clear();
 		entitiesToRemove.clear();
@@ -115,7 +114,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		lights.removeAll(entityLights.values());
 		entityLights.clear();
 	}
-
+	
 	private void resetRenderables() {
 		renderables.clear();
 		for(Layer l : layers){
@@ -328,8 +327,8 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	}
 	
 	private void updateEmmiters(GameContainer gc) {
-		Set<ParticleEmitter> toRemove = new HashSet<ParticleEmitter>();
-		for(ParticleEmitter pe : particleEmitters){
+		Set<ParticleEmitter<?>> toRemove = new HashSet<ParticleEmitter<?>>();
+		for(ParticleEmitter<?> pe : particleEmitters){
 			pe.update(gc);
 			if(!pe.isEmitting()){
 				toRemove.add(pe);
@@ -412,7 +411,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		return visited;
 	}
 
-	public void addParticleEmmiter(ParticleEmitter particleEngine) {
+	public void addParticleEmmiter(ParticleEmitter<?> particleEngine) {
 		particleEmitters.add(particleEngine);
 		renderables.add(particleEngine);
 	}

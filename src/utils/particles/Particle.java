@@ -1,11 +1,13 @@
 package utils.particles;
 
+import game.config.Config;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Color;
 
 import utils.Position;
 
-public class Particle {
+public abstract class Particle {
 	
 	private static final float ANGULAR_FRICTION = 0.98f;
 	private static final Position GRAVITY = new Position(0f,0.01f);
@@ -17,15 +19,11 @@ public class Particle {
 	private final Color colour;
 	
 	private float radius;
-	private final float radiusStepChange;
 	
 	private float angle;
 	private float angularVelocity;
 	
-	int ttl;
-
-	public Particle(Image texture, Position position, Position velocity,
-		float angle, float angularVelocity, Color color, float radius, int ttl) {
+	public Particle(Image texture, Position position, Position velocity, float angle, float angularVelocity, Color color, float radius) {
 		this.texture = texture;
 		this.position = position;
 		this.velocity = velocity;
@@ -33,28 +31,33 @@ public class Particle {
 		this.angularVelocity = angularVelocity;
 		this.colour = color;
 		this.radius = radius;
-		this.ttl = ttl;
-		this.radiusStepChange = radius/ttl;
 	}
 	
-	public Particle(Image texture, Position position, Position velocity, Color color, float size, int ttl) {
-			this(texture,position,velocity,0f,0f,color,size,ttl);
-		}
-
+	public Particle(Image texture, Position position, Position velocity, Color color, float size) {
+		this(texture,position,velocity,0f,0f,color,size);
+	}
+	
 	public void update() {
-		ttl--;
-		radius -= radiusStepChange;
 		velocity.translate(GRAVITY);
 		velocity.scale(FRICTION);
 		position.translate(velocity);
 		angle += (angularVelocity *= ANGULAR_FRICTION);
 	}
-
-	public void render() {
-		//Position origin = new Position(texture.getWidth() / 2, texture.getHeight() / 2);
-		
-		texture.setRotation(angle); // rotate
-		texture.draw(position.getX(), position.getY(), radius, colour); // render
+	
+	protected float getRadius(){
+		return radius;
 	}
+	
+	protected void setRadius(float rad){
+		radius = rad > 0f ? rad : 0f;
+	}
+	
+	public void render() {
+		texture.setRotation(angle); // rotate
+		texture.draw((position.getX())*Config.getTileSize(), (position.getY())*Config.getTileSize(), 
+				radius*Config.getTileSize(), colour); // render
+	}
+	
+	public abstract boolean isAlive();
 	
 }

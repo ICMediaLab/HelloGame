@@ -32,11 +32,17 @@ import org.newdawn.slick.geom.Rectangle;
 import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.MapLoader;
-import utils.Position;
+import utils.interval.one.ColourRange;
+import utils.interval.one.Interval;
+import utils.interval.two.FixedPosition;
 import utils.interval.two.Interval2D;
 import utils.interval.two.Range2D;
 import utils.interval.two.Sector2D;
+import utils.particles.NonCollidingParticle;
+import utils.particles.NonCollidingParticleGenerator;
+import utils.particles.NormalParticleEmitter;
 import utils.particles.ParticleEmitter;
+import utils.particles.ParticleGenerator;
 import entities.AbstractEntity;
 import entities.DestructibleEntity;
 import entities.MovingEntity;
@@ -67,7 +73,7 @@ public class Player extends AbstractEntity {
 	private float rangedCounter = 0;
 	private float walkingCounter = 0;
 
-    private List<Image> dust = null;
+    private List<Image> dust = new ArrayList<Image>();
 	
 	private Body body;
 
@@ -104,7 +110,6 @@ public class Player extends AbstractEntity {
 					5);
 			
 			// particle effect for landing
-			dust = new ArrayList<Image>();
             dust.add(new Image("data/images/circle.png"));
 			
 		} catch (SlickException e) {
@@ -249,18 +254,19 @@ public class Player extends AbstractEntity {
 		if (isOnGround() && isMovingX()) {
 			walkingCounter -= Config.DELTA;
 			if (walkingCounter < 0) {
+				
 				walkingCounter += rand.nextInt(Config.DELTA*4);
 				FOOTSTEPS.playSingle(0.8f, 0.2f, 0.1f, 0.02f);
 				
 				Range2D spawn;
 				if(getDirection() > 0){ //right
-					spawn = new Sector2D(0.5f, 0.7f, -Math.PI*5/6, -Math.PI*11/12);
+					spawn = new Sector2D(0.1f, 0.15f, -Math.PI, -Math.PI*2.0/3.0);
 				}else{
-					spawn = new Sector2D(0.5f, 0.7f, -Math.PI/12, -Math.PI/6);
+					spawn = new Sector2D(0.1f, 0.15f, -Math.PI/3, 0);
 				}
-				
 				MapLoader.getCurrentCell().addParticleEmmiter(
-						new ParticleEmitter(dust, this, new Position((getX() - 0.5f) * Config.getTileSize(), getY() * Config.getTileSize()), spawn, 3, 2));
+						new NormalParticleEmitter<NonCollidingParticle>
+								(pGen, new FixedPosition((getX() - 0.5f), getY()), spawn,getLayer()-1,2));
 			}
 		}
 		
@@ -275,7 +281,7 @@ public class Player extends AbstractEntity {
 			
 			// Would be nice to make it bigger (more particles) in shorter time and dependent on player falling speed
 			MapLoader.getCurrentCell().addParticleEmmiter(
-					new ParticleEmitter(dust, this, new Position((getX() - 0.5f) * Config.getTileSize(), getY() * Config.getTileSize()), new Interval2D(-0.5f, 0.5f, -0.4f, 0f), 20, 5));
+					new NormalParticleEmitter<NonCollidingParticle>(pGen, new FixedPosition((getX() - 0.5f), getY()), new Interval2D(-0.1f, 0.1f, -0.15f, -0.05f),getLayer()-1,3));
 		}
 		onGround = newOnGround;
 		
@@ -283,6 +289,9 @@ public class Player extends AbstractEntity {
 		
 		body.setTransform(new Vec2(getX() + 0.5f, getY() + 0.5f), 0);
 	}
+	
+	private final ColourRange cRange = new ColourRange(0.2f, 0.4f, 0.1f, 0.4f, 0.1f, 0.4f);
+	private final ParticleGenerator<NonCollidingParticle> pGen = new NonCollidingParticleGenerator(dust, cRange, new Interval(0.01f,0.02f), new Interval(9f,10f));
 	
 	/**
 	 * Checks the player's x and y position to see if they have reached the edge of the map. 
