@@ -36,7 +36,6 @@ import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Circle;
-import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.tiled.GroupObject;
 import org.newdawn.slick.tiled.Layer;
@@ -47,6 +46,7 @@ import utils.LayerRenderable;
 import utils.MapLoader;
 import utils.Renderable;
 import utils.Updatable;
+import utils.VerticalAlign;
 import utils.particles.ParticleEmitter;
 
 
@@ -57,7 +57,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	/**
 	 * A transformation that can be applied when drawing slick shapes to the window in order to ensure they are drawn correctly.
 	 */
-	public static final Transform SHAPE_DRAW_TRANSFORM = Transform.createTranslateTransform(-1, -1).concatenate(Transform.createScaleTransform(Config.getTileSize(), Config.getTileSize()));
+	public static final Transform SHAPE_DRAW_TRANSFORM = Transform.createScaleTransform(Config.getTileSize(), Config.getTileSize()).concatenate(Transform.createTranslateTransform(-1, -1));
 	
 	private static final int MINIMAP_OFFSET = 10;
 	private static final int MINIMAP_CELL_WIDTH = 22, MINIMAP_CELL_HEIGHT = 22;
@@ -129,8 +129,8 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	}
 	
 	private void setDefaultEntities() {
-		addStaticEntity(new TextField<Rectangle>("'Tis a silly place", new Rectangle(19, 14, 5,3), 0, -50, Color.transparent, Color.white, 50, 50));
-		addStaticEntity(new TextField<Circle>("Help, help, I'm being repressed!", new Circle(25, 16, 10), 0, -50, Color.transparent, Color.white, 50, 50));
+		//addStaticEntity(new TextField<Rectangle>("'Tis a silly place", new Rectangle(19, 14, 5,3),VerticalAlign.TOP));
+		addStaticEntity(new TextField<Circle>("Help, help, I'm being repressed!", new Circle(25, 16, 10),VerticalAlign.TOP));
 		
 		addLight(new AmbientLight(new Color(0.5f, 0.5f, 1f, 0.4f)));
 		addLight(new PointLight(1020, 0, 5));
@@ -168,10 +168,12 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 					}
 				}else if(go.type.equalsIgnoreCase("leafTest")){
 					addStaticEntity(new LeafTest(x,y));
-				} else if(go.type.equalsIgnoreCase("jumpPlatform")){
+				}else if(go.type.equalsIgnoreCase("jumpPlatform")){
 					addStaticEntity(new JumpPlatform(x,y,width));
-				} else if(go.type.equalsIgnoreCase("cage")){
+				}else if(go.type.equalsIgnoreCase("cage")){
 					defaultDestructibleEntities.add(new Cage(x,y,width,height));
+				}else if(go.type.equalsIgnoreCase("textField")){
+					addStaticEntity(TextField.newTextField(x,y,width,height,go.props));
 				}
 			}
 		}

@@ -53,6 +53,14 @@
    eJzt1NdqAlEUhWHf0aixRGPBhlGxYXsTC1jAREgUbJgoNmxX5gWMkifJPzAXXszF4EFGyCz4YGBzziw4sA2G+48RDzDBDAseb/QvPwIIIoTwxcwKG+xw4AlOedZDHwMMMRLsEcELooghfjFz4RlueOCFT56N8YkvTDAV7JFAEimkkVF5boY5FlhiJdgjixzyKKCo8twaG2yxw16wh57rUkIZFVQ17FFDHQ00ccC3Bj1aeMUb2oJ3Ke1HtXnHBzroCvZQ2o9qc8QPToIdpCjtRz3XR3qTs/z9q2EPPf8vf/1dNKM=
   </data>
  </layer>
+ <objectgroup name="text" width="34" height="20">
+  <object type="textField" x="608" y="448" width="160" height="96">
+   <properties>
+    <property name="text" value="This is a test"/>
+    <property name="valign" value="top"/>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup name="Enemy" width="34" height="20">
   <object name="rawr" type="enemy" x="256" y="416" width="32" height="32">
    <properties>
@@ -68,7 +76,6 @@
  <objectgroup name="leaves" width="34" height="20">
   <object name="123" type="leafTest" x="645" y="512" width="34" height="32"/>
  </objectgroup>
- <objectgroup name="Object Layer 3" width="34" height="20"/>
  <objectgroup name="NPC" width="34" height="20">
   <object name="bob" type="npc" x="800" y="544" width="32" height="32"/>
  </objectgroup>

@@ -1,27 +1,50 @@
 package entities.objects;
 
+import java.util.Properties;
+
 import map.Cell;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
+import utils.HorizontalAlign;
 import utils.MapLoader;
+import utils.VerticalAlign;
 import entities.MovingEntity;
 import entities.StaticEntity;
 import entities.players.Player;
-import game.config.Config;
 
 public class TextField<S extends Shape> extends StaticEntity<S> {
+
+	private static final boolean TEXTFIELD_BOUNDS_DEBUG = false;
 	
 	private static final int TEXTFIELD_DEFAULT_LAYER = 10000;
 	
-	private final float textOffsetX, textOffsetY;
+	private static final HorizontalAlign DEFAULT_HORIZONTAL_ALIGN = HorizontalAlign.CENTRE;
+	private static final VerticalAlign DEFAULT_VERTICAL_ALIGN = VerticalAlign.TOP;
+	private static final Color DEFAULT_FIELDCOLOUR = TEXTFIELD_BOUNDS_DEBUG ? Color.red : Color.transparent;
+	private static final Color DEFAULT_TEXTCOLOUR = Color.white;
+	private static final int DEFAULT_FADEIN = 50;
+	private static final int DEFAULT_FADEOUT = 50;
+	private static final int DEFAULT_TEXT_PADDING = 10;
+	
+	private final VerticalAlign vAlign;
+	private final HorizontalAlign hAlign;
 	private final float fadeIn, fadeOut;
 	private float filter = 0f;
 	private String str = "Text";
 	private Color fieldColour, textColour;
+	
+	public TextField(String str, S shape, VerticalAlign valign){
+		this(str,shape,valign,DEFAULT_HORIZONTAL_ALIGN);
+	}
+	
+	public TextField(String str, S shape, VerticalAlign valign, HorizontalAlign halign) {
+		this(str,shape,valign,halign,DEFAULT_FIELDCOLOUR,DEFAULT_TEXTCOLOUR,DEFAULT_FADEIN,DEFAULT_FADEOUT);
+	}
 	
 	/**
 	 * 
@@ -34,11 +57,11 @@ public class TextField<S extends Shape> extends StaticEntity<S> {
 	 * @param fadeIn Fade in time
 	 * @param fadeOut Fade out time
 	 */
-	public TextField(String str, S shape, float textOffsetX, float textOffsetY, Color fieldColour, Color textColour, int fadeIn, int fadeOut) {
+	public TextField(String str, S shape, VerticalAlign valign, HorizontalAlign halign, Color fieldColour, Color textColour, int fadeIn, int fadeOut) {
 		super(shape);
+		this.vAlign = valign;
+		this.hAlign = halign;
 		this.str = str;
-		this.textOffsetX = textOffsetX;
-		this.textOffsetY = textOffsetY;
 		this.fieldColour = fieldColour;
 		this.textColour = textColour;
 		this.fadeIn = 1.0f/fadeIn;
@@ -53,8 +76,9 @@ public class TextField<S extends Shape> extends StaticEntity<S> {
 		g.draw(s.transform(Cell.SHAPE_DRAW_TRANSFORM));
 		
 		g.setColor(textColour.scaleCopy(filter));
-		g.drawString(str, (s.getCenterX()-1)*Config.getTileSize() - g.getFont().getWidth(str)/2 + textOffsetX,
-				(s.getCenterY()-1)*Config.getTileSize() - g.getFont().getHeight(str)/2 + textOffsetY);
+		float y = vAlign.getY(s.getY(), s.getHeight(),DEFAULT_TEXT_PADDING,g.getFont(),str);
+		float x = hAlign.getX(s.getX(), s.getWidth() ,DEFAULT_TEXT_PADDING,g.getFont(),str);
+		g.drawString(str, x,y);
 	}
 
 	@Override
@@ -89,5 +113,13 @@ public class TextField<S extends Shape> extends StaticEntity<S> {
 	@Override
 	public boolean isSolid() {
 		return false;
+	}
+
+	public static TextField<?> newTextField(int x, int y, int width,
+			int height, Properties prop) {
+		String content = prop.getProperty("text");
+		VerticalAlign valign = VerticalAlign.parseAlignment(prop.getProperty("valign"),DEFAULT_VERTICAL_ALIGN);
+		HorizontalAlign halign = HorizontalAlign.parseAlignment(prop.getProperty("halign"),DEFAULT_HORIZONTAL_ALIGN);
+		return new TextField<Rectangle>(content, new Rectangle(x, y, width, height), valign, halign);
 	}
 }
