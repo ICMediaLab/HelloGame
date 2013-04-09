@@ -93,13 +93,13 @@ public final class MapLoader {
 	public static Cell[][] getSurroundingCells() {
 	    Cell[][] res = new Cell[3][3];
 	    
-	    for (int j = 0; j < 3; j++) {
-	        for (int i = 0; i < 3; i++) {
+	    for (int y = 0; y < 3; y++) {
+	        for (int x = 0; x < 3; x++) {
 	            try {
-	                res[i][j] = maps[currentY + j - 1][currentX + i - 1];
+	                res[y][x] = maps[currentY + y - 1][currentX + x - 1];
 	            } 
 	            catch (IndexOutOfBoundsException e) {
-	                res[i][j] = null;
+	                res[y][x] = null;
 	            }
 	        }
 	    }

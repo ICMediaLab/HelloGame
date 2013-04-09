@@ -59,6 +59,12 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	 */
 	public static final Transform SHAPE_DRAW_TRANSFORM = Transform.createTranslateTransform(-1, -1).concatenate(Transform.createScaleTransform(Config.getTileSize(), Config.getTileSize()));
 	
+	private static final int MINIMAP_OFFSET = 10;
+	private static final int MINIMAP_CELL_WIDTH = 22, MINIMAP_CELL_HEIGHT = 22;
+	private static final int MINIMAP_CELL_SPACING = 7;
+	private static final int MINIMAP_CELL_CORNER_RADIUS = 5;
+	private static final int MINIMAP_BORDER_RADIUS = 2;
+	
 	private final Tile[][] properties = new Tile[getHeight()][getWidth()];
 	
 	private final Set<LayerRenderable> renderables = new TreeSet<LayerRenderable>(LAYER_COMPARATOR);
@@ -81,6 +87,9 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	
 	private Player player;
 	private boolean visited = false;
+	
+	private static float minimapOpacity = 1f;
+	private static float minimapOpacityDelta = 0.05f;
 	
 	public Cell(String location) throws SlickException {
 		super(location);
@@ -237,10 +246,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		renderMinimap(gc,g);
 	}
 	
-	private float minimapOpacity = 1f;
-	private float minimapOpacityDelta = 0.05f;
-	
-	private void renderMinimap(GameContainer gc, Graphics g){
+	private static void renderMinimap(GameContainer gc, Graphics g){
 		Input input = gc.getInput();
 		
 		if (input.isKeyPressed(Input.KEY_K)) {
@@ -250,28 +256,32 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		// render minimap
 		minimapOpacity = Math.min(1f, Math.max(0f, minimapOpacity + minimapOpacityDelta));
 		Cell[][] mini = MapLoader.getSurroundingCells();
-		g.setColor(Color.orange.scaleCopy(minimapOpacity));
-		g.fillRoundRect(width * Config.getTileSize() - 128, 48, 24, 24, 5);
-		g.setColor(Color.white);
-		for (int j = 0; j < 3; j++) {
-			for (int i = 0; i < 3; i++) {
-				if (mini[i][j] != null) {
-					if (i != 1 || j != 1) {
-						if (mini[i][j].visited) {
+		
+		int y = MINIMAP_OFFSET;
+		for (int ty = 0; ty < 3; ty++) {
+			int x = gc.getWidth() - MINIMAP_OFFSET;
+			for (int tx = 2; tx >= 0; tx--) {
+				x -= MINIMAP_CELL_WIDTH;
+				
+				if (mini[ty][tx] != null) {
+					if (tx != 1 || ty != 1) {
+						if (mini[ty][tx].visited) {
 							g.setColor(Color.green.scaleCopy(minimapOpacity));
 						} else {
 							g.setColor(Color.white.scaleCopy(minimapOpacity));
 						}
-						g.fillRoundRect(width * Config.getTileSize() - (154 - (i * 26)), 22 + (j * 26), 24, 24, 5);
+					}else{
+						g.setColor(Color.orange.scaleCopy(minimapOpacity));
 					}
+					g.fillRoundRect(x - MINIMAP_BORDER_RADIUS, y - MINIMAP_BORDER_RADIUS, 
+							MINIMAP_CELL_WIDTH + 2*MINIMAP_BORDER_RADIUS, MINIMAP_CELL_HEIGHT + 2*MINIMAP_BORDER_RADIUS, MINIMAP_CELL_CORNER_RADIUS);
 					g.setColor(Color.darkGray.scaleCopy(minimapOpacity));
-					g.fillRoundRect(width * Config.getTileSize() - (154 - (i * 26)) + 2, 22 + (j * 26) +  2, 20, 20, 5);
+					g.fillRoundRect(x, y, MINIMAP_CELL_WIDTH, MINIMAP_CELL_HEIGHT, MINIMAP_CELL_CORNER_RADIUS);
 				}
-			 }
+				x -= MINIMAP_CELL_SPACING;
+			}
+			y += MINIMAP_CELL_SPACING + MINIMAP_CELL_HEIGHT;
 		}
-		
-		g.setColor(Color.darkGray.scaleCopy(minimapOpacity));
-		g.fillRoundRect(width * Config.getTileSize() - 128 + 2, 48 + 2, 20, 20, 5);
 	}
 	
 	private void renderLightmap(GameContainer gc, Graphics g){
