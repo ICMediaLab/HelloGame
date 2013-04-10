@@ -172,7 +172,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
                     if(doors.containsKey(go.name)){
                         addStaticEntity(new DoorProjectileTrigger(doors.remove(go.name),x,y));
                     }else{
-                        DoorTrigger dt = new DoorTrigger(null, x, y);
+                        DoorProjectileTrigger dt = new DoorProjectileTrigger(null, x, y);
                         triggers.put(go.name, dt);
                         addStaticEntity(dt);
                     }

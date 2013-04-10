@@ -43,12 +43,13 @@ public class GameplayState extends MouseCapture {
 		new NPCLoader().load("data/npcdata.xml");
 		//map loading goes here. Needs a better home
 		//method needed to load all maps into their correct index in the array
-		MapLoader.setDimensions(4,2);
+		MapLoader.setDimensions(5,2);
 		MapLoader.loadMap("data/JezMap01.tmx", 0, 0);
 		MapLoader.loadMap("data/JezMap02.tmx", 1, 0);
 		MapLoader.loadMap("data/JezMap03.tmx", 2, 0);
 		MapLoader.loadMap("data/JezMap13.tmx", 2, 1);
 		MapLoader.loadMap("data/JezMap04.tmx", 3, 0);
+		MapLoader.loadMap("data/JezMap05.tmx", 4, 0);
 		
 		//set initial map and player
 		player = new Player(2,2);
