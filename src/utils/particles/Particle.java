@@ -9,9 +9,13 @@ import utils.Position;
 
 public abstract class Particle {
 	
-	private static final float ANGULAR_FRICTION = 0.98f;
-	private static final Position GRAVITY = new Position(0f,0.01f);
-	private static final Position FRICTION = new Position(0.99f, 0.99f);
+	private static final float NORMAL_ANGULAR_FRICTION = 0.98f;
+	private static final Position NORMAL_GRAVITY = new Position(0f,0.01f);
+	private static final Position NORMAL_FRICTION = new Position(0.99f, 0.99f);
+	
+	private float angFriction = NORMAL_ANGULAR_FRICTION;
+	private Position gravity = NORMAL_GRAVITY;
+	private Position friction = NORMAL_FRICTION;
 	
 	private final Image texture;
 	private final Position position;
@@ -38,10 +42,10 @@ public abstract class Particle {
 	}
 	
 	public void update() {
-		velocity.translate(GRAVITY);
-		velocity.scale(FRICTION);
+		velocity.translate(gravity);
+		velocity.scale(friction);
 		position.translate(velocity);
-		angle += (angularVelocity *= ANGULAR_FRICTION);
+		angle += (angularVelocity *= angFriction);
 	}
 	
 	protected float getRadius(){
@@ -66,6 +70,38 @@ public abstract class Particle {
 	
 	public float getCenterX(){
 		return position.getX();
+	}
+	
+	public float getdX(){
+		return velocity.getX();
+	}
+	
+	public float getdY(){
+		return velocity.getY();
+	}
+
+	float getAngularFriction() {
+		return angFriction;
+	}
+
+	void setAngularFriction(float angularFriction) {
+		angFriction = angularFriction;
+	}
+
+	Position getGravity() {
+		return gravity;
+	}
+
+	void setGravity(Position gravity) {
+		this.gravity = gravity;
+	}
+
+	Position getFriction() {
+		return friction;
+	}
+
+	void setFriction(Position friction) {
+		this.friction = friction;
 	}
 	
 }

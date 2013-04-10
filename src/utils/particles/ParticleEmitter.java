@@ -2,9 +2,10 @@ package utils.particles;
 
 import game.config.Config;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -16,8 +17,8 @@ import utils.interval.two.Range2D;
 public abstract class ParticleEmitter<P extends Particle> implements Updatable, LayerRenderable {
 	private final int layer;
 	private final Range2D positionRange, velocityRange;
-	private final List<P> particles = new LinkedList<P>();
-	
+	private final Collection<P> particles = Collections.newSetFromMap(new ConcurrentHashMap<P, Boolean>());
+			
 	private int lifespan = 0;
 	private ParticleGenerator<? extends P> particleGenerator;
 	
@@ -55,8 +56,8 @@ public abstract class ParticleEmitter<P extends Particle> implements Updatable, 
 	}
 	
 	public void render(GameContainer gc, Graphics g) {
-		for (int index = 0; index < particles.size(); index++){
-			particles.get(index).render();
+		for (Particle p : particles){
+			p.render();
 		}
 	}
 	
@@ -66,11 +67,13 @@ public abstract class ParticleEmitter<P extends Particle> implements Updatable, 
 		generateParticles();
 		
 		Iterator<P> it = particles.iterator();
-		while(it.hasNext()){
-			Particle p = it.next();
-			p.update();
-			if(!p.isAlive()){
-				it.remove();
+		synchronized (it) {
+			while(it.hasNext()){
+				Particle p = it.next();
+				p.update();
+				if(!p.isAlive()){
+					it.remove();
+				}
 			}
 		}
 	}

@@ -17,6 +17,7 @@ public class BlockedCollidingParticle extends Particle {
 		super(texture, position, velocity, color, size);
 		c = cell;
 	}
+	
 	@Override
 	public boolean isAlive() {
 		float cY = getCenterY();
