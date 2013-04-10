@@ -36,7 +36,6 @@ public class Projectile extends VeryAbstractEntity {
 	private double angle;
 	private Shape hitbox;
 	
-
 	public Projectile(Position centre, int damage, double angle, float speed){
 		Image[] movementForward = null;
 		float width = 0f,height = 0f;
@@ -128,7 +127,7 @@ public class Projectile extends VeryAbstractEntity {
 		hitbox = hitbox.transform(Transform.createTranslateTransform(dxdy.getX(), dxdy.getY()));
 		sprite.update(Config.DELTA);
 		{
-			int cX = (int) getCentreX(), cY = (int) getCentreY();
+			int cX = (int) getCentreX(), cY = Math.max(1, (int) getCentreY());
 			Tile cT = MapLoader.getCurrentCell().getTile(cX, cY);
 			// gravity
 			dxdy.translate(0, 0.1f*cT.lookup(TileProperty.GRAVITY).getFloat()); 
@@ -177,9 +176,9 @@ public class Projectile extends VeryAbstractEntity {
 	@Override
 	public void update(GameContainer gc) {
 		frameMove();
-		int x = (int) getCentreX(), y = (int) getCentreY();
+		int x = (int) getCentreX(), y = Math.max(1, (int) getCentreY());
 		Cell cell = MapLoader.getCurrentCell();
-		if(x < 0 || y <= 0 || x >= cell.getWidth() - 1 || y >= cell.getHeight() - 1 || 
+		if(x < 0 || x >= cell.getWidth() - 1 || y >= cell.getHeight() - 1 || 
 				cell.getTile(x, y).lookup(TileProperty.BLOCKED).getBoolean()) {
 			MapLoader.getCurrentCell().removeMovingEntity(this);
 		}

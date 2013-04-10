@@ -16,6 +16,8 @@ import entities.objects.TextField;
 import entities.players.Player;
 import game.config.Config;
 
+import items.projectiles.Projectile;
+
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -169,13 +171,13 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 						addStaticEntity(dt);
 					}
 				}else if(go.type.equalsIgnoreCase("doorProjectileTrigger")){
-                    if(doors.containsKey(go.name)){
-                        addStaticEntity(new DoorProjectileTrigger(doors.remove(go.name),x,y));
-                    }else{
-                        DoorProjectileTrigger dt = new DoorProjectileTrigger(null, x, y);
-                        triggers.put(go.name, dt);
-                        addStaticEntity(dt);
-                    }
+					if(doors.containsKey(go.name)){
+						addStaticEntity(new DoorProjectileTrigger(doors.remove(go.name),x,y));
+					}else{
+						DoorProjectileTrigger dt = new DoorProjectileTrigger(null, x, y);
+						triggers.put(go.name, dt);
+						addStaticEntity(dt);
+					}
 				}else if(go.type.equalsIgnoreCase("leafTest")){
 					addStaticEntity(new LeafTest(x,y));
 				}else if(go.type.equalsIgnoreCase("jumpPlatform")){
