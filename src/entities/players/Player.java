@@ -7,7 +7,7 @@ import items.Weapon;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Random;
 
@@ -31,6 +31,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import sounds.SoundGroup;
 import sounds.Sounds;
+import utils.ImageUtils;
 import utils.MapLoader;
 import utils.interval.one.ColourRange;
 import utils.interval.one.Interval;
@@ -41,7 +42,6 @@ import utils.interval.two.Sector2D;
 import utils.particles.NonCollidingParticle;
 import utils.particles.NonCollidingParticleGenerator;
 import utils.particles.NormalParticleEmitter;
-import utils.particles.ParticleEmitter;
 import utils.particles.ParticleGenerator;
 import entities.AbstractEntity;
 import entities.DestructibleEntity;
@@ -73,7 +73,7 @@ public class Player extends AbstractEntity {
 	private float rangedCounter = 0;
 	private float walkingCounter = 0;
 
-    private List<Image> dust = new ArrayList<Image>();
+    private Collection<Image> dust = ImageUtils.populate(new ArrayList<Image>(),"data/images/circle.png");
 	
 	private Body body;
 
@@ -106,12 +106,8 @@ public class Player extends AbstractEntity {
 				new Image("data/images/stick/stick_0003_Vector-Smart-Object-copy-11.png"),
 				new Image("data/images/stick/stick_0002_Vector-Smart-Object-copy-12.png"),
 				new Image("data/images/stick/stick_0001_Vector-Smart-Object-copy-13.png"),
-				new Image("data/images/stick/stick_0000_Vector-Smart-Object-copy-14.png")},			
+				new Image("data/images/stick/stick_0000_Vector-Smart-Object-copy-14.png")},
 					5);
-			
-			// particle effect for landing
-            dust.add(new Image("data/images/circle.png"));
-			
 		} catch (SlickException e) {
 			//do shit all
 		}
@@ -266,7 +262,7 @@ public class Player extends AbstractEntity {
 				}
 				MapLoader.getCurrentCell().addParticleEmmiter(
 						new NormalParticleEmitter<NonCollidingParticle>
-								(pGen, new FixedPosition((getX() - 0.5f), getY()), spawn,getLayer()-1,2));
+								(pGen, new FixedPosition((getCentreX()), getY() + getHeight()), spawn,getLayer()-1,2));
 			}
 		}
 		
@@ -281,7 +277,7 @@ public class Player extends AbstractEntity {
 			
 			// Would be nice to make it bigger (more particles) in shorter time and dependent on player falling speed
 			MapLoader.getCurrentCell().addParticleEmmiter(
-					new NormalParticleEmitter<NonCollidingParticle>(pGen, new FixedPosition((getX() - 0.5f), getY()), new Interval2D(-0.1f, 0.1f, -0.15f, -0.05f),getLayer()-1,3));
+					new NormalParticleEmitter<NonCollidingParticle>(pGen, new FixedPosition((getCentreX()), getY() + getHeight()), new Interval2D(-0.1f, 0.1f, -0.15f, -0.05f),getLayer()-1,3));
 		}
 		onGround = newOnGround;
 		

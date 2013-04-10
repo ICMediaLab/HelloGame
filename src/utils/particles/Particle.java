@@ -2,8 +2,8 @@ package utils.particles;
 
 import game.config.Config;
 
-import org.newdawn.slick.Image;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.Image;
 
 import utils.Position;
 
@@ -54,10 +54,18 @@ public abstract class Particle {
 	
 	public void render() {
 		texture.setRotation(angle); // rotate
-		texture.draw((position.getX())*Config.getTileSize(), (position.getY())*Config.getTileSize(), 
+		texture.draw((position.getX() - 1)*Config.getTileSize(), (position.getY() - 1)*Config.getTileSize(), 
 				radius*Config.getTileSize(), colour); // render
 	}
 	
 	public abstract boolean isAlive();
+	
+	public float getCenterY(){
+		return position.getY();
+	}
+	
+	public float getCenterX(){
+		return position.getX();
+	}
 	
 }

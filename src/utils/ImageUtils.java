@@ -1,5 +1,7 @@
 package utils;
 
+import java.util.Collection;
+
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.w3c.dom.Node;
@@ -54,5 +56,24 @@ public class ImageUtils {
 
 	public static ImageContainer flipImages(ImageContainer images, boolean h, boolean v) {
 		return images.flippedCopy(h,v);
+	}
+
+	public static Collection<Image> populate(Collection<Image> col, Image... images) {
+		for(Image i : images){
+			col.add(i);
+		}
+		return col;
+	}
+
+	public static Collection<Image> populate(Collection<Image> col, String... paths) {
+		Image[] images = new Image[paths.length];
+		for(int i=0;i<paths.length;i++){
+			try {
+				images[i] = new Image(paths[i]);
+			} catch (SlickException e) {
+				e.printStackTrace();
+			}
+		}
+		return populate(col, images);
 	}
 }

@@ -48,6 +48,7 @@ import utils.Renderable;
 import utils.Updatable;
 import utils.VerticalAlign;
 import utils.particles.ParticleEmitter;
+import utils.particles.RainTest;
 
 
 public class Cell extends TiledMap implements Updatable, Renderable {
@@ -124,6 +125,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 				System.out.println(e.getMessage());
 			}
 		}
+		addParticleEmmiter(RainTest.getRain(this,100000));
 		renderables.addAll(staticEntities);
 	}
 	
