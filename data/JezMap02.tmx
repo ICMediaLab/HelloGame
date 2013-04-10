@@ -37,7 +37,7 @@
    eJx1lmeu4kAQhNsYnNMfguHx8A24/+12LNWnKdhdS61JHarTeNaIuCY6J3rY/JnoJ9E90aaR84fo19bw7ns36WCO/EXzi86wsdP+TYlOiQ6JOq33sUhUJmp1VutsFB2+aOddxOPfUboq8c2JGvHOotC4iIezo2y1ku8TDTrvdea6CsnMkvGvEF+r+Sifevl7snh0wjEZz0G6SxH6Ks0b8U9aE9NvHMRrtpjXkiEGIRvoHKTvJNyFxaKR/Ch8xGPRPjbeXzjG+MxFa/GcLR6jYSg1zma7ld1J6ypy/IlZa3q+cdTCt2N4ya9atMgmOGrpHyLn+qj1YDGghgrZPEgOff0/cLSixuLdRM5DYXixXUau0aPJUKOlbDei3mJRK07g2ERvnZGXSXKV9FXiL+KzLqbIOZ8j97LrOUXusVLrXjweD8dBrqnnQT704qUvyWMl/5bINcI9Qs+UkXNMjR7j77yAgz6apZv+HCQXwldJX6s188JkS8l3kXM7RM4N9THJPt/b8jCabWqNOgWD184i3k5y3AGF9sALBuy0/8HRRb4X6X/izX1KL9IX4PV+LE3O7zWwgYH+3gzLW5iHyD1B79faD63Jfx25Vt0H/JjlO3XMXQov96x/9H8fuQboP79/ezvDFvcwMaCvO4srdy41jn/fOPj/YJO+8j7Y/8H7v5v/9j1y/zrdxXcTXSSz/7/Pkd8NjLwXnpHfCC/Nt/i8Rxqd7fpW07tqHxu8I67Su9p8i/wO2eLz/eE4HcPN5r+ar2YDX9ELJmSu0vcyfvDfNG7GQ1wcCz5eNG46450FH/rwmfcW803rl+2xv0Z+Y4HvaZg8d8i9hAGfyCX+PMV3ic88Y+dsMf4xWx6zh+kiz+TM/dz1/AFJ0yWu
   </data>
  </layer>
- <layer name="Tile Layer 2" width="34" height="20">
+ <layer name="Tile Layer 2" width="34" height="20" visible="0">
   <properties>
    <property name="render-index" value="-9000"/>
   </properties>
@@ -45,7 +45,7 @@
    eJxjYBgFQwXIAbE8Gp/eQBKJLQalJQbAHTAgzoAIE2kqmitEglp5ND413TEQcYwNSBJWglOtOBXdMZBpDRlIDbQDoICaaY0SIDvQDoAC0YF2ABQMlvQxWNwxCkYBOQAA4vECWg==
   </data>
  </layer>
- <layer name="trunks" width="34" height="20">
+ <layer name="trunks" width="34" height="20" visible="0">
   <properties>
    <property name="render-index" value="-5000"/>
   </properties>
@@ -53,7 +53,7 @@
    eJzt1FcKAzEMRVGvKRAC6b33ZNL7/heRK5gFPBt9JDCC8ylj0JNC+I0qoez85gBDjDDGROipoOr8jylmmGOBpdBTR8v5HyusscEWO6Gng77zP/bIcMARJ6HH8qHML6bOuOCKG+5Cj+VDmV9MPfDEC298hB7LhzK/mKrl7zbQDFr+LB/K/GKqnb/bRS9o+bM9V+YXUyn3w/ZcmV9MpdwP23PvfKTcD9tz73yk3A/bc+98pNwP23PvfKTcj6KK+of6AlvlHiY=
   </data>
  </layer>
- <layer name="branches" width="34" height="20">
+ <layer name="branches" width="34" height="20" visible="0">
   <properties>
    <property name="render-index" value="-4000"/>
   </properties>
@@ -61,14 +61,14 @@
    eJztzjcKAlEURuHZraWdCRMmTDsxgAFGBUPhLsw5xxV4CisRHJ5Pb/MOfNVw3/yWZdJdX3qAwwYYYoQxJpgK7JhhjgWWWGEtsGODLXbY44CjwI4TzrjgihvuGt51aXjjtcJTESWUf/APp1VQRQ31N9/dH+498MIHPwKKO2w00ERL4T6IEMKIIKq4o40Ouugp3McQRwJJpBR3fFsaGWSRQ15oh8lk+m8PEpEtTg==
   </data>
  </layer>
- <objectgroup name="Enemy" width="34" height="20">
+ <objectgroup name="Enemy" width="34" height="20" visible="0">
   <object name="rawr" type="enemy" x="320" y="448" width="32" height="32">
    <properties>
     <property name="enemy-respawn" value="true"/>
    </properties>
   </object>
  </objectgroup>
- <layer name="infront_grass" width="34" height="20">
+ <layer name="infront_grass" width="34" height="20" visible="0">
   <properties>
    <property name="render-index" value="5000"/>
   </properties>
@@ -76,7 +76,7 @@
    eJztlWEKwCAIhbtC2f0vWev3Jig8RBhBowZ+8CDL9CG0pRS80R51iMcGD9wzi7R/3eBDe7IH+qB+m8i90p4ZWE7wwHQTz8xyJXYep8wnCP6I/n/4ezdgjXuY4+1ZiojfJok0f8B9krwMa40z1KhwThBXyC+OZw/0pvVWot4JFJzJDWt6JZg=
   </data>
  </layer>
- <layer name="infront_branches" width="34" height="20">
+ <layer name="infront_branches" width="34" height="20" visible="0">
   <properties>
    <property name="render-index" value="6000"/>
   </properties>
@@ -84,7 +84,7 @@
    eJztzskNglAURmF6dVZEUTZQAdRCEZLgEAajaAFQimfBFkLClbe5J/l2b/gtS5MsxRU33PEwtCNDjgIlngPu1GiEd7zwRoUPvsLva93NMMcCS6ywFv4jbvW1wRY72NjDEd4xpAOOcHHCGV7HWR/BRLv+3QWJ6REjChGZHqFp2uT9ALySGg0=
   </data>
  </layer>
- <layer name="infront_trunks" width="34" height="20">
+ <layer name="infront_trunks" width="34" height="20" visible="0">
   <properties>
    <property name="render-index" value="5500"/>
   </properties>
