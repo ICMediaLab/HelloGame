@@ -46,7 +46,7 @@
     <property name="locked" value="false"/>
    </properties>
   </object>
-  <object name="254" type="doorTrigger" x="992" y="192" width="32" height="32">
+  <object name="254" type="doorProjectileTrigger" x="992" y="192" width="32" height="32">
    <properties>
     <property name="locked" value="false"/>
    </properties>

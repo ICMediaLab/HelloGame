@@ -8,6 +8,7 @@ import entities.enemies.Enemy;
 import entities.npcs.NPC;
 import entities.objects.Cage;
 import entities.objects.Door;
+import entities.objects.DoorProjectileTrigger;
 import entities.objects.DoorTrigger;
 import entities.objects.JumpPlatform;
 import entities.objects.LeafTest;
@@ -167,6 +168,14 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 						triggers.put(go.name, dt);
 						addStaticEntity(dt);
 					}
+				}else if(go.type.equalsIgnoreCase("doorProjectileTrigger")){
+                    if(doors.containsKey(go.name)){
+                        addStaticEntity(new DoorProjectileTrigger(doors.remove(go.name),x,y));
+                    }else{
+                        DoorTrigger dt = new DoorTrigger(null, x, y);
+                        triggers.put(go.name, dt);
+                        addStaticEntity(dt);
+                    }
 				}else if(go.type.equalsIgnoreCase("leafTest")){
 					addStaticEntity(new LeafTest(x,y));
 				}else if(go.type.equalsIgnoreCase("jumpPlatform")){

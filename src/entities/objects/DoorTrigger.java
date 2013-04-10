@@ -20,7 +20,7 @@ public class DoorTrigger extends StaticRectEntity {
 	private static final int DOOR_TRIGGER_DEFAULT_LAYER = -200;
 	
 	private final Animation s;
-	private Door trigger;
+	protected Door trigger;
 	
 	public DoorTrigger(Door trigger, int x, int y){
 		super(x,y,1,1);
