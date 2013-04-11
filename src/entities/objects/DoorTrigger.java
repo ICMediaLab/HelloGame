@@ -2,6 +2,8 @@ package entities.objects;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
@@ -10,24 +12,23 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.BufferedImageUtil;
 
-import utils.MapLoader;
+import utils.triggers.Trigger;
+import utils.triggers.Triggerable;
 import entities.MovingEntity;
 import entities.StaticRectEntity;
+import entities.players.Player;
 import game.config.Config;
 
-public class DoorTrigger extends StaticRectEntity {
+public class DoorTrigger extends StaticRectEntity implements Trigger {
 	
 	private static final int DOOR_TRIGGER_DEFAULT_LAYER = -200;
 	
-	private final Animation s;
-	protected Door trigger;
+	private final Set<Triggerable> triggerables = new HashSet<Triggerable>();
 	
-	public DoorTrigger(Door trigger, int x, int y){
+	private final Animation s;
+	
+	public DoorTrigger(int x, int y){
 		super(x,y,1,1);
-		this.trigger = trigger;
-		if(trigger != null){
-			trigger.assignTrigger(this);
-		}
 		{
 			BufferedImage i = new BufferedImage(Config.getTileSize(), Config.getTileSize(), BufferedImage.TYPE_INT_ARGB);
 			java.awt.Graphics g = i.createGraphics();
@@ -45,21 +46,47 @@ public class DoorTrigger extends StaticRectEntity {
 	
 	@Override
 	public void update(GameContainer gc) {
+		untriggered();
+	}
+	
+	@Override
+	public void addTriggerable(Triggerable t) {
+		triggerables.add(t);
+	}
+	
+	@Override
+	public void removeTriggerable(Triggerable t) {
+		triggerables.remove(t);
+	}
+	
+	@Override
+	public void clearTriggerables() {
+		triggerables.clear();
+	}
+	
+	@Override
+	public void triggered() {
+		for(Triggerable t : triggerables){
+			t.triggered(this);
+		}
+	}
+	
+	@Override
+	public void untriggered() {
+		for(Triggerable t : triggerables){
+			t.untriggered(this);
+		}
 	}
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) {
 		s.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());
 	}
-
-	public void setDoor(Door trigger) {
-		this.trigger = trigger;
-	}
-
+	
 	@Override
 	public void collide(MovingEntity e) {
-		if(e == MapLoader.getCurrentCell().getPlayer()){
-			trigger.setTriggered();
+		if(e instanceof Player){
+			triggered();
 		}
 	}
 

@@ -16,13 +16,12 @@ import entities.objects.TextField;
 import entities.players.Player;
 import game.config.Config;
 
-import items.projectiles.Projectile;
-
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -52,6 +51,8 @@ import utils.Updatable;
 import utils.VerticalAlign;
 import utils.particles.ParticleEmitter;
 import utils.particles.RainTest;
+import utils.triggers.Trigger;
+import utils.triggers.Triggerable;
 
 
 public class Cell extends TiledMap implements Updatable, Renderable {
@@ -140,8 +141,8 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		addLight(new PointLight(1020, 0, 5));
 		addLight(new PointLight(0, 0, 5));
 		
-		Map<String,Door> doors = new HashMap<String,Door>();
-		Map<String,DoorTrigger> triggers = new HashMap<String,DoorTrigger>();
+		Map<Triggerable,String[]> triggerables = new HashMap<Triggerable,String[]>();
+		Map<String,Trigger> triggers = new HashMap<String,Trigger>();
 		
 		for(ObjectGroup og : objectGroups){
 			for(GroupObject go : og.objects){
@@ -155,29 +156,26 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 				}else if(go.type.equalsIgnoreCase("npc")){
 					defaultEntities.add(NPC.getNew(this, go.name, x,y));
 				}else if(go.type.equalsIgnoreCase("door")){
-					if(triggers.containsKey(go.name)){
-						addStaticEntity(new Door(this,triggers.remove(go.name),x,y));
-					}else{
-						Door d = new Door(this,null,x,y);
-						doors.put(go.name,d);
-						addStaticEntity(d);
+					Door d = new Door(this,x,y);
+					String ts = go.props.getProperty("triggers");
+					if(ts != null){
+						triggerables.put(d, ts.split("\\s+"));
 					}
+					addStaticEntity(d);
 				}else if(go.type.equalsIgnoreCase("doorTrigger")){
-					if(doors.containsKey(go.name)){
-						addStaticEntity(new DoorTrigger(doors.remove(go.name),x,y));
-					}else{
-						DoorTrigger dt = new DoorTrigger(null, x, y);
-						triggers.put(go.name, dt);
-						addStaticEntity(dt);
+					DoorTrigger dt = new DoorTrigger(x,y);
+					String id = go.props.getProperty("id");
+					if(id != null){
+						triggers.put(id, dt);
 					}
+					addStaticEntity(dt);
 				}else if(go.type.equalsIgnoreCase("doorProjectileTrigger")){
-					if(doors.containsKey(go.name)){
-						addStaticEntity(new DoorProjectileTrigger(doors.remove(go.name),x,y));
-					}else{
-						DoorProjectileTrigger dt = new DoorProjectileTrigger(null, x, y);
-						triggers.put(go.name, dt);
-						addStaticEntity(dt);
+					DoorProjectileTrigger dpt = new DoorProjectileTrigger(x,y);
+					String id = go.props.getProperty("id");
+					if(id != null){
+						triggers.put(id, dpt);
 					}
+					addStaticEntity(dpt);
 				}else if(go.type.equalsIgnoreCase("leafTest")){
 					addStaticEntity(new LeafTest(x,y));
 				}else if(go.type.equalsIgnoreCase("jumpPlatform")){
@@ -187,6 +185,15 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 				}else if(go.type.equalsIgnoreCase("textField")){
 					addStaticEntity(TextField.newTextField(x,y,width,height,go.props));
 				}
+			}
+		}
+		
+		for(Entry<Triggerable, String[]> triggerableEntry : triggerables.entrySet()){
+			Triggerable t = triggerableEntry.getKey();
+			for(String id : triggerableEntry.getValue()){
+				Trigger trig = triggers.get(id);
+				trig.addTriggerable(t);
+				t.addTrigger(trig);
 			}
 		}
 	}

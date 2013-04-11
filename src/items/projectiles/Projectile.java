@@ -178,7 +178,7 @@ public class Projectile extends VeryAbstractEntity {
 		frameMove();
 		int x = (int) getCentreX(), y = Math.max(1, (int) getCentreY());
 		Cell cell = MapLoader.getCurrentCell();
-		if(x < 0 || x >= cell.getWidth() - 1 || y >= cell.getHeight() - 1 || 
+		if(x <= 0 || x >= cell.getWidth() - 1 || y >= cell.getHeight() - 1 || 
 				cell.getTile(x, y).lookup(TileProperty.BLOCKED).getBoolean()) {
 			MapLoader.getCurrentCell().removeMovingEntity(this);
 		}

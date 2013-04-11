@@ -32,37 +32,39 @@
   </data>
  </layer>
  <objectgroup name="Door" width="34" height="20">
-  <object name="100" type="doorProjectileTrigger" x="96" y="64" width="32" height="32">
+  <object type="doorProjectileTrigger" x="96" y="64" width="32" height="32">
    <properties>
-    <property name="locked" value="false"/>
+    <property name="id" value="05_dpt1"/>
    </properties>
   </object>
-  <object name="100" type="door" x="192" y="352" width="32" height="32">
+  <object type="door" x="192" y="352" width="32" height="32">
    <properties>
-    <property name="id" value="10"/>
-    <property name="locked" value="false"/>
+    <property name="triggers" value="05_dpt1"/>
    </properties>
   </object>
-  <object name="110" type="doorProjectileTrigger" x="384" y="96" width="32" height="32">
+  <object type="doorProjectileTrigger" x="384" y="96" width="32" height="32">
    <properties>
-    <property name="locked" value="false"/>
+    <property name="id" value="05_dpt2"/>
    </properties>
   </object>
-  <object name="110" type="door" x="384" y="352" width="32" height="32">
+  <object type="door" x="384" y="352" width="32" height="32">
    <properties>
-    <property name="id" value="11"/>
-    <property name="locked" value="false"/>
+    <property name="triggers" value="05_dpt2"/>
    </properties>
   </object>
-  <object name="120" type="door" x="864" y="352" width="32" height="32">
+  <object type="door" x="864" y="352" width="32" height="32">
    <properties>
-    <property name="id" value="12"/>
-    <property name="locked" value="false"/>
+    <property name="triggers" value="05_dpt3 05_dpt3b"/>
    </properties>
   </object>
-  <object name="120" type="doorProjectileTrigger" x="864" y="128" width="32" height="32">
+  <object type="doorProjectileTrigger" x="864" y="128" width="32" height="32">
    <properties>
-    <property name="locked" value="false"/>
+    <property name="id" value="05_dpt3"/>
+   </properties>
+  </object>
+  <object type="doorProjectileTrigger" x="864" y="224" width="32" height="32">
+   <properties>
+    <property name="id" value="05_dpt3b"/>
    </properties>
   </object>
  </objectgroup>
