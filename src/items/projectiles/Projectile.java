@@ -128,6 +128,10 @@ public class Projectile extends VeryAbstractEntity {
 		sprite.update(Config.DELTA);
 		{
 			int cX = (int) getCentreX(), cY = Math.max(1, (int) getCentreY());
+			if (cX < 0) {
+			    MapLoader.getCurrentCell().removeMovingEntity(this);
+			    return;
+			}
 			Tile cT = MapLoader.getCurrentCell().getTile(cX, cY);
 			// gravity
 			dxdy.translate(0, 0.1f*cT.lookup(TileProperty.GRAVITY).getFloat()); 
