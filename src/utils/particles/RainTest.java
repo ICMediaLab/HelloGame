@@ -20,13 +20,8 @@ public class RainTest extends ParticleEmitter<BlockedCollidingParticle> implemen
 	
 	public static RainTest getRain(Cell c, int layer){
 		RainTest r = new RainTest(c,new RainParticleGenerator(c), new Interval2D(new Interval(1f,c.getWidth()-1f), new FixedValue(0.5f)), new Interval2D(new FixedValue(0f),new Interval(0.12f,0.16f)), layer);
-		for(int lastp = 0;;){
+		for(int i = 0;i < 140;i++){
 			r.updateThreadless();
-			int newp = r.numParticles();
-			if(newp < lastp){
-				break;
-			}
-			lastp = newp;
 		}
 		return r;
 	}
