@@ -92,17 +92,6 @@ public class GameplayState extends MouseCapture {
 	}
 	
 	@Override
-	public void leave(GameContainer gc, StateBasedGame game)
-			throws SlickException {
-		super.leave(gc, game);
-		if(!HelloGameContainer.isRunning()){
-			gc.sleep(300);
-			Sounds.releaseMusic();
-			Sounds.releaseSounds();
-		}
-	}
-	
-	@Override
 	public void enter(GameContainer gc, StateBasedGame game) throws SlickException {
 		super.enter(gc, game);
 		Sounds.getMusic().loop(1, 0.3f);

@@ -4,6 +4,8 @@ import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Game;
 import org.newdawn.slick.SlickException;
 
+import sounds.Sounds;
+
 public class HelloGameContainer extends AppGameContainer {
 
 	private static boolean running = true;
@@ -24,6 +26,8 @@ public class HelloGameContainer extends AppGameContainer {
 	public void exit() {
 		running = false;
 		game.closeRequested();
+		Sounds.releaseMusic();
+		Sounds.releaseSounds();
 		super.exit();
 	}
 }
