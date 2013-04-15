@@ -1,7 +1,8 @@
 package sounds;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
@@ -11,7 +12,7 @@ import org.newdawn.slick.util.EFXFilter;
 
 public abstract class Sounds {
 	
-	private static final List<Sound> SOUNDS_PLAYING = new ArrayList<Sound>();
+	private static final Set<Sound> SOUNDS_PLAYING = new HashSet<Sound>();
 	private static Music music; 
 	
 	public static Sound loadSound(String path){
@@ -41,8 +42,10 @@ public abstract class Sounds {
 	 */
 	
 	public static void stopSounds(){
-		for (int i = 0; i < SOUNDS_PLAYING.size(); i++){
-			SOUNDS_PLAYING.get(i).stop();
+		for (Sound s : SOUNDS_PLAYING){
+			if(s.playing()){
+				s.stop();
+			}
 		}
 	}
 	
@@ -84,9 +87,10 @@ public abstract class Sounds {
 	 */
 	
 	public static void update(){
-		for (int i = 0; i < SOUNDS_PLAYING.size(); i++){
-			if (!SOUNDS_PLAYING.get(i).playing()){
-				SOUNDS_PLAYING.remove(i);
+		for (Iterator<Sound> it = SOUNDS_PLAYING.iterator(); it.hasNext();){
+			Sound s = it.next();
+			if (!s.playing()){
+				it.remove();
 			}
 		}
 	}
@@ -98,9 +102,10 @@ public abstract class Sounds {
 	public static void releaseSounds(){
 		update();
 		stopSounds();
-		for (int i = 0; i < SOUNDS_PLAYING.size(); i++){
-			SOUNDS_PLAYING.get(i).release();
+		for (Sound s : SOUNDS_PLAYING){
+			s.release();
 		}
+		SOUNDS_PLAYING.clear();
 	}
 
 	public static Music getMusic() {
