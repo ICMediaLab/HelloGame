@@ -1,5 +1,6 @@
 package entities.aistates.decisiontree;
 
+import conditiontree.Leaf;
 import entities.MovingEntity;
 import entities.aistates.AINextMove;
 import entities.aistates.AIState;
@@ -13,7 +14,7 @@ public class AIStateLeaf extends Leaf<AINextMove> {
 	 * @param stateStr A string representation of the state to be used.
 	 * @throws IllegalStateException If the specified state does not exist.
 	 */
-	public void setState(String stateStr) throws IllegalStateException {
+	protected void setState(String stateStr) throws IllegalStateException {
 		if(stateStr.startsWith(">")){
 			stateStr = stateStr.substring(1);
 		}

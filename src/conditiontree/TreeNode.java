@@ -2,7 +2,6 @@ package conditiontree;
 
 import entities.MovingEntity;
 import entities.aistates.AINextMove;
-import entities.aistates.decisiontree.Leaf;
 
 public abstract class TreeNode<T> {
 	
