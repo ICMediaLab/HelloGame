@@ -52,7 +52,7 @@ public class MainMenuState extends BasicGameState {
 	@Override
 	public void leave(GameContainer gc, StateBasedGame game) throws SlickException {
 		super.leave(gc, game);
-		if(HelloGameContainer.isRunning()){
+		if(HelloGameContainer.getInstance().isRunning()){
 			Sounds.play(start, 1, 0.5f);
 			gc.sleep(500);
 		}

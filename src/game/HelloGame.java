@@ -17,7 +17,7 @@ public class HelloGame extends StateBasedGame {
 	static {
 		HelloGameContainer app = null;
 		try {
-			app = new HelloGameContainer(new HelloGame());
+			app = HelloGameContainer.getNewInstance(new HelloGame());
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
@@ -36,6 +36,7 @@ public class HelloGame extends StateBasedGame {
 			e.printStackTrace();
 			return;
 		}
+		parent.setShowFPS(true);
 		parent.setVSync(Config.isVsync());
 		parent.setTargetFrameRate(Config.getNormalFPS());
 		try {

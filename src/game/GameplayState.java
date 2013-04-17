@@ -1,6 +1,7 @@
 package game;
 
 import map.Cell;
+import notify.Notification;
 
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
@@ -59,21 +60,24 @@ public class GameplayState extends MouseCapture {
 		Sounds.setMusic(new Music("data/sounds/RedCurtain.ogg", true));
 		gc.setMusicVolume(0.5f);
 		
-		gui = new GUI(gc.getGraphics());		
+		gui = new GUI(gc.getGraphics());
 	}
 
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {
 		currentCell.render(gc, g);
-		//renderLighting(gc,g);
+		Notification.render(gc, g);
 		gui.render(gc, g);
 	}
 	
 	@Override
-	public void update(GameContainer gc, StateBasedGame sbg, int delta)
-			throws SlickException {
-		if(HelloGameContainer.isRunning()){
+	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
+		if(Math.random() < 0.02){
+			Notification.addNotification("test notification.");
+		}
+		Notification.update(gc);
+		if(HelloGameContainer.getInstance().isRunning()){
 			//update map
 			currentCell = MapLoader.getCurrentCell();
 			//check input
@@ -94,7 +98,7 @@ public class GameplayState extends MouseCapture {
 	@Override
 	public void enter(GameContainer gc, StateBasedGame game) throws SlickException {
 		super.enter(gc, game);
-		Sounds.getMusic().loop(1, 0.3f);
+		Sounds.getMusic().loop(1, 0.5f);
 	}
 	
 	public static World getWorld() {
