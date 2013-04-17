@@ -22,6 +22,7 @@ import entities.MovingEntity;
 import entities.NonPlayableEntity;
 import entities.StaticEntity;
 import entities.aistates.decisiontree.AIDecisionTree;
+import entities.objects.TextField;
 
 public class NPC extends NonPlayableEntity{
 	
@@ -29,6 +30,8 @@ public class NPC extends NonPlayableEntity{
 	
 	private final AnimationContainer left, right;
 	private AnimationContainer sprite;
+
+	private TextField<?> tf = null;
 	
 	/**
 	 * Map containing default representations of all npcs currently required.<br />
@@ -60,7 +63,9 @@ public class NPC extends NonPlayableEntity{
 
 	@Override
 	public NPC clone() {
-		return new NPC(getX(), getY(), getWidth(), getHeight(),getMaxHealth(), left, right,getAIDecisionTree());
+		NPC ret = new NPC(getX(), getY(), getWidth(), getHeight(),getMaxHealth(), left, right,getAIDecisionTree());
+		ret.setTextField(this.tf);
+		return ret;
 	}
 	
 	/**
@@ -118,6 +123,9 @@ public class NPC extends NonPlayableEntity{
 	@Override
 	public void update(GameContainer gc) {
 		super.update(gc);
+		if(tf != null){
+			tf.setText(this.toString() + " says hello :)");
+		}
 	}
 	
 	@Override
@@ -205,6 +213,10 @@ public class NPC extends NonPlayableEntity{
 	public void collide(DestructibleEntity d) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setTextField(TextField<?> tf) {
+		this.tf  = tf;
 	}
 	
 }

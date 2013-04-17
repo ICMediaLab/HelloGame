@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -37,7 +38,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Circle;
 import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.tiled.GroupObject;
 import org.newdawn.slick.tiled.Layer;
@@ -46,9 +46,9 @@ import org.newdawn.slick.tiled.TiledMap;
 
 import utils.LayerRenderable;
 import utils.MapLoader;
+import utils.Pair;
 import utils.Renderable;
 import utils.Updatable;
-import utils.VerticalAlign;
 import utils.particles.ParticleEmitter;
 import utils.particles.RainTest;
 import utils.triggers.Trigger;
@@ -134,66 +134,91 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	}
 	
 	private void setDefaultEntities() {
-		//addStaticEntity(new TextField<Rectangle>("'Tis a silly place", new Rectangle(19, 14, 5,3),VerticalAlign.TOP));
-		addStaticEntity(new TextField<Circle>("Help, help, I'm being repressed!", new Circle(25, 16, 10),VerticalAlign.TOP));
-		
 		addLight(new AmbientLight(new Color(0.5f, 0.5f, 1f, 0.4f)));
 		addLight(new PointLight(1020, 0, 5));
 		addLight(new PointLight(0, 0, 5));
 		
-		Map<Triggerable,String[]> triggerables = new HashMap<Triggerable,String[]>();
 		Map<String,Trigger> triggers = new HashMap<String,Trigger>();
+		Map<String,TextField<?>> textFields = new HashMap<String,TextField<?>>();
+		
+		PriorityQueue<Pair<Integer,GroupObject>> parseQueue = new PriorityQueue<Pair<Integer,GroupObject>>(11,new Comparator<Pair<Integer,GroupObject>>() {
+			@Override
+			public int compare(Pair<Integer, GroupObject> o1,
+					Pair<Integer, GroupObject> o2) {
+				return o1.getFirst().compareTo(o2.getFirst());
+			}
+		});
 		
 		for(ObjectGroup og : objectGroups){
 			for(GroupObject go : og.objects){
-				int x = go.x / Config.getTileSize();
-				int y = go.y / Config.getTileSize();
-				int width  = go.width  / Config.getTileSize();
-				int height = go.height / Config.getTileSize();
-				
-				if(go.type.equalsIgnoreCase("enemy")){
-					defaultEntities.add(Enemy.getNew(this, go.name, x,y));
-				}else if(go.type.equalsIgnoreCase("npc")){
-					defaultEntities.add(NPC.getNew(this, go.name, x,y));
-				}else if(go.type.equalsIgnoreCase("door")){
-					Door d = new Door(this,x,y);
-					String ts = go.props.getProperty("triggers");
-					if(ts != null){
-						triggerables.put(d, ts.split("\\s+"));
-					}
-					addStaticEntity(d);
-				}else if(go.type.equalsIgnoreCase("doorTrigger")){
-					DoorTrigger dt = new DoorTrigger(x,y);
-					String id = go.props.getProperty("id");
-					if(id != null){
-						triggers.put(id, dt);
-					}
-					addStaticEntity(dt);
-				}else if(go.type.equalsIgnoreCase("doorProjectileTrigger")){
-					DoorProjectileTrigger dpt = new DoorProjectileTrigger(x,y);
-					String id = go.props.getProperty("id");
-					if(id != null){
-						triggers.put(id, dpt);
-					}
-					addStaticEntity(dpt);
-				}else if(go.type.equalsIgnoreCase("leafTest")){
-					addStaticEntity(new LeafTest(x,y));
-				}else if(go.type.equalsIgnoreCase("jumpPlatform")){
-					addStaticEntity(new JumpPlatform(x,y,width));
-				}else if(go.type.equalsIgnoreCase("cage")){
-					defaultDestructibleEntities.add(new Cage(x,y,width,height));
-				}else if(go.type.equalsIgnoreCase("textField")){
-					addStaticEntity(TextField.newTextField(x,y,width,height,go.props));
+				//add doors and npcs to the back of the queue as they are reliant on other things being parsed and should therefore be done last.
+				if(go.type.equalsIgnoreCase("door") || go.type.equalsIgnoreCase("npc")){
+					parseQueue.add(new Pair<Integer, GroupObject>(100, go));
+				}else{
+					parseQueue.add(new Pair<Integer, GroupObject>(0, go));
 				}
 			}
 		}
-		
-		for(Entry<Triggerable, String[]> triggerableEntry : triggerables.entrySet()){
-			Triggerable t = triggerableEntry.getKey();
-			for(String id : triggerableEntry.getValue()){
-				Trigger trig = triggers.get(id);
-				trig.addTriggerable(t);
-				t.addTrigger(trig);
+		while(!parseQueue.isEmpty()){
+			GroupObject go = parseQueue.poll().getLast();
+			String id = go.name;
+			int x = go.x / Config.getTileSize();
+			int y = go.y / Config.getTileSize();
+			int width  = go.width  / Config.getTileSize();
+			int height = go.height / Config.getTileSize();
+			String subtype = go.props == null ? null : go.props.getProperty("type");
+			
+			if(id == null || id.isEmpty()){
+				System.out.println("Warning: " + go.type + " object at " + x + "," + y + " found with no id.");
+			}
+			
+			if(go.type.equalsIgnoreCase("enemy")){
+				defaultEntities.add(Enemy.getNew(this, subtype, x,y));
+			}else if(go.type.equalsIgnoreCase("npc")){
+				NPC npc = NPC.getNew(this, subtype, x,y);
+				String tfstr = go.props.getProperty("text_id");
+				if(tfstr != null){
+					TextField<?> tf = textFields.get(tfstr);
+					if(tf != null){
+						npc.setTextField(tf);
+					}
+				}
+				defaultEntities.add(npc);
+			}else if(go.type.equalsIgnoreCase("door")){
+				Door d = new Door(this,x,y);
+				String ts = go.props.getProperty("triggers");
+				if(ts != null){
+					for(String tid : ts.split("\\s+")) {
+						Trigger trig = triggers.get(tid);
+						trig.addTriggerable(d);
+						d.addTrigger(trig);
+					}
+				}
+				addStaticEntity(d);
+			}else if(go.type.equalsIgnoreCase("doorTrigger")){
+				DoorTrigger dt = new DoorTrigger(x,y);
+				if(id != null){
+					triggers.put(id, dt);
+				}
+				addStaticEntity(dt);
+			}else if(go.type.equalsIgnoreCase("doorProjectileTrigger")){
+				DoorProjectileTrigger dpt = new DoorProjectileTrigger(x,y);
+				if(id != null){
+					triggers.put(id, dpt);
+				}
+				addStaticEntity(dpt);
+			}else if(go.type.equalsIgnoreCase("leafTest")){
+				addStaticEntity(new LeafTest(x,y));
+			}else if(go.type.equalsIgnoreCase("jumpPlatform")){
+				addStaticEntity(new JumpPlatform(x,y,width));
+			}else if(go.type.equalsIgnoreCase("cage")){
+				defaultDestructibleEntities.add(new Cage(x,y,width,height));
+			}else if(go.type.equalsIgnoreCase("textField")){
+				TextField<?> tf = TextField.newTextField(x,y,width,height,go.props);
+				if(id != null){
+					textFields.put(id, tf);
+				}
+				addStaticEntity(tf);
 			}
 		}
 	}

@@ -35,7 +35,7 @@ public class TextField<S extends Shape> extends StaticEntity<S> {
 	private final HorizontalAlign hAlign;
 	private final float fadeIn, fadeOut;
 	private float filter = 0f;
-	private String str = "Text";
+	private String str;
 	private Color fieldColour, textColour;
 	
 	public TextField(String str, S shape, VerticalAlign valign){
@@ -121,5 +121,9 @@ public class TextField<S extends Shape> extends StaticEntity<S> {
 		VerticalAlign valign = VerticalAlign.parseAlignment(prop.getProperty("valign"),DEFAULT_VERTICAL_ALIGN);
 		HorizontalAlign halign = HorizontalAlign.parseAlignment(prop.getProperty("halign"),DEFAULT_HORIZONTAL_ALIGN);
 		return new TextField<Rectangle>(content, new Rectangle(x, y, width, height), valign, halign);
+	}
+
+	public void setText(String str) {
+		this.str = str;
 	}
 }

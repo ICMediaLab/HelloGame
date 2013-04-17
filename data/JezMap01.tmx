@@ -54,7 +54,13 @@
   </data>
  </layer>
  <objectgroup name="text" width="34" height="20">
-  <object type="textField" x="608" y="448" width="160" height="96">
+  <object name="01_gtf1" type="textField" x="608" y="448" width="160" height="96">
+   <properties>
+    <property name="text" value="This is a test"/>
+    <property name="valign" value="top"/>
+   </properties>
+  </object>
+  <object name="01_npctf" type="textField" x="608" y="288" width="416" height="288">
    <properties>
     <property name="text" value="This is a test"/>
     <property name="valign" value="top"/>
@@ -62,25 +68,30 @@
   </object>
  </objectgroup>
  <objectgroup name="Enemy" width="34" height="20">
-  <object name="rawr" type="enemy" x="256" y="416" width="32" height="32">
+  <object name="01_enemy_rawr1" type="enemy" x="256" y="416" width="32" height="32">
    <properties>
-    <property name="enemy-respawn" value="true"/>
+    <property name="type" value="rawr"/>
    </properties>
   </object>
-  <object name="rawr" type="enemy" x="64" y="256" width="32" height="32">
+  <object name="01_enemy_rawr1" type="enemy" x="64" y="256" width="32" height="32">
    <properties>
-    <property name="enemy-respawn" value="true"/>
+    <property name="type" value="rawr"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup name="leaves" width="34" height="20">
-  <object name="123" type="leafTest" x="645" y="512" width="34" height="32"/>
- </objectgroup>
- <objectgroup name="NPC" width="34" height="20">
-  <object name="bob" type="npc" x="800" y="544" width="32" height="32"/>
+  <object name="01_leaf1" type="leafTest" x="645" y="512" width="34" height="32"/>
  </objectgroup>
  <objectgroup name="Cage" width="34" height="20">
-  <object name="Cage" type="cage" x="800" y="512" width="32" height="64"/>
+  <object name="01_cage1" type="cage" x="800" y="512" width="32" height="64"/>
+ </objectgroup>
+ <objectgroup name="NPC" width="34" height="20">
+  <object name="01_npc_bob" type="npc" x="800" y="544" width="32" height="32">
+   <properties>
+    <property name="text_id" value="01_npctf"/>
+    <property name="type" value="bob"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="grass_infront" width="34" height="20">
   <properties>

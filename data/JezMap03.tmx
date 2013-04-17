@@ -40,16 +40,12 @@
   </data>
  </layer>
  <objectgroup name="Door" width="34" height="20">
-  <object type="door" x="416" y="352" width="32" height="32">
+  <object name="03_d1" type="door" x="416" y="352" width="32" height="32">
    <properties>
     <property name="triggers" value="03_dtt1"/>
    </properties>
   </object>
-  <object type="doorTrigger" x="992" y="192" width="32" height="32">
-   <properties>
-    <property name="id" value="03_dtt1"/>
-   </properties>
-  </object>
+  <object name="03_dtt1" type="doorTrigger" x="992" y="192" width="32" height="32"/>
  </objectgroup>
  <layer name="infront_grass" width="34" height="20">
   <properties>
