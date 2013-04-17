@@ -27,15 +27,15 @@ public class GameplayState extends MouseCapture {
 	private static World world = new World(new Vec2(0,  9.8f), false);
 	private GUI gui;
 	  
-    GameplayState(int stateID) {
-       this.stateID = stateID;
-    }
+	GameplayState(int stateID) {
+	   this.stateID = stateID;
+	}
   
-    @Override
-    public int getID() {
-        return stateID;
-    }
-
+	@Override
+	public int getID() {
+		return stateID;
+	}
+	
 	@Override
 	public void init(GameContainer gc, StateBasedGame sbg)
 			throws SlickException {
@@ -62,7 +62,7 @@ public class GameplayState extends MouseCapture {
 		
 		gui = new GUI(gc.getGraphics());
 	}
-
+	
 	@Override
 	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
 			throws SlickException {

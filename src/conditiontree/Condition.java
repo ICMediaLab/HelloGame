@@ -1,4 +1,4 @@
-package entities.aistates.decisiontree;
+package conditiontree;
 
 import java.util.HashMap;
 import java.util.Map;

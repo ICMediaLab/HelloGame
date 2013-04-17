@@ -1,10 +1,10 @@
-package entities.aistates.decisiontree;
+package conditiontree;
 
 import entities.MovingEntity;
 import entities.aistates.AINextMove;
-import entities.aistates.AIState;
+import entities.aistates.decisiontree.Leaf;
 
-abstract class DecisionNode {
+public abstract class TreeNode<T> {
 	
 	/**
 	 * Returns a new Decision Node for a Decision Tree.
@@ -12,8 +12,10 @@ abstract class DecisionNode {
 	 * @return A new complete Decision Node (i.e. no null leaves). 
 	 * @throws IllegalArgumentException If a specified leaf state does not exist.
 	 * @throws NoSuchFieldException If a specified condition parameter does not exist or the condition is malformed.
+	 * @throws IllegalAccessException If the leaf class provided does not have a public default constructor.
+	 * @throws InstantiationException If the leaf class provided does not have a public default constructor.
 	 */
-	static DecisionNode getNode(String str) throws IllegalArgumentException, NoSuchFieldException{
+	public static <T, L extends Leaf<T>> TreeNode<T> getNode(String str, Class<L> leafClass) throws IllegalArgumentException, NoSuchFieldException, InstantiationException, IllegalAccessException{
 		//if the string starts with an if statement, it is a branch, else it is a leaf
 		if(str.startsWith("if") || str.startsWith("IF")){
 			//find end of condition/start of true section
@@ -25,10 +27,12 @@ abstract class DecisionNode {
 			String cond = str.substring(2, firstSplit).trim();
 			String accept = str.substring(firstSplit+1,lastSplit).trim();
 			String reject = str.substring(lastSplit+1).trim();
-			return new ConditionBranch(cond,accept,reject);
+			return new ConditionBranch<T>(cond,accept,reject,leafClass);
 		}else{
 			//return new leaf node of specified state
-			return new Leaf(str);
+			L ret = leafClass.newInstance();
+			ret.setState(str);
+			return ret;
 		}
 	}
 
@@ -36,10 +40,10 @@ abstract class DecisionNode {
 	
 }
 
-class ConditionBranch extends DecisionNode {
+class ConditionBranch<T> extends TreeNode<T> {
 
 	private final Condition cond;
-	private final DecisionNode accept,reject;
+	private final TreeNode<T> accept,reject;
 	
 	/**
 	 * Creates a new two-way conditional branch 
@@ -48,12 +52,14 @@ class ConditionBranch extends DecisionNode {
 	 * @param reject The false branch
 	 * @throws IllegalArgumentException If a specified leaf state does not exist.
 	 * @throws NoSuchFieldException If a specified condition parameter does not exist or the condition is malformed.
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
 	 */
-	ConditionBranch(String condition, String accept, String reject) throws IllegalArgumentException, NoSuchFieldException {
+	ConditionBranch(String condition, String accept, String reject, Class<? extends Leaf<T>> leafClass) throws IllegalArgumentException, NoSuchFieldException, InstantiationException, IllegalAccessException {
 		//parse condition, then parse true and false subtrees just as before
 		cond = Condition.getCondition(condition);
-		this.accept = DecisionNode.getNode(accept);
-		this.reject = DecisionNode.getNode(reject);
+		this.accept = TreeNode.getNode(accept,leafClass);
+		this.reject = TreeNode.getNode(reject,leafClass);
 	}
 	
 	@Override
@@ -62,28 +68,4 @@ class ConditionBranch extends DecisionNode {
 	}
 }
 
-class Leaf extends DecisionNode {
-	
-	private final AIState state;
-	
-	/**
-	 * Creates a new Leaf node with a given state
-	 * @param stateStr A string representation of the state to be used.
-	 * @throws IllegalStateException If the specified state does not exist.
-	 */
-	Leaf(String stateStr) throws IllegalStateException {
-		if(stateStr.startsWith(">")){
-			stateStr = stateStr.substring(1);
-		}
-		state = AIState.getAIState(stateStr);
-		if(state == null){
-			throw new IllegalStateException("No such state (" + stateStr + ")");
-		}
-	}
 
-	@Override
-	public AINextMove evaluate(MovingEntity e) {
-		return state.getStateClass();
-	}
-	
-}

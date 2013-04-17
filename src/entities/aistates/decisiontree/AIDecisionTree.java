@@ -1,5 +1,6 @@
 package entities.aistates.decisiontree;
 
+import conditiontree.TreeNode;
 import entities.Entity;
 import entities.MovingEntity;
 import entities.aistates.AINextMove;
@@ -13,7 +14,7 @@ public class AIDecisionTree {
 	/**
 	 * The root of the Decision Tree.
 	 */
-	private final DecisionNode root;
+	private final TreeNode<AINextMove> root;
 	
 	/**
 	 * Creates a new {@link AIDecisionTree} object. 
@@ -22,13 +23,17 @@ public class AIDecisionTree {
 	public AIDecisionTree(String ai){
 		//remove all whitespace.
 		String conditions = ai.trim().replaceAll("\\s+", "");
-		DecisionNode newRoot = null;
+		TreeNode<AINextMove> newRoot = null;
 		try {
 			//attempt to generate a root node
-			newRoot = DecisionNode.getNode(conditions);
+			newRoot = TreeNode.getNode(conditions,AIStateLeaf.class);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
 		root = newRoot;
