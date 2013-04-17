@@ -1,7 +1,6 @@
 package conditiontree;
 
 import entities.MovingEntity;
-import entities.aistates.AINextMove;
 
 public abstract class TreeNode<T> {
 	
@@ -35,7 +34,7 @@ public abstract class TreeNode<T> {
 		}
 	}
 
-	public abstract AINextMove evaluate(MovingEntity e);
+	public abstract T evaluate(MovingEntity e);
 	
 }
 
@@ -62,7 +61,7 @@ class ConditionBranch<T> extends TreeNode<T> {
 	}
 	
 	@Override
-	public AINextMove evaluate(MovingEntity e){
+	public T evaluate(MovingEntity e){
 		return cond.evaluate(e) ? accept.evaluate(e) : reject.evaluate(e);
 	}
 }
