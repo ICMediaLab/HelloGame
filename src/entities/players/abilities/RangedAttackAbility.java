@@ -9,13 +9,12 @@ import utils.MapLoader;
 import utils.Position;
 import entities.players.Player;
 
-public class RangedAttackAbility extends PlayerAbility {
+public class RangedAttackAbility extends AbstractPlayerAbility {
 	
 	private SoundGroup release;
 	
 	public RangedAttackAbility() {
-		this.name = "Ranged attack";
-		this.description = "Hold RMB and release to shoot";
+		super("Ranged attack","Hold RMB and release to shoot");
 		try {
 			this.release = new SoundGroup("player/arrow/release");
 		} catch (SlickException e) {

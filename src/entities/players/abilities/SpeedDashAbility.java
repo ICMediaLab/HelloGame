@@ -2,11 +2,10 @@ package entities.players.abilities;
 
 import entities.players.Player;
 
-public class SpeedDashAbility extends PlayerAbility {
+public class SpeedDashAbility extends AbstractPlayerAbility {
 	
 	public SpeedDashAbility() {
-		this.name = "Speed dash";
-		this.description = "Press E to move quickly forward";
+		super("Speed dash","Press E to move quickly forward");
 	}
 	
 	public void use(Player p){

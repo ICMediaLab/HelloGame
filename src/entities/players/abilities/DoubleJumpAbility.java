@@ -6,16 +6,15 @@ import sounds.Sounds;
 
 import entities.players.Player;
 
-public class DoubleJumpAbility extends PlayerAbility {
+public class DoubleJumpAbility extends AbstractPlayerAbility {
 	
 	private static final  Sound SOUND_DOUBLE_JUMP = Sounds.loadSound("double_jump.ogg");
 	private boolean hasJumped = false;
 	
-	public DoubleJumpAbility() {
-		this.name = "Double jump";
-		this.description = "Press SPACE twice to double jump";
+	public DoubleJumpAbility(){
+		super("Double jump","Press SPACE twice to double jump");
 	}
-
+	
 	@Override
 	/**
 	 * If the player is not on the ground, then jump

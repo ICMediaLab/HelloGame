@@ -5,13 +5,12 @@ import utils.MapLoader;
 import entities.players.Player;
 import game.config.Config;
 
-public class ForwardTeleportAbility extends PlayerAbility {
+public class ForwardTeleportAbility extends AbstractPlayerAbility {
 	
 	private static float distance = 5f;
 	
 	public ForwardTeleportAbility() {
-		this.name = "Forward teleport";
-		this.description = "Press Q to teleport forward";
+		super("Forward teleport","Press Q to teleport forward");
 	}
 	
     public void use(Player p){

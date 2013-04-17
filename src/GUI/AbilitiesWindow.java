@@ -1,30 +1,24 @@
 package GUI;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
-import entities.players.abilities.AbilityFinder;
-import entities.players.abilities.IPlayerAbility;
+import utils.classfinder.ClassFinder;
 import entities.players.abilities.PlayerAbility;
 
 class AbilitiesWindow extends AbstractWindow {
 	
 	private int numberOfAbilities = 4;
-	private Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
 	private ArrayList<PlayerAbility> abilitiesList = new ArrayList<PlayerAbility>(numberOfAbilities);
 	private int abilitySelected = 0;
 	
 	public AbilitiesWindow(GUI gui) {
 		super(gui);
-		abilitiesList.add((PlayerAbility) abilities.get("rangedattack"));
-		abilitiesList.add((PlayerAbility) abilities.get("doublejump"));
-		abilitiesList.add((PlayerAbility) abilities.get("speeddash"));
-		abilitiesList.add((PlayerAbility) abilities.get("forwardteleport"));
+		abilitiesList.addAll(ClassFinder.getAbilitySet());
 	}
 	
 	@Override

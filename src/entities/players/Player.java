@@ -33,6 +33,7 @@ import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.ImageUtils;
 import utils.MapLoader;
+import utils.classfinder.ClassFinder;
 import utils.interval.one.ColourRange;
 import utils.interval.one.Interval;
 import utils.interval.two.FixedPosition;
@@ -47,8 +48,7 @@ import entities.AbstractEntity;
 import entities.DestructibleEntity;
 import entities.MovingEntity;
 import entities.StaticEntity;
-import entities.players.abilities.AbilityFinder;
-import entities.players.abilities.IPlayerAbility;
+import entities.players.abilities.PlayerAbility;
 
 public class Player extends AbstractEntity {
 	
@@ -58,7 +58,7 @@ public class Player extends AbstractEntity {
 	
 	private final Animation left, right, leftPause, rightPause;
 	private Animation sprite;
-	private final Map<String, IPlayerAbility> abilities = AbilityFinder.initialiseAbilities();
+	private final Map<String, PlayerAbility> abilities = ClassFinder.getAbilityMap();
 	
 	private static final Sound SOUND_JUMP = Sounds.loadSound("jump.ogg");
 	private static final SoundGroup FOOTSTEPS = Sounds.loadSoundGroup("player/footsteps/grass");
@@ -156,7 +156,7 @@ public class Player extends AbstractEntity {
 	{
 		//lookup the key in the allowed abilities
 		//if the key is in the map then ability.use(this)
-		IPlayerAbility tempability = abilities.get(key.toLowerCase());
+		PlayerAbility tempability = abilities.get(key.toLowerCase());
 		if(tempability != null)
 		{
 			tempability.use(this);
