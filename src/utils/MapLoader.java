@@ -1,8 +1,17 @@
 package utils;
 
+import java.io.IOException;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import map.Cell;
 
 import org.newdawn.slick.SlickException;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import entities.players.Player;
 
@@ -13,6 +22,49 @@ public final class MapLoader {
 	private static Cell currentCell;
 	private static int currentX;
 	private static int currentY;
+	
+	/**
+	 * Loads all maps based on a specific map layout file specified.<br />
+	 * Note that this file must be located in the same directory as the map files.
+	 */
+	public static void loadAllMaps(String layoutPath) {
+		try {
+			Document d = XMLDocumentLoader.getXMLDocument(layoutPath);
+			NamedNodeMap dattrs = d.getDocumentElement().getAttributes();
+			setDimensions(
+					Integer.parseInt(dattrs.getNamedItem("width").getNodeValue()),
+					Integer.parseInt(dattrs.getNamedItem("height").getNodeValue())
+				);
+			NodeList nl = d.getElementsByTagName("map");
+			int pos = layoutPath.lastIndexOf('/');
+			String basePath;
+			if(pos >= 0){
+				basePath = layoutPath.substring(0, pos+1);
+			}else{
+				basePath = "";
+			}
+			System.out.println("bp: " + basePath + "\t lp: " + layoutPath);
+			for (int i = nl.getLength()-1; i >= 0; --i) {
+				NamedNodeMap attrs = nl.item(i).getAttributes();
+				try {
+					loadMap(basePath + attrs.getNamedItem("src").getNodeValue(),
+							Integer.parseInt(attrs.getNamedItem("x").getNodeValue()), 
+							Integer.parseInt(attrs.getNamedItem("y").getNodeValue())
+						);
+				} catch (DOMException e) {
+					e.printStackTrace();
+				} catch (SlickException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * Loads a new map from an xml file into an element of the internal
