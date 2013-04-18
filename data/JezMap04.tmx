@@ -47,4 +47,12 @@
    eJztkmEKgCAMRneFqRewdv8zpvB9YEEQtfxRe/AYKmw6JxIEQRB8CWuucEE06JnfkJ/rijX30sECk9M9iuxz9pibinil1pOeVOhBuZGPvWZ/vVDIGTqD5/yDt8iQM9zfzFmz4b6z0EHOXJ5Y/y9swmUHFg==
   </data>
  </layer>
+ <layer name="water_front" width="34" height="20">
+  <properties>
+   <property name="render-index" value="200000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztkFsKwCAMBL1MH2pjq/X+Z+sKK80BrB8lA4Ma1CxxzjAMwzDmstCN7qrWbbWVa7+n34zgphf0MMIEBZ6sZVh5Ft4t3NdBORoBHvw7UM88ib2CylPoV/QMbSbCNbJ3du+8ZlFUBlH5jH/yANCiCvk=
+  </data>
+ </layer>
 </map>

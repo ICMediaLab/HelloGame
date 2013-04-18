@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.TreeSet;
@@ -52,7 +51,6 @@ import utils.Updatable;
 import utils.particles.ParticleEmitter;
 import utils.particles.RainTest;
 import utils.triggers.Trigger;
-import utils.triggers.Triggerable;
 
 
 public class Cell extends TiledMap implements Updatable, Renderable {
@@ -103,8 +101,8 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	}
 	
 	public void initLoad(){
-		resetRenderables();
 		resetEntities();
+		resetRenderables();
 		if(defaultEntities.isEmpty()){
 			setDefaultEntities();
 		}
@@ -118,6 +116,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		destructibleEntitiesToRemove.clear();
 		lights.removeAll(entityLights.values());
 		entityLights.clear();
+		particleEmitters.clear();
 	}
 	
 	private void resetRenderables() {

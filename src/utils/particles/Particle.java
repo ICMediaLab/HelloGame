@@ -9,43 +9,48 @@ import utils.Position;
 
 public abstract class Particle {
 	
-	private static final float NORMAL_ANGULAR_FRICTION = 0.98f;
 	private static final Position NORMAL_GRAVITY = new Position(0f,0.01f);
 	private static final Position NORMAL_FRICTION = new Position(0.99f, 0.99f);
-	
-	private float angFriction = NORMAL_ANGULAR_FRICTION;
-	private Position gravity = NORMAL_GRAVITY;
-	private Position friction = NORMAL_FRICTION;
 	
 	private final Image texture;
 	private final Position position;
 	private final Position velocity;
+	private final Position attractor;
+	private final Position inertia;
 	private final Color colour;
 	
 	private float radius;
 	
-	private float angle;
-	private float angularVelocity;
+	public Particle(Image texture, Position position, Position velocity, Color color, float radius) {
+		this(texture,position,velocity,color,radius,NORMAL_GRAVITY,NORMAL_FRICTION);
+	}
 	
-	public Particle(Image texture, Position position, Position velocity, float angle, float angularVelocity, Color color, float radius) {
-		this.texture = texture;
+	public Particle(Image texture, Position position, Position velocity, Color color, float radius, float drag) {
+		this(texture,position,velocity,color,radius,getAttractor(drag),getInertia(drag));
+	}
+	
+	public Particle(Image texture, Position position, Position velocity, Color color, float radius, Position attractor, Position inertia) {
+		this.attractor = attractor;
 		this.position = position;
 		this.velocity = velocity;
-		this.angle = angle;
-		this.angularVelocity = angularVelocity;
+		this.texture = texture;
+		this.inertia = inertia;
 		this.colour = color;
 		this.radius = radius;
 	}
 	
-	public Particle(Image texture, Position position, Position velocity, Color color, float size) {
-		this(texture,position,velocity,0f,0f,color,size);
+	static Position getInertia(float drag) {
+		return NORMAL_FRICTION.scaledCopy(drag);
+	}
+
+	static Position getAttractor(float drag){
+		return NORMAL_GRAVITY.scaledCopy(drag);
 	}
 	
 	public void update() {
-		velocity.translate(gravity);
-		velocity.scale(friction);
+		velocity.translate(attractor);
+		velocity.scale(inertia);
 		position.translate(velocity);
-		angle += (angularVelocity *= angFriction);
 	}
 	
 	protected float getRadius(){
@@ -57,7 +62,6 @@ public abstract class Particle {
 	}
 	
 	public void render() {
-		texture.setRotation(angle); // rotate
 		texture.draw((position.getX() - 1)*Config.getTileSize(), (position.getY() - 1)*Config.getTileSize(), 
 				radius*Config.getTileSize(), colour); // render
 	}
@@ -79,29 +83,4 @@ public abstract class Particle {
 	public float getdY(){
 		return velocity.getY();
 	}
-
-	float getAngularFriction() {
-		return angFriction;
-	}
-
-	void setAngularFriction(float angularFriction) {
-		angFriction = angularFriction;
-	}
-
-	Position getGravity() {
-		return gravity;
-	}
-
-	void setGravity(Position gravity) {
-		this.gravity = gravity;
-	}
-
-	Position getFriction() {
-		return friction;
-	}
-
-	void setFriction(Position friction) {
-		this.friction = friction;
-	}
-	
 }

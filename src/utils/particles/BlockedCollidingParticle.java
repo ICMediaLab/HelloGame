@@ -12,9 +12,18 @@ public class BlockedCollidingParticle extends Particle {
 	
 	private final Cell c;
 	
-	public BlockedCollidingParticle(Cell cell, Image texture, Position position,
-			Position velocity, Color color, float size) {
+	public BlockedCollidingParticle(Cell cell, Image texture, Position position, Position velocity, Color color, float size) {
 		super(texture, position, velocity, color, size);
+		c = cell;
+	}
+	
+	public BlockedCollidingParticle(Cell cell, Image texture, Position position, Position velocity, Color color, float size, float drag) {
+		super(texture, position, velocity, color, size, drag);
+		c = cell;
+	}
+	
+	public BlockedCollidingParticle(Cell cell, Image texture, Position position, Position velocity, Color color, float size, Position attractor, Position inertia) {
+		super(texture, position, velocity, color, size, attractor, inertia);
 		c = cell;
 	}
 	

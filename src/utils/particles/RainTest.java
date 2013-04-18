@@ -86,9 +86,13 @@ public class RainTest extends ParticleEmitter<BlockedCollidingParticle> implemen
 }
 
 class RainParticleGenerator implements ParticleGenerator<BlockedCollidingParticle> {
-	private static final ColourRange cRange = new ColourRange(0.1f, 0.2f, 0.1f, 0.2f, 0.2f, 0.5f);
-	private static final Interval sizeRange = new Interval(0.005f,0.01f);
-	private static final Image tex;
+	private static final ColourRange COLOUR_RANGE = new ColourRange(0.1f, 0.2f, 0.1f, 0.2f, 0.4f, 0.8f);
+	private static final Interval SIZE_RANGE = new Interval(0.005f,0.01f);
+	private static final Image TEXTURE;
+	
+	private static final float DRAG = 0.93f;
+	private static final Position ATTRACTOR = Particle.getAttractor(DRAG);
+	private static final Position INERTIA = Particle.getInertia(DRAG);
 	
 	static {
 		Image texture = null;
@@ -97,7 +101,7 @@ class RainParticleGenerator implements ParticleGenerator<BlockedCollidingParticl
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
-		tex = texture;
+		TEXTURE = texture;
 	}
 	
 	private final Cell c;
@@ -108,8 +112,6 @@ class RainParticleGenerator implements ParticleGenerator<BlockedCollidingParticl
 	
 	@Override
 	public BlockedCollidingParticle newParticle(Position position, Position velocity) {
-		BlockedCollidingParticle p = new BlockedCollidingParticle(c,tex, position, velocity, cRange.random(), sizeRange.random());
-		p.setFriction(p.getFriction().scaledCopy(0.93f));
-		return p;
+		return new BlockedCollidingParticle(c,TEXTURE, position, velocity, COLOUR_RANGE.random(), SIZE_RANGE.random(), ATTRACTOR, INERTIA);
 	}
 }
