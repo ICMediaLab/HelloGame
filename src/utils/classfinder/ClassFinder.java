@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.AbstractMap.SimpleEntry;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -28,7 +27,7 @@ public final class ClassFinder {
 	private static List<Class<?>> getClasses(String packageName) 
 			throws IOException {
 		ClassLoader cLoader = Thread.currentThread().getContextClassLoader();
-		ArrayList<Class<?>> classes = new ArrayList<Class<?>>();
+		List<Class<?>> classes = new LinkedList<Class<?>>();
 		if(cLoader != null){
 			String path = packageName.replace('.', '/');
 			Enumeration<URL> resources = cLoader.getResources(path);
@@ -38,21 +37,18 @@ public final class ClassFinder {
 				dirs.add(new File(URLDecoder.decode(resource.getFile(),"UTF-8")));
 			}
 			for (File directory : dirs) {
-				classes.addAll(findClasses(directory, packageName));
+				findClasses(directory, packageName, classes);
 			}
 		}
 		return classes;
 	}
 	
-	private static List<Class<?>> findClasses(File dir, String packageName) {
-		List<Class<?>> classes = new LinkedList<Class<?>>();
+	private static List<Class<?>> findClasses(File dir, String packageName, List<Class<?>> classes) {
 		if (dir.exists()) {
 			File[] files = dir.listFiles();
 			for (File file : files) {
-				System.out.println("Found " + file.getName());
 				if (file.isDirectory()) {
-					classes.addAll(findClasses(file, 
-							packageName + "." + file.getName()));
+					findClasses(file,packageName + "." + file.getName(),classes);
 				} else if(file.isFile() && file.getName().endsWith(".class")){
 					try {
 						classes.add(Class.forName(packageName + '.' + 

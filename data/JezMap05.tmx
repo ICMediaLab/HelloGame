@@ -28,7 +28,7 @@
    <property name="render-index" value="-10000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxtltmSqzAMRM0ehgTywk4S/v8rr6nqU+7JnQcVXqSW1JJt3iGEd5Q9yhRlizJHWTX/aP+QfKSDjFFekmt+SmeR/aG1WbJLF7y35hdOH6WK8ozyo/mFlUUptP7Q91qro9yjNNLPNS+1f4vSau+y6Wz8lH5h68QxmA52H/lutd/LP7Gx3lr8mWxv0u3M5indUriNxbGJp17z2rg5DTuXDXr4LY2rVnaF+fwx3u6KuxEecdwVw1u2pfYf0t+kU2u9Fu6qfIcvnhrFnCmGTGvkfzcc/DSaX74W4++hmO6qWSbfhcTjaM1/qZhuEvqP/p5V50m4bxvT3y/jODe8yfKjZxrF0WkNnr0/C/mmRo3xTT0r6fZa43zC6WA2q/FYaHxTLRvxgZ86pJ64sM+QzlUl3Mz89pbXUzWhTyvLoRN3rSQ337NyGlQ/4u8MfzK+Stk9QurHRTiTYva4B+FTo8W4pmad1nOtdYqdXKuQzgM1eobUo8T3COne4b7MjYveuBvlB5vWcm1C6nfOI7WpFUMlncq4mkyH3MaQzgoccAY6wyG/wnhGHylC6gPuMO7NXmv0AvtwtYkTzteoeNeQ3oD9D7l0P19fl8/XeA3pDfJ7kxgW6XCeX7I7Q3rPzpDerPEL/2Vr5DBbfv7OzdKnP28hndfZ8LAjtjWkt9HvH3I9bUyOLxP2Ru0fwuat5l7YhE1u/gbjl1jQJU58bxpTR2IhRriCW+K7MLl3+MeYQ7pjjz9s/H+E3titnuic+u7h//+SMaQ7An3eP+rk/yiTfcEcv/DoO/5jqPliuvikXkdItQabt2CzetBDPodP7ts9/K7xafWhv7xe3guH8UT/TCZwR5/QN/iBh9Nypu6OSY/j/zAuvJ+8X2bDAfMfOZcv+g==
+   eJxtltmSqzAMRM0ehgTywk4S/v8rr6nqU+7JnQcVXrS0WrLNO4TwjrJHmaJsUeYoq+Yf7R+Sj3SQMcpLcs1P6SyyP7Q2S3bp4u+t+eWnj1JFeUb50fzylUUptP7Q91qro9yjNNLPNS+1f4vSau+y6Wz8lH5h6+AYTAe7j2K32u8VH2yst4Y/k+1Nup3ZPKVbym9jODbx1GteGzen+c5lgx5xS+OqlV1hMX+Mt7twN/IHjrswvGVbav8h/U06tdZr+V2V7/DFUyPMmTBkWiP/u/khTqP5FWsx/h7CdFfNMsUuJI6jtfilMN0k9B/9PavOk/y+bUx/v4zj3PxNlh890whHpzV49v4sFJsaNcY39ayk22uN8wmng9msxmOh8U21bMQHceqQeuLyfYZ0rir5zSxub3k9VRP6tLIcOnHXSnKLPSunQfUDf2f+J+OrlN0jpH5c5GcSZsc9yD81WoxratZpPddaJ+zkWoV0HqjRM6QeBd8jpHuH+zI3LnrjblQcbFrLtQmp3zmP1KYWhko6lXE1mQ65jSGdFTjgDHTmh/wK4xl9pAipD7jDuDd7rdEL7MPVJk44X6PwriG9Afsfcul+vr4un6/xGtIb5PcmGBbpcJ5fsjtDes/OkN6s8cv/y9bIYbb8/J2bpU9/3kI6r7P5ww5sa0hvo98/5HramBxfJuyN2j/km7eae2GTb3LzN5i4YEEXnMTeNKaOYAEjXMEt+C6f3Dv8Y8wh3bHHHzb+P0Jv7FZPdE599/D/f8kY0h2BPu8fdfJ/lMm++By//NF3/MdQ88V0iUm9jpBqjW/egs3qQQ/5HD65b/fwu8an1Yf+8np5LxzGE/1TiRP4ps+p82Zx4OG0nKm7+6THiX8YF95P3i/cbZv5/AcmEy/B
   </data>
  </layer>
  <objectgroup name="Door" width="34" height="20">
@@ -57,7 +57,14 @@
    <property name="render-index" value="5000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztk+0KgCAMRfcKTV9A7f2fscJdvCyC/kgf7MBQm47FUZHgD9SnGzD0xp6VouzRpPdfbGyWqzL3v7L0fhPN1X1HLk3s4+3AEXzN9nKFdwU/wZnDVZPxtuAP7wpO2Weh8Pv5XKX6fAbw3VAX2WJxc3Wjd5wohzXXyFQfxN0Igm+zAY/oCiw=
+   eJztlFEKgCAQRPcKqT996nb/M1a4Q8NG4I8o4YNBa3WZGE1k8QfKaANGaFhzkPIlleo/26hWK9L3u5JUv5Hmwb1HLXb0MTvICHn1zuULnxXyWby5s1J57hbyw71CppxnJvn1vK9Qf94D+GwEp2Ta3Dy40WccqYZn7pGoP5jhbOhoA0bLf3mxGMluYk42KwqT
   </data>
  </layer>
+ <objectgroup name="teleporters" width="34" height="20">
+  <object name="05_ts1" type="teleport_send" x="928" y="576" width="64" height="32">
+   <properties>
+    <property name="dest" value="01_tr1"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

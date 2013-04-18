@@ -33,6 +33,7 @@ import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.ImageUtils;
 import utils.MapLoader;
+import utils.Position;
 import utils.classfinder.ClassFinder;
 import utils.interval.one.ColourRange;
 import utils.interval.one.Interval;
@@ -72,11 +73,11 @@ public class Player extends AbstractEntity {
 	private boolean isRight = true;
 	private float rangedCounter = 0;
 	private float walkingCounter = 0;
-
+	
     private Collection<Image> dust = ImageUtils.populate(new ArrayList<Image>(),"data/images/circle.png");
 	
 	private Body body;
-
+	
 	public Player(float x, float y, float width, float height, int maxhealth) {
 		super(x,y, width,height, maxhealth);
 		//Image[] movementRight = null;
@@ -136,11 +137,11 @@ public class Player extends AbstractEntity {
 		
 		body.createFixture(fixtureDef);
 	}
-
+	
 	public Player(float x, float y) {
 		this(x,y,PLAYER_DEFAULT_SIZE.width,PLAYER_DEFAULT_SIZE.height,PLAYER_DEFAULT_MAXHEALTH);
 	}
-
+	
 	@Override
 	public Player clone() {
 		return new Player(getX(), getY(), getWidth(), getHeight(),getMaxHealth());
@@ -152,8 +153,7 @@ public class Player extends AbstractEntity {
 	 * For example, DoubleJumpAbility.java would be referenced to be calling useAbility("DoubleJump").<br />
 	 * The key is not case sensitive.
 	 */
-	public void useAbility(String key)
-	{
+	public void useAbility(String key) {
 		//lookup the key in the allowed abilities
 		//if the key is in the map then ability.use(this)
 		PlayerAbility tempability = abilities.get(key.toLowerCase());
@@ -168,10 +168,10 @@ public class Player extends AbstractEntity {
 		useAbility("doublejump");
 		if (isOnGround()) {
 			super.jump();
-//			Sounds.play(SOUND_JUMP, 1.0f, 0.3f);
+			//Sounds.play(SOUND_JUMP, 1.0f, 0.3f);
 		}
 	}
-
+	
 	/**
 	 * This is the only method that needs to be called to update the player.
 	 * Input is assumed to already have been checked for being pressed
@@ -180,15 +180,15 @@ public class Player extends AbstractEntity {
 	 * @param delta The time in microseconds since the last update.
 	 */
 	@Override
-	  
+	
 	public void update(GameContainer gc) {
 		Input input = gc.getInput();
 		
-        if (isDead()) {
-            //MapLoader.getCurrentCell().removeEntity(this);
-        	takeDamage(-100); // auto-consume-reviving-potion upon the event of death
-            return;
-        }
+		if (isDead()) {
+			//MapLoader.getCurrentCell().removeEntity(this);
+			takeDamage(-100); // auto-consume-reviving-potion upon the event of death
+			return;
+		}
 		if (input.isKeyPressed(Input.KEY_SPACE)) {
 			playerJump();
 			
@@ -333,8 +333,6 @@ public class Player extends AbstractEntity {
 	    }
 	}
 	
-	
-	
 	@Override
 	public void render(GameContainer gc, Graphics g) {
 		//sprite.draw((int)((getX()-1)*Config.getTileSize() - 4), (int)((getY()-1)*Config.getTileSize() - 25), new Color(255,255,255));
@@ -348,7 +346,7 @@ public class Player extends AbstractEntity {
 		// Health bar above player
 		renderHealthBar(-15);
 	}
-
+	
 	@Override
 	public void collide(MovingEntity e) {
 		// TODO Auto-generated method stub
@@ -360,7 +358,7 @@ public class Player extends AbstractEntity {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	public int getLayer() {
 		return PLAYER_DEFAULT_LAYER;
@@ -369,7 +367,7 @@ public class Player extends AbstractEntity {
 	public float getRangedCounter() {
 	    return rangedCounter / 1000;
 	}
-
+	
 	@Override
 	public void collide(DestructibleEntity d) {
 		// TODO Auto-generated method stub

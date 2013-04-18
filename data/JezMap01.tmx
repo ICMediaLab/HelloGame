@@ -101,4 +101,7 @@
    eJxjYBgFo2AUDDXwFIifDbQjkMBjIH5CAzNHKqB23ILiZrClGWqnF0oALP0+HWiHIAFkN8HijdIwo0Y+hYURqeFF6zB+zIA9zGBgINP/YExfQwEAAAHcIB4=
   </data>
  </layer>
+ <objectgroup name="teleporters" width="34" height="20">
+  <object name="01_tr1" type="teleport_recieve" x="32" y="32" width="1024" height="32"/>
+ </objectgroup>
 </map>

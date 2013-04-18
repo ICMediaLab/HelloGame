@@ -12,6 +12,8 @@ import entities.objects.DoorProjectileTrigger;
 import entities.objects.DoorTrigger;
 import entities.objects.JumpPlatform;
 import entities.objects.LeafTest;
+import entities.objects.TeleportReciever;
+import entities.objects.TeleportSender;
 import entities.objects.TextField;
 import entities.players.Player;
 import game.config.Config;
@@ -97,15 +99,13 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	public Cell(String location) throws SlickException {
 		super(location);
 		loadProperties();
+		setDefaultEntities();
 		initLoad();
 	}
 	
 	public void initLoad(){
 		resetEntities();
 		resetRenderables();
-		if(defaultEntities.isEmpty()){
-			setDefaultEntities();
-		}
 		initNewEntities();
 	}
 	private void resetEntities() {
@@ -132,6 +132,8 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		renderables.addAll(staticEntities);
 	}
 	
+	private static Map<String,TeleportReciever> teleportRecievers = new HashMap<String,TeleportReciever>();
+	
 	private void setDefaultEntities() {
 		addLight(new AmbientLight(new Color(0.5f, 0.5f, 1f, 0.4f)));
 		addLight(new PointLight(1020, 0, 5));
@@ -151,7 +153,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		for(ObjectGroup og : objectGroups){
 			for(GroupObject go : og.objects){
 				//add doors and npcs to the back of the queue as they are reliant on other things being parsed and should therefore be done last.
-				if(go.type.equalsIgnoreCase("door") || go.type.equalsIgnoreCase("npc")){
+				if(go.type.equalsIgnoreCase("door") || go.type.equalsIgnoreCase("npc") || go.type.equalsIgnoreCase("teleport_send")){
 					parseQueue.add(new Pair<Integer, GroupObject>(100, go));
 				}else{
 					parseQueue.add(new Pair<Integer, GroupObject>(0, go));
@@ -218,6 +220,13 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 					textFields.put(id, tf);
 				}
 				addStaticEntity(tf);
+			}else if(go.type.equalsIgnoreCase("teleport_recieve")){
+				TeleportReciever tr = new TeleportReciever(this, x, y, width, height);
+				teleportRecievers.put(id,tr);
+				addStaticEntity(tr);
+			}else if(go.type.equalsIgnoreCase("teleport_send")){
+				String dest = go.props.getProperty("dest");
+				addStaticEntity(new TeleportSender(teleportRecievers.get(dest), x, y, width, height));
 			}
 		}
 	}

@@ -99,7 +99,7 @@ public class Door extends StaticRectEntity implements Triggerable {
 	
 	@Override
 	public boolean isSolid() {
-		return true;
+		return false;
 	}
 	
 	@Override

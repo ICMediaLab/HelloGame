@@ -1,6 +1,9 @@
 package utils;
 
+import java.awt.Point;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -17,6 +20,8 @@ import entities.players.Player;
 
 public final class MapLoader {
 	private MapLoader(){} //MapLoader should not be instantiated.
+	
+	private static final Map<Cell,Point> cellPos = new HashMap<Cell,Point>();
 	
 	private static Cell[][] maps;
 	private static Cell currentCell;
@@ -47,10 +52,9 @@ public final class MapLoader {
 			for (int i = nl.getLength()-1; i >= 0; --i) {
 				NamedNodeMap attrs = nl.item(i).getAttributes();
 				try {
-					loadMap(basePath + attrs.getNamedItem("src").getNodeValue(),
-							Integer.parseInt(attrs.getNamedItem("x").getNodeValue()), 
-							Integer.parseInt(attrs.getNamedItem("y").getNodeValue())
-						);
+					int x = Integer.parseInt(attrs.getNamedItem("x").getNodeValue());
+					int y = Integer.parseInt(attrs.getNamedItem("y").getNodeValue());
+					loadMap(basePath + attrs.getNamedItem("src").getNodeValue(), x, y);
 				} catch (DOMException e) {
 					e.printStackTrace();
 				} catch (SlickException e) {
@@ -76,8 +80,9 @@ public final class MapLoader {
 	 * @return 
 	 * @throws SlickException
 	 */
-	public static void loadMap(String location, int x, int y) throws SlickException {
+	private static void loadMap(String location, int x, int y) throws SlickException {
 		maps[y][x] = new Cell(location);
+		cellPos.put(maps[y][x], new Point(x,y));
 	}
 	/**
 	 * Returns any map by it's x and y position. Should ONLY be necessary to warp to 
@@ -101,7 +106,7 @@ public final class MapLoader {
 	}
 	
 	/**
-	 * Setter for the current cell to be rendered and used by the player
+	 * Setter for the current cell to be rendered and used by the player. Overrides the current player if any exists.
 	 * @param player 
 	 * @param x
 	 * @param y
@@ -119,6 +124,27 @@ public final class MapLoader {
 		currentCell.setPlayer(player);
 		currentCell.setVisited();
 		return currentCell;
+	}
+	
+	/**
+	 * Setter for the current cell to be rendered and used by the player.
+	 * @param x
+	 * @param y
+	 * @return The current cell that was just set.
+	 */
+	public static Cell setCurrentCell(int x, int y) {
+		return setCurrentCell(getCurrentCell().getPlayer(), x, y);
+	}
+	
+	/**
+	 * Setter for the current cell based on a known cell reference.
+	 * @param c The cell to be set.
+	 * @return The position of the cell just set.
+	 */
+	public static Point setCurrentCell(Cell c){
+		Point pos = cellPos.get(c);
+		setCurrentCell(pos.x, pos.y);
+		return pos;
 	}
 	
 	/**
@@ -158,5 +184,4 @@ public final class MapLoader {
 	    
 	    return res;
 	}
-	
 }
