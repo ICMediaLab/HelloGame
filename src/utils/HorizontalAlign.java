@@ -20,11 +20,10 @@ public enum HorizontalAlign {
 	}
 	
 	public static HorizontalAlign parseAlignment(String str, HorizontalAlign def){
-		for(HorizontalAlign va : values()){
-			if(va.toString().equalsIgnoreCase(str)){
-				return va;
-			}
+		try{
+			return valueOf(str.toUpperCase());
+		}catch(NullPointerException e){
+			return def;
 		}
-		return def;
 	}
 }

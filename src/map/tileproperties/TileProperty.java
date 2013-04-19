@@ -1,8 +1,6 @@
 package map.tileproperties;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
 
 
 /**
@@ -13,14 +11,6 @@ public enum TileProperty {
 	FRICTIONX(FloatTilePropertyValue.class,float.class,0.6f),
 	FRICTIONY(FloatTilePropertyValue.class,float.class,0.04f),
 	GRAVITY(FloatTilePropertyValue.class,float.class,0.04f);
-	
-	private static final Map<String,TileProperty> map = new HashMap<String,TileProperty>();
-	
-	static {
-		for(TileProperty tp : values()){
-			map.put(tp.toString().toLowerCase(), tp);
-		}
-	}
 	
 	/**
 	 * The default value if the property is not present in the XML file.
@@ -35,12 +25,8 @@ public enum TileProperty {
 		this.def = def;
 	}
 	
-	public String toString(){
-		return super.toString().toLowerCase();
-	}
-	
 	public static TileProperty parseTileProperty(String str){
-		return map.get(str.toLowerCase());
+		return valueOf(str.toUpperCase());
 	}
 
 	/**
