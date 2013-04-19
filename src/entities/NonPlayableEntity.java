@@ -1,8 +1,9 @@
 package entities;
 
+import map.MapLoader;
+
 import org.newdawn.slick.GameContainer;
 
-import utils.MapLoader;
 import entities.aistates.decisiontree.AIDecisionTree;
 
 

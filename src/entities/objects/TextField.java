@@ -3,6 +3,7 @@ package entities.objects;
 import java.util.Properties;
 
 import map.Cell;
+import map.MapLoader;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -11,7 +12,6 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 
 import utils.HorizontalAlign;
-import utils.MapLoader;
 import utils.VerticalAlign;
 import entities.MovingEntity;
 import entities.StaticEntity;

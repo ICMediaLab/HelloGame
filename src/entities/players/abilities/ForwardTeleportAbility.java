@@ -1,7 +1,7 @@
 package entities.players.abilities;
 
+import map.MapLoader;
 import map.tileproperties.TileProperty;
-import utils.MapLoader;
 import entities.players.Player;
 import game.config.Config;
 

@@ -3,6 +3,7 @@ package items;
 import java.util.Set;
 
 import map.Cell;
+import map.MapLoader;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -12,7 +13,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import sounds.SoundGroup;
-import utils.MapLoader;
 import entities.MovingEntity;
 import entities.players.Player;
 import game.config.Config;

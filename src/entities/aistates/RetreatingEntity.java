@@ -1,8 +1,8 @@
 package entities.aistates;
 
 import map.Cell;
+import map.MapLoader;
 import map.tileproperties.TileProperty;
-import utils.MapLoader;
 import entities.AbstractEntity;
 import entities.NonPlayableEntity;
 

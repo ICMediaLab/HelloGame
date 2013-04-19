@@ -1,7 +1,7 @@
 package entities;
 
 import map.Cell;
-import utils.MapLoader;
+import map.MapLoader;
 
 public abstract class VeryAbstractEntity extends VeryAbstractStaticEntity implements MovingEntity, Cloneable {
 	

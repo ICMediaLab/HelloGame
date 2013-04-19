@@ -1,11 +1,12 @@
 package entities.players.abilities;
 
+import map.MapLoader;
+
 import org.newdawn.slick.SlickException;
 
 import game.MouseCapture;
 import items.projectiles.Projectile;
 import sounds.SoundGroup;
-import utils.MapLoader;
 import utils.Position;
 import entities.players.Player;
 

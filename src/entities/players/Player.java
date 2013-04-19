@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Random;
 
 import map.Cell;
+import map.MapLoader;
 
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
@@ -32,7 +33,6 @@ import org.newdawn.slick.geom.Rectangle;
 import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.ImageUtils;
-import utils.MapLoader;
 import utils.Position;
 import utils.classfinder.ClassFinder;
 import utils.interval.one.ColourRange;

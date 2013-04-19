@@ -1,9 +1,10 @@
 package entities.objects;
 
+import map.MapLoader;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import utils.MapLoader;
 
 import entities.MovingEntity;
 import entities.StaticRectEntity;

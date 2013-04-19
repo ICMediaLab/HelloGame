@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import map.Cell;
+import map.MapLoader;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -14,7 +15,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import utils.AnimationContainer;
-import utils.MapLoader;
 
 import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
 

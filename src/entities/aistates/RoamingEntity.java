@@ -1,7 +1,7 @@
 package entities.aistates;
 
+import map.MapLoader;
 import map.tileproperties.TileProperty;
-import utils.MapLoader;
 import entities.NonPlayableEntity;
 
 public class RoamingEntity implements AINextMove {

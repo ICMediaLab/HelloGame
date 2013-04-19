@@ -1,11 +1,11 @@
 package entities.objects;
 
 import map.Cell;
+import map.MapLoader;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-import utils.MapLoader;
 import utils.interval.one.Interval;
 import entities.MovingEntity;
 import entities.StaticRectEntity;

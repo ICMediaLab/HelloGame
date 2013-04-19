@@ -3,7 +3,8 @@ package conditiontree;
 import java.util.HashMap;
 import java.util.Map;
 
-import utils.MapLoader;
+import map.MapLoader;
+
 import utils.Position;
 import entities.MovingEntity;
 import entities.players.Player;

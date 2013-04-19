@@ -4,17 +4,6 @@ import entities.DestructibleEntity;
 import entities.Entity;
 import entities.MovingEntity;
 import entities.StaticEntity;
-import entities.enemies.Enemy;
-import entities.npcs.NPC;
-import entities.objects.Cage;
-import entities.objects.Door;
-import entities.objects.DoorProjectileTrigger;
-import entities.objects.DoorTrigger;
-import entities.objects.JumpPlatform;
-import entities.objects.LeafTest;
-import entities.objects.TeleportReciever;
-import entities.objects.TeleportSender;
-import entities.objects.TextField;
 import entities.players.Player;
 import game.config.Config;
 
@@ -23,7 +12,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -46,13 +34,10 @@ import org.newdawn.slick.tiled.ObjectGroup;
 import org.newdawn.slick.tiled.TiledMap;
 
 import utils.LayerRenderable;
-import utils.MapLoader;
-import utils.Pair;
 import utils.Renderable;
 import utils.Updatable;
 import utils.particles.ParticleEmitter;
 import utils.particles.RainTest;
-import utils.triggers.Trigger;
 
 
 public class Cell extends TiledMap implements Updatable, Renderable {
@@ -100,7 +85,6 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		super(location);
 		loadProperties();
 		setDefaultEntities();
-		initLoad();
 	}
 	
 	public void initLoad(){
@@ -132,101 +116,14 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		renderables.addAll(staticEntities);
 	}
 	
-	private static Map<String,TeleportReciever> teleportRecievers = new HashMap<String,TeleportReciever>();
-	
 	private void setDefaultEntities() {
 		addLight(new AmbientLight(new Color(0.5f, 0.5f, 1f, 0.4f)));
 		addLight(new PointLight(1020, 0, 5));
 		addLight(new PointLight(0, 0, 5));
 		
-		Map<String,Trigger> triggers = new HashMap<String,Trigger>();
-		Map<String,TextField<?>> textFields = new HashMap<String,TextField<?>>();
-		
-		PriorityQueue<Pair<Integer,GroupObject>> parseQueue = new PriorityQueue<Pair<Integer,GroupObject>>(11,new Comparator<Pair<Integer,GroupObject>>() {
-			@Override
-			public int compare(Pair<Integer, GroupObject> o1,
-					Pair<Integer, GroupObject> o2) {
-				return o1.getFirst().compareTo(o2.getFirst());
-			}
-		});
-		
 		for(ObjectGroup og : objectGroups){
 			for(GroupObject go : og.objects){
-				//add doors and npcs to the back of the queue as they are reliant on other things being parsed and should therefore be done last.
-				if(go.type.equalsIgnoreCase("door") || go.type.equalsIgnoreCase("npc") || go.type.equalsIgnoreCase("teleport_send")){
-					parseQueue.add(new Pair<Integer, GroupObject>(100, go));
-				}else{
-					parseQueue.add(new Pair<Integer, GroupObject>(0, go));
-				}
-			}
-		}
-		while(!parseQueue.isEmpty()){
-			GroupObject go = parseQueue.poll().getLast();
-			String id = go.name;
-			int x = go.x / Config.getTileSize();
-			int y = go.y / Config.getTileSize();
-			int width  = go.width  / Config.getTileSize();
-			int height = go.height / Config.getTileSize();
-			String subtype = go.props == null ? null : go.props.getProperty("type");
-			
-			if(id == null || id.isEmpty()){
-				System.out.println("Warning: " + go.type + " object at " + x + "," + y + " found with no id.");
-			}
-			
-			if(go.type.equalsIgnoreCase("enemy")){
-				defaultEntities.add(Enemy.getNew(this, subtype, x,y));
-			}else if(go.type.equalsIgnoreCase("npc")){
-				NPC npc = NPC.getNew(this, subtype, x,y);
-				String tfstr = go.props.getProperty("text_id");
-				if(tfstr != null){
-					TextField<?> tf = textFields.get(tfstr);
-					if(tf != null){
-						npc.setTextField(tf);
-					}
-				}
-				defaultEntities.add(npc);
-			}else if(go.type.equalsIgnoreCase("door")){
-				Door d = new Door(this,x,y);
-				String ts = go.props.getProperty("triggers");
-				if(ts != null){
-					for(String tid : ts.split("\\s+")) {
-						Trigger trig = triggers.get(tid);
-						trig.addTriggerable(d);
-						d.addTrigger(trig);
-					}
-				}
-				addStaticEntity(d);
-			}else if(go.type.equalsIgnoreCase("doorTrigger")){
-				DoorTrigger dt = new DoorTrigger(x,y);
-				if(id != null){
-					triggers.put(id, dt);
-				}
-				addStaticEntity(dt);
-			}else if(go.type.equalsIgnoreCase("doorProjectileTrigger")){
-				DoorProjectileTrigger dpt = new DoorProjectileTrigger(x,y);
-				if(id != null){
-					triggers.put(id, dpt);
-				}
-				addStaticEntity(dpt);
-			}else if(go.type.equalsIgnoreCase("leafTest")){
-				addStaticEntity(new LeafTest(x,y));
-			}else if(go.type.equalsIgnoreCase("jumpPlatform")){
-				addStaticEntity(new JumpPlatform(x,y,width));
-			}else if(go.type.equalsIgnoreCase("cage")){
-				defaultDestructibleEntities.add(new Cage(x,y,width,height));
-			}else if(go.type.equalsIgnoreCase("textField")){
-				TextField<?> tf = TextField.newTextField(x,y,width,height,go.props);
-				if(id != null){
-					textFields.put(id, tf);
-				}
-				addStaticEntity(tf);
-			}else if(go.type.equalsIgnoreCase("teleport_recieve")){
-				TeleportReciever tr = new TeleportReciever(this, x, y, width, height);
-				teleportRecievers.put(id,tr);
-				addStaticEntity(tr);
-			}else if(go.type.equalsIgnoreCase("teleport_send")){
-				String dest = go.props.getProperty("dest");
-				addStaticEntity(new TeleportSender(teleportRecievers.get(dest), x, y, width, height));
+				CellObjectParser.getInst().addParseObject(this, go);
 			}
 		}
 	}
@@ -276,17 +173,25 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		return layers.get(index);
 	}
 	
+	void addDefaultMovingEntity(MovingEntity newEntity){
+		defaultEntities.add(newEntity);
+	}
+	
+	void addDefaultDestructibleEntity(DestructibleEntity newEntity){
+		defaultDestructibleEntities.add(newEntity);
+	}
+	
 	public void addMovingEntity(MovingEntity newEntity) {
 		entitiesToAdd.add(newEntity);
 		renderables.add(newEntity);
 	}
 	
-	private void addDestructibleEntity(DestructibleEntity newEntity) {
+	void addDestructibleEntity(DestructibleEntity newEntity) {
 		destructibleEntities.add(newEntity);
 		renderables.add(newEntity);
 	}
 	
-	private void addStaticEntity(StaticEntity<?> newEntity) {
+	void addStaticEntity(StaticEntity<?> newEntity) {
 		staticEntities.add(newEntity);
 		renderables.add(newEntity);
 	}

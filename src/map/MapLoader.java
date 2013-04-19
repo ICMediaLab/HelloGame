@@ -1,4 +1,4 @@
-package utils;
+package map;
 
 import java.awt.Point;
 import java.io.IOException;
@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import map.Cell;
 
 import org.newdawn.slick.SlickException;
 import org.w3c.dom.DOMException;
@@ -15,6 +14,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import utils.XMLDocumentLoader;
 
 import entities.players.Player;
 
@@ -48,7 +49,6 @@ public final class MapLoader {
 			}else{
 				basePath = "";
 			}
-			System.out.println("bp: " + basePath + "\t lp: " + layoutPath);
 			for (int i = nl.getLength()-1; i >= 0; --i) {
 				NamedNodeMap attrs = nl.item(i).getAttributes();
 				try {
@@ -68,6 +68,7 @@ public final class MapLoader {
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
 		}
+		CellObjectParser.getInst().parse();
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 package items.projectiles;
 
 import map.Cell;
+import map.MapLoader;
 import map.Tile;
 import map.tileproperties.TileProperty;
 
@@ -14,7 +15,6 @@ import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 
-import utils.MapLoader;
 import utils.Position;
 import entities.DestructibleEntity;
 import entities.MovingEntity;

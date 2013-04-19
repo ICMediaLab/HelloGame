@@ -1,6 +1,7 @@
 package game;
 
 import map.Cell;
+import map.MapLoader;
 import notify.Notification;
 
 import org.jbox2d.common.Vec2;
@@ -13,7 +14,6 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
 import sounds.Sounds;
-import utils.MapLoader;
 import utils.npeloader.EnemyLoader;
 import utils.npeloader.NPCLoader;
 import GUI.GUI;
