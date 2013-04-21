@@ -1,8 +1,11 @@
 package utils;
 
 import java.awt.Point;
+import java.io.Serializable;
 
-public class Position implements Cloneable {
+public class Position implements Cloneable, Serializable {
+	
+	private static final long serialVersionUID = -9129036695134400854L;
 	
 	private float x,y;
 

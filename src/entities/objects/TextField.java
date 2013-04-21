@@ -18,7 +18,9 @@ import entities.StaticEntity;
 import entities.players.Player;
 
 public class TextField<S extends Shape> extends StaticEntity<S> {
-
+	
+	private static final long serialVersionUID = 6409321640046898404L;
+	
 	private static final boolean TEXTFIELD_BOUNDS_DEBUG = false;
 	
 	private static final int TEXTFIELD_DEFAULT_LAYER = 10000;

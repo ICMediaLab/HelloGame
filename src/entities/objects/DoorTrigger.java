@@ -2,6 +2,8 @@ package entities.objects;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -21,27 +23,41 @@ import game.config.Config;
 
 public class DoorTrigger extends StaticRectEntity implements Trigger {
 	
+	private static final long serialVersionUID = 5836692484460309893L;
+	
 	private static final int DOOR_TRIGGER_DEFAULT_LAYER = -200;
 	
 	private final Set<Triggerable> triggerables = new HashSet<Triggerable>();
 	
-	private final Animation s;
+	private transient final Animation s;
 	
 	public DoorTrigger(int x, int y){
 		super(x,y,1,1);
-		{
-			BufferedImage i = new BufferedImage(Config.getTileSize(), Config.getTileSize(), BufferedImage.TYPE_INT_ARGB);
-			java.awt.Graphics g = i.createGraphics();
-			g.setColor(java.awt.Color.RED);
-			g.fillRect(0, 0, Config.getTileSize(), Config.getTileSize());
-			Texture t = null;
-			try {
-				t = BufferedImageUtil.getTexture("doorimage", i);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			s = new Animation(new Image[]{ new Image(t) }, 1);
+		s = getTriggerAnimation();
+	}
+	
+	/**
+	 * Serialisation loading method for {@link DoorTrigger}
+	 */
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		in.defaultReadObject();
+		Field s = getClass().getDeclaredField("s");
+		s.setAccessible(true);
+		s.set(this, getTriggerAnimation());
+	}
+	
+	private Animation getTriggerAnimation(){
+		BufferedImage i = new BufferedImage(Config.getTileSize(), Config.getTileSize(), BufferedImage.TYPE_INT_ARGB);
+		java.awt.Graphics g = i.createGraphics();
+		g.setColor(java.awt.Color.RED);
+		g.fillRect(0, 0, Config.getTileSize(), Config.getTileSize());
+		Texture t = null;
+		try {
+			t = BufferedImageUtil.getTexture("doorimage", i);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+		return new Animation(new Image[]{ new Image(t) }, 1);
 	}
 	
 	@Override

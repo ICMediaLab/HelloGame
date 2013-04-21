@@ -2,6 +2,8 @@ package entities.objects;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,10 +26,12 @@ import game.config.Config;
 
 public class Door extends StaticRectEntity implements Triggerable {
 	
+	private static final long serialVersionUID = 643145709033601099L;
+	
 	private static final int DOOR_DEFAULT_LAYER = 100;
 	
 	private final Cell cell;
-	private final Animation openSprite, closedSprite;
+	private transient final Animation openSprite, closedSprite;
 	
 	private final Set<Trigger> triggered = new HashSet<Trigger>(), untriggered = new HashSet<Trigger>();
 	
@@ -35,34 +39,51 @@ public class Door extends StaticRectEntity implements Triggerable {
 		super(x,y,1f,1f);
 		this.cell = cell;
 		closeDoor();
-		{
-			BufferedImage i = new BufferedImage(Config.getTileSize(), Config.getTileSize(), BufferedImage.TYPE_INT_ARGB);
-			java.awt.Graphics g = i.createGraphics();
-			g.setColor(java.awt.Color.BLACK);
-			g.fillRect(0, 0, Config.getTileSize(), Config.getTileSize());
-			Texture t = null;
-			try {
-				t = BufferedImageUtil.getTexture("doorimage", i);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			closedSprite = new Animation(new Image[]{ new Image(t) }, 1);
-		}
-		{
-			BufferedImage i = new BufferedImage(Config.getTileSize(), Config.getTileSize(), BufferedImage.TYPE_INT_ARGB);
-			java.awt.Graphics g = i.createGraphics();
-			g.setColor(java.awt.Color.GREEN);
-			g.fillRect(0, 0, Config.getTileSize(), Config.getTileSize());
-			Texture t = null;
-			try {
-				t = BufferedImageUtil.getTexture("doorimage", i);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			openSprite = new Animation(new Image[]{ new Image(t) }, 1);
-		}
+		closedSprite = getClosedAnimation();
+		openSprite = getOpenAnimation();
 	}
-
+	
+	/**
+	 * Serialisation loading method for {@link Door}
+	 */
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException, SecurityException, NoSuchFieldException {
+		in.defaultReadObject();
+		Field open = getClass().getDeclaredField("openSprite");
+		Field closed = getClass().getDeclaredField("closedSprite");
+		open.setAccessible(true);
+		closed.setAccessible(true);
+		open.set(this, getOpenAnimation());
+		closed.set(this, getClosedAnimation());
+	}
+	
+	private Animation getClosedAnimation(){
+		BufferedImage i = new BufferedImage(Config.getTileSize(), Config.getTileSize(), BufferedImage.TYPE_INT_ARGB);
+		java.awt.Graphics g = i.createGraphics();
+		g.setColor(java.awt.Color.BLACK);
+		g.fillRect(0, 0, Config.getTileSize(), Config.getTileSize());
+		Texture t = null;
+		try {
+			t = BufferedImageUtil.getTexture("doorimage", i);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new Animation(new Image[]{ new Image(t) }, 1);
+	}
+	
+	private Animation getOpenAnimation(){
+		BufferedImage i = new BufferedImage(Config.getTileSize(), Config.getTileSize(), BufferedImage.TYPE_INT_ARGB);
+		java.awt.Graphics g = i.createGraphics();
+		g.setColor(java.awt.Color.GREEN);
+		g.fillRect(0, 0, Config.getTileSize(), Config.getTileSize());
+		Texture t = null;
+		try {
+			t = BufferedImageUtil.getTexture("doorimage", i);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return new Animation(new Image[]{ new Image(t) }, 1);
+	}
+	
 	@Override
 	public void render(GameContainer gc, Graphics g) {
 		if(!cell.getTile((int) getCentreX(),(int) getCentreY()).lookup(TileProperty.BLOCKED).getBoolean()){
@@ -71,7 +92,7 @@ public class Door extends StaticRectEntity implements Triggerable {
 			closedSprite.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());
 		}
 	}
-
+	
 	@Override
 	public void update(GameContainer gc) {
 		if(untriggered.isEmpty()){
@@ -106,26 +127,26 @@ public class Door extends StaticRectEntity implements Triggerable {
 	public void addTrigger(Trigger t) {
 		untriggered.add(t);
 	}
-
+	
 	@Override
 	public void removeTrigger(Trigger t) {
 		triggered.remove(t);
 		untriggered.remove(t);
 	}
-
+	
 	@Override
 	public void clearTriggers() {
 		triggered.clear();
 		untriggered.clear();
 	}
-
+	
 	@Override
 	public void triggered(Trigger t) {
 		if(untriggered.remove(t)){
 			triggered.add(t);
 		}
 	}
-
+	
 	@Override
 	public void untriggered(Trigger t) {
 		//do nothing as door only requires one triggering of each trigger to open

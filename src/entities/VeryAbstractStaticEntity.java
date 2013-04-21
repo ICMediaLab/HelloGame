@@ -9,7 +9,9 @@ import utils.AnimationContainer;
 import utils.Position;
 
 public abstract class VeryAbstractStaticEntity implements Entity {
-
+	
+	private static final long serialVersionUID = 2023974827399821020L;
+	
 	@Override
 	public final boolean intersects(Entity e2) {
 		return intersects(e2.getHitbox());

@@ -1,5 +1,7 @@
 package entities.aistates.decisiontree;
 
+import java.io.Serializable;
+
 import conditiontree.TreeNode;
 import entities.Entity;
 import entities.MovingEntity;
@@ -9,8 +11,10 @@ import entities.aistates.AINextMove;
  * A class holding a series of conditionals and AI states to allow
  * for entities to hold multiple conditioned procedures for AI development. 
  */
-public class AIDecisionTree {
-
+public class AIDecisionTree implements Serializable {
+	
+	private static final long serialVersionUID = 8003795206013869992L;
+	
 	/**
 	 * The root of the Decision Tree.
 	 */

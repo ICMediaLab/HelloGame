@@ -13,6 +13,8 @@ import entities.players.Player;
 
 public class TeleportReciever extends StaticRectEntity {
 	
+	private static final long serialVersionUID = -9119450080661765828L;
+	
 	private final Cell cell;
 	
 	public TeleportReciever(Cell c, float x, float y, float width, float height) {

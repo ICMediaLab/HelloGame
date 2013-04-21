@@ -7,6 +7,8 @@ import game.config.Config;
 
 public class ForwardTeleportAbility extends AbstractPlayerAbility {
 	
+	private static final long serialVersionUID = -2849728958993999720L;
+	
 	private static float distance = 5f;
 	
 	public ForwardTeleportAbility() {

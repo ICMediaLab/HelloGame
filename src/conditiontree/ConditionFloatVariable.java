@@ -1,5 +1,6 @@
 package conditiontree;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,7 +25,9 @@ interface ConditionFloatVariable {
 /**
  * An abstract class to hold static methods and implementations of classes
  */
-abstract class ConditionFloatVariables {
+abstract class ConditionFloatVariables implements Serializable {
+	
+	private static final long serialVersionUID = 4165494419721824512L;
 	
 	/**
 	 * Returns the conditional variable represented by the string specified.

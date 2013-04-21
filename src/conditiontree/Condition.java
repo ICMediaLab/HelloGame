@@ -1,12 +1,15 @@
 package conditiontree;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import entities.MovingEntity;
 
-abstract class Condition {
+abstract class Condition implements Serializable {
 	
+	private static final long serialVersionUID = 1039835617677359706L;
+
 	abstract boolean evaluate(MovingEntity e);
 
 	/**
@@ -52,15 +55,17 @@ abstract class Condition {
 	 */
 	private static class DisjunctiveConditions extends Condition {
 		
+		private static final long serialVersionUID = 3929631799314822039L;
+		
 		private final Condition[] conditions;
-	
+		
 		DisjunctiveConditions(String[] conditionStrs) throws IllegalArgumentException, NoSuchFieldException {
 			conditions = new Condition[conditionStrs.length];
 			for(int i=0;i<conditionStrs.length;i++){
 				conditions[i] = Condition.parseFromConjuncts(conditionStrs[i]);
 			}
 		}
-	
+		
 		@Override
 		boolean evaluate(MovingEntity e) {
 			for(Condition c : conditions){
@@ -77,15 +82,17 @@ abstract class Condition {
 	 */
 	private static class ConjunctiveConditions extends Condition {
 		
+		private static final long serialVersionUID = 8138296072122100959L;
+		
 		private final Condition[] conditions;
-	
+		
 		ConjunctiveConditions(String[] conditionStrs) throws IllegalArgumentException, NoSuchFieldException {
 			conditions = new Condition[conditionStrs.length];
 			for(int i=0;i<conditionStrs.length;i++){
 				conditions[i] = Condition.parseFromCondition(conditionStrs[i]);
 			}
 		}
-	
+		
 		@Override
 		boolean evaluate(MovingEntity e) {
 			for(Condition c : conditions){
@@ -102,6 +109,8 @@ abstract class Condition {
 	 */
 	private static class ThreePartCondition extends Condition {
 		
+		private static final long serialVersionUID = 3530120957389727516L;
+		
 		private static final Map<String,Integer> conditions = new HashMap<String,Integer>();
 		
 		static {
@@ -112,7 +121,7 @@ abstract class Condition {
 		
 		private final ConditionFloatVariable lhs,rhs;
 		private final int trueIfCompareTo;
-	
+		
 		/**
 		 * Create a new three-part condition.
 		 * @param parts The parts of the conditional in order.
@@ -140,6 +149,8 @@ abstract class Condition {
 	 * A class for holding true/false or boolean-evaluating variables
 	 */
 	private static class SinglePartCondition extends Condition {
+		
+		private static final long serialVersionUID = 6355461521473160107L;
 		
 		private final ConditionBooleanVariable value;
 	

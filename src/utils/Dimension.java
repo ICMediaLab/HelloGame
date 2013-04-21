@@ -1,7 +1,11 @@
 package utils;
 
+import java.io.Serializable;
 
-public class Dimension {
+
+public class Dimension implements Serializable {
+	
+	private static final long serialVersionUID = 2660123525298222050L;
 	
 	private float width,height;
 	

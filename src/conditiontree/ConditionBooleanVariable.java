@@ -1,5 +1,6 @@
 package conditiontree;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ import entities.players.Player;
 /**
  * An abstract interface for boolean variables to express
  */
-interface ConditionBooleanVariable {
+interface ConditionBooleanVariable extends Serializable {
 	
 	/**
 	 * Returns the evaluation of this variable with respect to the entity provided.
@@ -85,6 +86,8 @@ abstract class ConditionBooleanVariables {
 	 */
 	private static class ConstantBooleanValue implements ConditionBooleanVariable {
 	
+		private static final long serialVersionUID = -8428540330974511716L;
+		
 		private final boolean value;
 		
 		public ConstantBooleanValue(String variable) {

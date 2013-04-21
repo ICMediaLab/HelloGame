@@ -1,8 +1,12 @@
 package conditiontree;
 
+import java.io.Serializable;
+
 import entities.MovingEntity;
 
-public abstract class TreeNode<T> {
+public abstract class TreeNode<T> implements Serializable {
+	
+	private static final long serialVersionUID = -2458976505499807085L;
 	
 	/**
 	 * Returns a new Decision Node for a Decision Tree.
@@ -38,7 +42,9 @@ public abstract class TreeNode<T> {
 	
 	
 	private static class ConditionBranch<T> extends TreeNode<T> {
-	
+		
+		private static final long serialVersionUID = -8576298549298670736L;
+		
 		private final Condition cond;
 		private final TreeNode<T> accept,reject;
 		

@@ -15,6 +15,8 @@ import game.config.Config;
 
 public class Cage extends StaticRectEntity implements DestructibleEntity {
 	
+	private static final long serialVersionUID = -5316305021169945776L;
+	
 	private final int maxhealth = 100;
 	private int health = maxhealth;
 	

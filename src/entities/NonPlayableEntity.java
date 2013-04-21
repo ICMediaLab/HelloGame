@@ -9,6 +9,8 @@ import entities.aistates.decisiontree.AIDecisionTree;
 
 public abstract class NonPlayableEntity extends AbstractEntity {
 	
+	private static final long serialVersionUID = -3639591687025311967L;
+
 	protected static final String DEFAULT_AI_STRING = ">idle";
 	
 	private final AIDecisionTree aitree;

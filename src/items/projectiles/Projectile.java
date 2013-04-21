@@ -1,5 +1,9 @@
 package items.projectiles;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.lang.reflect.Field;
+
 import map.Cell;
 import map.MapLoader;
 import map.Tile;
@@ -20,43 +24,60 @@ import entities.DestructibleEntity;
 import entities.MovingEntity;
 import entities.StaticEntity;
 import entities.VeryAbstractEntity;
+import entities.objects.LeafTest;
 import game.config.Config;
 
 public class Projectile extends VeryAbstractEntity {
 	
+	private static final long serialVersionUID = -1419893211263321019L;
+	
 	private static final int PROJECTILE_DEFAULT_LAYER = -500;
+	
+	private transient final Image baseImage;
+	private transient Animation sprite;
 	
 	private static final float NORMAL_SPEED = 0.5f;
 	private static final float MAX_SPEED = 0.5f;
 	
-	private Animation moving;
-	private Animation sprite;
 	private final Position dxdy;
 	private final int damage;
 	private double angle;
 	private Shape hitbox;
 	
 	public Projectile(Position centre, int damage, double angle, float speed){
-		Image[] movementForward = null;
-		float width = 0f,height = 0f;
-		try {
-			Image projImage = new Image("data/images/projectile.png");
-			width  = (float) projImage.getWidth()  / Config.getTileSize();
-			height = (float) projImage.getHeight() / Config.getTileSize();
-			projImage.rotate((float)(angle * 180/Math.PI));
-			movementForward = new Image[]{projImage};
-		} catch (SlickException e) {
-			//do shit all
-		}
-		moving = new Animation(movementForward, 200, false);
-		sprite=moving;
+		baseImage = getBaseImage();
+		updateSprite();
 		
 		this.angle = angle;
 		this.damage = damage;
+		
+		float width  = (float) baseImage.getWidth()  / Config.getTileSize();
+		float height = (float) baseImage.getHeight() / Config.getTileSize();
+		
 		this.hitbox = new Rectangle(centre.getX()-width/2, centre.getY()-height/2, width, height).transform(Transform.createRotateTransform((float) angle,centre.getX(),centre.getY()));
 		this.dxdy = new Position((float)Math.cos(angle),(float)Math.sin(angle));
 		this.dxdy.scale(Math.min(NORMAL_SPEED * speed, MAX_SPEED));
 		
+	}
+	
+	/**
+	 * Serialisation loading method for {@link LeafTest}
+	 */
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		in.defaultReadObject();
+		Field bi = getClass().getDeclaredField("baseImage"); 
+		bi.setAccessible(true);
+		bi.set(this, getBaseImage());
+		updateSprite();
+	}
+	
+	private Image getBaseImage(){
+		try {
+			return new Image("data/images/projectile.png");
+		} catch (SlickException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public Projectile(float x, float y, int damage, double angle, float speed){
@@ -125,7 +146,7 @@ public class Projectile extends VeryAbstractEntity {
 	@Override
 	public void frameMove() {
 		hitbox = hitbox.transform(Transform.createTranslateTransform(dxdy.getX(), dxdy.getY()));
-		sprite.update(Config.DELTA);
+		//sprite.update(Config.DELTA); useless as the image is being reloaded each time anyway
 		{
 			int cX = (int) getCentreX(), cY = Math.max(1, (int) getCentreY());
 			if (cX < 0) {
@@ -143,19 +164,14 @@ public class Projectile extends VeryAbstractEntity {
 		hitbox = hitbox.transform(Transform.createRotateTransform((float) (angle - lastangle),hitbox.getCenterX(),hitbox.getCenterY()));
 		
 		// update animation (copied and pasted from above)
-		// there's definitely a better way of doing this...but not at 1am... - G //TODO
-		Image[] movementForward = null;
-		try {
-			Image projImage = new Image("data/images/projectile.png");
-			projImage.rotate((float)(angle * 180/Math.PI));
-			movementForward = new Image[]{projImage};
-		} catch (SlickException e) {
-			//do shit all
-		}
-		moving = new Animation(movementForward, 200, false);
-		sprite=moving;
+		updateSprite();
 	}
-
+	
+	private void updateSprite(){
+		baseImage.rotate((float)(angle * 180/Math.PI));
+		sprite = new Animation(new Image[]{baseImage}, 200, false);
+	}
+	
 	@Override
 	public boolean isOnGround() {
 		return false;

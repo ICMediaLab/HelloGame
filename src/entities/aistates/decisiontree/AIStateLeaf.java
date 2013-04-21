@@ -7,6 +7,8 @@ import entities.aistates.AIState;
 
 public class AIStateLeaf extends Leaf<AINextMove> {
 	
+	private static final long serialVersionUID = -8101584764687163407L;
+	
 	private AIState state;
 	
 	/**
