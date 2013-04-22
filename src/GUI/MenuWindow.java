@@ -10,6 +10,8 @@ import utils.mouse.MouseContainer;
 
 class MenuWindow extends AbstractWindow {
 	
+	private static final long serialVersionUID = -4965718012178473738L;
+	
 	private final Button res;
 	private final Button opt;
 	private final Button exit;
@@ -34,7 +36,6 @@ class MenuWindow extends AbstractWindow {
 		float x = getX(), y = getY(), width = getWidth(), height = getHeight();
 		g.setColor(new Color(0.5f, 0.5f, 0.5f, 0.8f));
 		g.fillRoundRect(x, y, width, height, 5);
-		
 		res.render(g);
 		opt.render(g);
 		exit.render(g);

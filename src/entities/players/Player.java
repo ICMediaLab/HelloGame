@@ -1,6 +1,5 @@
 package entities.players;
 
-import game.GameplayState;
 import game.config.Config;
 import items.Sword;
 import items.Weapon;
@@ -15,8 +14,6 @@ import map.Cell;
 import map.MapLoader;
 
 import org.jbox2d.collision.shapes.CircleShape;
-import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
@@ -33,7 +30,6 @@ import org.newdawn.slick.geom.Rectangle;
 import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.ImageUtils;
-import utils.Position;
 import utils.classfinder.ClassFinder;
 import utils.interval.one.ColourRange;
 import utils.interval.one.Interval;
@@ -74,9 +70,7 @@ public class Player extends AbstractEntity {
 	private float rangedCounter = 0;
 	private float walkingCounter = 0;
 	
-    private Collection<Image> dust = ImageUtils.populate(new ArrayList<Image>(),"data/images/circle.png");
-	
-	private Body body;
+	private Collection<Image> dust = ImageUtils.populate(new ArrayList<Image>(),"data/images/circle.png");
 	
 	public Player(float x, float y, float width, float height, int maxhealth) {
 		super(x,y, width,height, maxhealth);
@@ -124,7 +118,7 @@ public class Player extends AbstractEntity {
 		bodyDef.type = BodyType.DYNAMIC;
 		bodyDef.position.set(x + 0.5f, y + 0.5f);
 		
-		body = GameplayState.getWorld().createBody(bodyDef);
+		//body = GameplayState.getWorld().createBody(bodyDef);
 		
 		CircleShape shape = new CircleShape();
 		shape.m_radius = 0.5f;
@@ -135,7 +129,7 @@ public class Player extends AbstractEntity {
 		fixtureDef.restitution = 0.05f;
 		fixtureDef.friction = 0.7f;
 		
-		body.createFixture(fixtureDef);
+		//body.createFixture(fixtureDef);
 	}
 	
 	public Player(float x, float y) {
@@ -205,14 +199,14 @@ public class Player extends AbstractEntity {
 			sprite = left;
 			isRight = false;
 			sprite.update(Config.DELTA);
-			body.m_linearVelocity.x = -speed*32;
+			//body.m_linearVelocity.x = -speed*32;
 		}
 		else if (input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT)) {
 			accelerate(speed,0f);
 			sprite = right;
 			isRight = true;
 			sprite.update(Config.DELTA);
-			body.m_linearVelocity.x = speed*32;
+			//body.m_linearVelocity.x = speed*32;
 		}
 		else if (!input.isKeyPressed(Input.KEY_SPACE)) {
 			if (sprite == left)
@@ -283,7 +277,7 @@ public class Player extends AbstractEntity {
 		
 		checkMapChanged();
 		
-		body.setTransform(new Vec2(getX() + 0.5f, getY() + 0.5f), 0);
+		//body.setTransform(new Vec2(getX() + 0.5f, getY() + 0.5f), 0);
 	}
 	
 	private final ColourRange cRange = new ColourRange(0.2f, 0.4f, 0.1f, 0.4f, 0.1f, 0.4f);

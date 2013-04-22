@@ -1,10 +1,11 @@
 package GUI;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 
 import org.newdawn.slick.Input;
 
-public enum Window {
+public enum Window implements Serializable {
 	ABILITIES(AbilitiesWindow.class,Input.KEY_I),
 	JOURNAL(JournalWindow.class,Input.KEY_J),
 	MAP(MapWindow.class,Input.KEY_M),

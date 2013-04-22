@@ -150,8 +150,8 @@ public class Projectile extends VeryAbstractEntity {
 		{
 			int cX = (int) getCentreX(), cY = Math.max(1, (int) getCentreY());
 			if (cX < 0) {
-			    MapLoader.getCurrentCell().removeMovingEntity(this);
-			    return;
+				MapLoader.getCurrentCell().removeMovingEntity(this);
+				return;
 			}
 			Tile cT = MapLoader.getCurrentCell().getTile(cX, cY);
 			// gravity

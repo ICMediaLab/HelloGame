@@ -1,6 +1,7 @@
 package GUI;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -12,8 +13,9 @@ import entities.players.abilities.PlayerAbility;
 
 class AbilitiesWindow extends AbstractWindow {
 	
-	private int numberOfAbilities = 4;
-	private ArrayList<PlayerAbility> abilitiesList = new ArrayList<PlayerAbility>(numberOfAbilities);
+	private static final long serialVersionUID = -4181119528378773217L;
+	
+	private List<PlayerAbility> abilitiesList = new ArrayList<PlayerAbility>();
 	private int abilitySelected = 0;
 	
 	public AbilitiesWindow(GUI gui) {
@@ -60,7 +62,7 @@ class AbilitiesWindow extends AbstractWindow {
 		
 		if (input.isKeyPressed(Input.KEY_TAB)) {
 			abilitySelected++;
-			abilitySelected = abilitySelected % numberOfAbilities;
+			abilitySelected %= abilitiesList.size();
 		}
 		
 	}

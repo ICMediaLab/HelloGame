@@ -6,10 +6,11 @@ import org.newdawn.slick.Graphics;
 
 class MapWindow extends AbstractWindow {
 	
+	private static final long serialVersionUID = -9185671502260300081L;
+	
 	public MapWindow(GUI gui) {
 		super(gui);
 	}
-
 	
 	// TODO: It would be nice to display actual maps inside those boxes so player could recognise the cells. It would need to be 1 tile = 1 pixel I think
 	@Override

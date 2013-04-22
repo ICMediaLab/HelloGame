@@ -3,6 +3,7 @@ package GUI;
 import game.config.Config;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.newdawn.slick.Color;
@@ -12,23 +13,25 @@ import org.newdawn.slick.Input;
 
 class JournalWindow extends AbstractWindow {
 	
-	private ArrayList<String> objectives;
-	private ArrayList<String> journal;
-	private Graphics graphics;
+	private static final long serialVersionUID = -5591227400919239897L;
+	
+	private final List<String> objectives = new ArrayList<String>();
+	private final List<String> journal = new ArrayList<String>();
 	private float journalWidth;
 	private int entryIndex = 1;
-	private int currentRow = 0;
+	private transient int currentRow = 0;
+	
+	private final Graphics graphics;
 
 	public JournalWindow(GUI gui) {
 		super(gui);
-		this.objectives = new ArrayList<String>();
+		System.out.println("new! D:");
 		
 		addObjective("-Free the stranger");
 		addObjective("-Find the stick");
 		
 		this.graphics = gui.getGraphics();
 		this.journalWidth = Config.getScreenWidth()*0.25f - 20;
-		this.journal = new ArrayList<String>();
 		
 		addJournalEntry("Woke up in forest. There was some light in the distance.");
 		addJournalEntry("Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.");

@@ -1,6 +1,8 @@
 package GUI;
 
 
+import java.io.Serializable;
+
 import game.config.Config;
 import utils.Dimension;
 import utils.Position;
@@ -9,11 +11,13 @@ import utils.Updatable;
 import utils.mouse.MouseAdapter;
 
 
-public abstract class AbstractWindow extends MouseAdapter implements Updatable, Renderable {
+public abstract class AbstractWindow extends MouseAdapter implements Updatable, Renderable, Serializable {
+	
+	private static final long serialVersionUID = -3588688166743379092L;
 	
 	private static final Position NORMAL_TOPLEFT = new Position(Config.getScreenWidth()*0.25f,Config.getScreenHeight()*0.25f);
 	private static final Dimension NORMAL_DIMENSIONS = new Dimension(Config.getScreenWidth()*0.5f,Config.getScreenHeight()*0.5f);
-
+	
 	private final Position topleft;
 	private final Dimension dimension;
 	private final GUI parent;

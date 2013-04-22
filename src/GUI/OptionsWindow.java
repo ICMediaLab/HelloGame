@@ -1,6 +1,11 @@
 package GUI;
 
+import entities.objects.LeafTest;
 import game.config.Config;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.lang.reflect.Field;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -13,28 +18,109 @@ import utils.mouse.MouseContainer;
 
 public class OptionsWindow extends AbstractWindow {
 	
-	private final Button cancel, ok, fullscreen, music, sound, musicUp, musicDown, soundUp, soundDown;
+	private static final long serialVersionUID = -6134059150113164930L;
 	
-	private boolean isFullscreen = Config.isFullscreen();
-	private boolean musicChanged, soundChanged, musicUpChanged, musicDownChanged, soundUpChanged, soundDownChanged = false;
+	private transient final Button cancel, ok, fullscreen, music, sound, musicUp, musicDown, soundUp, soundDown;
 	
-	private Sound click;
-
+	private transient boolean isFullscreen = Config.isFullscreen();
+	private transient boolean musicChanged = false, soundChanged = false, musicUpChanged = false, musicDownChanged = false, soundUpChanged = false, soundDownChanged = false;
+	
+	private transient final Sound click;
+	
 	public OptionsWindow(GUI gui) {
 		super(gui);
-		cancel = new Button("Cancel", getX() + getWidth() - 90, getY() + getHeight() - 30, 80, 20, 5);
-		ok = new Button("Ok", getX() + getWidth() - 190, getY() + getHeight() - 30, 80, 20, 5);
-		fullscreen = new Button("Fullscreen", getX() + 20, getY() + 30, 120, 40, 5);
-		music = new Button("Music", getX() + 20, getY() + 80, 120, 40, 5);
-		sound = new Button("Sound", getX() + 20, getY() + 130, 120, 40, 5);
-		musicUp = new Button("+", music.getX() + music.getWidth() + 10, music.getY() + 5, 30, 30, 5);
-		musicDown = new Button("-", music.getX() + music.getWidth() + 40, music.getY() + 5, 30, 30, 5);
-		soundUp = new Button("+", sound.getX() + sound.getWidth() + 10, sound.getY() + 5, 30, 30, 5);
-		soundDown = new Button("-", sound.getX() + sound.getWidth() + 40, sound.getY() + 5, 30, 30, 5);
+		cancel = getCancelButton();
+		ok = getOkButton();
+		fullscreen = getFullScreenButton();
+		music = getMusicButton();
+		sound = getSoundButton();
+		musicUp = getMusicUpButton();
+		musicDown = getMusicDownButton();
+		soundUp = getSoundUpButton();
+		soundDown = getSoundDownButton();
 		
-		this.click = Sounds.loadSound("gui/menu_select.wav");
+		click = getClickSound();
 	}
-
+	
+	private Sound getClickSound() {
+		return Sounds.loadSound("gui/menu_select.wav");
+	}
+	
+	private Button getOkButton(){
+		return new Button("Ok", getX() + getWidth() - 190, getY() + getHeight() - 30, 80, 20, 5);
+	}
+	
+	private Button getCancelButton(){
+		return new Button("Cancel", getX() + getWidth() - 90, getY() + getHeight() - 30, 80, 20, 5);
+	}
+	
+	private Button getFullScreenButton(){
+		return new Button("Fullscreen", getX() + 20, getY() + 30, 120, 40, 5);
+	}
+	
+	private Button getMusicButton(){
+		return new Button("Music", getX() + 20, getY() + 80, 120, 40, 5);
+	}
+	
+	private Button getSoundButton(){
+		return new Button("Sound", getX() + 20, getY() + 130, 120, 40, 5);
+	}
+	
+	private Button getMusicUpButton(){
+		return new Button("+", music.getX() + music.getWidth() + 10, music.getY() + 5, 30, 30, 5);
+	}
+	
+	private Button getMusicDownButton(){
+		return new Button("-", music.getX() + music.getWidth() + 40, music.getY() + 5, 30, 30, 5);
+	}
+	
+	private Button getSoundUpButton(){
+		return new Button("+", sound.getX() + sound.getWidth() + 10, sound.getY() + 5, 30, 30, 5);
+	}
+	
+	private Button getSoundDownButton(){
+		return new Button("-", sound.getX() + sound.getWidth() + 40, sound.getY() + 5, 30, 30, 5);
+	}
+	
+	/**
+	 * Serialisation loading method for {@link LeafTest}
+	 */
+	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		in.defaultReadObject();
+		Field f = getClass().getDeclaredField("click");
+		f.setAccessible(true);
+		f.set(this, getClickSound());
+		isFullscreen = Config.isFullscreen();
+		//oh god everything :/
+		f = getClass().getDeclaredField("ok");
+		f.setAccessible(true);
+		f.set(this, getOkButton());
+		f = getClass().getDeclaredField("cancel");
+		f.setAccessible(true);
+		f.set(this, getCancelButton());
+		f = getClass().getDeclaredField("fullscreen");
+		f.setAccessible(true);
+		f.set(this, getFullScreenButton());
+		f = getClass().getDeclaredField("music");
+		f.setAccessible(true);
+		f.set(this, getMusicButton());
+		f = getClass().getDeclaredField("sound");
+		f.setAccessible(true);
+		f.set(this, getSoundButton());
+		f = getClass().getDeclaredField("musicUp");
+		f.setAccessible(true);
+		f.set(this, getMusicUpButton());
+		f = getClass().getDeclaredField("musicDown");
+		f.setAccessible(true);
+		f.set(this, getMusicDownButton());
+		f = getClass().getDeclaredField("soundDown");
+		f.setAccessible(true);
+		f.set(this, getSoundDownButton());
+		f = getClass().getDeclaredField("soundUp");
+		f.setAccessible(true);
+		f.set(this, getSoundUpButton());
+	}
+	
 	@Override
 	public void render(GameContainer gc, Graphics g) {
 		float x = getX(), y = getY(), width = getWidth(), height = getHeight();

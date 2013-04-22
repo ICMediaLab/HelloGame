@@ -1,11 +1,11 @@
 package game;
 
+import java.io.Serializable;
+
 import map.Cell;
 import map.MapLoader;
 import notify.Notification;
 
-import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.World;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -19,26 +19,31 @@ import utils.npeloader.NPCLoader;
 import GUI.GUI;
 import entities.players.Player;
 
-public class GameplayState extends MouseCapture {
+public class GameplayState extends MouseCapture implements Serializable {
+	
+	private static final long serialVersionUID = -3988950280670496548L;
 	
 	private final int stateID;
 	private Cell currentCell;
 	private Player player;
-	private static World world = new World(new Vec2(0,  9.8f), false);
+	//private transient static World world = new World(new Vec2(0,  9.8f), false);
 	private GUI gui;
-	  
+	
 	GameplayState(int stateID) {
-	   this.stateID = stateID;
+		this.stateID = stateID;
 	}
-  
+	
+	private GUI getGUI(Graphics g){
+		return new GUI(g);
+	}
+	
 	@Override
 	public int getID() {
 		return stateID;
 	}
 	
 	@Override
-	public void init(GameContainer gc, StateBasedGame sbg)
-			throws SlickException {
+	public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
 		//load enemy/npc data
 		new EnemyLoader().load("data/enemydata.xml");
 		new NPCLoader().load("data/npcdata.xml");
@@ -50,16 +55,15 @@ public class GameplayState extends MouseCapture {
 		player = new Player(2,2);
 		currentCell = MapLoader.setCurrentCell(player,0,0);
 		
+		gui = getGUI(gc.getGraphics());
+		
 		//audio
 		Sounds.setMusic(new Music("data/sounds/RedCurtain.ogg", true));
 		gc.setMusicVolume(0.5f);
-		
-		gui = new GUI(gc.getGraphics());
 	}
 	
 	@Override
-	public void render(GameContainer gc, StateBasedGame sbg, Graphics g)
-			throws SlickException {
+	public void render(GameContainer gc, StateBasedGame sbg, Graphics g) throws SlickException {
 		currentCell.render(gc, g);
 		Notification.render(gc, g);
 		gui.render(gc, g);
@@ -83,7 +87,7 @@ public class GameplayState extends MouseCapture {
 				}
 			}else {
 				currentCell.update(gc);
-				world.step(delta/1000f, 8, 3);
+				//world.step(delta/1000f, 8, 3);
 			}
 			gui.update(gc);
 		}
@@ -91,11 +95,10 @@ public class GameplayState extends MouseCapture {
 	
 	@Override
 	public void enter(GameContainer gc, StateBasedGame game) throws SlickException {
-		super.enter(gc, game);
 		Sounds.getMusic().loop(1, 0.5f);
 	}
 	
-	public static World getWorld() {
+	/*public static World getWorld() {
 		return world;
-	}
+	}*/
 }

@@ -1,5 +1,7 @@
 package GUI;
 
+import java.io.Serializable;
+
 import game.MouseCapture;
 
 import org.newdawn.slick.GameContainer;
@@ -9,11 +11,13 @@ import org.newdawn.slick.Input;
 import utils.Renderable;
 import utils.Updatable;
 
-public class GUI implements Updatable, Renderable{
-
+public class GUI implements Updatable, Renderable, Serializable {
+	
+	private static final long serialVersionUID = -7417513297336661731L;
+	
 	private Window activeWindow = null;
 	private Graphics graphics;
-
+	
 	public GUI(Graphics g) {
 		this.graphics = g;
 	}
