@@ -168,7 +168,7 @@ public class Projectile extends VeryAbstractEntity {
 	}
 	
 	private void updateSprite(){
-		baseImage.rotate((float)(angle * 180/Math.PI));
+		baseImage.setRotation((float)(angle * 180/Math.PI));
 		sprite = new Animation(new Image[]{baseImage}, 200, false);
 	}
 	
