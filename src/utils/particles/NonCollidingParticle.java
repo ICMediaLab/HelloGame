@@ -1,11 +1,13 @@
 package utils.particles;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
 
 import utils.Position;
+import utils.particles.particle.InfiniteAttractorParticle;
 
-public class NonCollidingParticle extends Particle {
+public class NonCollidingParticle extends InfiniteAttractorParticle {
 	
 	private int ttl;
 	private final float ttlSizeStep; 
@@ -17,10 +19,10 @@ public class NonCollidingParticle extends Particle {
 	}
 	
 	@Override
-	public void update() {
+	public void update(GameContainer gc) {
 		setRadius(getRadius() - ttlSizeStep);
 		--ttl;
-		super.update();
+		super.update(gc);
 	}
 
 	@Override

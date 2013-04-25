@@ -18,6 +18,7 @@ import entities.objects.LeafTest;
 import entities.objects.TeleportReciever;
 import entities.objects.TeleportSender;
 import entities.objects.TextField;
+import entities.objects.watereffects.WaterSurfaceEffect;
 import game.config.Config;
 
 /**
@@ -129,6 +130,8 @@ public class CellObjectParser {
 		}else if(go.type.equalsIgnoreCase("teleport_send")){
 			String dest = go.props.getProperty("dest");
 			cell.addStaticEntity(new TeleportSender(teleportRecievers.get(dest), x, y, width, height));
+		}else if(go.type.equalsIgnoreCase("waterSurfaceEffect")){
+			cell.addStaticEntity(new WaterSurfaceEffect(x, y, width));
 		}
 	}
 	
@@ -176,6 +179,7 @@ public class CellObjectParser {
 		JUMPPLATFORM,
 		ENEMY,
 		DOORTRIGGER,
+		WATERSURFACEEFFECT,
 		DOORPROJECTILETRIGGER,
 		CAGE,
 		TEXTFIELD,

@@ -7,8 +7,9 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Image;
 
 import utils.Position;
+import utils.particles.particle.InfiniteAttractorParticle;
 
-public class BlockedCollidingParticle extends Particle {
+public class BlockedCollidingParticle extends InfiniteAttractorParticle {
 	
 	private final Cell c;
 	

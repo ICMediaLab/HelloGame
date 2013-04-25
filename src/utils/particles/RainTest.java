@@ -12,6 +12,7 @@ import utils.interval.one.FixedValue;
 import utils.interval.one.Interval;
 import utils.interval.two.Interval2D;
 import utils.interval.two.Range2D;
+import utils.particles.particle.InfiniteAttractorParticle;
 
 public class RainTest extends ParticleEmitter<BlockedCollidingParticle> implements Runnable {
 	
@@ -91,8 +92,8 @@ class RainParticleGenerator implements ParticleGenerator<BlockedCollidingParticl
 	private static final Image TEXTURE;
 	
 	private static final float DRAG = 0.93f;
-	private static final Position ATTRACTOR = Particle.getAttractor(DRAG);
-	private static final Position INERTIA = Particle.getInertia(DRAG);
+	private static final Position ATTRACTOR = InfiniteAttractorParticle.getGravityAttractor(DRAG);
+	private static final Position INERTIA = InfiniteAttractorParticle.getInertia(DRAG);
 	
 	static {
 		Image texture = null;

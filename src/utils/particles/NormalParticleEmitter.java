@@ -1,8 +1,9 @@
 package utils.particles;
 
 import utils.interval.two.Range2D;
+import utils.particles.particle.InfiniteAttractorParticle;
 
-public class NormalParticleEmitter<P extends Particle> extends ParticleEmitter<P> {
+public class NormalParticleEmitter<P extends InfiniteAttractorParticle> extends ParticleEmitter<P> {
 
 	private int ttl;
 

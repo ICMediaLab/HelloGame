@@ -11,26 +11,27 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
 import utils.LayerRenderable;
+import utils.PositionReturn;
 import utils.Updatable;
-import utils.interval.two.Range2D;
+import utils.particles.particle.Particle;
 
 public abstract class ParticleEmitter<P extends Particle> implements Updatable, LayerRenderable {
 	private final int layer;
-	private final Range2D positionRange, velocityRange;
+	private final PositionReturn positionRange, velocityRange;
 	private final Collection<P> particles = Collections.newSetFromMap(new ConcurrentHashMap<P, Boolean>());
 			
 	private int lifespan = 0;
 	private ParticleGenerator<? extends P> particleGenerator;
 	
-	public ParticleEmitter(ParticleGenerator<? extends P> pGen, Range2D positionRange, Range2D velocityRange, int layer){
+	public ParticleEmitter(ParticleGenerator<? extends P> pGen, PositionReturn positionRange, PositionReturn velocityRange, int layer){
 		this.layer = layer;
 		this.positionRange = positionRange;
 		this.velocityRange = velocityRange;
 		this.particleGenerator = pGen;
 	}
-
+	
 	protected P getNewParticle(){
-		return particleGenerator.newParticle(positionRange.random(),velocityRange.random());
+		return particleGenerator.newParticle(positionRange.getPosition(),velocityRange.getPosition());
 	}
 	
 	public void addParticle(P p){
@@ -57,20 +58,22 @@ public abstract class ParticleEmitter<P extends Particle> implements Updatable, 
 	
 	public void render(GameContainer gc, Graphics g) {
 		for (Particle p : particles){
-			p.render();
+			p.render(gc, g);
 		}
 	}
 	
 	public void update(GameContainer gc) {
 		lifespan  += Config.DELTA;
 		
-		generateParticles();
+		if(isEmitting()){
+			generateParticles();
+		}
 		
 		Iterator<P> it = particles.iterator();
 		synchronized (it) {
 			while(it.hasNext()){
 				Particle p = it.next();
-				p.update();
+				p.update(gc);
 				if(!p.isAlive()){
 					it.remove();
 				}
@@ -82,5 +85,9 @@ public abstract class ParticleEmitter<P extends Particle> implements Updatable, 
 	
 	public int getLayer() {
 		return layer;
+	}
+
+	public boolean hasParticles() {
+		return !particles.isEmpty();
 	}
 }

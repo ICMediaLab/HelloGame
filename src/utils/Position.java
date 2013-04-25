@@ -30,6 +30,10 @@ public class Position implements Cloneable, Serializable {
 		return y;
 	}
 	
+	public Position distanceTo(Position o){
+		return new Position(o.x - x, o.y - y);
+	}
+	
 	public void set(float x2, float y2) {
 		x = x2;
 		y = y2;
