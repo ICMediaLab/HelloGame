@@ -63,11 +63,12 @@ public abstract class ParticleEmitter<P extends Particle> implements Updatable, 
 	}
 	
 	public void update(GameContainer gc) {
-		lifespan  += Config.DELTA;
 		
 		if(isEmitting()){
 			generateParticles();
 		}
+		
+		lifespan  += Config.DELTA;
 		
 		Iterator<P> it = particles.iterator();
 		synchronized (it) {
