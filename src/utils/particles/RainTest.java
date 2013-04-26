@@ -1,5 +1,8 @@
 package utils.particles;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import map.Cell;
 
 import org.newdawn.slick.GameContainer;
@@ -13,40 +16,54 @@ import utils.interval.one.Interval;
 import utils.interval.two.Interval2D;
 import utils.interval.two.Range2D;
 import utils.particles.particle.InfiniteAttractorParticle;
+import utils.particles.particle.Particle;
+import entities.objects.watereffects.WaterEffectParticle;
 
-public class RainTest extends ParticleEmitter<BlockedCollidingParticle> implements Runnable {
+public class RainTest extends ParticleEmitter<RainParticle> implements Runnable {
 	
 	private final Cell cell;
 	private GameContainer gc = null;
 	
+	private final Collection<WaterEffectParticle> bubblez = new HashSet<WaterEffectParticle>();
+	
 	public static RainTest getRain(Cell c, int layer){
-		RainTest r = new RainTest(c,new RainParticleGenerator(c), new Interval2D(new Interval(1f,c.getWidth()-1f), new FixedValue(0.5f)), new Interval2D(new FixedValue(0f),new Interval(0.12f,0.16f)), layer);
+		RainTest r = new RainTest(c,new RainParticleGenerator(c), new Interval2D(new Interval(1f,c.getWidth()-1f), new FixedValue(0.5f)), new Interval2D(new FixedValue(0f),new Interval(0.12f,0.20f)), layer);
 		for(int i = 0;i < 140;i++){
 			r.updateThreadless();
 		}
 		return r;
 	}
-
-	private RainTest(Cell c, ParticleGenerator<? extends BlockedCollidingParticle> pGen,
+	
+	private RainTest(Cell c, ParticleGenerator<? extends RainParticle> pGen,
 			Range2D positionRange, Range2D velocityRange, int layer) {
 		super(pGen, positionRange, velocityRange, layer);
 		this.cell = c;
 	}
-
+	
 	@Override
 	public boolean isEmitting() {
 		return true;
 	}
-
+	
 	@Override
 	protected void generateParticles() {
 		for(int i=(int) cell.getWidth()/2;i>=0;i--){
 			addParticle(getNewParticle());
+			addAllParticles(bubblez);
+			bubblez.clear();
 		}
 	}
 	
 	public void updateThreadless() {
 		super.update(gc);
+		for(Particle p : getParticles()){
+			if(p instanceof RainParticle){
+				RainParticle rp = (RainParticle) p;
+				if(rp.isInWater() && rp.getRadius() < 0.002f){
+					bubblez.add(rp.getBubbleParticle());
+				}
+			}
+		}
 	}
 	
 	private final Thread updateThread = new Thread(this);
@@ -86,7 +103,7 @@ public class RainTest extends ParticleEmitter<BlockedCollidingParticle> implemen
 	}
 }
 
-class RainParticleGenerator implements ParticleGenerator<BlockedCollidingParticle> {
+class RainParticleGenerator implements ParticleGenerator<RainParticle> {
 	private static final ColourRange COLOUR_RANGE = new ColourRange(0.1f, 0.2f, 0.1f, 0.2f, 0.4f, 0.8f);
 	private static final Interval SIZE_RANGE = new Interval(0.005f,0.01f);
 	private static final Image TEXTURE;
@@ -112,7 +129,7 @@ class RainParticleGenerator implements ParticleGenerator<BlockedCollidingParticl
 	}
 	
 	@Override
-	public BlockedCollidingParticle newParticle(Position position, Position velocity) {
-		return new BlockedCollidingParticle(c,TEXTURE, position, velocity, COLOUR_RANGE.random(), SIZE_RANGE.random(), ATTRACTOR, INERTIA);
+	public RainParticle newParticle(Position position, Position velocity) {
+		return new RainParticle(c,TEXTURE, position, velocity, COLOUR_RANGE.random(), SIZE_RANGE.random(), ATTRACTOR, INERTIA);
 	}
 }

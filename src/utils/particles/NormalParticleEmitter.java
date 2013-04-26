@@ -14,15 +14,13 @@ public class NormalParticleEmitter<P extends InfiniteAttractorParticle> extends 
 	
 	@Override
 	public boolean isEmitting() {
-		return numParticles() > 0 || getAliveTime() == 0;
-	}
-
-	@Override
-	protected void generateParticles() {
-		if(ttl-- > 0){
-			addParticle(getNewParticle());
-			addParticle(getNewParticle());
-		}
+		return ttl > 0;
 	}
 	
+	@Override
+	protected void generateParticles() {
+		addParticle(getNewParticle());
+		addParticle(getNewParticle());
+		ttl--;
+	}
 }

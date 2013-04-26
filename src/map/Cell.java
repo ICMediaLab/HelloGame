@@ -279,8 +279,8 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	}
 	
 	public void update(GameContainer gc){
-		updateEntities(gc);
 		updateEmmiters(gc);
+		updateEntities(gc);
 		updateLightmap(gc);
 	}
 	
@@ -288,7 +288,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		Set<ParticleEmitter<?>> toRemove = new HashSet<ParticleEmitter<?>>();
 		for(ParticleEmitter<?> pe : particleEmitters){
 			pe.update(gc);
-			if(!(pe.isEmitting() || pe.hasParticles())){
+			if(!pe.isAlive()){
 				toRemove.add(pe);
 				renderables.remove(pe);
 			}

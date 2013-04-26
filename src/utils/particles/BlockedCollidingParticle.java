@@ -28,6 +28,10 @@ public class BlockedCollidingParticle extends InfiniteAttractorParticle {
 		c = cell;
 	}
 	
+	public Cell getCell(){
+		return c;
+	}
+	
 	@Override
 	public boolean isAlive() {
 		float cY = getCenterY();

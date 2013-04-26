@@ -10,7 +10,8 @@ public enum TileProperty {
 	BLOCKED(BooleanTilePropertyValue.class,boolean.class,false),
 	FRICTIONX(FloatTilePropertyValue.class,float.class,0.6f),
 	FRICTIONY(FloatTilePropertyValue.class,float.class,0.04f),
-	GRAVITY(FloatTilePropertyValue.class,float.class,0.04f);
+	GRAVITY(FloatTilePropertyValue.class,float.class,0.04f),
+	TYPESTR(StringTilePropertyValue.class,String.class,"");
 	
 	/**
 	 * The default value if the property is not present in the XML file.

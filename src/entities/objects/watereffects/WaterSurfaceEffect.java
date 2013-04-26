@@ -32,7 +32,7 @@ public class WaterSurfaceEffect extends StaticRectEntity {
 	private final SurfaceNode[] nodes;
 	
 	public WaterSurfaceEffect(float x, float y, float width) {
-		super(x, y, width, 0.01f);
+		super(x, y, width, 0.9f);
 		nodes = new SurfaceNode[(int) (width/NODE_SPACING) + 1];
 		for(int i=0;i<nodes.length;i++){
 			nodes[i] = new SurfaceNode();
@@ -42,8 +42,9 @@ public class WaterSurfaceEffect extends StaticRectEntity {
 
 	@Override
 	public void collide(MovingEntity e) {
+		float hw = e.getWidth()/2;
 		float x = e.getCentreX();
-		if(x > getX() && x < getX() + getWidth()){
+		if(x-hw >= getX() && x+hw <= getX() + getWidth()){
 			nodes[getIndex(e.getCentreX())].p += e.getdY();
 			Cell c = MapLoader.getCurrentCell();
 			c.addParticleEmmiter(new WaterSurfaceEffectParticleEmitter(pGen, getLayer()+1, e));

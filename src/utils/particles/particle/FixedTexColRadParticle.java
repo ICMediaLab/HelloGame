@@ -23,7 +23,7 @@ public abstract class FixedTexColRadParticle extends AbstractParticle {
 		this.radius = radius;
 	}
 	
-	protected float getRadius(){
+	public float getRadius(){
 		return radius;
 	}
 	

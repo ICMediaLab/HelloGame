@@ -18,7 +18,7 @@ import utils.particles.particle.Particle;
 public abstract class ParticleEmitter<P extends Particle> implements Updatable, LayerRenderable {
 	private final int layer;
 	private final PositionReturn positionRange, velocityRange;
-	private final Collection<P> particles = Collections.newSetFromMap(new ConcurrentHashMap<P, Boolean>());
+	private final Collection<Particle> particles = Collections.newSetFromMap(new ConcurrentHashMap<Particle, Boolean>());
 			
 	private int lifespan = 0;
 	private ParticleGenerator<? extends P> particleGenerator;
@@ -38,6 +38,10 @@ public abstract class ParticleEmitter<P extends Particle> implements Updatable, 
 		particles.add(p);
 	}
 	
+	public void addAllParticles(Collection<? extends Particle> p){
+		particles.addAll(p);
+	}
+	
 	public void clearParticles(){
 		particles.clear();
 	}
@@ -48,6 +52,14 @@ public abstract class ParticleEmitter<P extends Particle> implements Updatable, 
 	
 	public int numParticles(){
 		return particles.size();
+	}
+	
+	public Collection<Particle> getParticles(){
+		return Collections.unmodifiableCollection(particles);
+	}
+	
+	public boolean isAlive() {
+		return hasParticles() || getAliveTime() == 0;
 	}
 	
 	public abstract boolean isEmitting();
@@ -63,14 +75,13 @@ public abstract class ParticleEmitter<P extends Particle> implements Updatable, 
 	}
 	
 	public void update(GameContainer gc) {
-		
 		if(isEmitting()){
 			generateParticles();
 		}
 		
 		lifespan  += Config.DELTA;
 		
-		Iterator<P> it = particles.iterator();
+		Iterator<Particle> it = particles.iterator();
 		synchronized (it) {
 			while(it.hasNext()){
 				Particle p = it.next();
