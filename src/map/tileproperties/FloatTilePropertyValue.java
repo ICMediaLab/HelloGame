@@ -1,6 +1,6 @@
 package map.tileproperties;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
+import java.text.ParseException;
 
 public class FloatTilePropertyValue extends TilePropertyValue<Float> {
 	
@@ -13,7 +13,7 @@ public class FloatTilePropertyValue extends TilePropertyValue<Float> {
 		try{
 			set(Float.parseFloat(str));
 		}catch(NumberFormatException e){
-			throw new ParseException("Not a float.");
+			throw new ParseException("Not a float.",0);
 		}
 	}
 	

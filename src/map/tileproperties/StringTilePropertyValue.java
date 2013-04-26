@@ -1,7 +1,5 @@
 package map.tileproperties;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
-
 public class StringTilePropertyValue extends TilePropertyValue<String> {
 	
 	public StringTilePropertyValue(String value) {
@@ -9,7 +7,7 @@ public class StringTilePropertyValue extends TilePropertyValue<String> {
 	}
 	
 	@Override
-	public void parse(String str) throws ParseException {
+	public void parse(String str) {
 		set(str);
 	}
 

@@ -1,6 +1,6 @@
 package map.tileproperties;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
+import java.text.ParseException;
 
 public class BooleanTilePropertyValue extends TilePropertyValue<Boolean> {
 	
@@ -15,7 +15,7 @@ public class BooleanTilePropertyValue extends TilePropertyValue<Boolean> {
 		}else if(str.equalsIgnoreCase("false")){
 			set(false);
 		}else{
-			throw new ParseException("Not a boolean.");
+			throw new ParseException("Not a boolean.", 0);
 		}
 	}
 	

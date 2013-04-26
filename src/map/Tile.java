@@ -11,7 +11,7 @@ import map.tileproperties.TilePropertyValue;
 import org.newdawn.slick.tiled.Layer;
 import org.newdawn.slick.tiled.TileSet;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
+import java.text.ParseException;
 
 public class Tile {
 
@@ -118,7 +118,7 @@ public class Tile {
 	 * @return The value.
 	 */
 	public <K> TilePropertyValue<K> getTilePropertyValue(TileProperty<K> k) {
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings("unchecked") //as long as nobody starts directly accessing the map, everything will be fine...
 		TilePropertyValue<K> res = (TilePropertyValue<K>) properties.get(k);
 		return res == null ? k.getUndefinedValueInstance() : res;
 	}
@@ -127,9 +127,7 @@ public class Tile {
 	 * Looks up a key in the map.
 	 */
 	public <K> K lookup(TileProperty<K> k) {
-		@SuppressWarnings("unchecked")
-		TilePropertyValue<K> res = (TilePropertyValue<K>) properties.get(k);
-		return res == null ? k.getUndefinedValueInstance().get() : res.get();
+		return getTilePropertyValue(k).get();
 	}
 	
 	@Override

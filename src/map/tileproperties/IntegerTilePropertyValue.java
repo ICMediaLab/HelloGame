@@ -1,6 +1,6 @@
 package map.tileproperties;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
+import java.text.ParseException;
 
 public class IntegerTilePropertyValue extends TilePropertyValue<Integer> {
 	
@@ -13,7 +13,7 @@ public class IntegerTilePropertyValue extends TilePropertyValue<Integer> {
 		try{
 			set(Integer.parseInt(str));
 		}catch(NumberFormatException e){
-			throw new ParseException("Not an integer.");
+			throw new ParseException("Not an integer.",0);
 		}
 	}
 	

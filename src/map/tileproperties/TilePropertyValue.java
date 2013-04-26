@@ -1,8 +1,8 @@
 package map.tileproperties;
 
-import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
+import java.text.ParseException;
 
-public abstract class TilePropertyValue<T> {
+public abstract class TilePropertyValue<T> implements Cloneable {
 	
 	private T value;
 	
