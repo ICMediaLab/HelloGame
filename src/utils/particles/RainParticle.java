@@ -36,7 +36,7 @@ public class RainParticle extends BlockedCollidingParticle {
 		xy.translate(dxdy);
 		Cell c = getCell();
 		if(!inwater){
-			if(c.getTile((int) getCenterX(), (int) getCenterY()).lookup(TileProperty.TYPESTR).getString().equalsIgnoreCase("water")){
+			if(c.getTile((int) getCenterX(), (int) getCenterY()).lookup(TileProperty.TYPESTR).equalsIgnoreCase("water")){
 				inwater = true;
 				ty = (int) getCenterY();
 			}

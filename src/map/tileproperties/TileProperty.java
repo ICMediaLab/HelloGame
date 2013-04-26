@@ -1,56 +1,65 @@
 package map.tileproperties;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
- * An enumeration of all Tile Properties with default values.
+ * An representation of all Tile Properties with default values.<br />
+ * Each property is associated with a string lookup, a {@link TilePropertyValue} class to store a type of data and finally a default value.<br />
+ * New properties may not be created, {@link TilePropertyValue} instances for the variables given may be obtained through the 
+ * {@code GetUndefinedValueInstance} method.
  */
-public enum TileProperty {
-	BLOCKED(BooleanTilePropertyValue.class,boolean.class,false),
-	FRICTIONX(FloatTilePropertyValue.class,float.class,0.6f),
-	FRICTIONY(FloatTilePropertyValue.class,float.class,0.04f),
-	GRAVITY(FloatTilePropertyValue.class,float.class,0.04f),
-	TYPESTR(StringTilePropertyValue.class,String.class,"");
+public class TileProperty<K> {
 	
-	/**
-	 * The default value if the property is not present in the XML file.
-	 */
-	private final Class<? extends TilePropertyValue> clazz;
-	private final Class<?> defclazz;
-	private final Object def;
+	private static final Map<String,TileProperty<?>> map = new HashMap<String, TileProperty<?>>();
 	
-	private TileProperty(Class<? extends TilePropertyValue> clazz, Class<?> defclazz, Object def){
-		this.clazz = clazz;
-		this.defclazz = defclazz;
-		this.def = def;
-	}
+	public static final TileProperty<Boolean> BLOCKED = new TileProperty<Boolean>("BLOCKED",BooleanTilePropertyValue.class,boolean.class,false);
+	public static final TileProperty<Float> FRICTIONX = new TileProperty<Float>("FRICTIONX",FloatTilePropertyValue.class,float.class,0.6f);
+	public static final TileProperty<Float> FRICTIONY = new TileProperty<Float>("FRICTIONY",FloatTilePropertyValue.class,float.class,0.04f);
+	public static final TileProperty<Float> GRAVITY = new TileProperty<Float>("GRAVITY",FloatTilePropertyValue.class,float.class,0.04f);
+	public static final TileProperty<String> TYPESTR = new TileProperty<String>("TYPESTR",StringTilePropertyValue.class,String.class,"");
 	
-	public static TileProperty parseTileProperty(String str){
-		return valueOf(str.toUpperCase());
-	}
-
-	/**
-	 * Returns the default value of this property that should be applied if it is not defined.
-	 */
-	public TilePropertyValue getUndefinedValue() {
+	private final Constructor<? extends TilePropertyValue<K>> constructor;
+	private final K def;
+	
+	private TileProperty(String str, Class<? extends TilePropertyValue<K>> clazz, Class<K> defclazz, K def){
+		Constructor<? extends TilePropertyValue<K>> c = null;
 		try {
-			return clazz.getConstructor(defclazz).newInstance(def);
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
+			c = clazz.getConstructor(defclazz);
 		} catch (SecurityException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		}
-		return null;
+		this.constructor = c;
+		this.def = def;
+		map.put(str.toUpperCase(), this);
 	}
 	
-	
+	public TilePropertyValue<K> getUndefinedValueInstance() {
+		try {
+			return constructor.newInstance(def);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static Collection<TileProperty<?>> values() {
+		return map.values();
+	}
+
+	public static TileProperty<?> parseTileProperty(String key) {
+		return map.get(key.toUpperCase());
+	}
 }

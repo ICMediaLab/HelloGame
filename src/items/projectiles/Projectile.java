@@ -10,7 +10,6 @@ import map.Tile;
 import map.tileproperties.TileProperty;
 
 import org.newdawn.slick.Animation;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -93,7 +92,7 @@ public class Projectile extends VeryAbstractEntity {
 	public void render(GameContainer gc, Graphics g) {
 		sprite.draw((int)((hitbox.getCenterX()-1f)*Config.getTileSize()-sprite.getWidth()/2), (int)((hitbox.getCenterY()-1)*Config.getTileSize()-sprite.getHeight()/2));
 		/*For debugging purposes.*/
-		g.setColor(Color.green); 
+		/*g.setColor(Color.green); 
 		g.draw(hitbox.transform(Transform.createTranslateTransform(-1, -1)).transform(Transform.createScaleTransform(Config.getTileSize(), Config.getTileSize())));
 		//*/
 	}
@@ -155,8 +154,8 @@ public class Projectile extends VeryAbstractEntity {
 			}
 			Tile cT = MapLoader.getCurrentCell().getTile(cX, cY);
 			// gravity
-			dxdy.translate(0, 0.1f*cT.lookup(TileProperty.GRAVITY).getFloat()); 
-			dxdy.translate(-getdX()*0.02f*cT.lookup(TileProperty.FRICTIONX).getFloat(), -getdY()*0.02f*cT.lookup(TileProperty.FRICTIONY).getFloat());
+			dxdy.translate(0, 0.1f*cT.lookup(TileProperty.GRAVITY)); 
+			dxdy.translate(-getdX()*0.02f*cT.lookup(TileProperty.FRICTIONX), -getdY()*0.02f*cT.lookup(TileProperty.FRICTIONY));
 		}
 		// update angle and hitbox
 		double lastangle = angle;
@@ -199,7 +198,7 @@ public class Projectile extends VeryAbstractEntity {
 		int x = (int) getCentreX(), y = Math.max(1, (int) getCentreY());
 		Cell cell = MapLoader.getCurrentCell();
 		if(x <= 0 || x >= cell.getWidth() - 1 || y >= cell.getHeight() - 1 || 
-				cell.getTile(x, y).lookup(TileProperty.BLOCKED).getBoolean()) {
+				cell.getTile(x, y).lookup(TileProperty.BLOCKED)) {
 			MapLoader.getCurrentCell().removeMovingEntity(this);
 		}
 	}

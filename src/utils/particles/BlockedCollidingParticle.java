@@ -35,6 +35,6 @@ public class BlockedCollidingParticle extends InfiniteAttractorParticle {
 	@Override
 	public boolean isAlive() {
 		float cY = getCenterY();
-		return cY < 1 || !c.getTile((int) getCenterX(), (int) cY).lookup(TileProperty.BLOCKED).getBoolean(); 
+		return cY < 1 || !c.getTile((int) getCenterX(), (int) cY).lookup(TileProperty.BLOCKED); 
 	}
 }

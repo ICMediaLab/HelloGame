@@ -86,7 +86,7 @@ public class Door extends StaticRectEntity implements Triggerable {
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) {
-		if(!cell.getTile((int) getCentreX(),(int) getCentreY()).lookup(TileProperty.BLOCKED).getBoolean()){
+		if(!cell.getTile((int) getCentreX(),(int) getCentreY()).lookup(TileProperty.BLOCKED)){
 			openSprite.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());
 		}else{
 			closedSprite.draw((getX()-1)*Config.getTileSize(), (getY()-1)*Config.getTileSize());

@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import javax.naming.OperationNotSupportedException;
-
 import map.tileproperties.TileProperty;
 import map.tileproperties.TilePropertyValue;
 
@@ -20,7 +18,7 @@ public class Tile {
 	/**
 	 * Holds a map of all properties held by this tile.
 	 */
-	private final HashMap<TileProperty,TilePropertyValue> properties = new HashMap<TileProperty, TilePropertyValue>();
+	private final HashMap<TileProperty<?>,TilePropertyValue<?>> properties = new HashMap<TileProperty<?>, TilePropertyValue<?>>();
 
 	/**
 	 * Class to hold a HashMap of properties about the tile.<br />
@@ -55,18 +53,7 @@ public class Tile {
 					Properties p = (Properties) res;
 					for(Entry<Object, Object> entry : p.entrySet()){
 						String key = (String) entry.getKey();
-						TileProperty prop = TileProperty.parseTileProperty(key);
-						String str = (String) entry.getValue();
-						TilePropertyValue value = prop.getUndefinedValue();
-						try{
-							value.parse(str);
-						}catch(OperationNotSupportedException e){
-							e.printStackTrace();
-						}catch(ParseException e){
-							System.out.println("Recieved parse exception while parsing: " + str + " in cell " + cell);
-							e.printStackTrace();
-						}
-						put(prop, value);
+						parse2(TileProperty.parseTileProperty(key),(String) entry.getValue());
 					}
 				}
 			} catch (SecurityException e) {
@@ -81,35 +68,48 @@ public class Tile {
 		}
 		
 		//parse individual tile properties
-		for(TileProperty prop : TileProperty.values()){
-			TilePropertyValue value = prop.getUndefinedValue();
-			if(ts != null){
-				Properties props = ts.getProperties(l.getTileID(x, y));
-				if (props != null) {
-					String str = props.getProperty(prop.toString(), null);
-					if(str != null){
-						try{
-							value.parse(str);
-							put(prop,value);
-						}catch(OperationNotSupportedException e){
-							e.printStackTrace();
-						}catch(ParseException e){
-							System.out.println("Recieved parse exception while parsing: " + str + " in cell " + cell);
-							e.printStackTrace();
-						}
+		for(TileProperty<?> prop : TileProperty.values()){
+			parse1(prop, ts, l, x, y);
+		}
+	}
+	
+	private <T> void parse1(TileProperty<T> prop, TileSet ts, Layer l, int x, int y){
+		TilePropertyValue<T> value = prop.getUndefinedValueInstance();
+		if(ts != null){
+			Properties props = ts.getProperties(l.getTileID(x, y));
+			if (props != null) {
+				String str = props.getProperty(prop.toString(), null);
+				if(str != null){
+					try{
+						value.parse(str);
+						put(prop,value);
+					}catch(ParseException e){
+						System.out.println("Recieved parse exception while parsing: " + str + " in layer " + l + " at " + x +"," + y);
+						e.printStackTrace();
 					}
 				}
 			}
 		}
 	}
 	
+	private <T> void parse2(TileProperty<T> prop, String str){
+		TilePropertyValue<T> value = prop.getUndefinedValueInstance();
+		try{
+			value.parse(str);
+		}catch(ParseException e){
+			System.out.println("Recieved parse exception while parsing: " + str);
+			e.printStackTrace();
+		}
+		put(prop, value);
+	}
+	
 	/**
 	 * Adds a property to the map for this tile.
-	 * @param k Key.
-	 * @param v Value.
+	 * @param prop Key.
+	 * @param value Value.
 	 */
-	public void put(TileProperty k, TilePropertyValue v) {
-		properties.put(k, v);
+	public <K> void put(TileProperty<K> prop, TilePropertyValue<K> value) {
+		properties.put(prop, value);
 	}
 	
 	/**
@@ -117,9 +117,19 @@ public class Tile {
 	 * @param k Key.
 	 * @return The value.
 	 */
-	public TilePropertyValue lookup(TileProperty k) {
-		TilePropertyValue res = properties.get(k);
-		return res == null ? k.getUndefinedValue() : res;
+	public <K> TilePropertyValue<K> getTilePropertyValue(TileProperty<K> k) {
+		@SuppressWarnings("unchecked")
+		TilePropertyValue<K> res = (TilePropertyValue<K>) properties.get(k);
+		return res == null ? k.getUndefinedValueInstance() : res;
+	}
+	
+	/**
+	 * Looks up a key in the map.
+	 */
+	public <K> K lookup(TileProperty<K> k) {
+		@SuppressWarnings("unchecked")
+		TilePropertyValue<K> res = (TilePropertyValue<K>) properties.get(k);
+		return res == null ? k.getUndefinedValueInstance().get() : res.get();
 	}
 	
 	@Override

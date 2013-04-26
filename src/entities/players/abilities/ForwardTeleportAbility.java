@@ -17,11 +17,11 @@ public class ForwardTeleportAbility extends AbstractPlayerAbility {
 	
     public void use(Player p){
 		if (p.getDirection() == 1 && (p.getX() - 1 + distance < Config.getScreenWidth()/Config.getTileSize())){
-			if (MapLoader.getCurrentCell().getTile((int) p.getX() + (int) distance, (int) p.getY()).lookup(TileProperty.BLOCKED).getBoolean()){
+			if (MapLoader.getCurrentCell().getTile((int) p.getX() + (int) distance, (int) p.getY()).lookup(TileProperty.BLOCKED)){
 				p.accelerate(distance,0);
 			}
 		} else if (p.getDirection() == -1 && (p.getX() - 1 - distance > 0)) {
-			if (MapLoader.getCurrentCell().getTile((int) p.getX() - (int) distance, (int) p.getY()).lookup(TileProperty.BLOCKED).getBoolean()){
+			if (MapLoader.getCurrentCell().getTile((int) p.getX() - (int) distance, (int) p.getY()).lookup(TileProperty.BLOCKED)){
 				p.accelerate(-distance,0);
 			}
 		}

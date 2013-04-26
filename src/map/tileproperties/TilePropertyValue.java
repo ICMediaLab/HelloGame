@@ -1,44 +1,24 @@
 package map.tileproperties;
 
-import javax.naming.OperationNotSupportedException;
-
 import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
 
-public abstract class TilePropertyValue {
-	public boolean getBoolean() throws UnsupportedOperationException {
-		throw new UnsupportedOperationException();
-	}
-	public int getInteger() throws UnsupportedOperationException {
-		throw new UnsupportedOperationException();
-	}
-	public double getDouble() throws UnsupportedOperationException {
-		throw new UnsupportedOperationException();
-	}
-	public float getFloat() throws UnsupportedOperationException {
-		throw new UnsupportedOperationException();
-	}
-	public String getString() throws UnsupportedOperationException {
-		throw new UnsupportedOperationException();
+public abstract class TilePropertyValue<T> {
+	
+	private T value;
+	
+	public TilePropertyValue(T value) {
+		set(value);
 	}
 	
-	public void setBoolean(boolean newValue) throws UnsupportedOperationException {
-		throw new UnsupportedOperationException();
-	}
-	public void setInteger(int newValue) throws UnsupportedOperationException {
-		throw new UnsupportedOperationException();
-	}
-	public void setDouble(double newValue) throws UnsupportedOperationException {
-		throw new UnsupportedOperationException();
-	}
-	public void setFloat(float newValue) throws UnsupportedOperationException {
-		throw new UnsupportedOperationException();
-	}
-	public void setString(String newValue) throws UnsupportedOperationException {
-		throw new UnsupportedOperationException();
+	public T get(){
+		return value;
 	}
 	
-	public abstract void parse(String str) throws ParseException, OperationNotSupportedException;
+	public void set(T value){
+		if(value != null){
+			this.value = value;
+		}
+	}
 	
-	@Override
-	public abstract String toString();
+	public abstract void parse(String str) throws ParseException;
 }
