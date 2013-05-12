@@ -7,24 +7,19 @@ import org.newdawn.slick.Image;
 
 import entities.players.Player;
 
+/**
+ * Representation of all player abilities through an enumeration.
+ */
 public enum PlayerAbilities implements PlayerAbility {
-	DOUBLE_JUMP(DoubleJumpAbility.class),
-	FORWARD_TELEPORT(ForwardTeleportAbility.class),
-	RANGED_ATTACK(RangedAttackAbility.class),
-	SPEED_DASH(SpeedDashAbility.class);
+	DOUBLE_JUMP(new DoubleJumpAbility()),
+	FORWARD_TELEPORT(new ForwardTeleportAbility()),
+	RANGED_ATTACK(new RangedAttackAbility()),
+	SPEED_DASH(new SpeedDashAbility());
 	
 	private final PlayerAbility ability;
 	
-	private PlayerAbilities(Class<? extends PlayerAbility> clazz){
-		PlayerAbility pa = null;
-		try {
-			pa = clazz.newInstance();
-		} catch (InstantiationException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-		ability = pa;
+	private PlayerAbilities(PlayerAbility ability){
+		this.ability = ability;
 	}
 	
 	public static Set<PlayerAbilities> getAbilitySet(){
