@@ -8,7 +8,7 @@ import org.newdawn.slick.SlickException;
 
 import entities.objects.LeafTest;
 
-public abstract class AbstractPlayerAbility implements PlayerAbility {
+abstract class AbstractPlayerAbility implements PlayerAbility {
 	
 	private static final long serialVersionUID = 433187519826341229L;
 	
@@ -16,7 +16,7 @@ public abstract class AbstractPlayerAbility implements PlayerAbility {
 	private final String name;
 	private final String description;
 	
-	public AbstractPlayerAbility(String name, String description) {
+	AbstractPlayerAbility(String name, String description) {
 		this.name = name;
 		this.description = description;
 		loadImage();

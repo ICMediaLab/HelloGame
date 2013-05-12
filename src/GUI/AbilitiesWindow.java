@@ -1,26 +1,20 @@
 package GUI;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 
-import utils.classfinder.ClassFinder;
-import entities.players.abilities.PlayerAbility;
+import entities.players.abilities.PlayerAbilities;
 
 class AbilitiesWindow extends AbstractWindow {
 	
 	private static final long serialVersionUID = -4181119528378773217L;
 	
-	private List<PlayerAbility> abilitiesList = new ArrayList<PlayerAbility>();
 	private int abilitySelected = 0;
 	
 	public AbilitiesWindow(GUI gui) {
 		super(gui);
-		abilitiesList.addAll(ClassFinder.getAbilitySet());
 	}
 	
 	@Override
@@ -35,24 +29,26 @@ class AbilitiesWindow extends AbstractWindow {
 		g.setColor(new Color(0.8f, 0, 0, 0.7f));
 		g.fillRoundRect(x + 15, y + 35 + abilitySelected*40, 40, 40, 5);
 		
-		for (int i = 0; i < abilitiesList.size(); i++) {
+		PlayerAbilities[] abilitiesList = PlayerAbilities.values();
+		
+		for (int i = 0; i < abilitiesList.length; i++) {
 			g.setColor(Color.darkGray);
 			g.fillRoundRect(x + 20, y + 40 + i*40, 30, 30, 5);
-			abilitiesList.get(i).getImage().draw(x + 20, y + 40 + i*40, 0.3f);
+			abilitiesList[i].getImage().draw(x + 20, y + 40 + i*40, 0.3f);
 			
 			g.setColor(Color.black);
 			g.drawString(new Integer(i + 1).toString(), x + 33, y + 45 + i*40);
-			g.drawString(abilitiesList.get(i).getName(), x + 20 + 30 + 10, y + 45 + i*40);
+			g.drawString(abilitiesList[i].getName(), x + 20 + 30 + 10, y + 45 + i*40);
 		}
 		
 		g.setColor(Color.darkGray);
 		g.fillRoundRect(x + width * 0.5f, y + 40, 100, 100, 5);
-		abilitiesList.get(abilitySelected).getImage().draw(x + width * 0.5f, y + 40, 1);
+		abilitiesList[abilitySelected].getImage().draw(x + width * 0.5f, y + 40, 1);
 		
 		g.setColor(Color.black);
 		g.drawString(new Integer(abilitySelected + 1).toString(), x + width * 0.5f + 40 , y + 50);
 		g.drawString("Nice image for ability", x + width*0.5f + 50 - g.getFont().getWidth("Nice image for ability")/2 , y + 80);
-		g.drawString(abilitiesList.get(abilitySelected).getDescription(), x + width * 0.5f , y + 150);
+		g.drawString(abilitiesList[abilitySelected].getDescription(), x + width * 0.5f , y + 150);
 		
 	}
 
@@ -61,8 +57,8 @@ class AbilitiesWindow extends AbstractWindow {
 		Input input = gc.getInput();
 		
 		if (input.isKeyPressed(Input.KEY_TAB)) {
-			abilitySelected++;
-			abilitySelected %= abilitiesList.size();
+			abilitySelected ++;
+			abilitySelected %= PlayerAbilities.values().length;
 		}
 		
 	}

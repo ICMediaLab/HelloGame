@@ -16,13 +16,13 @@ import utils.Position;
 import entities.objects.LeafTest;
 import entities.players.Player;
 
-public class RangedAttackAbility extends AbstractPlayerAbility {
+class RangedAttackAbility extends AbstractPlayerAbility {
 	
 	private static final long serialVersionUID = -7935098628978748436L;
 	
 	private transient final SoundGroup release;
 	
-	public RangedAttackAbility() {
+	RangedAttackAbility() {
 		super("Ranged attack","Hold RMB and release to shoot");
 		release = loadRelease();
 	}

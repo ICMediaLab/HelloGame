@@ -2,11 +2,11 @@ package entities.players.abilities;
 
 import entities.players.Player;
 
-public class SpeedDashAbility extends AbstractPlayerAbility {
+class SpeedDashAbility extends AbstractPlayerAbility {
 	
 	private static final long serialVersionUID = 7201612534655193271L;
 	
-	public SpeedDashAbility() {
+	SpeedDashAbility() {
 		super("Speed dash","Press E to move quickly forward");
 	}
 	

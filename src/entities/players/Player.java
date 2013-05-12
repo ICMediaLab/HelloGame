@@ -7,8 +7,8 @@ import items.Weapon;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import map.Cell;
 import map.MapLoader;
@@ -30,7 +30,6 @@ import org.newdawn.slick.geom.Rectangle;
 import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.ImageUtils;
-import utils.classfinder.ClassFinder;
 import utils.interval.one.ColourRange;
 import utils.interval.one.Interval;
 import utils.interval.two.FixedPosition;
@@ -45,7 +44,7 @@ import entities.AbstractEntity;
 import entities.DestructibleEntity;
 import entities.MovingEntity;
 import entities.StaticEntity;
-import entities.players.abilities.PlayerAbility;
+import entities.players.abilities.PlayerAbilities;
 
 public class Player extends AbstractEntity {
 	
@@ -55,7 +54,7 @@ public class Player extends AbstractEntity {
 	
 	private final Animation left, right, leftPause, rightPause;
 	private Animation sprite;
-	private final Map<String, PlayerAbility> abilities = ClassFinder.getAbilityMap();
+	private final Set<PlayerAbilities> abilities = PlayerAbilities.getAbilitySet();
 	
 	private static final Sound SOUND_JUMP = Sounds.loadSound("jump.ogg");
 	private static final SoundGroup FOOTSTEPS = Sounds.loadSoundGroup("player/footsteps/grass");
@@ -147,19 +146,15 @@ public class Player extends AbstractEntity {
 	 * For example, DoubleJumpAbility.java would be referenced to be calling useAbility("DoubleJump").<br />
 	 * The key is not case sensitive.
 	 */
-	public void useAbility(String key) {
-		//lookup the key in the allowed abilities
-		//if the key is in the map then ability.use(this)
-		PlayerAbility tempability = abilities.get(key.toLowerCase());
-		if(tempability != null)
-		{
-			tempability.use(this);
+	public void useAbility(PlayerAbilities ability) {
+		if(abilities.contains(ability)) {
+			ability.use(this);
 		}
 		
 	}
 	
 	private void playerJump() {
-		useAbility("doublejump");
+		useAbility(PlayerAbilities.DOUBLE_JUMP);
 		if (isOnGround()) {
 			super.jump();
 			//Sounds.play(SOUND_JUMP, 1.0f, 0.3f);
@@ -209,12 +204,9 @@ public class Player extends AbstractEntity {
 			//body.m_linearVelocity.x = speed*32;
 		}
 		else if (!input.isKeyPressed(Input.KEY_SPACE)) {
-			if (sprite == left)
-			{
+			if (sprite == left) {
 				sprite = leftPause;
-			}
-			else if (sprite == right)
-			{
+			}else if (sprite == right) {
 				sprite = rightPause;
 			}
 		}
@@ -227,14 +219,14 @@ public class Player extends AbstractEntity {
 		if (input.isKeyDown(Input.KEY_S) || input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
 		    rangedCounter += Config.DELTA; // accumulate time button held
 		} else if (rangedCounter != 0) {
-		    useAbility("rangedattack"); // fire projectile
+		    useAbility(PlayerAbilities.RANGED_ATTACK); // fire projectile
 		    rangedCounter = 0; // reset time
 		}
 		if (input.isKeyPressed(Input.KEY_E)){
-			useAbility("speeddash");
+			useAbility(PlayerAbilities.SPEED_DASH);
 		}
 		if (input.isKeyPressed(Input.KEY_Q)){
-			useAbility("forwardteleport");
+			useAbility(PlayerAbilities.FORWARD_TELEPORT);
 		}
 		
 		if (input.isMouseButtonDown(Input.MOUSE_MIDDLE_BUTTON)){

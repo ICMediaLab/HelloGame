@@ -6,14 +6,14 @@ import sounds.Sounds;
 
 import entities.players.Player;
 
-public class DoubleJumpAbility extends AbstractPlayerAbility {
+class DoubleJumpAbility extends AbstractPlayerAbility {
 	
 	private static final long serialVersionUID = 633444211437521551L;
 	
 	private static final Sound SOUND_DOUBLE_JUMP = Sounds.loadSound("double_jump.ogg");
 	private boolean hasJumped = false;
 	
-	public DoubleJumpAbility(){
+	DoubleJumpAbility(){
 		super("Double jump","Press SPACE twice to double jump");
 	}
 	

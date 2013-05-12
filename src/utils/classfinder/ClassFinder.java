@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.util.AbstractMap.SimpleEntry;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -14,8 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import entities.players.abilities.PlayerAbility;
 
 /**
  * Utility class for loading all class instances of a particular package.
@@ -96,65 +93,5 @@ public final class ClassFinder {
 			}
 		}
 		return ret;
-	}
-	
-	//concrete useful implementations
-	
-	/**
-	 * Returns a mapping of {@link String} to {@link PlayerAbility} in the following format:<br />
-	 * Key: "Ability.class" suffix removed, assumed present. e.g. DoubleJumpAbility -> doublejump<br />
-	 * Value: Concrete, public class instances only.
-	 */
-	public static Map<String, PlayerAbility> getAbilityMap(){
-		try {
-			return getClassMap("entities.players.abilities", new AbiltiiesClassMapFunctor());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-	
-	private static class AbiltiiesClassMapFunctor extends AbstractClassMapFunctor<PlayerAbility> {
-		
-		private static final int abiltylen = "Ability".length();
-		
-		private String getKey(Class<?> clazz) {
-			String sn = clazz.getSimpleName();
-			return sn.substring(0,sn.length() - abiltylen).toLowerCase();
-		}
-		
-		@Override
-		public PlayerAbility getValue(Class<?> clazz) {
-			try {
-				Object inst = getObject(clazz);
-				if(inst instanceof PlayerAbility){
-					return (PlayerAbility) inst;
-				}
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-			return null;
-		}
-
-		@Override
-		public Entry<String, PlayerAbility> getEntry(Class<?> clazz) {
-			return new SimpleEntry<String,PlayerAbility>(getKey(clazz),getValue(clazz));
-		}
-	}
-	
-	/**
-	 * Returns a mapping of {@link String} to {@link PlayerAbility} in the following format:<br />
-	 * Key: "Ability.class" suffix removed, assumed present. e.g. DoubleJumpAbility -> doublejump<br />
-	 * Value: Concrete, public class instances only.
-	 */
-	public static Set<PlayerAbility> getAbilitySet(){
-		try {
-			return getClassSet("entities.players.abilities", new AbiltiiesClassMapFunctor());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 }

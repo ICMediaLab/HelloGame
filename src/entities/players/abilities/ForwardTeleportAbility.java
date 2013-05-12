@@ -5,13 +5,13 @@ import map.tileproperties.TileProperty;
 import entities.players.Player;
 import game.config.Config;
 
-public class ForwardTeleportAbility extends AbstractPlayerAbility {
+class ForwardTeleportAbility extends AbstractPlayerAbility {
 	
 	private static final long serialVersionUID = -2849728958993999720L;
 	
 	private static float distance = 5f;
 	
-	public ForwardTeleportAbility() {
+	ForwardTeleportAbility() {
 		super("Forward teleport","Press Q to teleport forward");
 	}
 	
