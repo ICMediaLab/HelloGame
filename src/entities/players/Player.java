@@ -13,11 +13,8 @@ import java.util.Set;
 import map.Cell;
 import map.MapLoader;
 
-import org.jbox2d.collision.shapes.CircleShape;
-import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.FixtureDef;
 import org.newdawn.slick.Animation;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -68,6 +65,7 @@ public class Player extends AbstractEntity {
 	private boolean isRight = true;
 	private float rangedCounter = 0;
 	private float walkingCounter = 0;
+	private float maxDraw = 1500f;
 	
 	private Collection<Image> dust = ImageUtils.populate(new ArrayList<Image>(),"data/images/circle.png");
 	
@@ -111,24 +109,7 @@ public class Player extends AbstractEntity {
 		left = new Animation(movementLeftSheet, 22); //TODO: make it left
 		rightPause = new Animation(movementRightSheet, 0, 0, 0, 0, true, 1000, false);
 		leftPause = new Animation(movementLeftSheet, 0, 0, 0, 0, true, 1000, false);
-		sprite = rightPause;
-		
-		BodyDef bodyDef = new BodyDef();
-		bodyDef.type = BodyType.DYNAMIC;
-		bodyDef.position.set(x + 0.5f, y + 0.5f);
-		
-		//body = GameplayState.getWorld().createBody(bodyDef);
-		
-		CircleShape shape = new CircleShape();
-		shape.m_radius = 0.5f;
-		
-		FixtureDef fixtureDef = new FixtureDef();
-		fixtureDef.shape = shape;
-		fixtureDef.density = 90f;
-		fixtureDef.restitution = 0.05f;
-		fixtureDef.friction = 0.7f;
-		
-		//body.createFixture(fixtureDef);
+		sprite = rightPause;		
 	}
 	
 	public Player(float x, float y) {
@@ -194,14 +175,12 @@ public class Player extends AbstractEntity {
 			sprite = left;
 			isRight = false;
 			sprite.update(Config.DELTA);
-			//body.m_linearVelocity.x = -speed*32;
 		}
 		else if (input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT)) {
 			accelerate(speed,0f);
 			sprite = right;
 			isRight = true;
 			sprite.update(Config.DELTA);
-			//body.m_linearVelocity.x = speed*32;
 		}
 		else if (!input.isKeyPressed(Input.KEY_SPACE)) {
 			if (sprite == left) {
@@ -217,7 +196,7 @@ public class Player extends AbstractEntity {
 //		    useAbility("rangedattack");
 //		}
 		if (input.isKeyDown(Input.KEY_S) || input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
-		    rangedCounter += Config.DELTA; // accumulate time button held
+			if (rangedCounter < maxDraw)  rangedCounter += Config.DELTA; // accumulate time button held
 		} else if (rangedCounter != 0) {
 		    useAbility(PlayerAbilities.RANGED_ATTACK); // fire projectile
 		    rangedCounter = 0; // reset time
@@ -236,9 +215,9 @@ public class Player extends AbstractEntity {
 		if (isOnGround() && isMovingX()) {
 			walkingCounter -= Config.DELTA;
 			if (walkingCounter < 0) {
-				
+
 				walkingCounter += rand.nextInt(Config.DELTA*4);
-				FOOTSTEPS.playSingle(0.8f, 0.2f, 0.1f, 0.02f);
+				FOOTSTEPS.playSingle(0.8f, 0.2f, 0.03f, 0.02f);
 				
 				Range2D spawn;
 				if(getDirection() > 0){ //right
@@ -268,8 +247,6 @@ public class Player extends AbstractEntity {
 		onGround = newOnGround;
 		
 		checkMapChanged();
-		
-		//body.setTransform(new Vec2(getX() + 0.5f, getY() + 0.5f), 0);
 	}
 	
 	private final ColourRange cRange = new ColourRange(0.2f, 0.4f, 0.1f, 0.4f, 0.1f, 0.4f);
@@ -331,6 +308,9 @@ public class Player extends AbstractEntity {
 		
 		// Health bar above player
 		renderHealthBar(-15);
+		
+		g.setColor(Color.red);
+		g.fillArc((getX() - 1)*Config.getTileSize(), (getY() - 2)*Config.getTileSize(), Config.getTileSize(), Config.getTileSize(), 180, rangedCounter*180/maxDraw - 180);
 	}
 	
 	@Override

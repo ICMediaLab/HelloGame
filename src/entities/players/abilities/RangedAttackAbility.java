@@ -53,6 +53,6 @@ class RangedAttackAbility extends AbstractPlayerAbility {
 	    vec.translate(-p.getCentreX(), -p.getCentreY());
 	    pro = new Projectile(p.getCentreX(), p.getCentreY(), 10, vec.getAngle(), p.getRangedCounter());
 		MapLoader.getCurrentCell().addMovingEntity(pro);
-		release.playSingle();
+		release.playSingle(1, 0.3f);
 	}
 }
