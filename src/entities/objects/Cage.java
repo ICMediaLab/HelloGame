@@ -1,27 +1,24 @@
 package entities.objects;
 
+import map.Cell;
 import map.MapLoader;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
-
 import entities.DestructibleEntity;
 import entities.MovingEntity;
-import entities.StaticRectEntity;
 import entities.players.Player;
 import game.config.Config;
 
-public class Cage extends StaticRectEntity implements DestructibleEntity {
-	
-	private static final long serialVersionUID = -5316305021169945776L;
+public class Cage extends StaticBlockingEntity implements DestructibleEntity {
 	
 	private final int maxhealth = 100;
 	private int health = maxhealth;
 	
-	public Cage(float x, float y, float width, float height) {
-		super(x, y, width, height);
+	public Cage(Cell parent, int x, int y, int width, int height) {
+		super(parent, x, y, width, height);
 	}
 	
 	@Override
@@ -82,7 +79,7 @@ public class Cage extends StaticRectEntity implements DestructibleEntity {
 	
 	@Override
 	public Cage clone() {
-		return new Cage(getX(), getY(), getWidth(), getHeight());
+		return new Cage(parent, (int) getX(),(int) getY(),(int) getWidth(),(int) getHeight());
 	}
 
 	@Override

@@ -11,8 +11,6 @@ import entities.StaticRectEntity;
 
 public class TeleportSender extends StaticRectEntity {
 	
-	private static final long serialVersionUID = 206204684953038020L;
-	
 	private final TeleportReciever tr;
 
 	public TeleportSender(TeleportReciever tr, float x, float y, float width, float height) {

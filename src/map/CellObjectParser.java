@@ -116,7 +116,7 @@ public class CellObjectParser {
 		}else if(go.type.equalsIgnoreCase("jumpPlatform")){
 			cell.addStaticEntity(new JumpPlatform(x,y,width));
 		}else if(go.type.equalsIgnoreCase("cage")){
-			cell.addDefaultDestructibleEntity(new Cage(x,y,width,height));
+			cell.addDefaultDestructibleEntity(new Cage(cell, x,y,width,height));
 		}else if(go.type.equalsIgnoreCase("textField")){
 			TextField<?> tf = TextField.newTextField(x,y,width,height,go.props);
 			if(id != null){

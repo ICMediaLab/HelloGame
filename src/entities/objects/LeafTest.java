@@ -17,8 +17,6 @@ import game.config.Config;
 
 public class LeafTest extends StaticRectEntity {
 	
-	private static final long serialVersionUID = -6597568401058043880L;
-	
 	private static final int LEAF_DEFAULT_LAYER = 100; 
 	
 	private transient boolean running = false;

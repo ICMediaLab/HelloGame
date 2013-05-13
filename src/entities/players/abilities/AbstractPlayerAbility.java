@@ -10,8 +10,6 @@ import entities.objects.LeafTest;
 
 abstract class AbstractPlayerAbility implements PlayerAbility {
 	
-	private static final long serialVersionUID = 433187519826341229L;
-	
 	protected Image image;
 	private final String name;
 	private final String description;

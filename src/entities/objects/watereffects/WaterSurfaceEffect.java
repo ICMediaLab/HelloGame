@@ -20,8 +20,6 @@ import game.config.Config;
 
 public class WaterSurfaceEffect extends StaticRectEntity {
 	
-	private static final long serialVersionUID = 4624455664318242407L;
-	
 	private static final float NODE_SPACING = 0.25f;
 	private static final Random r = new Random();
 	

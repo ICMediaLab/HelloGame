@@ -5,8 +5,6 @@ import entities.MovingEntity;
 
 public class DoorProjectileTrigger extends DoorTrigger {
 	
-	private static final long serialVersionUID = -3139641687725076650L;
-	
 	public DoorProjectileTrigger(int x, int y) {
 		super(x, y);
 	}

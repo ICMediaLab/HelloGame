@@ -4,8 +4,6 @@ import entities.players.Player;
 
 class SpeedDashAbility extends AbstractPlayerAbility {
 	
-	private static final long serialVersionUID = 7201612534655193271L;
-	
 	SpeedDashAbility() {
 		super("Speed dash","Press E to move quickly forward");
 	}

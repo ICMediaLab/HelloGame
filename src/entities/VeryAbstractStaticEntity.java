@@ -10,8 +10,6 @@ import utils.Position;
 
 public abstract class VeryAbstractStaticEntity implements Entity {
 	
-	private static final long serialVersionUID = 2023974827399821020L;
-	
 	@Override
 	public Position getPosition() {
 		return new Position(getCentreX(),getCentreY());

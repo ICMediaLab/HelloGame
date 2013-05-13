@@ -23,8 +23,6 @@ import game.config.Config;
 
 public class DoorTrigger extends StaticRectEntity implements Trigger {
 	
-	private static final long serialVersionUID = 5836692484460309893L;
-	
 	private static final int DOOR_TRIGGER_DEFAULT_LAYER = -200;
 	
 	private final Set<Triggerable> triggerables = new HashSet<Triggerable>();

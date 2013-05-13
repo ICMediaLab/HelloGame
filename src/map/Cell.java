@@ -4,6 +4,7 @@ import entities.DestructibleEntity;
 import entities.Entity;
 import entities.MovingEntity;
 import entities.StaticEntity;
+import entities.objects.StaticBlockingEntity;
 import entities.players.Player;
 import game.config.Config;
 
@@ -348,6 +349,9 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	}
 	
 	public void removeDestructibleEntity(DestructibleEntity e) {
+		if(e instanceof StaticBlockingEntity){
+			((StaticBlockingEntity) e).setBlocked(false);
+		}
 		destructibleEntitiesToRemove.add(e);
 		renderables.remove(e);
 	}

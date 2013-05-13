@@ -5,8 +5,6 @@ import map.MapLoader;
 
 public abstract class VeryAbstractEntity extends VeryAbstractStaticEntity implements MovingEntity {
 	
-	private static final long serialVersionUID = 6416013909933529409L;
-	
 	protected final void setCentreX(float centreX) {
 		getHitbox().setCenterX(centreX);
 	}

@@ -10,8 +10,6 @@ import game.config.Config;
 
 public class JumpPlatform extends StaticRectEntity {
 	
-	private static final long serialVersionUID = 614135722638906689L;
-	
 	private static final int JUMP_PLATFORM_DEFAULT_LAYER = -100;
 	
 	public JumpPlatform(float x, float y, int width){

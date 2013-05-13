@@ -7,8 +7,6 @@ import org.newdawn.slick.geom.Rectangle;
 
 public abstract class StaticRectEntity extends StaticEntity<Rectangle> {
 
-	private static final long serialVersionUID = -5226739811009365094L;
-
 	public StaticRectEntity(float x, float y, float width, float height) {
 		super(new Rectangle(x, y, width, height));
 	}

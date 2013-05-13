@@ -18,8 +18,6 @@ import entities.players.Player;
 
 class RangedAttackAbility extends AbstractPlayerAbility {
 	
-	private static final long serialVersionUID = -7935098628978748436L;
-	
 	private transient final SoundGroup release;
 	
 	RangedAttackAbility() {

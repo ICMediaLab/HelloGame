@@ -28,8 +28,6 @@ import game.config.Config;
 
 public class Projectile extends VeryAbstractEntity {
 	
-	private static final long serialVersionUID = -1419893211263321019L;
-	
 	private static final int PROJECTILE_DEFAULT_LAYER = -500;
 	
 	private transient final Image baseImage;

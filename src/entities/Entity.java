@@ -1,7 +1,5 @@
 package entities;
 
-import java.io.Serializable;
-
 import org.newdawn.slick.geom.Shape;
 
 import utils.LayerRenderable;
@@ -10,7 +8,7 @@ import utils.PositionReturn;
 import utils.Updatable;
 
 
-public interface Entity extends Updatable, LayerRenderable, Serializable, PositionReturn {
+public interface Entity extends Updatable, LayerRenderable, PositionReturn {
 	Position FRICTION = new Position(0.6f,0.04f);
 	float GRAVITY = 0.04f;
 	float JUMP_AMOUNT = 0.5f;
