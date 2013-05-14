@@ -7,8 +7,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.lang.reflect.Field;
-import java.util.HashSet;
-import java.util.Set;
 
 import map.Cell;
 import map.tileproperties.TileProperty;
@@ -20,16 +18,16 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.BufferedImageUtil;
 
-import utils.triggers.Trigger;
-import utils.triggers.Triggerable;
+import utils.triggers.TriggerEffect;
+import utils.triggers.TriggerSource;
 
-public class Door extends StaticBlockingEntity implements Triggerable {
+public class Door extends StaticBlockingEntity implements TriggerEffect {
 	
 	private static final int DOOR_DEFAULT_LAYER = 100;
 	
 	private transient final Animation openSprite, closedSprite;
 	
-	private final Set<Trigger> triggered = new HashSet<Trigger>(), untriggered = new HashSet<Trigger>();
+	private int untriggered = 0;
 	
 	public Door(Cell cell, int x, int y){
 		super(cell,x,y,1,1);
@@ -90,7 +88,7 @@ public class Door extends StaticBlockingEntity implements Triggerable {
 	
 	@Override
 	public void update(GameContainer gc) {
-		if(untriggered.isEmpty()){
+		if(untriggered == 0){
 			openDoor();
 		}
 	}
@@ -119,34 +117,12 @@ public class Door extends StaticBlockingEntity implements Triggerable {
 	}
 	
 	@Override
-	public void addTrigger(Trigger t) {
-		untriggered.add(t);
+	public void addTriggerSource(TriggerSource t) {
+		untriggered++;
 	}
 	
 	@Override
-	public void removeTrigger(Trigger t) {
-		triggered.remove(t);
-		untriggered.remove(t);
-	}
-	
-	@Override
-	public void clearTriggers() {
-		triggered.clear();
-		untriggered.clear();
-	}
-	
-	@Override
-	public void triggered(Trigger t) {
-		if(untriggered.remove(t)){
-			triggered.add(t);
-		}
-	}
-	
-	@Override
-	public void untriggered(Trigger t) {
-		//do nothing as door only requires one triggering of each trigger to open
-		/*if(triggered.remove(t)){
-			untriggered.add(t);
-		}*/
+	public void triggeredSource(TriggerSource t) {
+		untriggered--;
 	}
 }

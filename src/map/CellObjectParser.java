@@ -6,7 +6,7 @@ import java.util.PriorityQueue;
 
 import org.newdawn.slick.tiled.GroupObject;
 
-import utils.triggers.Trigger;
+import utils.triggers.TriggerSource;
 import entities.enemies.Enemy;
 import entities.npcs.NPC;
 import entities.objects.Cage;
@@ -43,7 +43,7 @@ public class CellObjectParser {
 	private final PriorityQueue<IndexedGroupObject> parseQueue = new PriorityQueue<IndexedGroupObject>();
 	
 	private final Map<String,TeleportReciever> teleportRecievers = new HashMap<String,TeleportReciever>();
-	private final Map<String,Trigger> triggers = new HashMap<String,Trigger>();
+	private final Map<String,TriggerSource> triggers = new HashMap<String,TriggerSource>();
 	private final Map<String,TextField<?>> textFields = new HashMap<String,TextField<?>>();
 	
 	/**
@@ -93,9 +93,9 @@ public class CellObjectParser {
 			String ts = go.props.getProperty("triggers");
 			if(ts != null){
 				for(String tid : ts.split("\\s+")) {
-					Trigger trig = triggers.get(tid);
-					trig.addTriggerable(d);
-					d.addTrigger(trig);
+					TriggerSource trig = triggers.get(tid);
+					trig.addTriggerEffect(d);
+					d.addTriggerSource(trig);
 				}
 			}
 			cell.addStaticEntity(d);

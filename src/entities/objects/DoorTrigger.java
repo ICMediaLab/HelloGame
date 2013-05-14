@@ -14,18 +14,18 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.BufferedImageUtil;
 
-import utils.triggers.Trigger;
-import utils.triggers.Triggerable;
+import utils.triggers.TriggerSource;
+import utils.triggers.TriggerEffect;
 import entities.MovingEntity;
 import entities.StaticRectEntity;
 import entities.players.Player;
 import game.config.Config;
 
-public class DoorTrigger extends StaticRectEntity implements Trigger {
+public class DoorTrigger extends StaticRectEntity implements TriggerSource {
 	
 	private static final int DOOR_TRIGGER_DEFAULT_LAYER = -200;
 	
-	private final Set<Triggerable> triggerables = new HashSet<Triggerable>();
+	private final Set<TriggerEffect> triggerables = new HashSet<TriggerEffect>();
 	
 	private transient final Animation s;
 	
@@ -58,37 +58,16 @@ public class DoorTrigger extends StaticRectEntity implements Trigger {
 		return new Animation(new Image[]{ new Image(t) }, 1);
 	}
 	
-	@Override
-	public void update(GameContainer gc) {
-		untriggered();
-	}
+	public void update(GameContainer gc) { }
 	
 	@Override
-	public void addTriggerable(Triggerable t) {
+	public void addTriggerEffect(TriggerEffect t) {
 		triggerables.add(t);
 	}
 	
-	@Override
-	public void removeTriggerable(Triggerable t) {
-		triggerables.remove(t);
-	}
-	
-	@Override
-	public void clearTriggerables() {
-		triggerables.clear();
-	}
-	
-	@Override
 	public void triggered() {
-		for(Triggerable t : triggerables){
-			t.triggered(this);
-		}
-	}
-	
-	@Override
-	public void untriggered() {
-		for(Triggerable t : triggerables){
-			t.untriggered(this);
+		for(TriggerEffect t : triggerables){
+			t.triggeredSource(this);
 		}
 	}
 	
