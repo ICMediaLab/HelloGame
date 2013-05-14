@@ -18,6 +18,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.BufferedImageUtil;
 
+import utils.triggers.BasicTriggerEffect;
 import utils.triggers.TriggerEffect;
 import utils.triggers.TriggerSource;
 
@@ -27,7 +28,7 @@ public class Door extends StaticBlockingEntity implements TriggerEffect {
 	
 	private transient final Animation openSprite, closedSprite;
 	
-	private int untriggered = 0;
+	private BasicTriggerEffect tE = new BasicTriggerEffect();
 	
 	public Door(Cell cell, int x, int y){
 		super(cell,x,y,1,1);
@@ -88,7 +89,7 @@ public class Door extends StaticBlockingEntity implements TriggerEffect {
 	
 	@Override
 	public void update(GameContainer gc) {
-		if(untriggered == 0){
+		if(tE.getTotalUntriggered() == 0){
 			openDoor();
 		}
 	}
@@ -118,11 +119,11 @@ public class Door extends StaticBlockingEntity implements TriggerEffect {
 	
 	@Override
 	public void addTriggerSource(TriggerSource t) {
-		untriggered++;
+		tE.addTriggerSource(t);
 	}
 	
 	@Override
 	public void triggeredSource(TriggerSource t) {
-		untriggered--;
+		tE.triggeredSource(t);
 	}
 }

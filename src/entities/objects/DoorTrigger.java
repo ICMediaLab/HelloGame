@@ -4,8 +4,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.lang.reflect.Field;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
@@ -15,8 +13,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.BufferedImageUtil;
 
-import utils.triggers.TriggerSource;
+import utils.triggers.BasicTriggerSource;
 import utils.triggers.TriggerEffect;
+import utils.triggers.TriggerSource;
 import entities.MovingEntity;
 import entities.StaticRectEntity;
 import entities.players.Player;
@@ -26,7 +25,7 @@ public class DoorTrigger extends StaticRectEntity implements TriggerSource {
 	
 	private static final int DOOR_TRIGGER_DEFAULT_LAYER = -200;
 	
-	private final Set<TriggerEffect> triggerables = new HashSet<TriggerEffect>();
+	private final BasicTriggerSource tS = new BasicTriggerSource();
 	
 	private transient final Animation s;
 	private float filter = 1f;
@@ -68,14 +67,12 @@ public class DoorTrigger extends StaticRectEntity implements TriggerSource {
 	
 	@Override
 	public void addTriggerEffect(TriggerEffect t) {
-		triggerables.add(t);
+		tS.addTriggerEffect(t);
 	}
 	
-	protected void triggered() {
+	protected void trigger() {
 		filter -= 0.02f;
-		for(TriggerEffect t : triggerables){
-			t.triggeredSource(this);
-		}
+		tS.trigger();
 	}
 	
 	@Override
@@ -88,7 +85,7 @@ public class DoorTrigger extends StaticRectEntity implements TriggerSource {
 	@Override
 	public void collide(MovingEntity e) {
 		if(e instanceof Player){
-			triggered();
+			trigger();
 		}
 	}
 

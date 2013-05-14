@@ -12,7 +12,7 @@ public class DoorProjectileTrigger extends DoorTrigger {
 	@Override
 	public void collide(MovingEntity e) {
 		if(e instanceof Projectile){
-			triggered();
+			trigger();
 		}
 	}
 }
