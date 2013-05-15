@@ -1,6 +1,7 @@
 package utils;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -33,6 +34,20 @@ public class ImageUtils {
 	}
 	
 	/**
+	 * Returns a new array of images flipped in the axis specified.<br />
+	 * Does not affect the original image array.<br />
+	 * Images will be in identical order to that passed.
+	 */
+	public static Image[] flipImages(List<Image> is, boolean xAxis, boolean yAxis){
+		Image[] res = new Image[is.size()];
+		int i=0;
+		for(Image img : is){
+			res[i++] = flipImage(img, xAxis, yAxis);
+		}
+		return res;
+	}
+	
+	/**
 	 * Returns an array of {@link Image} objects as specified by the paths given.<br />
 	 * Images are returned in identical order to that provided.
 	 * @throws SlickException If any of the paths do not lead to a valid image.
@@ -53,19 +68,35 @@ public class ImageUtils {
 	public static Image[] loadImages(Node node) throws SlickException{
 		return loadImages(node.getTextContent().trim().split("\\s+"));
 	}
-
+	
 	public static ImageContainer flipImages(ImageContainer images, boolean h, boolean v) {
 		return images.flippedCopy(h,v);
 	}
-
+	
+	/**
+	 * Populates the container specified with the images specified.
+	 * @return The modified container passed initially.
+	 */
 	public static Collection<Image> populate(Collection<Image> col, Image... images) {
 		for(Image i : images){
 			col.add(i);
 		}
 		return col;
 	}
-
+	
+	/**
+	 * Populates the container specified with images loaded from the paths specified.
+	 * @return The modified container passed initially. 
+	 */
 	public static Collection<Image> populate(Collection<Image> col, String... paths) {
+		return populate(col, populate(paths));
+	}
+	
+	/**
+	 * Populates a new array with images loaded from the paths specified.
+	 * @return A new array of size equal to the number of paths specified, containing references to all images loaded.
+	 */
+	public static Image[] populate(String... paths){
 		Image[] images = new Image[paths.length];
 		for(int i=0;i<paths.length;i++){
 			try {
@@ -74,6 +105,13 @@ public class ImageUtils {
 				e.printStackTrace();
 			}
 		}
-		return populate(col, images);
+		return images;
 	}
+	
+	public static <T> void appendReverse(List<? super T> xsBase, T[] xsArray) {
+		for(int i=xsArray.length-1;i>=0;i--){
+			xsBase.add(xsArray[i]);
+		}
+	}
+	
 }

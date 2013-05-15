@@ -18,6 +18,7 @@ import entities.objects.LeafTest;
 import entities.objects.TeleportReciever;
 import entities.objects.TeleportSender;
 import entities.objects.TextField;
+import entities.objects.items.StickItem;
 import entities.objects.watereffects.WaterSurfaceEffect;
 import game.config.Config;
 
@@ -132,6 +133,8 @@ public class CellObjectParser {
 			cell.addStaticEntity(new TeleportSender(teleportRecievers.get(dest), x, y, width, height));
 		}else if(go.type.equalsIgnoreCase("waterSurfaceEffect")){
 			cell.addStaticEntity(new WaterSurfaceEffect(x, y, width));
+		}else if(go.type.equalsIgnoreCase("weapon_item_stick")){
+			cell.addDefaultDestructibleEntity(new StickItem(x, y, width, height));
 		}
 	}
 	
@@ -175,6 +178,7 @@ public class CellObjectParser {
 	 * with a high number of dependencies.
 	 */
 	private static enum ParseOrder {
+		WEAPON_ITEM_STICK,
 		LEAFTEST,
 		JUMPPLATFORM,
 		ENEMY,

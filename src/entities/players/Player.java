@@ -1,8 +1,7 @@
 package entities.players;
 
 import game.config.Config;
-import items.Sword;
-import items.Weapon;
+import items.Weapons;
 
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheet;
-import org.newdawn.slick.geom.Rectangle;
 
 import sounds.SoundGroup;
 import sounds.Sounds;
@@ -59,8 +57,9 @@ public class Player extends AbstractEntity {
 	
 	private static final Random rand = new Random();
 	
+	private Weapons equippedWeapon = null;
+	
 	private float speed = 0.3f;
-	private Weapon sword;
 	private boolean onGround = true;
 	private boolean isRight = true;
 	private float rangedCounter = 0;
@@ -83,29 +82,10 @@ public class Player extends AbstractEntity {
 			movementLeftRaw = movementRightRaw.getFlippedCopy(true, false);
 			movementRightSheet = new SpriteSheet(movementRightRaw, 40, 60);
 			movementLeftSheet = new SpriteSheet(movementLeftRaw, 40, 60);
-			//movementLeft = new Image[]{new Image("data/images/dvl1_lf1.png"), new Image("data/images/dvl1_lf2.png")};
-			
-			//temp weapon
-			//I know the file names suck
-			sword = new Sword(new Rectangle(1,1,1,1), new Image[]{
-				new Image("data/images/stick/stick_0010_Vector-Smart-Object-copy-4.png"),
-				new Image("data/images/stick/stick_0009_Vector-Smart-Object-copy-5.png"),
-				new Image("data/images/stick/stick_0008_Vector-Smart-Object-copy-6.png"),
-				new Image("data/images/stick/stick_0007_Vector-Smart-Object-copy-7.png"),
-				new Image("data/images/stick/stick_0006_Vector-Smart-Object-copy-8.png"),
-				new Image("data/images/stick/stick_0005_Vector-Smart-Object-copy-9.png"),
-				new Image("data/images/stick/stick_0004_Vector-Smart-Object-copy-10.png"),
-				new Image("data/images/stick/stick_0003_Vector-Smart-Object-copy-11.png"),
-				new Image("data/images/stick/stick_0002_Vector-Smart-Object-copy-12.png"),
-				new Image("data/images/stick/stick_0001_Vector-Smart-Object-copy-13.png"),
-				new Image("data/images/stick/stick_0000_Vector-Smart-Object-copy-14.png")},
-					5);
 		} catch (SlickException e) {
 			//do shit all
 		}
-		//int[] duration = {200,200};
 		right = new Animation(movementRightSheet, 22);
-		//left = new Animation(movementLeft, duration, false);
 		left = new Animation(movementLeftSheet, 22); //TODO: make it left
 		rightPause = new Animation(movementRightSheet, 0, 0, 0, 0, true, 1000, false);
 		leftPause = new Animation(movementLeftSheet, 0, 0, 0, 0, true, 1000, false);
@@ -189,8 +169,8 @@ public class Player extends AbstractEntity {
 				sprite = rightPause;
 			}
 		}
-		if (input.isKeyPressed(Input.KEY_W) || input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) {
-		    sword.attack(this);
+		if (equippedWeapon != null && (input.isKeyPressed(Input.KEY_W) || input.isMousePressed(Input.MOUSE_LEFT_BUTTON))) {
+		    equippedWeapon.attack(this);
 		}
 //		if (input.isKeyPressed(Input.KEY_S) || input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
 //		    useAbility("rangedattack");
@@ -231,7 +211,9 @@ public class Player extends AbstractEntity {
 			}
 		}
 		
-		sword.update(gc);
+		if(equippedWeapon != null){
+			equippedWeapon.update(gc);
+		}
 		
 		updateTranslateSmooth();
 		frameMove();
@@ -302,8 +284,8 @@ public class Player extends AbstractEntity {
 		
 		renderSprite(sprite, -4, -25);
 		
-		if (sword != null && sword.used()) {
-		    sword.render(gc,g);
+		if (equippedWeapon != null && equippedWeapon.used()) {
+			equippedWeapon.render(gc,g);
 		}
 		
 		// Health bar above player
@@ -322,7 +304,6 @@ public class Player extends AbstractEntity {
 	@Override
 	public void collide(StaticEntity<?> e) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override
@@ -338,5 +319,9 @@ public class Player extends AbstractEntity {
 	public void collide(DestructibleEntity d) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public void setWeapon(Weapons newWeapon) {
+		equippedWeapon = newWeapon;
 	}
 }

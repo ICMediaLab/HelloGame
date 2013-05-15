@@ -13,18 +13,19 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import sounds.SoundGroup;
+import utils.ImageUtils;
 import entities.MovingEntity;
 import entities.players.Player;
 import game.config.Config;
 
-public class Sword extends Weapon {
+public class Stick extends AbstractWeapon {
 
     private boolean swung = false;
     private int counter = 0;
     private SoundGroup swingSound;
     private int dir;
     
-    public Sword(Rectangle hitbox, Image[] images, int damage) {
+    public Stick(Rectangle hitbox, Image[] images, int damage) {
         super(hitbox, images, damage);
         right.setPingPong(true); left.setPingPong(true);
 		// also TODO: make animation run through but then stop, ready to start at first frame again when called again
@@ -37,7 +38,23 @@ public class Sword extends Weapon {
 		}
     }
     
-    @Override
+    public Stick() {
+		this(new Rectangle(1,1,1,1), ImageUtils.populate(
+				"data/images/stick/stick_0010_Vector-Smart-Object-copy-4.png",
+				"data/images/stick/stick_0009_Vector-Smart-Object-copy-5.png",
+				"data/images/stick/stick_0008_Vector-Smart-Object-copy-6.png",
+				"data/images/stick/stick_0007_Vector-Smart-Object-copy-7.png",
+				"data/images/stick/stick_0006_Vector-Smart-Object-copy-8.png",
+				"data/images/stick/stick_0005_Vector-Smart-Object-copy-9.png",
+				"data/images/stick/stick_0004_Vector-Smart-Object-copy-10.png",
+				"data/images/stick/stick_0003_Vector-Smart-Object-copy-11.png",
+				"data/images/stick/stick_0002_Vector-Smart-Object-copy-12.png",
+				"data/images/stick/stick_0001_Vector-Smart-Object-copy-13.png",
+				"data/images/stick/stick_0000_Vector-Smart-Object-copy-14.png"),
+					5);
+	}
+
+	@Override
     public boolean used() {
         return swung;
     }

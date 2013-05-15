@@ -12,12 +12,15 @@ public class BasicTriggerEffect implements TriggerEffect {
 	
 	@Override
 	public void addTriggerSource(TriggerSource t) {
+		System.out.println(this + "\t" + t);
 		untriggeredSources.add(t);
 	}
 	
 	@Override
 	public void triggeredSource(TriggerSource t) {
+		System.out.println(this + "\t" + t);
 		if(untriggeredSources.remove(t)){
+			System.out.println("yay");
 			triggeredSources.add(t);
 		}
 	}

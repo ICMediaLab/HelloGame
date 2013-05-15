@@ -26,7 +26,7 @@
    <property name="render-index" value="-10000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxtltnOqzAMhE1ZW0rhhkLpQt//KU+Q5lPmr86FlZA4Y2e8hDUiliSPJLPmryRbkneSr74/+n5LZ09y15m3dND/CG/R/qy1RTp37aN7yJrklqROMiW56PsYiyRlknOSU5JWe4PkWKu0X0l3kk4pzF57B1Yj3DFJJ91RsmqcTHqdG2Sj0dpV+7XhjvLnJnvjz5lGupP5O+hOvfyqxSf3b4yb0ThpjBfHHo2fs86VZvMi31uNo+ZwC8akOJfy8yRM7ojNq850wu8kvfxoDLeQTqE17n8VZmN2Otk6/P+avUE+XbXXSpf7w1Wp8+5jZf6RA6Xm8IUvYLfi4tDbpAsf5FBhc/isdO5k63Bfa4179Jq3xvf0H11sfX5ixRnqgW/nq41cV8TlpjvfDItcHS1m1BMxKDUecXkafm341F6lc635MhlGH7m2iRXxu2oPLPZOtnecf8iP70+MiCn39NwmB/G3i5w71MNZ2FXkvKBmBtlh7dB5R+5/1HAlvF+esUUtFsY7+B7XQToew4vZPhmvs3ygN5MHleGAP2odzqjXSjj0J2qEusEP+koXuVbgaFU8ZsUGf+bIvXqI3CvgvTeb9O4p/vaLi3Twn7rzXkyP461aNN8jv3OPyD27MS4rxYd+C/fw10XOC+bkVh05l+kB5/j7pq7yh7f2WHtGfi8rs0NtwRX3pvddIufvaN/UB+8cvs6R3/U98ntO7j4030znpbGXbiW56X68H8Syl016uveRj9naxMWq+2MfPtbI/x5fjU+dv0u2yLlHv6Hv0q/Y599kMdxd42r3JT74Mts3/0Nf84P+Q3zBvkeuk8J8f0oPX76y+zD7e+R8mC0OL9NZzS5Y9EPsb6bHvTfDRGc3jvkXfEfuJ/CzWuzukWsJHOrsKVkMj9wnB5fIuUYM8PcfGDImbw==
+   eJxtltnSqkAMhKMgoIhwI4L7+z/lGar6q/RvnYsUs2Q6mc4yLBFxK7IWuWr8LHIv8iry1fyt+Us6nyKzzrykg/5beDftX7V2k86sfXQ3WYpcihyKTEVOmm/fXZGqyLHIvkirvUGyrdXar6U7SacSZq+9DasR7likk+4oWfSdTHqdG2Sj0dpZ+wfDHeXPRfbGnzONdCfzd9Cdevl1EJ/cvzFuRuOkMV4cezR+jjpXmc2TfG/1HTWGWzAmxbmSn3thckdsnnWmE34n6eVHY7g76ey0xv3PwmzMTidbm/9fszfIp7P2Wulyf7iqdN59rM0/cqDSGL7wBexWXGx6d+nCBzm0szF81jq3t3W4P2iNe/Qat8b39B9dbL1/YsUZ6oG589VG1hVxuejOF8MiV0eLGfVEDCp9t7g8DP9g+NRerXOt+TIZRh9Z28SK+J21BxZ7e9vbzq/y4/sTI2LKPT23yUH87SJzh3o4CruOzAtqZpAd1jadV2T/o4Zr4f3yjC1qcWe8g+9xHaTjMTyZ7b3xepUP9GbyoDYc8Eetwxn1WguH/kSNUDf4QV/pImsFjhbF46rY4M81slcPkb0C3nuzSe+e4m+/OEkH/6k778X0ON6qm8afyHdujezZjXFZKz70W7iHvy4yLxiTW4fIXKYHHOPvm0qMB+PlEfle1maH2oIr7k3vO0Xm72hz6oN3Dl+vkXkBV/TaVfIWP2/j6yO8Wf7VsrmPfD+IZS+b9HTvI7z7q2zAFZj0iibyzeK/4Bj5Zs+Se2Tu0W/ou/Qr9vk34X+EmvXcvOqui83Jn9X0vxrPkf2H+II9R9bJTnpvfZ/my1c2V7P9icwHfHpaLBYJdsGiH2L/bnrc+26Y6Hwi65R/wVdkP1ki/9eI3RxZS+BQZw/JzfCexiv3J9dekT1j+/4DtrIk6A==
   </data>
  </layer>
  <layer name="Tile Layer 2" width="34" height="20">
@@ -34,7 +34,7 @@
    <property name="render-index" value="5000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALygDAQCw20I5CAIBRT28yRCqgdtyIMkPAUprK5lIDBFL+g8IaF0WABILfA3ARzF6XpQpBKZsBoERL0CZOhhxQAMx/mR/S0LsQwcPELK68HU/7DBwDfogKK
+   eJxjYBgFo2AUjALygDAQCw20I5CAIBRT28yRCqgdtyIMkPAUprK5lICBjN9DaHxQeMPCaLAAkFtgboK5i9J0IUgFM5DNEiFBvTAePSJQjBwPwjhoESgbPS3D5GF+RJcXYhi4+IWV14Mp/+EDAJtyBEA=
   </data>
  </layer>
  <layer name="trunks" width="34" height="20">
@@ -42,7 +42,7 @@
    <property name="render-index" value="-6000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztlEEKwlAQQ+cqKuhCQQUVqqCFWtCCCt7/MCb0B6H8cdWRLhrI7hceTSZmw9MSnsKzjIv05gKX8C2QYwMvHI5zenOFa/gRyLGHVw5Hld7c4QZ+B3Ic4a3DoRye8Mu+/ydCzP7gcCiHibUd2gVyMPuTw6Ec5tZ2KJKD2ZcOh/rBm2KHisz3fYnZ1w6H+sGbYoci+0E1Dof6wZtih6rs1/3J2zH1gzfFDkXuGOXtmHqpPY3csa5yu649jdyxXyzqpfZ0/WeOrrSnkfsxatRQ9QFRSxnn
+   eJztlM0KwjAQhPMqKuhBQcU/qqCFWtGKP/j+D+MOzSBItnjoQA8OzC0hH9nZCaF7Gpv75kHCWTxzMOfms5BjZh45HPt45mguzTchx8o8cTiKeOZirswvIcfWPHc4OIe7+RE+/6MQZr92ODiHXqgztBRyYPY7h4NzGIY6Q0oOzD53OJgP7BQylCXutyXMvnQ4mA/sFDKkzAdUORzMB3YKGSqSt9uT12PMB3YKGVL2GOT1GHPJPlX22LdSvc4+VfZYEwtzyT6dCt/knz8bzrBP1T3GnC6E7/zKsYksJ/M1mvnAXNBj6n35qxt6A916HgQ=
   </data>
  </layer>
  <layer name="branches" width="34" height="20">
@@ -98,10 +98,13 @@
    <property name="render-index" value="5000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUDDXwFIifDbQjkMBjIH5CAzNHKqB23ILiZrClGWqnF0oALP0+HWiHIAFkN8HijdIwo0Y+hYURqeFF6zB+zIA9zGBgINP/YExfQwEAAAHcIB4=
+   eJxjYBgFo2AUDDXwFIifDbQjkMBjIH5CAzNHKqB23ILiZrClGWqnF0oALP0+HWiHIAFkN8HijdIwo2Y+JTW88IXxYyh+xoDqZ5gemBiyOHr58JgBe5jBwECm/8GYvoYCAAC3jiu1
   </data>
  </layer>
  <objectgroup name="teleporters" width="34" height="20">
   <object name="01_tr1" type="teleport_recieve" x="32" y="32" width="1024" height="32"/>
+ </objectgroup>
+ <objectgroup name="item" width="34" height="20">
+  <object name="01_i_w_stick1" type="weapon_item_stick" x="128" y="512" width="32" height="32"/>
  </objectgroup>
 </map>

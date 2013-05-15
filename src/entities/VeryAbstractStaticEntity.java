@@ -65,6 +65,10 @@ public abstract class VeryAbstractStaticEntity implements Entity {
 		//do nothing		
 	}
 	
+	protected void renderSprite(Animation sprite){
+		renderSprite(sprite, 0, 0);
+	}
+	
 	protected void renderSprite(Animation sprite, float offsetX, float offsetY){
 		//TODO: use somehow filter.darker or filter.lighter with layer
 		float x = getCentreX() - getWidth()/2;

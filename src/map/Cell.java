@@ -345,6 +345,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	
 	public void removeMovingEntity(MovingEntity e) {
 		entitiesToRemove.add(e);
+		destructibleEntitiesToRemove.add(e);
 		renderables.remove(e);
 	}
 	
