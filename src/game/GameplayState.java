@@ -71,9 +71,6 @@ public class GameplayState extends MouseCapture implements Serializable {
 	
 	@Override
 	public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
-		if(Math.random() < 0.02){
-			Notification.addNotification("test notification.");
-		}
 		Notification.update(gc);
 		if(HelloGameContainer.getInstance().isRunning()){
 			//update map

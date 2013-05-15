@@ -42,7 +42,7 @@ public class Notification {
 		return notifications.size();
 	}
 	
-	private static final float OPACITY_DELTA = -0.004f;
+	private static final float OPACITY_DELTA = -0.003f;
 	
 	private final String str;
 	

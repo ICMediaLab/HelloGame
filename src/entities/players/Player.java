@@ -169,7 +169,7 @@ public class Player extends AbstractEntity {
 				sprite = rightPause;
 			}
 		}
-		if (equippedWeapon != null && (input.isKeyPressed(Input.KEY_W) || input.isMousePressed(Input.MOUSE_LEFT_BUTTON))) {
+		if ((input.isKeyPressed(Input.KEY_W) || input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) && equippedWeapon != null) {
 		    equippedWeapon.attack(this);
 		}
 //		if (input.isKeyPressed(Input.KEY_S) || input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
