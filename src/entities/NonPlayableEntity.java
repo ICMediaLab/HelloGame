@@ -20,6 +20,14 @@ public abstract class NonPlayableEntity extends AbstractEntity {
 		this.aitree = aitree;
 	}
 	
+	/**
+	 * Copy constructor
+	 */
+	protected NonPlayableEntity(NonPlayableEntity base) {
+		super(base);
+		this.aitree = base.aitree;
+	}
+
 	@Override
 	public void update(GameContainer gc) {
 		super.update(gc);

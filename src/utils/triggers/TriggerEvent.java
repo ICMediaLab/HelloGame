@@ -24,7 +24,7 @@ public class TriggerEvent<K> implements AugmentedTriggerSource<K> {
 	
 	public void triggered(K k){
 		for(AugmentedTriggerEffect<K> effect : effects){
-			effect.triggered(this,k);
+			effect.triggered(k);
 		}
 	}
 	
@@ -37,12 +37,6 @@ public class TriggerEvent<K> implements AugmentedTriggerSource<K> {
 		public StaticEventTrigger(TriggerEvent<K> event) {
 			event.addTriggerEffect(this);
 		}
-		
-		public void triggered(AugmentedTriggerSource<K> t, K k) {
-			triggered(k);
-		}
-
-		protected abstract void triggered(K k);
 	}
 	
 	@SuppressWarnings("unused")

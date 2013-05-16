@@ -60,12 +60,18 @@ public class NPC extends NonPlayableEntity{
 		this.right = right;
 		sprite = right;
 	}
-
+	
+	private NPC(NPC base){
+		super(base);
+		this.left = base.left;
+		this.right = base.right;
+		this.sprite = base.sprite;
+		this.tf = base.tf;
+	}
+	
 	@Override
 	public NPC clone() {
-		NPC ret = new NPC(getX(), getY(), getWidth(), getHeight(),getMaxHealth(), left, right,getAIDecisionTree());
-		ret.setTextField(this.tf);
-		return ret;
+		return new NPC(this);
 	}
 	
 	/**
@@ -94,7 +100,9 @@ public class NPC extends NonPlayableEntity{
 			return null;
 		}
 		NPC base = npcs.get(name.toLowerCase());
-		return new NPC(x,y, base.getWidth(), base.getHeight(),base.getMaxHealth(),base.left,base.right,base.getAIDecisionTree());
+		NPC ret = new NPC(base);
+		ret.setPosition(x, y);
+		return ret;
 	}
 	
 	/**

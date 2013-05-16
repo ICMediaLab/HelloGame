@@ -3,7 +3,7 @@ package utils;
 import java.io.Serializable;
 
 
-public class Dimension implements Serializable {
+public class Dimension implements Serializable, Cloneable {
 	
 	private static final long serialVersionUID = 2660123525298222050L;
 	
@@ -12,6 +12,11 @@ public class Dimension implements Serializable {
 	public Dimension(float width, float height){
 		this.width = width;
 		this.height = height;
+	}
+	
+	@Override
+	public Dimension clone() {
+		return new Dimension(width, height);
 	}
 
 	public float getHeight() {

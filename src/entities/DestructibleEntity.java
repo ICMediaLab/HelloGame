@@ -1,5 +1,7 @@
 package entities;
 
+import utils.triggers.AugmentedTriggerEffect;
+
 public interface DestructibleEntity extends Entity, Cloneable {
 	
 	/**
@@ -33,7 +35,8 @@ public interface DestructibleEntity extends Entity, Cloneable {
 	 * Performs cleanup for entity death (e.g. removing from current cell, etc).
 	 */
 	void die();
-
+	
+	void addDeathTrigger(AugmentedTriggerEffect<DestructibleEntity> t);
+	
 	DestructibleEntity clone();
-
 }

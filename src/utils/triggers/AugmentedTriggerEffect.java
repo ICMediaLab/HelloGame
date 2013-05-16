@@ -1,5 +1,5 @@
 package utils.triggers;
 
 public interface AugmentedTriggerEffect<K> {
-	void triggered(AugmentedTriggerSource<K> t, K k);
+	void triggered(K k);
 }

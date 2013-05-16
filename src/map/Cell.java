@@ -2,12 +2,13 @@ package map;
 
 import entities.DestructibleEntity;
 import entities.Entity;
+import entities.FixedRotationEntity;
 import entities.MovingEntity;
 import entities.StaticEntity;
-import entities.objects.StaticBlockingEntity;
 import entities.players.Player;
 import game.config.Config;
 
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -21,6 +22,8 @@ import lights.AmbientLight;
 import lights.EntityLight;
 import lights.Light;
 import lights.PointLight;
+import map.tileproperties.BooleanTilePropertyValue;
+import map.tileproperties.TileProperty;
 
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
@@ -269,15 +272,23 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	}
 	
 	public Set<MovingEntity> getMovingEntities() {
-		return entities;
+		return Collections.unmodifiableSet(entities);
 	}
 	
 	public Set<StaticEntity<?>> getStaticEntities() {
-		return staticEntities;
+		return Collections.unmodifiableSet(staticEntities);
 	}
 	
 	public Set<DestructibleEntity> getDestructibleEntities() {
-		return destructibleEntities;
+		return Collections.unmodifiableSet(destructibleEntities);
+	}
+	
+	public void setBlocked(FixedRotationEntity e, boolean blocked){
+		for(int y=(int) e.getY();y<(int) (e.getY()+e.getHeight());y++){
+			for(int x=(int) e.getX();x<(int) (e.getX()+e.getWidth());x++){
+				getTile(x, y).put(TileProperty.BLOCKED, new BooleanTilePropertyValue(blocked));
+			}
+		}
 	}
 	
 	public void update(GameContainer gc){
@@ -348,13 +359,9 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		entitiesToRemove.add(e);
 		destructibleEntitiesToRemove.add(e);
 		renderables.remove(e);
-		TriggerEvent.ENTITY_REMOVED.triggered(e);
 	}
 	
 	public void removeDestructibleEntity(DestructibleEntity e) {
-		if(e instanceof StaticBlockingEntity){
-			((StaticBlockingEntity) e).setBlocked(false);
-		}
 		destructibleEntitiesToRemove.add(e);
 		renderables.remove(e);
 		TriggerEvent.ENTITY_REMOVED.triggered(e);

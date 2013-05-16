@@ -1,6 +1,7 @@
 package entities.objects;
 
 import entities.MovingEntity;
+import entities.StaticRectEntity;
 import game.config.Config;
 
 import java.awt.image.BufferedImage;
@@ -24,7 +25,7 @@ import utils.triggers.TriggerEffect;
 import utils.triggers.TriggerEvent;
 import utils.triggers.TriggerSource;
 
-public class Door extends StaticBlockingEntity implements TriggerEffect {
+public class Door extends StaticRectEntity implements TriggerEffect {
 	
 	private static final int DOOR_DEFAULT_LAYER = 100;
 	
@@ -32,11 +33,14 @@ public class Door extends StaticBlockingEntity implements TriggerEffect {
 	
 	private final Set<TriggerSource> untriggered = new HashSet<TriggerSource>();
 	
+	private final Cell parent;
+	
 	public Door(Cell cell, int x, int y){
-		super(cell,x,y,1,1);
-		openDoor(true);
+		super(x,y,1,1);
+		parent = cell;
 		closedSprite = getClosedAnimation();
 		openSprite = getOpenAnimation();
+		openDoor(true);
 	}
 	
 	/**
@@ -93,7 +97,7 @@ public class Door extends StaticBlockingEntity implements TriggerEffect {
 	public void update(GameContainer gc) { }
 	
 	private void openDoor(boolean ignoreTrigger){
-		setBlocked(false);
+		parent.setBlocked(this,false);
 		if(!ignoreTrigger){
 			TriggerEvent.DOOR_OPENED.triggered(this);
 		}
@@ -104,7 +108,7 @@ public class Door extends StaticBlockingEntity implements TriggerEffect {
 	}
 	
 	private void closeDoor(){
-		setBlocked(true);
+		parent.setBlocked(this,true);
 	}
 	
 	@Override

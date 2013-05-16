@@ -1,7 +1,5 @@
 package items;
 
-import java.util.Set;
-
 import map.Cell;
 import map.MapLoader;
 
@@ -83,7 +81,6 @@ public class Stick extends AbstractWeapon {
         // TODO: for some reason this turns out to be twice the animation length.  I made a quick fix by setting the sprite to ping pong mode, doubling the length
         if (swung && counter <= defaultDuration * duration.length * 2) {
         	Cell cell = MapLoader.getCurrentCell();
-        	Set<MovingEntity> entities = cell.getMovingEntities();
         	Player p = cell.getPlayer();
         	
         	
@@ -100,7 +97,7 @@ public class Stick extends AbstractWeapon {
             
             // do NOT pass in ALL enemies in cell, or this will be slow
             // find some way to pass only adjacent enemies to player.
-            for (MovingEntity e : entities) {
+            for (MovingEntity e : cell.getMovingEntities()) {
                 if (e != p && e.intersects(hitbox)) {
                     e.takeDamage(damage); //take damage
                     if (dir == 1) {

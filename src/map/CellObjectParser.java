@@ -3,10 +3,16 @@ package map;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Scanner;
+
+import notify.Notification;
 
 import org.newdawn.slick.tiled.GroupObject;
 
+import utils.triggers.AugmentedTriggerEffect;
 import utils.triggers.TriggerSource;
+import entities.DestructibleEntity;
+import entities.Entity;
 import entities.enemies.Enemy;
 import entities.npcs.NPC;
 import entities.objects.Cage;
@@ -43,6 +49,8 @@ public class CellObjectParser {
 	
 	private final PriorityQueue<IndexedGroupObject> parseQueue = new PriorityQueue<IndexedGroupObject>();
 	
+	private final Map<String,Entity> everything = new HashMap<String,Entity>();
+	
 	private final Map<String,TeleportReciever> teleportRecievers = new HashMap<String,TeleportReciever>();
 	private final Map<String,TriggerSource> triggers = new HashMap<String,TriggerSource>();
 	private final Map<String,TextField<?>> textFields = new HashMap<String,TextField<?>>();
@@ -62,9 +70,29 @@ public class CellObjectParser {
 			IndexedGroupObject igo = parseQueue.poll();
 			parseObject(igo.getCell(), igo.unwrap());
 		}
+		parseTrigger("01_cage1 death notify The cage was destroyed!");
 		inst = null;
 	}
 	
+	private void parseTrigger(String trigger) {
+		//TODO everything...
+		Scanner in = new Scanner(trigger);
+		String src = in.next();
+		final Entity srcE = everything.get(src);
+		if(srcE == null){
+			System.out.println("Warning: Failed to parse '" + trigger + "': No such id: '" + src + "'.");
+		}else if(!(srcE instanceof DestructibleEntity)){
+			System.out.println("Warning: Failed to parse '" + trigger + "': Entity: '" + src + "' may not hold a death trigger.");
+		}
+		System.out.println(srcE);
+		((DestructibleEntity) srcE).addDeathTrigger(new AugmentedTriggerEffect<DestructibleEntity>() {
+			@Override
+			public void triggered(DestructibleEntity k) {
+				Notification.addNotification("Wahay we finally have a death trigger vaguely related to the map editor. How nice :)");
+			}
+		});
+	}
+
 	private void parseObject(Cell cell, GroupObject go) {
 		String id = go.name;
 		int x = go.x / Config.getTileSize();
@@ -78,7 +106,9 @@ public class CellObjectParser {
 		}
 		
 		if(go.type.equalsIgnoreCase("enemy")){
-			cell.addDefaultMovingEntity(Enemy.getNew(cell, subtype, x,y));
+			Enemy e = Enemy.getNew(cell, subtype, x,y);
+			cell.addDefaultMovingEntity(e);
+			everything.put(id, e);
 		}else if(go.type.equalsIgnoreCase("npc")){
 			NPC npc = NPC.getNew(cell, subtype, x,y);
 			String tfstr = go.props.getProperty("text_id");
@@ -89,6 +119,7 @@ public class CellObjectParser {
 				}
 			}
 			cell.addDefaultMovingEntity(npc);
+			everything.put(id, npc);
 		}else if(go.type.equalsIgnoreCase("door")){
 			Door d = new Door(cell,x,y);
 			String ts = go.props.getProperty("triggers");
@@ -100,41 +131,58 @@ public class CellObjectParser {
 				}
 			}
 			cell.addStaticEntity(d);
+			everything.put(id, d);
 		}else if(go.type.equalsIgnoreCase("doorTrigger")){
 			DoorTrigger dt = new DoorTrigger(x,y);
 			if(id != null){
 				triggers.put(id, dt);
 			}
 			cell.addStaticEntity(dt);
+			everything.put(id, dt);
 		}else if(go.type.equalsIgnoreCase("doorProjectileTrigger")){
 			DoorProjectileTrigger dpt = new DoorProjectileTrigger(x,y);
 			if(id != null){
 				triggers.put(id, dpt);
 			}
 			cell.addStaticEntity(dpt);
+			everything.put(id, dpt);
 		}else if(go.type.equalsIgnoreCase("leafTest")){
-			cell.addStaticEntity(new LeafTest(x,y));
+			LeafTest lt = new LeafTest(x,y);
+			cell.addStaticEntity(lt);
+			everything.put(id, lt);
 		}else if(go.type.equalsIgnoreCase("jumpPlatform")){
-			cell.addStaticEntity(new JumpPlatform(x,y,width));
+			JumpPlatform jp = new JumpPlatform(x,y,width);
+			cell.addStaticEntity(jp);
+			everything.put(id, jp);
 		}else if(go.type.equalsIgnoreCase("cage")){
-			cell.addDefaultDestructibleEntity(new Cage(cell, x,y,width,height));
+			Cage c = new Cage(cell, x,y,width,height);
+			cell.addDefaultDestructibleEntity(c);
+			everything.put(id, c);
 		}else if(go.type.equalsIgnoreCase("textField")){
 			TextField<?> tf = TextField.newTextField(x,y,width,height,go.props);
 			if(id != null){
 				textFields.put(id, tf);
 			}
 			cell.addStaticEntity(tf);
+			everything.put(id, tf);
 		}else if(go.type.equalsIgnoreCase("teleport_recieve")){
 			TeleportReciever tr = new TeleportReciever(cell, x, y, width, height);
 			teleportRecievers.put(id,tr);
 			cell.addStaticEntity(tr);
+			everything.put(id, tr);
 		}else if(go.type.equalsIgnoreCase("teleport_send")){
 			String dest = go.props.getProperty("dest");
-			cell.addStaticEntity(new TeleportSender(teleportRecievers.get(dest), x, y, width, height));
+			TeleportSender ts = new TeleportSender(teleportRecievers.get(dest), x, y, width, height);
+			cell.addStaticEntity(ts);
+			everything.put(id, ts);
 		}else if(go.type.equalsIgnoreCase("waterSurfaceEffect")){
-			cell.addStaticEntity(new WaterSurfaceEffect(x, y, width));
+			WaterSurfaceEffect wse = new WaterSurfaceEffect(x, y, width);
+			cell.addStaticEntity(wse);
+			everything.put(id, wse);
 		}else if(go.type.equalsIgnoreCase("weapon_item_stick")){
-			cell.addDefaultDestructibleEntity(new StickItem(x, y, width, height));
+			StickItem si = new StickItem(x, y, width, height);
+			cell.addDefaultDestructibleEntity(si);
+			everything.put(id, si);
 		}
 	}
 	

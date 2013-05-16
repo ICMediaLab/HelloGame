@@ -53,10 +53,20 @@ public class Enemy extends NonPlayableEntity{
 		this.right = right;
 		sprite = right;
 	}
+	
+	/**
+	 * Copy constructor
+	 */
+	private Enemy(Enemy base) {
+		super(base);
+		this.left = base.left;
+		this.right = base.right;
+		this.sprite = base.sprite;
+	}
 
 	@Override
 	public Enemy clone() {
-		return new Enemy(getX(), getY(), getWidth(), getHeight(),getMaxHealth(), left, right,getAIDecisionTree());
+		return new Enemy(this);
 	}
 
 	/**
@@ -85,7 +95,9 @@ public class Enemy extends NonPlayableEntity{
 			return null;
 		}
 		Enemy base = enemies.get(name.toLowerCase());
-		return new Enemy(x,y, base.getWidth(), base.getHeight(),base.getMaxHealth(),base.left,base.right,base.getAIDecisionTree());
+		Enemy ret = new Enemy(base);
+		ret.setPosition(x, y);
+		return ret;
 	}
 	
 	/**

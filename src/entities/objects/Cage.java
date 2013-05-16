@@ -1,31 +1,51 @@
 package entities.objects;
 
 import map.Cell;
-import map.MapLoader;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Shape;
 
-import entities.DestructibleEntity;
+import entities.FixedRotationEntity;
 import entities.MovingEntity;
+import entities.VeryAbstractDestructibleEntity;
 import entities.players.Player;
 import game.config.Config;
 
-public class Cage extends StaticBlockingEntity implements DestructibleEntity {
+public class Cage extends VeryAbstractDestructibleEntity implements FixedRotationEntity {
 	
-	private final int maxhealth = 100;
-	private int health = maxhealth;
+	private final int maxhealth;
+	private int health;
+	
+	private final Cell parent;
+	
+	private final Rectangle hitbox;
 	
 	public Cage(Cell parent, int x, int y, int width, int height) {
-		super(parent, x, y, width, height);
+		super();
+		hitbox = new Rectangle(x, y, width, height);
+		this.parent = parent;
+		maxhealth = 100;
+		health = maxhealth;
+		parent.setBlocked(this,true);
+	}
+	
+	private Cage(Cage base){
+		super(base);
+		hitbox = new Rectangle(base.getX(), base.getY(), base.getWidth(), base.getHeight());
+		this.parent = base.parent;
+		this.maxhealth = base.maxhealth;
+		this.health = base.health;
+		parent.setBlocked(this,true);
 	}
 	
 	@Override
 	public void collide(MovingEntity e) {
 		// Why is weapon not colliding?
 		// we never had the ability to collide the weapon afaik
-		if (e instanceof Player) health -= 10;
+		if (e instanceof Player) takeDamage(10);
 	}
 	
 	@Override
@@ -68,32 +88,33 @@ public class Cage extends StaticBlockingEntity implements DestructibleEntity {
 	}
 	
 	@Override
-	public float getHealthPercent() {
-		return (float) getHealth()/getMaxHealth();
-	}
-	
-	@Override
 	public int getMaxHealth() {
 		return maxhealth;
 	}
 	
 	@Override
 	public Cage clone() {
-		return new Cage(parent, (int) getX(),(int) getY(),(int) getWidth(),(int) getHeight());
+		return new Cage(this);
 	}
-
-	@Override
-	public boolean isSolid() {
-		return true;
-	}
-
+	
 	@Override
 	public void die() {
-		MapLoader.getCurrentCell().removeDestructibleEntity(this);
+		parent.setBlocked(this,false);
+		super.die();
 	}
 
 	@Override
-	public boolean isDead() {
-		return health <= 0;
+	public Shape getHitbox() {
+		return hitbox;
+	}
+
+	@Override
+	public float getX() {
+		return hitbox.getX();
+	}
+
+	@Override
+	public float getY() {
+		return hitbox.getY();
 	}
 }
