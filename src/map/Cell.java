@@ -39,6 +39,7 @@ import utils.Renderable;
 import utils.Updatable;
 import utils.particles.ParticleEmitter;
 import utils.particles.RainTest;
+import utils.triggers.TriggerEvent;
 
 
 public class Cell extends TiledMap implements Updatable, Renderable {
@@ -347,6 +348,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		entitiesToRemove.add(e);
 		destructibleEntitiesToRemove.add(e);
 		renderables.remove(e);
+		TriggerEvent.ENTITY_REMOVED.triggered(e);
 	}
 	
 	public void removeDestructibleEntity(DestructibleEntity e) {
@@ -355,6 +357,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		}
 		destructibleEntitiesToRemove.add(e);
 		renderables.remove(e);
+		TriggerEvent.ENTITY_REMOVED.triggered(e);
 	}
 	
 	public void setPlayer(Player player) {

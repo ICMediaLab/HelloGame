@@ -66,5 +66,4 @@ public class Notification {
 		g.setColor(c);
 		g.drawString(str, x, y);
 	}
-	
 }

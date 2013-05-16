@@ -5,8 +5,6 @@ import items.Weapons;
 import java.util.ArrayList;
 import java.util.List;
 
-import notify.Notification;
-
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
@@ -45,7 +43,6 @@ public class StickItem extends WeaponItem {
 	@Override
 	protected void applyEffect(Player p) {
 		p.setWeapon(Weapons.STICK);
-		Notification.addNotification("You picked up the stick! Press W or click the left mouse button to use it.");
 	}
 
 }

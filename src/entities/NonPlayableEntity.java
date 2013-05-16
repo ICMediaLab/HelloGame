@@ -1,7 +1,5 @@
 package entities;
 
-import map.MapLoader;
-
 import org.newdawn.slick.GameContainer;
 
 import entities.aistates.decisiontree.AIDecisionTree;
@@ -24,10 +22,8 @@ public abstract class NonPlayableEntity extends AbstractEntity {
 	
 	@Override
 	public void update(GameContainer gc) {
+		super.update(gc);
 		aitree.evaluate(this).updateEntity(this);
-		if(isDead()) {
-	        MapLoader.getCurrentCell().removeMovingEntity(this);
-		}
 	}
 	
 	protected AIDecisionTree getAIDecisionTree(){

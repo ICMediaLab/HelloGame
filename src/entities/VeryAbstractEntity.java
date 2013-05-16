@@ -1,5 +1,7 @@
 package entities;
 
+import org.newdawn.slick.GameContainer;
+
 import map.Cell;
 import map.MapLoader;
 
@@ -31,6 +33,13 @@ public abstract class VeryAbstractEntity extends VeryAbstractStaticEntity implem
 	@Override
 	public abstract VeryAbstractEntity clone();
 	
+	@Override
+	public void update(GameContainer gc) {
+		if(isDead()){
+			die();
+		}
+	}
+	
 	/**
 	 * Returns true if and only if this entity is touching the edge of the map.
 	 */
@@ -41,6 +50,11 @@ public abstract class VeryAbstractEntity extends VeryAbstractStaticEntity implem
 		return ((y < 1 && getdY() < 0) || (x < 1 && getdX() < 0) ||
 				(x >= cell.getWidth() - (1 + getWidth()) && getdX() > 0) || 
 				(y >= cell.getHeight() - (1 + getHeight()) && getdY() > 0));
+	}
+	
+	@Override
+	public void die() {
+		MapLoader.getCurrentCell().removeMovingEntity(this);
 	}
 	
 }

@@ -30,11 +30,6 @@ public interface MovingEntity extends DestructibleEntity {
 	void frameMove();
 	
 	/**
-	 * Returns true if and only if this entity has an absolute health equal to zero.
-	 */
-	boolean isDead();
-	
-	/**
 	 * returns whether the entity is touching the ground
 	 * @return
 	 */

@@ -23,6 +23,16 @@ public interface DestructibleEntity extends Entity, Cloneable {
 	 * Returns the absolute value of this entity's maximum possible health.
 	 */
 	int getMaxHealth();
+	
+	/**
+	 * Returns true if and only if this entity has an absolute health equal to zero.
+	 */
+	boolean isDead();
+	
+	/**
+	 * Performs cleanup for entity death (e.g. removing from current cell, etc).
+	 */
+	void die();
 
 	DestructibleEntity clone();
 

@@ -35,6 +35,8 @@ import utils.particles.NonCollidingParticle;
 import utils.particles.NonCollidingParticleGenerator;
 import utils.particles.NormalParticleEmitter;
 import utils.particles.ParticleGenerator;
+import utils.triggers.TriggerEffect;
+import utils.triggers.TriggerEvent;
 import entities.AbstractEntity;
 import entities.DestructibleEntity;
 import entities.MovingEntity;
@@ -135,7 +137,7 @@ public class Player extends AbstractEntity {
 		Input input = gc.getInput();
 		
 		if (isDead()) {
-			//MapLoader.getCurrentCell().removeEntity(this);
+			//die();
 			takeDamage(-100); // auto-consume-reviving-potion upon the event of death
 			return;
 		}
@@ -296,15 +298,10 @@ public class Player extends AbstractEntity {
 	}
 	
 	@Override
-	public void collide(MovingEntity e) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void collide(MovingEntity e) { }
 	
 	@Override
-	public void collide(StaticEntity<?> e) {
-		// TODO Auto-generated method stub
-	}
+	public void collide(StaticEntity<?> e) { }
 	
 	@Override
 	public int getLayer() {
@@ -316,12 +313,10 @@ public class Player extends AbstractEntity {
 	}
 	
 	@Override
-	public void collide(DestructibleEntity d) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void collide(DestructibleEntity d) { }
 
 	public void setWeapon(Weapons newWeapon) {
 		equippedWeapon = newWeapon;
+		TriggerEvent.PLAYER_ITEM_PICKUP.triggered(newWeapon);
 	}
 }

@@ -21,6 +21,7 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.BufferedImageUtil;
 
 import utils.triggers.TriggerEffect;
+import utils.triggers.TriggerEvent;
 import utils.triggers.TriggerSource;
 
 public class Door extends StaticBlockingEntity implements TriggerEffect {
@@ -33,7 +34,7 @@ public class Door extends StaticBlockingEntity implements TriggerEffect {
 	
 	public Door(Cell cell, int x, int y){
 		super(cell,x,y,1,1);
-		closeDoor();
+		openDoor(true);
 		closedSprite = getClosedAnimation();
 		openSprite = getOpenAnimation();
 	}
@@ -89,14 +90,17 @@ public class Door extends StaticBlockingEntity implements TriggerEffect {
 	}
 	
 	@Override
-	public void update(GameContainer gc) {
-		if(untriggered.isEmpty()){
-			openDoor();
+	public void update(GameContainer gc) { }
+	
+	private void openDoor(boolean ignoreTrigger){
+		setBlocked(false);
+		if(!ignoreTrigger){
+			TriggerEvent.DOOR_OPENED.triggered(this);
 		}
 	}
 	
 	private void openDoor(){
-		setBlocked(false);
+		openDoor(false);
 	}
 	
 	private void closeDoor(){
@@ -120,11 +124,16 @@ public class Door extends StaticBlockingEntity implements TriggerEffect {
 	
 	@Override
 	public void addTriggerSource(TriggerSource t) {
+		if(untriggered.isEmpty()){
+			closeDoor();
+		}
 		untriggered.add(t);
 	}
 	
 	@Override
 	public void triggeredSource(TriggerSource t) {
-		untriggered.remove(t);
+		if(untriggered.remove(t) && untriggered.isEmpty()){
+			openDoor();
+		}
 	}
 }

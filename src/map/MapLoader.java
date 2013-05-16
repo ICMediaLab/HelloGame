@@ -16,6 +16,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import utils.XMLDocumentLoader;
+import utils.triggers.TriggerEvent;
 
 import entities.players.Player;
 
@@ -124,6 +125,7 @@ public final class MapLoader {
 		currentCell.addMovingEntity(player);
 		currentCell.setPlayer(player);
 		currentCell.setVisited();
+		TriggerEvent.CELL_TRANSITION.triggered(currentCell);
 		return currentCell;
 	}
 	

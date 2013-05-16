@@ -1,6 +1,5 @@
 package entities.objects.items;
 
-import map.Cell;
 import map.MapLoader;
 
 import org.newdawn.slick.Animation;
@@ -28,16 +27,16 @@ public abstract class WeaponItem extends AbstractEntity {
 
 	@Override
 	public void update(GameContainer gc) {
+		super.update(gc);
 		ani.update(Config.DELTA);
 	}
 	
 	@Override
 	public void collide(MovingEntity e) {
-		Cell c = MapLoader.getCurrentCell();
-		Player p = c.getPlayer();
+		Player p = MapLoader.getCurrentCell().getPlayer();
 		if(e == p){
 			applyEffect(p);
-			c.removeMovingEntity(this);
+			die();
 		}
 	}
 

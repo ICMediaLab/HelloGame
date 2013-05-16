@@ -173,7 +173,7 @@ public class Enemy extends NonPlayableEntity{
 	public void update(GameContainer gc) {
 		super.update(gc);
 	    if (checkMapChanged()) {
-	        MapLoader.getCurrentCell().removeMovingEntity(this);
+	        die();
 	        return;
 	    }
 		if(getdX() < 0){

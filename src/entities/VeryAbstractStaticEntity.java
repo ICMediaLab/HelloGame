@@ -61,9 +61,7 @@ public abstract class VeryAbstractStaticEntity implements Entity {
 	}
 	
 	@Override
-	public void stop_sounds() {
-		//do nothing		
-	}
+	public void stop_sounds() { }
 	
 	protected void renderSprite(Animation sprite){
 		renderSprite(sprite, 0, 0);

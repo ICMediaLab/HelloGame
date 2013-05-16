@@ -30,8 +30,8 @@ public class Cage extends StaticBlockingEntity implements DestructibleEntity {
 	
 	@Override
 	public void update(GameContainer gc) {
-		if(health <= 0){
-			MapLoader.getCurrentCell().removeDestructibleEntity(this);
+		if(isDead()){
+			die();
 		}
 	}
 	
@@ -85,5 +85,15 @@ public class Cage extends StaticBlockingEntity implements DestructibleEntity {
 	@Override
 	public boolean isSolid() {
 		return true;
+	}
+
+	@Override
+	public void die() {
+		MapLoader.getCurrentCell().removeDestructibleEntity(this);
+	}
+
+	@Override
+	public boolean isDead() {
+		return health <= 0;
 	}
 }
