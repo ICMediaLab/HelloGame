@@ -36,7 +36,8 @@ public interface DestructibleEntity extends Entity, Cloneable {
 	 */
 	void die();
 	
-	void addDeathTrigger(AugmentedTriggerEffect<DestructibleEntity> t);
+	void addDeathTrigger(AugmentedTriggerEffect<? super DestructibleEntity> t);
 	
 	DestructibleEntity clone();
+
 }

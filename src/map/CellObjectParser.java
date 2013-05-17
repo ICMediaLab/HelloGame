@@ -9,8 +9,8 @@ import notify.Notification;
 
 import org.newdawn.slick.tiled.GroupObject;
 
-import utils.triggers.AugmentedTriggerEffect;
 import utils.triggers.TriggerSource;
+import utils.triggers.VoidAugmentedTriggerEffect;
 import entities.DestructibleEntity;
 import entities.Entity;
 import entities.enemies.Enemy;
@@ -70,27 +70,74 @@ public class CellObjectParser {
 			IndexedGroupObject igo = parseQueue.poll();
 			parseObject(igo.getCell(), igo.unwrap());
 		}
-		parseTrigger("01_cage1 death notify The cage was destroyed!");
+		parseTrigger("none 01_npc_bob textField Save meeeeeeeeee!");
+		parseTrigger("01_cage1 death 01_npc_bob textField Thanks :)");
 		inst = null;
 	}
 	
 	private void parseTrigger(String trigger) {
 		//TODO everything...
-		Scanner in = new Scanner(trigger);
-		String src = in.next();
-		final Entity srcE = everything.get(src);
-		if(srcE == null){
-			System.out.println("Warning: Failed to parse '" + trigger + "': No such id: '" + src + "'.");
-		}else if(!(srcE instanceof DestructibleEntity)){
-			System.out.println("Warning: Failed to parse '" + trigger + "': Entity: '" + src + "' may not hold a death trigger.");
+		final Scanner in = new Scanner(trigger);
+		final String src = in.next();
+		
+		if(src.equalsIgnoreCase("none")){
+			getTriggerEffect(trigger, in).triggered();
+			return;
 		}
-		System.out.println(srcE);
-		((DestructibleEntity) srcE).addDeathTrigger(new AugmentedTriggerEffect<DestructibleEntity>() {
-			@Override
-			public void triggered(DestructibleEntity k) {
-				Notification.addNotification("Wahay we finally have a death trigger vaguely related to the map editor. How nice :)");
+		
+		final String cond = in.next();
+		VoidAugmentedTriggerEffect<? super Entity> triggerEffect = getTriggerEffect(trigger, in);
+		
+		if(triggerEffect != null){
+			final Entity srcE = everything.get(src);
+			if(srcE == null){
+				System.out.println("Warning: Failed to parse '" + trigger + "': No such id: '" + src + "'.");
+				return;
+			}else if(cond.equalsIgnoreCase("death")){
+				if(!(srcE instanceof DestructibleEntity)){
+					System.out.println("Warning: Failed to parse '" + trigger + "': Entity: '" + src + "' may not hold a death trigger.");
+					return;
+				}
+				((DestructibleEntity) srcE).addDeathTrigger(triggerEffect);
 			}
-		});
+		}
+	}
+
+	private VoidAugmentedTriggerEffect<? super Entity> getTriggerEffect(final String trigger, final Scanner in) {
+		final String dst = in.next();
+		if(dst.equalsIgnoreCase("notify")){
+			return new VoidAugmentedTriggerEffect<Entity>() {
+				@Override
+				public void triggered() {
+					Notification.addNotification(in.nextLine());
+				}
+			};
+		}else{
+			final Entity dstE = everything.get(dst);
+			if(dstE == null){
+				System.out.println("Warning: Failed to parse '" + trigger + "': No such id: '" + dst + "'.");
+				return null;
+			}
+			final String res = in.next();
+			if(res.equalsIgnoreCase("textField")){
+				final TextField<?> tf;
+				if(dstE instanceof NPC){
+					tf = ((NPC) dstE).getTextField();
+				}else if(dstE instanceof TextField<?>){
+					tf = (TextField<?>) dstE;
+				}else{
+					System.out.println("Warning: Failed to parse '" + trigger + "': Entity: '" + dst + "' may not set text field contents.");
+					return null;
+				}
+				return new VoidAugmentedTriggerEffect<Entity>() {
+					@Override
+					public void triggered() {
+						tf.setText(in.nextLine());
+					}
+				};
+			}
+		}
+		return null;
 	}
 
 	private void parseObject(Cell cell, GroupObject go) {

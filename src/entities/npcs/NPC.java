@@ -131,9 +131,9 @@ public class NPC extends NonPlayableEntity{
 	@Override
 	public void update(GameContainer gc) {
 		super.update(gc);
-		if(tf != null){
+		/*if(tf != null){
 			tf.setText(this.toString() + " says hello :)");
-		}
+		}*/
 	}
 	
 	@Override
@@ -225,6 +225,10 @@ public class NPC extends NonPlayableEntity{
 
 	public void setTextField(TextField<?> tf) {
 		this.tf  = tf;
+	}
+
+	public TextField<?> getTextField() {
+		return tf;
 	}
 	
 }

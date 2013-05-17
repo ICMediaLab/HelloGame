@@ -11,7 +11,7 @@ import utils.triggers.AugmentedTriggerEffect;
 
 public abstract class VeryAbstractDestructibleEntity extends VeryAbstractStaticEntity implements DestructibleEntity {
 	
-private final Set<AugmentedTriggerEffect<DestructibleEntity>> deathTriggers = new HashSet<AugmentedTriggerEffect<DestructibleEntity>>();
+private final Set<AugmentedTriggerEffect<? super DestructibleEntity>> deathTriggers = new HashSet<AugmentedTriggerEffect<? super DestructibleEntity>>();
 	
 	public VeryAbstractDestructibleEntity() { }
 	
@@ -23,14 +23,14 @@ private final Set<AugmentedTriggerEffect<DestructibleEntity>> deathTriggers = ne
 	}
 	
 	@Override
-	public void addDeathTrigger(AugmentedTriggerEffect<DestructibleEntity> t) {
+	public void addDeathTrigger(AugmentedTriggerEffect<? super DestructibleEntity> t) {
 		deathTriggers.add(t);
 	}
 	
 	@Override
 	public void die() {
 		MapLoader.getCurrentCell().removeDestructibleEntity(this);
-		for(AugmentedTriggerEffect<DestructibleEntity> t : deathTriggers){
+		for(AugmentedTriggerEffect<? super DestructibleEntity> t : deathTriggers){
 			t.triggered(this);
 		}
 	}
