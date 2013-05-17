@@ -106,10 +106,11 @@ public class CellObjectParser {
 	private VoidAugmentedTriggerEffect<? super Entity> getTriggerEffect(final String trigger, final Scanner in) {
 		final String dst = in.next();
 		if(dst.equalsIgnoreCase("notify")){
+			final String notify = in.nextLine();
 			return new VoidAugmentedTriggerEffect<Entity>() {
 				@Override
 				public void triggered() {
-					Notification.addNotification(in.nextLine());
+					Notification.addNotification(notify);
 				}
 			};
 		}else{
@@ -129,10 +130,11 @@ public class CellObjectParser {
 					System.out.println("Warning: Failed to parse '" + trigger + "': Entity: '" + dst + "' may not set text field contents.");
 					return null;
 				}
+				final String txt = in.nextLine();
 				return new VoidAugmentedTriggerEffect<Entity>() {
 					@Override
 					public void triggered() {
-						tf.setText(in.nextLine());
+						tf.setText(txt);
 					}
 				};
 			}
