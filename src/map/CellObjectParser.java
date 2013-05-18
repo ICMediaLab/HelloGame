@@ -1,5 +1,6 @@
 package map;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -49,7 +50,7 @@ public class CellObjectParser {
 	
 	private final PriorityQueue<IndexedGroupObject> parseQueue = new PriorityQueue<IndexedGroupObject>();
 	
-	private final Map<String,Entity> everything = new HashMap<String,Entity>();
+	private final Map<String,WeakReference<Entity>> everything = new HashMap<String,WeakReference<Entity>>();
 	
 	private final Map<String,TeleportReciever> teleportRecievers = new HashMap<String,TeleportReciever>();
 	private final Map<String,TriggerSource> triggers = new HashMap<String,TriggerSource>();
@@ -89,8 +90,9 @@ public class CellObjectParser {
 		VoidAugmentedTriggerEffect<? super Entity> triggerEffect = getTriggerEffect(trigger, in);
 		
 		if(triggerEffect != null){
-			final Entity srcE = everything.get(src);
-			if(srcE == null){
+			final WeakReference<Entity> srcER = everything.get(src); //TODO
+			final Entity srcE;
+			if(srcER == null || (srcE = srcER.get()) == null){
 				System.out.println("Warning: Failed to parse '" + trigger + "': No such id: '" + src + "'.");
 				return;
 			}else if(cond.equalsIgnoreCase("death")){
@@ -114,29 +116,40 @@ public class CellObjectParser {
 				}
 			};
 		}else{
-			final Entity dstE = everything.get(dst);
-			if(dstE == null){
+			final WeakReference<Entity> dstER = everything.get(dst);
+			if(dstER == null || dstER.get() == null){
 				System.out.println("Warning: Failed to parse '" + trigger + "': No such id: '" + dst + "'.");
 				return null;
 			}
 			final String res = in.next();
 			if(res.equalsIgnoreCase("textField")){
-				final TextField<?> tf;
-				if(dstE instanceof NPC){
-					tf = ((NPC) dstE).getTextField();
-				}else if(dstE instanceof TextField<?>){
-					tf = (TextField<?>) dstE;
-				}else{
-					System.out.println("Warning: Failed to parse '" + trigger + "': Entity: '" + dst + "' may not set text field contents.");
-					return null;
-				}
 				final String txt = in.nextLine();
-				return new VoidAugmentedTriggerEffect<Entity>() {
-					@Override
-					public void triggered() {
-						tf.setText(txt);
-					}
-				};
+				if(dstER.get() instanceof NPC){
+					return new VoidAugmentedTriggerEffect<Entity>() {
+						@Override
+						public void triggered() {
+							NPC npc = ((NPC) dstER.get());
+							if(npc != null){
+								TextField<?> tf = npc.getTextField();
+								if(tf != null){
+									tf.setText(txt);
+								}
+							}
+						}
+					};
+				}else if(dstER.get() instanceof TextField<?>){
+					return new VoidAugmentedTriggerEffect<Entity>() {
+						@Override
+						public void triggered() {
+							TextField<?> tf = ((TextField<?>) dstER.get());
+							if(tf != null){
+								tf.setText(txt);
+							}
+						}
+					};
+				}
+				System.out.println("Warning: Failed to parse '" + trigger + "': Entity: '" + dst + "' may not set text field contents.");
+				return null;
 			}
 		}
 		return null;
@@ -157,7 +170,7 @@ public class CellObjectParser {
 		if(go.type.equalsIgnoreCase("enemy")){
 			Enemy e = Enemy.getNew(cell, subtype, x,y);
 			cell.addDefaultMovingEntity(e);
-			everything.put(id, e);
+			everything.put(id, new WeakReference<Entity>(e));
 		}else if(go.type.equalsIgnoreCase("npc")){
 			NPC npc = NPC.getNew(cell, subtype, x,y);
 			String tfstr = go.props.getProperty("text_id");
@@ -168,7 +181,7 @@ public class CellObjectParser {
 				}
 			}
 			cell.addDefaultMovingEntity(npc);
-			everything.put(id, npc);
+			everything.put(id, new WeakReference<Entity>(npc));
 		}else if(go.type.equalsIgnoreCase("door")){
 			Door d = new Door(cell,x,y);
 			String ts = go.props.getProperty("triggers");
@@ -180,58 +193,58 @@ public class CellObjectParser {
 				}
 			}
 			cell.addStaticEntity(d);
-			everything.put(id, d);
+			everything.put(id, new WeakReference<Entity>(d));
 		}else if(go.type.equalsIgnoreCase("doorTrigger")){
 			DoorTrigger dt = new DoorTrigger(x,y);
 			if(id != null){
 				triggers.put(id, dt);
 			}
 			cell.addStaticEntity(dt);
-			everything.put(id, dt);
+			everything.put(id, new WeakReference<Entity>(dt));
 		}else if(go.type.equalsIgnoreCase("doorProjectileTrigger")){
 			DoorProjectileTrigger dpt = new DoorProjectileTrigger(x,y);
 			if(id != null){
 				triggers.put(id, dpt);
 			}
 			cell.addStaticEntity(dpt);
-			everything.put(id, dpt);
+			everything.put(id, new WeakReference<Entity>(dpt));
 		}else if(go.type.equalsIgnoreCase("leafTest")){
 			LeafTest lt = new LeafTest(x,y);
 			cell.addStaticEntity(lt);
-			everything.put(id, lt);
+			everything.put(id, new WeakReference<Entity>(lt));
 		}else if(go.type.equalsIgnoreCase("jumpPlatform")){
 			JumpPlatform jp = new JumpPlatform(x,y,width);
 			cell.addStaticEntity(jp);
-			everything.put(id, jp);
+			everything.put(id, new WeakReference<Entity>(jp));
 		}else if(go.type.equalsIgnoreCase("cage")){
 			Cage c = new Cage(cell, x,y,width,height);
 			cell.addDefaultDestructibleEntity(c);
-			everything.put(id, c);
+			everything.put(id, new WeakReference<Entity>(c));
 		}else if(go.type.equalsIgnoreCase("textField")){
 			TextField<?> tf = TextField.newTextField(x,y,width,height,go.props);
 			if(id != null){
 				textFields.put(id, tf);
 			}
 			cell.addStaticEntity(tf);
-			everything.put(id, tf);
+			everything.put(id, new WeakReference<Entity>(tf));
 		}else if(go.type.equalsIgnoreCase("teleport_recieve")){
 			TeleportReciever tr = new TeleportReciever(cell, x, y, width, height);
 			teleportRecievers.put(id,tr);
 			cell.addStaticEntity(tr);
-			everything.put(id, tr);
+			everything.put(id, new WeakReference<Entity>(tr));
 		}else if(go.type.equalsIgnoreCase("teleport_send")){
 			String dest = go.props.getProperty("dest");
 			TeleportSender ts = new TeleportSender(teleportRecievers.get(dest), x, y, width, height);
 			cell.addStaticEntity(ts);
-			everything.put(id, ts);
+			everything.put(id, new WeakReference<Entity>(ts));
 		}else if(go.type.equalsIgnoreCase("waterSurfaceEffect")){
 			WaterSurfaceEffect wse = new WaterSurfaceEffect(x, y, width);
 			cell.addStaticEntity(wse);
-			everything.put(id, wse);
+			everything.put(id, new WeakReference<Entity>(wse));
 		}else if(go.type.equalsIgnoreCase("weapon_item_stick")){
 			StickItem si = new StickItem(x, y, width, height);
 			cell.addDefaultDestructibleEntity(si);
-			everything.put(id, si);
+			everything.put(id, new WeakReference<Entity>(si));
 		}
 	}
 	
