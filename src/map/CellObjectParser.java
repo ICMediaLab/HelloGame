@@ -93,13 +93,17 @@ public class CellObjectParser {
 		//trigger grammar: (" id | prerequisite 1, pre2 ... | result effect 1, res 2 ... ");
 		//not whitespace sensitive
 		
-		//a few trigger examples
-		parseTrigger("none | 01_npc_bob textField Save meeeeeeeeee!"); 
-		//no id, no prerequisite
-		parseTrigger("t2 | 01_cage1 death | 01_npc_bob textField Thanks :)"); 
-		//id, prerequisite, effect
-		parseTrigger("01_npc_bob death | 01_npc_bob textField, remove t2"); 
+		//a few trigger examples //
+		
+		parseTrigger("01_enemy_rawr1 death | notify rawr1 died");
+		parseTrigger("01_enemy_rawr2 death | notify rawr2 died");
 		//no id, prerequisite, two comma separated effects, note the lack of contents for the textField to indicate empty.
+		parseTrigger("01_npc_bob death | 01_npc_bob textField, remove t2");
+		//id, prerequisite, effect
+		parseTrigger("t2 | 01_cage1 death | 01_npc_bob textField Thanks :)");
+		parseTrigger("t2 | place enemy rawr 20 16 ");
+		//no id, no prerequisite
+		parseTrigger("none | 01_npc_bob textField Save meeeeeeeeee!");
 		destroy();
 	}
 	
@@ -158,8 +162,7 @@ public class CellObjectParser {
 			trigger.addEffect(getTriggerEffect(ePart));
 		}
 		for(String cPart : condParts){
-			Entity cE = parseAttachEntityTriggerCondition(trigger, cPart);
-			trigger.addExpected(cE);
+			parseAttachEntityTriggerCondition(trigger, cPart);
 		}
 		
 		//initially check the trigger for expectation completion (i.e. if no triggers were specified), 
@@ -174,36 +177,41 @@ public class CellObjectParser {
 	 *  	If the string specified is null, empty ("") or equal to "none" (case insensitive), 
 	 *  	no action will be taken and the method will return null.
 	 */
-	private Entity parseAttachEntityTriggerCondition(CompositeTrigger trigger, String cPart) {
+	private void parseAttachEntityTriggerCondition(final CompositeTrigger trigger, String cPart) {
 		if(cPart == null || cPart.isEmpty() || cPart.equalsIgnoreCase("none")){
-			return null;
+			return;
 		}
 		//greedy split based on whitespace to get word items
 		String[] parts = cPart.split("\\s+");
 		
-		// should be of the form [src entity id] [action]
-		if(parts.length != 2){
-			return null;
-		}
-		
-		WeakReference<Entity> srcER = entityReference.get(parts[0]);
-		Entity srcE;
-		
-		if(srcER == null || (srcE = srcER.get()) == null){
-			System.out.println("Warning: Failed to parse '" + cPart + "': No such source id: '" + parts[0] + "'.");
-			return null;
-		}else if(parts[1].equalsIgnoreCase("death")){
-			if(!(srcE instanceof DestructibleEntity)){
-				System.out.println("Warning: Failed to parse '" + cPart + "': Entity: '" + parts[0] + "' may not hold a death trigger.");
-				return null;
+		if(parts.length == 1){
+			// should be of the form [trigger id]
+			final CompositeTrigger t = getTrigger(parts[0]);
+			t.addEffect(new VoidAugmentedTriggerEffect<Entity>() {
+				@Override
+				public void triggered() {
+					trigger.triggered(t);
+				}
+			});
+			trigger.addExpected(t);
+		}else if(parts.length == 2){
+			// should be of the form [src entity id] [action]
+			
+			WeakReference<Entity> srcER = entityReference.get(parts[0]);
+			Entity srcE;
+			
+			if(srcER == null || (srcE = srcER.get()) == null){
+				System.out.println("Warning: Failed to parse '" + cPart + "': No such source id: '" + parts[0] + "'.");
+			}else if(parts[1].equalsIgnoreCase("death")){
+				if(!(srcE instanceof DestructibleEntity)){
+					System.out.println("Warning: Failed to parse '" + cPart + "': Entity: '" + parts[0] + "' may not hold a death trigger.");
+					return;
+				}
+				((DestructibleEntity) srcE).addDeathTrigger(trigger);
+				trigger.addExpected(srcE);
 			}
-			((DestructibleEntity) srcE).addDeathTrigger(trigger);
-		}else{
-			return null;
 		}
-		//unless the entity found does not exist or the action did not exist, the method should return
-		// the entity identified.
-		return srcE;
+		return;
 	}
 	
 	/**
@@ -212,11 +220,12 @@ public class CellObjectParser {
 	 * notify ([text1] [text2] ...)<br />
 	 * [NPC/TextField id] textField ([text1] [text2] ...)
 	 * remove [trigger id]
+	 * place [enemy/NPC] [sub-type] [x] [y]
 	 */
 	private VoidAugmentedTriggerEffect<? super Entity> getTriggerEffect(final String effect) {
 		try{
-			final Scanner in = new Scanner(effect);
-			final String dst = in.next();
+			Scanner in = new Scanner(effect);
+			String dst = in.next();
 			if(dst.equalsIgnoreCase("notify")){
 				final String notify = in.nextLine();
 				return new VoidAugmentedTriggerEffect<Entity>() {
@@ -225,6 +234,28 @@ public class CellObjectParser {
 						Notification.addNotification(notify);
 					}
 				};
+			}else if(dst.equalsIgnoreCase("place")){
+				boolean enemy = in.next().equalsIgnoreCase("enemy");
+				final String subtype = in.next();
+				final int x = in.nextInt(), y = in.nextInt();
+				if(enemy){
+					return new VoidAugmentedTriggerEffect<Entity>() {
+						@Override
+						public void triggered() {
+							Cell c = MapLoader.getCurrentCell();
+							Enemy e = Enemy.getNew(subtype, x, y);
+							System.out.println("Adding " + e + " to " + c);
+							c.addMovingEntity(e);
+						}
+					};
+				}else{
+					return new VoidAugmentedTriggerEffect<Entity>() {
+						@Override
+						public void triggered() {
+							MapLoader.getCurrentCell().addMovingEntity(NPC.getNew(subtype, x, y));
+						}
+					};
+				}
 			}else if(dst.equalsIgnoreCase("remove")){
 				final String id = in.next();
 				return new VoidAugmentedTriggerEffect<Entity>() {
@@ -288,11 +319,11 @@ public class CellObjectParser {
 		}
 		
 		if(go.type.equalsIgnoreCase("enemy")){
-			Enemy e = Enemy.getNew(cell, subtype, x,y);
+			Enemy e = Enemy.getNew(subtype, x,y);
 			cell.addDefaultMovingEntity(e);
 			entityReference.put(id, new WeakReference<Entity>(e));
 		}else if(go.type.equalsIgnoreCase("npc")){
-			NPC npc = NPC.getNew(cell, subtype, x,y);
+			NPC npc = NPC.getNew(subtype, x,y);
 			String tfstr = go.props.getProperty("text_id");
 			if(tfstr != null){
 				TextField<?> tf = textFields.get(tfstr);

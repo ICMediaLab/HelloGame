@@ -3,8 +3,6 @@ package entities.npcs;
 import java.util.HashMap;
 import java.util.Map;
 
-import map.Cell;
-
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.SlickException;
@@ -95,7 +93,7 @@ public class NPC extends NonPlayableEntity{
 	 * @param y The y coordinate of the newly created npc.
 	 * @return A new NPC object.
 	 */
-	public static NPC getNew(Cell currentCell, String name, float x, float y){
+	public static NPC getNew(String name, float x, float y){
 		if(name == null){
 			return null;
 		}

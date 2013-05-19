@@ -3,7 +3,6 @@ package entities.enemies;
 import java.util.HashMap;
 import java.util.Map;
 
-import map.Cell;
 import map.MapLoader;
 
 import org.newdawn.slick.GameContainer;
@@ -90,7 +89,7 @@ public class Enemy extends NonPlayableEntity{
 	 * @param y The y coordinate of the newly created enemy.
 	 * @return A new INonPlayableEntity object.
 	 */
-	public static Enemy getNew(Cell currentCell, String name, float x, float y){
+	public static Enemy getNew(String name, float x, float y){
 		if(name == null){
 			return null;
 		}

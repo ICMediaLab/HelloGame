@@ -12,6 +12,8 @@ import entities.Entity;
 public class CompositeTrigger implements AugmentedTriggerEffect<Entity> {
 	
 	private final Set<Entity> untriggeredSources = new HashSet<Entity>();
+	private final Set<AugmentedTriggerEffect<?>> untriggeredTriggers = new HashSet<AugmentedTriggerEffect<?>>();
+	
 	private final Set<VoidAugmentedTriggerEffect<?>> effects = new HashSet<VoidAugmentedTriggerEffect<?>>();
 	
 	private final String id;
@@ -27,12 +29,27 @@ public class CompositeTrigger implements AugmentedTriggerEffect<Entity> {
 	}
 	
 	public void addExpected(Entity src){
+		if(src == null){
+			throw new NullPointerException();
+		}
 		if(src != null){
 			untriggeredSources.add(src);
 		}
 	}
 	
+	public void addExpected(AugmentedTriggerEffect<?> src){
+		if(src == null){
+			throw new NullPointerException();
+		}
+		if(src != null){
+			untriggeredTriggers.add(src);
+		}
+	}
+	
 	public void addEffect(VoidAugmentedTriggerEffect<?> effect){
+		if(effect == null){
+			throw new NullPointerException();
+		}
 		effects.add(effect);
 	}
 	
@@ -54,7 +71,7 @@ public class CompositeTrigger implements AugmentedTriggerEffect<Entity> {
 	}
 	
 	public void check(){
-		if(untriggeredSources.isEmpty() && (!ensureNotRemoved || CellObjectParser.containsTrigger(this))){
+		if(untriggeredSources.isEmpty() && untriggeredTriggers.isEmpty() && (!ensureNotRemoved || CellObjectParser.containsTrigger(this))){
 			triggerEffects();
 		}
 	}
@@ -62,6 +79,12 @@ public class CompositeTrigger implements AugmentedTriggerEffect<Entity> {
 	public void triggerEffects() {
 		for(VoidAugmentedTriggerEffect<?> e : effects){
 			e.triggered();
+		}
+	}
+
+	public void triggered(AugmentedTriggerEffect<?> t) {
+		if(untriggeredTriggers.remove(t)){
+			check();
 		}
 	}
 }
