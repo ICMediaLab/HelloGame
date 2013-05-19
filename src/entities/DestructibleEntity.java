@@ -1,5 +1,7 @@
 package entities;
 
+import java.lang.ref.WeakReference;
+
 import utils.triggers.AugmentedTriggerEffect;
 
 public interface DestructibleEntity extends Entity, Cloneable {
@@ -37,6 +39,16 @@ public interface DestructibleEntity extends Entity, Cloneable {
 	void die();
 	
 	void addDeathTrigger(AugmentedTriggerEffect<? super DestructibleEntity> t);
+	
+	/**
+	 * Returns true if and only if this entity is a clone of that specified.
+	 */
+	boolean cloneOf(Entity e);
+	
+	/**
+	 * Returns a constant weak reference to this entity for mapping purposes.
+	 */
+	WeakReference<DestructibleEntity> getWeakReference();
 	
 	DestructibleEntity clone();
 

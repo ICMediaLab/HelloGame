@@ -10,6 +10,7 @@ import notify.Notification;
 
 import org.newdawn.slick.tiled.GroupObject;
 
+import utils.triggers.CompositeTrigger;
 import utils.triggers.TriggerSource;
 import utils.triggers.VoidAugmentedTriggerEffect;
 import entities.DestructibleEntity;
@@ -50,7 +51,7 @@ public class CellObjectParser {
 	
 	private final PriorityQueue<IndexedGroupObject> parseQueue = new PriorityQueue<IndexedGroupObject>();
 	
-	private final Map<String,WeakReference<Entity>> everything = new HashMap<String,WeakReference<Entity>>();
+	private final Map<String,WeakReference<Entity>> entityReference = new HashMap<String,WeakReference<Entity>>();
 	
 	private final Map<String,TeleportReciever> teleportRecievers = new HashMap<String,TeleportReciever>();
 	private final Map<String,TriggerSource> triggers = new HashMap<String,TriggerSource>();
@@ -71,90 +72,174 @@ public class CellObjectParser {
 			IndexedGroupObject igo = parseQueue.poll();
 			parseObject(igo.getCell(), igo.unwrap());
 		}
-		parseTrigger("none 01_npc_bob textField Save meeeeeeeeee!");
-		parseTrigger("01_cage1 death 01_npc_bob textField Thanks :)");
+		//trigger grammar: (" id | prerequisite 1, pre2 ... | result effect 1, res 2 ... ");
+		//not whitespace sensitive
+		
+		//a few trigger examples
+		parseTrigger("t1 | none | 01_npc_bob textField Save meeeeeeeeee!");
+		parseTrigger("t2 | 01_cage1 death | 01_npc_bob textField Thanks :)");
+		destroy();
+	}
+	
+	/**
+	 * Ensures all useless structures are cleared (since triggers may force some instances).
+	 */
+	private void destroy() {
+		textFields.clear();
+		triggers.clear();
+		teleportRecievers.clear();
+		entityReference.clear();
+		parseQueue.clear();
 		inst = null;
 	}
 	
+	/**
+	 * Parses and adds a new trigger effector based on the string given.<br />
+	 * The trigger should follow the general grammar specified:<br />
+	 * "id | prerequisite 1, pre2 ... | result effect 1, res 2 ..."<br />
+	 * Note that this is not whitespace sensitive. Pipes (|) or commas (,) may not be included elsewhere, even if escaped.
+	 */
 	private void parseTrigger(String trigger) {
-		//TODO everything...
-		final Scanner in = new Scanner(trigger);
-		final String src = in.next();
-		
-		if(src.equalsIgnoreCase("none")){
-			getTriggerEffect(trigger, in).triggered();
-			return;
-		}
-		
-		final String cond = in.next();
-		VoidAugmentedTriggerEffect<? super Entity> triggerEffect = getTriggerEffect(trigger, in);
-		
-		if(triggerEffect != null){
-			final WeakReference<Entity> srcER = everything.get(src); //TODO
-			final Entity srcE;
-			if(srcER == null || (srcE = srcER.get()) == null){
-				System.out.println("Warning: Failed to parse '" + trigger + "': No such id: '" + src + "'.");
-				return;
-			}else if(cond.equalsIgnoreCase("death")){
-				if(!(srcE instanceof DestructibleEntity)){
-					System.out.println("Warning: Failed to parse '" + trigger + "': Entity: '" + src + "' may not hold a death trigger.");
-					return;
-				}
-				((DestructibleEntity) srcE).addDeathTrigger(triggerEffect);
-			}
+		String[] parts = trigger.split("\\|");
+		if(parts.length == 3){
+			parseTrigger(parts[0],parts[1],parts[2]);
+		}else if(parts.length == 2){
+			parseTrigger(null,parts[0],parts[1]);
+		}else {
+			throw new IllegalArgumentException("Failed to split '" + trigger + "'.");
 		}
 	}
-
-	private VoidAugmentedTriggerEffect<? super Entity> getTriggerEffect(final String trigger, final Scanner in) {
-		final String dst = in.next();
-		if(dst.equalsIgnoreCase("notify")){
-			final String notify = in.nextLine();
-			return new VoidAugmentedTriggerEffect<Entity>() {
-				@Override
-				public void triggered() {
-					Notification.addNotification(notify);
-				}
-			};
-		}else{
-			final WeakReference<Entity> dstER = everything.get(dst);
-			if(dstER == null || dstER.get() == null){
-				System.out.println("Warning: Failed to parse '" + trigger + "': No such id: '" + dst + "'.");
+	
+	private void parseTrigger(final String idRaw, final String condRaw, final String effectRaw) {
+		//id will eventually be used for triggers referencing other triggers.
+		final String id = idRaw == null ? null : idRaw.trim();
+		//an array of conditions initialised from a comma separated list.
+		final String[] condParts = condRaw.split(",");
+		//an array of resulting effects initialised from a comma separated list.
+		final String[] effectParts = effectRaw.split(",");
+		
+		//consume any stray outer whitespace
+		for(int i=0;i<condParts.length;i++){
+			condParts[i] = condParts[i].trim();
+		}
+		for(int i=0;i<effectParts.length;i++){
+			effectParts[i] = effectParts[i].trim();
+		}
+		
+		final CompositeTrigger trigger = new CompositeTrigger(id);
+		
+		for(String ePart : effectParts){
+			trigger.addEffect(getTriggerEffect(ePart));
+		}
+		for(String cPart : condParts){
+			Entity cE = parseAttachEntityTriggerCondition(trigger, cPart);
+			trigger.addExpected(cE);
+		}
+		
+		//initially check the trigger for expectation completion (i.e. if no triggers were specified), 
+		//else this would likely never be triggered.
+		trigger.check();
+	}
+	
+	/**
+	 * Parses the trigger condition from the string specified, attaches the trigger appropriately, 
+	 *  	and returns the appropriate expected entity from the trigger.
+	 * @return An entity associated with the trigger identified. 
+	 *  	If the string specified is null, empty ("") or equal to "none" (case insensitive), 
+	 *  	no action will be taken and the method will return null.
+	 */
+	private Entity parseAttachEntityTriggerCondition(CompositeTrigger trigger, String cPart) {
+		if(cPart == null || cPart.isEmpty() || cPart.equalsIgnoreCase("none")){
+			return null;
+		}
+		//greedy split based on whitespace to get word items
+		String[] parts = cPart.split("\\s+");
+		
+		// should be of the form [src entity id] [action]
+		if(parts.length != 2){
+			return null;
+		}
+		
+		WeakReference<Entity> srcER = entityReference.get(parts[0]);
+		Entity srcE;
+		
+		if(srcER == null || (srcE = srcER.get()) == null){
+			System.out.println("Warning: Failed to parse '" + cPart + "': No such source id: '" + parts[0] + "'.");
+			return null;
+		}else if(parts[1].equalsIgnoreCase("death")){
+			if(!(srcE instanceof DestructibleEntity)){
+				System.out.println("Warning: Failed to parse '" + cPart + "': Entity: '" + parts[0] + "' may not hold a death trigger.");
 				return null;
 			}
-			final String res = in.next();
-			if(res.equalsIgnoreCase("textField")){
-				final String txt = in.nextLine();
-				if(dstER.get() instanceof NPC){
-					return new VoidAugmentedTriggerEffect<Entity>() {
-						@Override
-						public void triggered() {
-							NPC npc = ((NPC) dstER.get());
-							if(npc != null){
-								TextField<?> tf = npc.getTextField();
+			((DestructibleEntity) srcE).addDeathTrigger(trigger);
+		}else{
+			return null;
+		}
+		//unless the entity found does not exist or the action did not exist, the method should return
+		// the entity identified.
+		return srcE;
+	}
+	
+	/**
+	 * Returns a new trigger effect based on the string specified.<br />s
+	 * Accepted values:<br />
+	 * notify ([text1] [text2] ...)<br />
+	 * textField [NPC/TextField id] ([text1] [text2] ...)
+	 */
+	private VoidAugmentedTriggerEffect<? super Entity> getTriggerEffect(final String effect) {
+		try{
+			final Scanner in = new Scanner(effect);
+			final String dst = in.next();
+			if(dst.equalsIgnoreCase("notify")){
+				final String notify = in.nextLine();
+				return new VoidAugmentedTriggerEffect<Entity>() {
+					@Override
+					public void triggered() {
+						Notification.addNotification(notify);
+					}
+				};
+			}else{
+				final WeakReference<Entity> dstER = entityReference.get(dst);
+				if(dstER == null || dstER.get() == null){
+					throw new IllegalArgumentException("No such id: '" + dst + "'.");
+				}
+				final String res = in.next();
+				if(res.equalsIgnoreCase("textField")){
+					final String txt = in.nextLine();
+					if(dstER.get() instanceof NPC){
+						return new VoidAugmentedTriggerEffect<Entity>() {
+							@Override
+							public void triggered() {
+								NPC npc = ((NPC) dstER.get());
+								if(npc != null){
+									TextField<?> tf = npc.getTextField();
+									if(tf != null){
+										tf.setText(txt);
+									}
+								}
+							}
+						};
+					}else if(dstER.get() instanceof TextField<?>){
+						return new VoidAugmentedTriggerEffect<Entity>() {
+							@Override
+							public void triggered() {
+								TextField<?> tf = ((TextField<?>) dstER.get());
 								if(tf != null){
 									tf.setText(txt);
 								}
 							}
-						}
-					};
-				}else if(dstER.get() instanceof TextField<?>){
-					return new VoidAugmentedTriggerEffect<Entity>() {
-						@Override
-						public void triggered() {
-							TextField<?> tf = ((TextField<?>) dstER.get());
-							if(tf != null){
-								tf.setText(txt);
-							}
-						}
-					};
+						};
+					}
+					throw new IllegalArgumentException("Entity: '" + dst + "' may not set text field contents.");
 				}
-				System.out.println("Warning: Failed to parse '" + trigger + "': Entity: '" + dst + "' may not set text field contents.");
-				return null;
 			}
+			return null;
+		}catch(IllegalArgumentException e){
+			System.out.println("Warning: Failed to parse '" + effect + "': " + e.getMessage());
+			return null;
 		}
-		return null;
 	}
-
+	
 	private void parseObject(Cell cell, GroupObject go) {
 		String id = go.name;
 		int x = go.x / Config.getTileSize();
@@ -170,7 +255,7 @@ public class CellObjectParser {
 		if(go.type.equalsIgnoreCase("enemy")){
 			Enemy e = Enemy.getNew(cell, subtype, x,y);
 			cell.addDefaultMovingEntity(e);
-			everything.put(id, new WeakReference<Entity>(e));
+			entityReference.put(id, new WeakReference<Entity>(e));
 		}else if(go.type.equalsIgnoreCase("npc")){
 			NPC npc = NPC.getNew(cell, subtype, x,y);
 			String tfstr = go.props.getProperty("text_id");
@@ -181,7 +266,7 @@ public class CellObjectParser {
 				}
 			}
 			cell.addDefaultMovingEntity(npc);
-			everything.put(id, new WeakReference<Entity>(npc));
+			entityReference.put(id, new WeakReference<Entity>(npc));
 		}else if(go.type.equalsIgnoreCase("door")){
 			Door d = new Door(cell,x,y);
 			String ts = go.props.getProperty("triggers");
@@ -193,58 +278,58 @@ public class CellObjectParser {
 				}
 			}
 			cell.addStaticEntity(d);
-			everything.put(id, new WeakReference<Entity>(d));
+			entityReference.put(id, new WeakReference<Entity>(d));
 		}else if(go.type.equalsIgnoreCase("doorTrigger")){
 			DoorTrigger dt = new DoorTrigger(x,y);
 			if(id != null){
 				triggers.put(id, dt);
 			}
 			cell.addStaticEntity(dt);
-			everything.put(id, new WeakReference<Entity>(dt));
+			entityReference.put(id, new WeakReference<Entity>(dt));
 		}else if(go.type.equalsIgnoreCase("doorProjectileTrigger")){
 			DoorProjectileTrigger dpt = new DoorProjectileTrigger(x,y);
 			if(id != null){
 				triggers.put(id, dpt);
 			}
 			cell.addStaticEntity(dpt);
-			everything.put(id, new WeakReference<Entity>(dpt));
+			entityReference.put(id, new WeakReference<Entity>(dpt));
 		}else if(go.type.equalsIgnoreCase("leafTest")){
 			LeafTest lt = new LeafTest(x,y);
 			cell.addStaticEntity(lt);
-			everything.put(id, new WeakReference<Entity>(lt));
+			entityReference.put(id, new WeakReference<Entity>(lt));
 		}else if(go.type.equalsIgnoreCase("jumpPlatform")){
 			JumpPlatform jp = new JumpPlatform(x,y,width);
 			cell.addStaticEntity(jp);
-			everything.put(id, new WeakReference<Entity>(jp));
+			entityReference.put(id, new WeakReference<Entity>(jp));
 		}else if(go.type.equalsIgnoreCase("cage")){
 			Cage c = new Cage(cell, x,y,width,height);
 			cell.addDefaultDestructibleEntity(c);
-			everything.put(id, new WeakReference<Entity>(c));
+			entityReference.put(id, new WeakReference<Entity>(c));
 		}else if(go.type.equalsIgnoreCase("textField")){
 			TextField<?> tf = TextField.newTextField(x,y,width,height,go.props);
 			if(id != null){
 				textFields.put(id, tf);
 			}
 			cell.addStaticEntity(tf);
-			everything.put(id, new WeakReference<Entity>(tf));
+			entityReference.put(id, new WeakReference<Entity>(tf));
 		}else if(go.type.equalsIgnoreCase("teleport_recieve")){
 			TeleportReciever tr = new TeleportReciever(cell, x, y, width, height);
 			teleportRecievers.put(id,tr);
 			cell.addStaticEntity(tr);
-			everything.put(id, new WeakReference<Entity>(tr));
+			entityReference.put(id, new WeakReference<Entity>(tr));
 		}else if(go.type.equalsIgnoreCase("teleport_send")){
 			String dest = go.props.getProperty("dest");
 			TeleportSender ts = new TeleportSender(teleportRecievers.get(dest), x, y, width, height);
 			cell.addStaticEntity(ts);
-			everything.put(id, new WeakReference<Entity>(ts));
+			entityReference.put(id, new WeakReference<Entity>(ts));
 		}else if(go.type.equalsIgnoreCase("waterSurfaceEffect")){
 			WaterSurfaceEffect wse = new WaterSurfaceEffect(x, y, width);
 			cell.addStaticEntity(wse);
-			everything.put(id, new WeakReference<Entity>(wse));
+			entityReference.put(id, new WeakReference<Entity>(wse));
 		}else if(go.type.equalsIgnoreCase("weapon_item_stick")){
 			StickItem si = new StickItem(x, y, width, height);
 			cell.addDefaultDestructibleEntity(si);
-			everything.put(id, new WeakReference<Entity>(si));
+			entityReference.put(id, new WeakReference<Entity>(si));
 		}
 	}
 	
