@@ -49,6 +49,24 @@ public class CellObjectParser {
 		return inst == null ? inst = new CellObjectParser() : inst;
 	}
 	
+	private static final Map<String,CompositeTrigger> triggerReference = new HashMap<String,CompositeTrigger>();
+	
+	public static boolean containsTrigger(CompositeTrigger t){
+		return getTrigger(t.getId()) == t;
+	}
+	
+	public static CompositeTrigger getTrigger(String id){
+		return triggerReference.get(id);
+	}
+	
+	public static CompositeTrigger removeTrigger(String id){
+		return triggerReference.remove(id);
+	}
+	
+	public static CompositeTrigger removeTrigger(CompositeTrigger t){
+		return removeTrigger(t.getId());
+	}
+	
 	private final PriorityQueue<IndexedGroupObject> parseQueue = new PriorityQueue<IndexedGroupObject>();
 	
 	private final Map<String,WeakReference<Entity>> entityReference = new HashMap<String,WeakReference<Entity>>();
@@ -76,8 +94,12 @@ public class CellObjectParser {
 		//not whitespace sensitive
 		
 		//a few trigger examples
-		parseTrigger("t1 | none | 01_npc_bob textField Save meeeeeeeeee!");
-		parseTrigger("t2 | 01_cage1 death | 01_npc_bob textField Thanks :)");
+		parseTrigger("none | 01_npc_bob textField Save meeeeeeeeee!"); 
+		//no id, no prerequisite
+		parseTrigger("t2 | 01_cage1 death | 01_npc_bob textField Thanks :)"); 
+		//id, prerequisite, effect
+		parseTrigger("01_npc_bob death | 01_npc_bob textField, remove t2"); 
+		//no id, prerequisite, two comma separated effects, note the lack of contents for the textField to indicate empty.
 		destroy();
 	}
 	
@@ -126,7 +148,11 @@ public class CellObjectParser {
 			effectParts[i] = effectParts[i].trim();
 		}
 		
-		final CompositeTrigger trigger = new CompositeTrigger(id);
+		final CompositeTrigger trigger = new CompositeTrigger(id,id != null);
+		
+		if(id != null){
+			triggerReference.put(id, trigger);
+		}
 		
 		for(String ePart : effectParts){
 			trigger.addEffect(getTriggerEffect(ePart));
@@ -184,7 +210,8 @@ public class CellObjectParser {
 	 * Returns a new trigger effect based on the string specified.<br />s
 	 * Accepted values:<br />
 	 * notify ([text1] [text2] ...)<br />
-	 * textField [NPC/TextField id] ([text1] [text2] ...)
+	 * [NPC/TextField id] textField ([text1] [text2] ...)
+	 * remove [trigger id]
 	 */
 	private VoidAugmentedTriggerEffect<? super Entity> getTriggerEffect(final String effect) {
 		try{
@@ -198,6 +225,14 @@ public class CellObjectParser {
 						Notification.addNotification(notify);
 					}
 				};
+			}else if(dst.equalsIgnoreCase("remove")){
+				final String id = in.next();
+				return new VoidAugmentedTriggerEffect<Entity>() {
+					@Override
+					public void triggered() {
+						removeTrigger(id);
+					}
+				};
 			}else{
 				final WeakReference<Entity> dstER = entityReference.get(dst);
 				if(dstER == null || dstER.get() == null){
@@ -205,7 +240,7 @@ public class CellObjectParser {
 				}
 				final String res = in.next();
 				if(res.equalsIgnoreCase("textField")){
-					final String txt = in.nextLine();
+					final String txt = in.hasNextLine() ? in.nextLine() : "";
 					if(dstER.get() instanceof NPC){
 						return new VoidAugmentedTriggerEffect<Entity>() {
 							@Override

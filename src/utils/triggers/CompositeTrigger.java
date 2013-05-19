@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import map.CellObjectParser;
+
 import entities.DestructibleEntity;
 import entities.Entity;
 
@@ -13,9 +15,11 @@ public class CompositeTrigger implements AugmentedTriggerEffect<Entity> {
 	private final Set<VoidAugmentedTriggerEffect<?>> effects = new HashSet<VoidAugmentedTriggerEffect<?>>();
 	
 	private final String id;
+	private final boolean ensureNotRemoved;
 	
-	public CompositeTrigger(String id) {
+	public CompositeTrigger(String id, boolean ensureNotRemoved) {
 		this.id = id;
+		this.ensureNotRemoved = ensureNotRemoved;
 	}
 	
 	public String getId(){
@@ -50,7 +54,7 @@ public class CompositeTrigger implements AugmentedTriggerEffect<Entity> {
 	}
 	
 	public void check(){
-		if(untriggeredSources.isEmpty()){
+		if(untriggeredSources.isEmpty() && (!ensureNotRemoved || CellObjectParser.containsTrigger(this))){
 			triggerEffects();
 		}
 	}
