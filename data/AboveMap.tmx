@@ -35,15 +35,15 @@
    <property name="render-index" value="-10000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxtltdu20AURFeFTY18EUXZosgXlyCJ7cji//9adoEz4ETIw2DbLXPLLnkNIVwjniPaiKeIU8SZ9cD5BQzICMeInnEEA7padxGT2Tii27KW/iEii2giNqzTuIhYsb9nTHt5xC6iQG7Jes15GVFxlnS28GjAErtbZMSjNhnpLfBdcX7Av7hpvzL+C3RLZLemMyG7xm5hPJ6oh+LPLTe12V6azY35XVuuKvSUP+VDeZuwWWBPPHZwuKK75nyPvHKdM8+RKUH9kKcCzgs4LNhT/BO5PwH12Ymxs1j3cNpZbTbsKc6C8xKZPWNtHDesV8zFY4fNzDgu4dFbjpdmb2FozGfFvLFY92HuT8WhGhWM6tMNZyW5bMJ8P5VTxSD7qsfKalYiX5mfPMw9cTD+eZh7bTK/B2IpWKeaqE8zi2GL3wqorw5wVN6V5xod2df9q5Gv4JFZLguQYhuNt+6HaqT+KK1mWZj7VjIZcopF90E1auCr/tD90ruTdFuzn2FLudNdlY7u/sHiUM/WVpscDhkyyoHXRXdvaed6S5Q/vT+Z+dL7pzxLXu+q85O85FTDyWqnnlNPJRtXcCQ/qW9Tz6R79BbxHvFq8xfGN/ZfDO8PZ6/Y0zdI7+YlzN+y1KMDe5LVO6P+vUX8iviOuNs84UfEF3tp/sn6Z8Rv9j+x3Yf5m6a3U2/ZyNg/cNGbIl7J5x98feDjxlxr8fxC9o6v3ux22B7g8hzmb7G+zRfLmUa9vxdkFK/wbZyUkxu6A/ZP+JDdIczvuP4ZlPur5aw1+dH0LsgN8LnD4cMwEn+Pzmi2xzD33zHM/zaqmXLUWi3ETXm9ms3O8twab8npX0j9pxjO5rs1W4pZfSlOF9aeo+OD/AjE4Rkf/s8mX0c7P5s9xd2H+W5K5/xQE921Ee66X97L6kPF1oV/e63DtnpBXE//ie8v/wU0Pw==
+   eJxdlluSqzAMRA2EV4gDPwGSmQCbmP1v7Zq6fcqdfKiMsSS3WpLtLYSwJflJMid5JVmSPDXftf4r2aWDPJK8NR6SXbbMVwk+HrKdNcf+nqROMiW5an6ORZJK/6PG81+T5JaklV6p+UXrXZJea5P0J5NSfgfpgGP80hvkL8rfKGyNYeN/b/gL2XbSHTR2su+FNSoGcLyUD+JvjJvRfJfm82r7XoyrXnbwBx/w1mls5Q8cN2HYZHvRehQGuG703Uink4xfPLXCXAhDoX/EP1g8+KslJx+rxRqF6Wa5ueofcbZa76TDHqNhvGpe6TsaN4X2BmMpHG/juDR/hclke/b6nizWGHJ9Egc5Yr/OuK5DrpnTz6LcwCkx4B/+KssZee5tH/qhl2/wU6ulrU/SGWQ7KSfUKbmqzLaXUFd3YYR3eB5lg3/6b5R+/5VL8tsqtiP8P0uakPuDHFEfneWsDrlu0amlRyz0AzmK0q1D7jXqpZTtLIGLu+WM2saG3r9bHNTsaLnhvKhDrmFq4WI6HhtnMhz0ltPa9uL8g2f0OVcdH/roVfI1WM6oOWrlEA54oLeod7ik96g/dKiHGPIZxxlLn02WL/plMF8nZs4x/HBfkJe78d7ZHtGwjCHXh+ecswN/1DT/wHn6Pe/UXTbEVplP7yHOljbkWqK/8c0ZBn7uhyHknqUnotkckvPu5a5hXCRnHa/Ce4T8Fngojof035pv+v41+3P9T3ZL+HwzIFvI7wDeH+zJyBp+0T8st+B+azzM9yEcs+Gftf4Kn+8f3gD4Ja7NfK7GAXhepsdbiHtrEd6n4ZjNl/NMDLtx6RzxdtrD55sLDD+WD95b7PWw9T/z53E/jedNc88JZ8vxhR1c75BrYjUOvNZW4/7PsC7mB1z/APdVJ5Q=
   </data>
  </layer>
- <layer name="water_behind" width="34" height="20">
+ <layer name="behind" width="34" height="20">
   <properties>
    <property name="render-index" value="-11000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztlMsOgyAQRYnW+kiM3dRnsfz/V5ZJzwLduPAxLDzJDQOB3MskYMw1VBf5bBFLjpd2ACi0A0CuHQBiyZFoB4BUOwDEkuN+t0uyHWdL1Jj/uxNJfwtq+aufeDSMD/aI6h3eITNyXr1XG8y/XiNrE7X1+gR73UE5DH4dHm/mUg/UA942yGIP9F8zoR7/Ft+RnLLuTvRfIz2Z8ZdenH3/G11+ACwGAw==
+   eJztzqERAAAIAzFYANh/Wkw9hruazwSJAAAA+JXugLQ7IOMOSLkDcj0WRJgAPQ==
   </data>
  </layer>
  <layer name="grass" width="34" height="20">
@@ -51,22 +51,11 @@
    <property name="render-index" value="5000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztlFkKgDAMBXOFLhfocv8z2sB7tBUEl9qfdmCIIqQak4hsVifCXAzFhOvZeGihQ9xsNs/Q+U0wSp3pUXPN/Fnq7tD7IP0+sSfbGR+Blz6nRt0bBvHOWV9qEuAI/It8rDXrOwoD2UNX8Dn/wV84yB7Wb2av5eZ9Z2Ea2XNu4vmrcABGGghX
+   eJztjVEKgDAMQ3sFOy/QufufcQoJhCL451cehKZlSyKMMcYY8wcTKujx69YlWu2mvtq9MKcoJJ8dfE8OaIg/sSd8vtw5U3Zm6L9ET7YcdhnzxQag3wZl
   </data>
  </layer>
- <layer name="water_front" width="34" height="20">
-  <properties>
-   <property name="render-index" value="200000"/>
-  </properties>
-  <data encoding="base64" compression="zlib">
-   eJztkFsKwCAMBL1MH2pjq/X+Z+sKK80BrB8lA4Ma1CxxzjAMwzDmstCN7qrWbbWVa7+n34zgphf0MMIEBZ6sZVh5Ft4t3NdBORoBHvw7UM88ib2CylPoV/QMbSbCNbJ3du+8ZlFUBlH5jH/yANCiCvk=
-  </data>
- </layer>
- <objectgroup name="weffects" width="34" height="20">
-  <object name="04_watereffects1" type="waterSurfaceEffect" x="224" y="384" width="544" height="32"/>
- </objectgroup>
  <objectgroup name="enemies" width="34" height="20">
-  <object name="04_enemy_rawr1" type="enemy" x="928" y="96" width="32" height="32">
+  <object name="04_enemy_rawr1" type="enemy" x="384" y="448" width="32" height="32">
    <properties>
     <property name="type" value="rawr"/>
    </properties>

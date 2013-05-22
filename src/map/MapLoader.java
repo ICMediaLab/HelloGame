@@ -25,6 +25,7 @@ public final class MapLoader {
 	
 	private static final Map<Cell,Point> cellPos = new HashMap<Cell,Point>();
 	
+	private static int startX, startY;
 	private static Cell[][] maps;
 	private static Cell currentCell;
 	private static int currentX;
@@ -42,6 +43,8 @@ public final class MapLoader {
 					Integer.parseInt(dattrs.getNamedItem("width").getNodeValue()),
 					Integer.parseInt(dattrs.getNamedItem("height").getNodeValue())
 				);
+			startX = Integer.parseInt(dattrs.getNamedItem("defx").getNodeValue());
+			startY = Integer.parseInt(dattrs.getNamedItem("defy").getNodeValue());
 			NodeList nl = d.getElementsByTagName("map");
 			int pos = layoutPath.lastIndexOf('/');
 			String basePath;
@@ -186,5 +189,9 @@ public final class MapLoader {
 	    }
 	    
 	    return res;
+	}
+
+	public static Cell setInitialCell(Player player) {
+		return setCurrentCell(player, startX, startY);
 	}
 }

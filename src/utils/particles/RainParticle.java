@@ -1,6 +1,7 @@
 package utils.particles;
 
 import map.Cell;
+import map.MapLoader;
 import map.tileproperties.TileProperty;
 
 import org.newdawn.slick.Color;
@@ -24,7 +25,7 @@ public class RainParticle extends BlockedCollidingParticle {
 	
 	@Override
 	public boolean isAlive() {
-		return super.isAlive() && getRadius() > 0.001f;
+		return getCenterY() < MapLoader.getCurrentCell().getHeight() && super.isAlive() && getRadius() > 0.001f;
 	}
 	
 	public boolean isInWater(){
@@ -34,16 +35,18 @@ public class RainParticle extends BlockedCollidingParticle {
 	@Override
 	public void update(GameContainer gc) {
 		xy.translate(dxdy);
-		Cell c = getCell();
-		if(!inwater){
-			if(c.getTile((int) getCenterX(), (int) getCenterY()).lookup(TileProperty.TYPESTR).equalsIgnoreCase("water")){
-				inwater = true;
-				ty = (int) getCenterY();
+		if(isAlive()){
+			Cell c = getCell();
+			if(!inwater){
+				if(c.getTile((int) getCenterX(), (int) getCenterY()).lookup(TileProperty.TYPESTR).equalsIgnoreCase("water")){
+					inwater = true;
+					ty = (int) getCenterY();
+				}
 			}
-		}
-		if(inwater){
-			setRadius(getRadius()*0.7f);
-		}
+			if(inwater){
+				setRadius(getRadius()*0.7f);
+			}
+		}  
 	}
 
 	public WaterEffectParticle getBubbleParticle() {
