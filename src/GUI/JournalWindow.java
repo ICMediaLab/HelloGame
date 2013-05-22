@@ -25,7 +25,6 @@ class JournalWindow extends AbstractWindow {
 
 	public JournalWindow(GUI gui) {
 		super(gui);
-		System.out.println("new! D:");
 		
 		addObjective("-Free the stranger");
 		addObjective("-Find the stick");

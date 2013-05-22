@@ -1,7 +1,6 @@
 package entities.objects.items;
 
 import items.Shield;
-import items.Weapons;
 
 import java.util.ArrayList;
 import java.util.List;

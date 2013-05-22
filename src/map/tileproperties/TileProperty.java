@@ -21,6 +21,7 @@ public class TileProperty<K> {
 	public static final TileProperty<Float> FRICTIONX = new TileProperty<Float>("FRICTIONX",FloatTilePropertyValue.class,float.class,0.6f);
 	public static final TileProperty<Float> FRICTIONY = new TileProperty<Float>("FRICTIONY",FloatTilePropertyValue.class,float.class,0.04f);
 	public static final TileProperty<Float> GRAVITY = new TileProperty<Float>("GRAVITY",FloatTilePropertyValue.class,float.class,0.04f);
+	public static final TileProperty<Boolean> LADDER = new TileProperty<Boolean>("LADDER",BooleanTilePropertyValue.class,boolean.class,false);
 	public static final TileProperty<String> TYPESTR = new TileProperty<String>("TYPESTR",StringTilePropertyValue.class,String.class,"");
 	
 	private final Constructor<? extends TilePropertyValue<K>> constructor;

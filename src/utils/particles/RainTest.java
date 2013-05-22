@@ -47,7 +47,7 @@ public class RainTest extends ParticleEmitter<RainParticle> implements Runnable 
 	
 	@Override
 	protected void generateParticles() {
-		for(int i=(int) cell.getWidth()/2;i>=0;i--){
+		for(int i=(int) cell.getWidth()/3;i>=0;i--){
 			addParticle(getNewParticle());
 			addAllParticles(bubblez);
 			bubblez.clear();
