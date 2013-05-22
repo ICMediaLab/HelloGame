@@ -1,11 +1,7 @@
 package GUI;
 
-import entities.objects.LeafTest;
+import game.GameplayState;
 import game.config.Config;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.lang.reflect.Field;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
@@ -20,7 +16,7 @@ public class OptionsWindow extends AbstractWindow {
 	
 	private static final long serialVersionUID = -6134059150113164930L;
 	
-	private transient final Button cancel, ok, fullscreen, music, sound, musicUp, musicDown, soundUp, soundDown;
+	private transient final Button cancel, ok, fullscreen, music, sound, musicUp, musicDown, soundUp, soundDown, debugDraw;
 	
 	private transient boolean isFullscreen = Config.isFullscreen();
 	private transient boolean musicChanged = false, soundChanged = false, musicUpChanged = false, musicDownChanged = false, soundUpChanged = false, soundDownChanged = false;
@@ -38,6 +34,7 @@ public class OptionsWindow extends AbstractWindow {
 		musicDown = getMusicDownButton();
 		soundUp = getSoundUpButton();
 		soundDown = getSoundDownButton();
+		debugDraw = getDebugDrawButton();
 		
 		click = getClickSound();
 	}
@@ -82,44 +79,10 @@ public class OptionsWindow extends AbstractWindow {
 		return new Button("-", sound.getX() + sound.getWidth() + 40, sound.getY() + 5, 30, 30, 5);
 	}
 	
-	/**
-	 * Serialisation loading method for {@link LeafTest}
-	 */
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		in.defaultReadObject();
-		Field f = getClass().getDeclaredField("click");
-		f.setAccessible(true);
-		f.set(this, getClickSound());
-		isFullscreen = Config.isFullscreen();
-		//oh god everything :/
-		f = getClass().getDeclaredField("ok");
-		f.setAccessible(true);
-		f.set(this, getOkButton());
-		f = getClass().getDeclaredField("cancel");
-		f.setAccessible(true);
-		f.set(this, getCancelButton());
-		f = getClass().getDeclaredField("fullscreen");
-		f.setAccessible(true);
-		f.set(this, getFullScreenButton());
-		f = getClass().getDeclaredField("music");
-		f.setAccessible(true);
-		f.set(this, getMusicButton());
-		f = getClass().getDeclaredField("sound");
-		f.setAccessible(true);
-		f.set(this, getSoundButton());
-		f = getClass().getDeclaredField("musicUp");
-		f.setAccessible(true);
-		f.set(this, getMusicUpButton());
-		f = getClass().getDeclaredField("musicDown");
-		f.setAccessible(true);
-		f.set(this, getMusicDownButton());
-		f = getClass().getDeclaredField("soundDown");
-		f.setAccessible(true);
-		f.set(this, getSoundDownButton());
-		f = getClass().getDeclaredField("soundUp");
-		f.setAccessible(true);
-		f.set(this, getSoundUpButton());
+	private Button getDebugDrawButton(){
+		return new Button("Debug Draw", sound.getX(), sound.getY() + sound.getHeight() + 5, 120, 40, 5);
 	}
+	
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) {
@@ -140,6 +103,7 @@ public class OptionsWindow extends AbstractWindow {
 		musicDown.render(g); g.drawString(new Integer((int) (gc.getMusicVolume()*100)).toString(), musicDown.getX() + musicDown.getWidth() + 10, musicDown.getY() + ((musicDown.getHeight() - g.getFont().getHeight("1"))/2f));
 		soundUp.render(g);
 		soundDown.render(g);  g.drawString(new Integer((int) (gc.getSoundVolume()*100)).toString(), soundDown.getX() + soundDown.getWidth() + 10, soundDown.getY() + ((soundDown.getHeight() - g.getFont().getHeight("1"))/2f));
+		debugDraw.render(g);
 	}
 
 	@Override
@@ -176,6 +140,7 @@ public class OptionsWindow extends AbstractWindow {
 		else if(musicDown.contains(mc)) 	{Sounds.play(click); musicDownChanged = true;}
 		else if(soundUp.contains(mc))   	{Sounds.play(click); soundUpChanged = true;}
 		else if(soundDown.contains(mc)) 	{Sounds.play(click); soundDownChanged = true;}
+		else if(debugDraw.contains(mc)) 	{Sounds.play(click); GameplayState.drawDebug = !GameplayState.drawDebug;}
 	}
 
 }

@@ -6,6 +6,7 @@ import map.Cell;
 import map.MapLoader;
 import notify.Notification;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -18,15 +19,17 @@ import utils.npeloader.EnemyLoader;
 import utils.npeloader.NPCLoader;
 import GUI.GUI;
 import entities.players.Player;
+import game.config.Config;
 
 public class GameplayState extends MouseCapture implements Serializable {
 	
 	private static final long serialVersionUID = -3988950280670496548L;
 	
+	public static boolean drawDebug = false;
+	
 	private final int stateID;
 	private Cell currentCell;
 	private Player player;
-	//private transient static World world = new World(new Vec2(0,  9.8f), false);
 	private GUI gui;
 	
 	GameplayState(int stateID) {
@@ -70,6 +73,10 @@ public class GameplayState extends MouseCapture implements Serializable {
 		currentCell.render(gc, g);
 		Notification.render(gc, g);
 		gui.render(gc, g);
+		
+		if (drawDebug) {
+			drawDebug(g);
+		}
 	}
 	
 	@Override
@@ -87,9 +94,22 @@ public class GameplayState extends MouseCapture implements Serializable {
 				}
 			}else {
 				currentCell.update(gc);
-				//world.step(delta/1000f, 8, 3);
 			}
 			gui.update(gc);
+			
+			if (input.isKeyPressed(Input.KEY_G)) {
+				drawDebug = !drawDebug;
+			}
+		}
+	}
+	
+	public void drawDebug(Graphics g) {
+		g.setColor(Color.black);
+		for (int i = 0; i < Config.getScreenHeight()/Config.getTileSize(); i++) {
+			g.drawLine(0, i*Config.getTileSize(), Config.getScreenWidth(), i*Config.getTileSize());
+		}
+		for (int j = 0; j < Config.getScreenWidth()/Config.getTileSize(); j++) {
+			g.drawLine(j*Config.getTileSize(), 0, j*Config.getTileSize(), Config.getScreenHeight());
 		}
 	}
 	
@@ -98,7 +118,4 @@ public class GameplayState extends MouseCapture implements Serializable {
 		Sounds.getMusic().loop(1, 0.5f);
 	}
 	
-	/*public static World getWorld() {
-		return world;
-	}*/
 }
