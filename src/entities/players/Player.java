@@ -12,6 +12,7 @@ import java.util.Set;
 
 import map.Cell;
 import map.MapLoader;
+import map.tileproperties.TileProperty;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
@@ -143,7 +144,13 @@ public class Player extends AbstractEntity {
 			takeDamage(-100); // auto-consume-reviving-potion upon the event of death
 			return;
 		}
-		if (input.isKeyPressed(Input.KEY_SPACE)) {
+		if(MapLoader.getCurrentCell().getTile((int) getCentreX(),(int) getCentreY()).getTilePropertyValue(TileProperty.LADDER).get()){
+			if (input.isKeyDown(Input.KEY_SPACE)){
+				setVelocity(getdX(), -0.3f);
+			}else{
+				setVelocity(getdX(), 0f);
+			}
+		}else if (input.isKeyPressed(Input.KEY_SPACE)) {
 			playerJump();
 			
 			if (sprite == left){
@@ -159,14 +166,12 @@ public class Player extends AbstractEntity {
 			sprite = left;
 			isRight = false;
 			sprite.update(Config.DELTA);
-		}
-		else if (input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT)) {
+		} else if (input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT)) {
 			accelerate(speed,0f);
 			sprite = right;
 			isRight = true;
 			sprite.update(Config.DELTA);
-		}
-		else if (!input.isKeyPressed(Input.KEY_SPACE)) {
+		} else if (!input.isKeyPressed(Input.KEY_SPACE)) {
 			if (sprite == left) {
 				sprite = leftPause;
 			}else if (sprite == right) {

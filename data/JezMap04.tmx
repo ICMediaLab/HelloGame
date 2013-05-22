@@ -24,20 +24,26 @@
   </properties>
   <image source="images/water.png" width="128" height="128"/>
  </tileset>
+ <tileset firstgid="53" name="Ladder" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="ladder" value="true"/>
+  </properties>
+  <image source="images/LADDER.png" width="32" height="32"/>
+ </tileset>
  <layer name="collide" width="34" height="20">
   <properties>
    <property name="render-index" value="-10000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxtllmTmkAUhRsVEEeBFxFHEF5mSSWZmTj+/9+W7qrvFCdWHk71dpdzl264hhCuEZeILuI54hRxZj1xPoAJGeEYMTLOYEJX6x6bsnFEt2Mt/Toij2gjdqzTmEWs2T8wpr0iYh9RIrdiveF8G1FxlnSebN4iv7Z98WhMRnoZvivOa/yLm/Yr45+hu0X2yXRaZDfYLY3HM/VQ/IXlpjHbK7O5M78by1WF3tp87ixve2yW2BOPPRyu6G44PyCvXBfMC2S2oHnIUwnnDA4Ze4p/T+5PQH12Yuwt1gOc9labHXuKU7FtkTkwNsZxx3rNXPnaYzM3jit4jJbjldnLDK35rJi3FushLP2pOFSj0vKteubI1uzpfiqnjekcrB5rq9kW+cr8FGHpidr4F2Hptcz81sRSsk41UZ/mFsMTfiugvqrhqLwrzw06sq/71yBfEUNuuSxB2p+Nt+6HaqT+2FrN8rD0rWRyi1V1X1mNWviq73W/9O4k3c7s59hS7nRXpaO7X1scfh9VmwIO+UMO3Lbu3srO9ZYof3p/cvOl9095lrzeVecnecmphnrjdM/9nUk2ruBIflLfpp5J9+gt4j3i1eYvjG/svxjeH85esadvkN7NISzfstSjE3uS1Tuj/r1F/Ir4jrjbPOFHxBd7af7J+mfEb/Y/sT2G5Zumt1Nv2cw4PnDRmyJeyecffH3g48Zca/H8QvaOr9Hs9tie4HIJy7dY3+bBcqZR7++AjOIVvo2TcnJDdwrLt74zu1NY3nH9Myj3V8tZZ/Kz6Q3ITfC5w+HDMBP/iM5stuew9N8xLP82qply1FktxE15vZrN3vLcGW/J6V9I/acYzua7M1uKWX0pTgNrz9HxQX4G4nDBh/+zydfRzs9mT3GPYbmb0jk/1ER3bYa77pf3svpQsfXh317rsa1eENfTf+L7C4yjMjg=
+   eJxtltly2kAUREeANgyCFwlhENKLl1QS28Hw/7+WmarTpQ6Vh67Z7tJ3mZEuIYRLxCmii3iOOEQcWY+cn8GIjNBGDIwTGNHVusembLTodqyl30TkEfuINes0ZhFL9reMaa+I2ESUyC1YrzivImrOks6TzffIL21fPHYmI70M3zXnDf7FTfu18c/QrZB9Mp09sivslsbjmXoo/sJyszPbC7O5Nr8ry1WN3tJ8ri1vG2yW2BOPDRwu6K443yKvXBfMC2QqsHvIUwnnDA4Ze4r/Tu4PQH12YOwt1i2cNlabNXuKU7FVyGwZd8ZxzXrJXDw22MyN4wIeg+V4YfYyw9581sz3Fus2zP2pOFSjkvFu9cyRbdjT/VROFYPsqx5Lq1mFfG1+ijD3RGP8izD32t38NsRSsk41UZ/mFsMTfmugvmrgqLwrzzt0ZF/3b4d8DY/cclmCFNtkvHU/VCP1R2U1y8Pct5LJkVMsug+q0R6+6g/dL707Sbcz+zm2lDvdVeno7jcWh99H1aaAQ46McuB10d1b2LneEuVP709uvvT+Kc+S17vq/CQvOdXwbrVTz6mnko0LaMlP6tvUM+kevUW8R7za/IXxjf0Xw/vD2Sv29A3Su3kO87cs9ejInmT1zqh/rxG/Ir4jbjZP+BHxxV6af7L+GfGb/U9sD2H+punt1Fs2MQ4PXPSmiFfy+QdfH/i4MtdaPL+QveFrMLs9tke4nML8Lda3+Ww506j394yM4hW+jZNyckV3DPO3vjO7Y5jfcf0zKPcXy1ln8pPpnZEb4XODw4dhIv4BnclsT2HuvzbM/zaqmXLUWS3ETXm9mM3e8twZb8npX0j9pxiO5rszW4pZfSlOZ9aeo/ZBfgLicMKH/7PJV2vnR7OnuIcw303pHB9qors2wV33y3tZfajY+vBvr/XYVi+I6+E/8f0FdzIzqA==
   </data>
  </layer>
- <layer name="water_behind" width="34" height="20" visible="0">
+ <layer name="water_behind" width="34" height="20">
   <properties>
    <property name="render-index" value="-11000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztkEsKgDAMBbvwD6Ibf9Vq739KE5hFcV11k4GhSQm8tM4ZhmEYxre0OIg1jmJD3YmVWDKjZ8GM2mfa48QoruKc9Jfoudupg3gkszHTHo68hYyJXuuNeiM7JLuEjPlPdlzJn8n17Kn38cX8J/onJ/n6F2+/3/iXGyw/BaQ=
+   eJztk8sKgzAQRUO1GgtFN/Udm///ys7QswhuVcZFDhychMi9BnQuk7Gnti4Ad+nxsC4AhXUBuEuPzroAeOsC8DzwboOt+/93qt6vZ36JFRktz5Iz6vtAdsqGURzFPll/xZm9hTmIa3I2ntTDkTeQ8WGt88Q8kR2SLuHE/D0LjuT35M701P14Yf4evZONfL2Lq78/Y8sPYX4F1w==
   </data>
  </layer>
  <layer name="grass" width="34" height="20">
