@@ -144,7 +144,7 @@ public class Player extends AbstractEntity {
 			takeDamage(-100); // auto-consume-reviving-potion upon the event of death
 			return;
 		}
-		if(MapLoader.getCurrentCell().getTile((int) getCentreX(),(int) getCentreY()).getTilePropertyValue(TileProperty.LADDER).get()){
+		if(onLadder()){
 			if (input.isKeyDown(Input.KEY_SPACE)){
 				setVelocity(getdX(), -0.3f);
 			}else{

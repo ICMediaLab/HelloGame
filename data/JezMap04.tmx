@@ -65,4 +65,11 @@
  <objectgroup name="weffects" width="34" height="20">
   <object name="04_watereffects1" type="waterSurfaceEffect" x="224" y="384" width="544" height="32"/>
  </objectgroup>
+ <objectgroup name="enemies" width="34" height="20">
+  <object name="04_enemy_rawr1" type="enemy" x="928" y="96" width="32" height="32">
+   <properties>
+    <property name="type" value="rawr"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

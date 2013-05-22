@@ -2,7 +2,6 @@ package entities.aistates;
 
 import map.Cell;
 import map.MapLoader;
-import map.tileproperties.TileProperty;
 import entities.AbstractEntity;
 import entities.NonPlayableEntity;
 
@@ -41,8 +40,8 @@ public class RetreatingEntity implements AINextMove {
 			// ### ###
 			// #######
 			// Handles ^ that case
-			if(!cell.getTile(curX, (int) (e.getY() + e.getHeight() + MARGIN)).lookup(TileProperty.BLOCKED) &&
-					cell.getTile(nextNextX, (int) (e.getY() + e.getHeight() + MARGIN)).lookup(TileProperty.BLOCKED)){
+			if(!cell.getTile(curX, (int) (e.getY() + e.getHeight() + MARGIN)).canWalkOver() &&
+					cell.getTile(nextNextX, (int) (e.getY() + e.getHeight() + MARGIN)).canWalkOver()){
 				jump = true;
 			}else{
 				//
@@ -50,7 +49,7 @@ public class RetreatingEntity implements AINextMove {
 				// ######
 				// Handles ^ this case
 				for(float y=e.getY() + MARGIN;y<e.getY() + e.getHeight();y+=0.5f){
-					if(cell.getTile(nextX, (int) y).lookup(TileProperty.BLOCKED)){
+					if(cell.getTile(nextX, (int) y).canWalkOver()){
 						jump = true;
 						break;
 					}
@@ -61,7 +60,7 @@ public class RetreatingEntity implements AINextMove {
 					// #######
 					// Handles ^ this case (blocked)
 					for(int count=0, y=(int) (e.getY() - MARGIN);count <2;y--,count++){
-						if(cell.getTile(nextX, y).lookup(TileProperty.BLOCKED)){
+						if(cell.getTile(nextX, y).canWalkOver()){
 							jump = false;
 							break;
 						}

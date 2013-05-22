@@ -130,9 +130,12 @@ public class Tile {
 		return getTilePropertyValue(k).get();
 	}
 	
+	public boolean canWalkOver(){
+		return lookup(TileProperty.BLOCKED) || lookup(TileProperty.LADDER);
+	}
+	
 	@Override
 	public String toString() {
 		return properties.toString();
-		
 	}
 }

@@ -1,7 +1,6 @@
 package entities.aistates;
 
 import map.MapLoader;
-import map.tileproperties.TileProperty;
 import entities.NonPlayableEntity;
 
 public class RoamingEntity implements AINextMove {
@@ -25,7 +24,7 @@ public class RoamingEntity implements AINextMove {
 		//     e->
 		//  ####
 		// #######
-		if(!MapLoader.getCurrentCell().getTile(curX, (int) (e.getY() + e.getHeight())).lookup(TileProperty.BLOCKED)){
+		if(!MapLoader.getCurrentCell().getTile(curX, (int) (e.getY() + e.getHeight())).canWalkOver()){
 			dx *= -1;
 		}else{
 			//checks for
@@ -33,7 +32,7 @@ public class RoamingEntity implements AINextMove {
 			//   e->#
 			// ######
 			for(float y=e.getY() + MARGIN;y<e.getY() + e.getHeight();y+=0.5f){
-				if(MapLoader.getCurrentCell().getTile(curX, (int) y).lookup(TileProperty.BLOCKED)){
+				if(MapLoader.getCurrentCell().getTile(curX, (int) y).canWalkOver()){
 					dx *= -1;
 					break;
 				}
