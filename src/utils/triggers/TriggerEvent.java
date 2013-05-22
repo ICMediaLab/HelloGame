@@ -49,7 +49,9 @@ public class TriggerEvent<K> implements AugmentedTriggerSource<K> {
 	@SuppressWarnings("unused")
 	private static final StaticEventTrigger<Cell> CELL_TRANS_NOTIFY_TRIGGER = new StaticEventTrigger<Cell>(CELL_TRANSITION) {
 		public void triggered(Cell k) {
-			Notification.addNotification("Transitioned to cell " + k + ".");
+		    if (k.toString() != null) {
+	            Notification.addNotification("You entered " + k + ".");
+		    }
 		}
 	};
 	

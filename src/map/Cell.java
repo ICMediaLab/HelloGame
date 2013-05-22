@@ -82,6 +82,8 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	
 	private Player player;
 	private boolean visited = false;
+
+    private String cellName;
 	
 	private static float minimapOpacity = 1f;
 	private static float minimapOpacityDelta = 0.05f;
@@ -388,5 +390,13 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 		particleEmitters.add(particleEngine);
 		renderables.add(particleEngine);
 	}
-
+	
+	public void setName(String name) {
+	    this.cellName = name;
+	}
+	
+	@Override
+	public String toString() {
+        return cellName;
+	}
 }
