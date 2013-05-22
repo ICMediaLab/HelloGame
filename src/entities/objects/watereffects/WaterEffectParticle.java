@@ -42,7 +42,7 @@ public class WaterEffectParticle extends YAxisAttractorParticle {
 	
 	@Override
 	public boolean isAlive() {
-		return super.isAlive() && !MapLoader.getCurrentCell().getTile((int) getCenterX(), (int) getCenterY()).lookup(TileProperty.BLOCKED);
+		return super.isAlive() && !MapLoader.getCurrentCell().getTile((int) getCenterX(), Math.max(1, (int) getCenterY())).lookup(TileProperty.BLOCKED);
 	}
 	
 	@Override
