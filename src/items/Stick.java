@@ -22,6 +22,7 @@ public class Stick extends AbstractWeapon {
     private int counter = 0;
     private SoundGroup swingSound;
     private int dir;
+    private String name;
     
     public Stick(Rectangle hitbox, Image[] images, int damage) {
         super(hitbox, images, damage);
@@ -34,6 +35,8 @@ public class Stick extends AbstractWeapon {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+        
+        this.name = "Stick";
     }
     
     public Stick() {
@@ -121,6 +124,11 @@ public class Stick extends AbstractWeapon {
         int absxOffset = -sprite.getWidth();
         float relxOffset = 1f; 
         sprite.draw((int)((hitbox.getX() + relxOffset)*Config.getTileSize() + absxOffset), (int)((hitbox.getY()-2.5)*Config.getTileSize()), new Color(255,255,255));
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
 }

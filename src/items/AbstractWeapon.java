@@ -42,4 +42,6 @@ public abstract class AbstractWeapon implements Weapon {
 
     public abstract boolean used();
     
+    public abstract String getName();
+    
 }

@@ -92,4 +92,7 @@
    eJzt1DELgnAUBPD7CuYnsUEHGwpKKEEDFWrQoe+/1b/Ze+TQ0ibcEzv4bW+45R6w7NS0paO4R0sZncU97rSjStxjoAM14h4JFXQT90ippF7cI8dnLw9xjz187OUEH3u5wMde7J962Iv9Uw97sX96xXx7edJrEuj94y583Vrsn3bQ7yWiDcXiHv+sIyNTrxQg
   </data>
  </layer>
+ <objectgroup name="Item" width="34" height="20">
+  <object name="02_i_w_shield" type="weapon_item_shield" x="192" y="480" width="32" height="32"/>
+ </objectgroup>
 </map>

@@ -26,6 +26,7 @@ import entities.objects.LeafTest;
 import entities.objects.TeleportReciever;
 import entities.objects.TeleportSender;
 import entities.objects.TextField;
+import entities.objects.items.ShieldItem;
 import entities.objects.items.StickItem;
 import entities.objects.watereffects.WaterSurfaceEffect;
 import game.config.Config;
@@ -396,7 +397,11 @@ public class CellObjectParser {
 			StickItem si = new StickItem(x, y, width, height);
 			cell.addDefaultDestructibleEntity(si);
 			entityReference.put(id, new WeakReference<Entity>(si));
-		}
+		}else if(go.type.equalsIgnoreCase("weapon_item_shield")){
+            ShieldItem si = new ShieldItem(x, y+1, width, height);
+            cell.addDefaultDestructibleEntity(si);
+            entityReference.put(id, new WeakReference<Entity>(si));
+        }
 	}
 	
 	/**
@@ -440,6 +445,7 @@ public class CellObjectParser {
 	 */
 	private static enum ParseOrder {
 		WEAPON_ITEM_STICK,
+		WEAPON_ITEM_SHIELD,
 		LEAFTEST,
 		JUMPPLATFORM,
 		ENEMY,

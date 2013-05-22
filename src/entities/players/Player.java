@@ -1,6 +1,7 @@
 package entities.players;
 
 import game.config.Config;
+import items.Shield;
 import items.Weapons;
 
 import java.awt.Dimension;
@@ -60,6 +61,7 @@ public class Player extends AbstractEntity {
 	private static final Random rand = new Random();
 	
 	private Weapons equippedWeapon = null;
+	private Shield equippedShield = null;
 	
 	private float speed = 0.3f;
 	private boolean onGround = true;
@@ -319,4 +321,9 @@ public class Player extends AbstractEntity {
 		equippedWeapon = newWeapon;
 		TriggerEvent.PLAYER_ITEM_PICKUP.triggered(newWeapon);
 	}
+	
+	public void setShield(Shield s) {
+        equippedShield = s;
+        TriggerEvent.PLAYER_SHIELD_PICKUP.triggered(s);          // doesnt support shields yet
+    }
 }

@@ -9,9 +9,11 @@ public enum Weapons implements Weapon {
 	STICK(new Stick());
 	
 	private final AbstractWeapon w;
+	private final String name;
 	
 	private Weapons(AbstractWeapon w){
 		this.w = w;
+		this.name= w.getName();
 	}
 
 	@Override

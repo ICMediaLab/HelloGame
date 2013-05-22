@@ -1,5 +1,6 @@
 package utils.triggers;
 
+import items.Shield;
 import items.Weapon;
 
 import java.util.HashSet;
@@ -16,6 +17,7 @@ public class TriggerEvent<K> implements AugmentedTriggerSource<K> {
 	private TriggerEvent(){ }
 	
 	public static final TriggerEvent<Weapon> PLAYER_ITEM_PICKUP = new TriggerEvent<Weapon>();
+	public static final TriggerEvent<Shield> PLAYER_SHIELD_PICKUP = new TriggerEvent<Shield>();
 	public static final TriggerEvent<Cell> CELL_TRANSITION = new TriggerEvent<Cell>();
 	public static final TriggerEvent<Entity> ENTITY_REMOVED = new TriggerEvent<Entity>();
 	public static final TriggerEvent<Door> DOOR_OPENED = new TriggerEvent<Door>();
@@ -45,6 +47,13 @@ public class TriggerEvent<K> implements AugmentedTriggerSource<K> {
 			Notification.addNotification("You picked up the " + k.toString().toLowerCase() + "! Press W or click the left mouse button to use it.");
 		}
 	};
+	
+	@SuppressWarnings("unused")
+    private static final StaticEventTrigger<Shield> SHIELD_NOTIFY_TRIGGER = new StaticEventTrigger<Shield>(PLAYER_SHIELD_PICKUP) {
+        public void triggered(Shield k) {
+            Notification.addNotification("You picked up the " + k.toString().toLowerCase() + "!");
+        }
+    };
 	
 	@SuppressWarnings("unused")
 	private static final StaticEventTrigger<Cell> CELL_TRANS_NOTIFY_TRIGGER = new StaticEventTrigger<Cell>(CELL_TRANSITION) {
