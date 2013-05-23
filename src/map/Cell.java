@@ -41,7 +41,7 @@ import utils.LayerRenderable;
 import utils.Renderable;
 import utils.Updatable;
 import utils.particles.ParticleEmitter;
-import utils.particles.RainTest;
+import utils.particles.rain.RainTest;
 import utils.triggers.TriggerEvent;
 
 

@@ -20,7 +20,7 @@
    <property name="frictionx" value="0.8"/>
    <property name="frictiony" value="0.1"/>
    <property name="gravity" value="0.01"/>
-   <property name="typeStr" value="water"/>
+   <property name="water" value="true"/>
   </properties>
   <image source="images/water.png" width="128" height="128"/>
  </tileset>

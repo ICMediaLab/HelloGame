@@ -1,9 +1,13 @@
-package utils.particles;
+package utils.particles.rain;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import map.Cell;
+import map.Tile;
+import map.tileproperties.TileProperty;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Image;
@@ -15,11 +19,15 @@ import utils.interval.one.FixedValue;
 import utils.interval.one.Interval;
 import utils.interval.two.Interval2D;
 import utils.interval.two.Range2D;
+import utils.particles.ParticleEmitter;
+import utils.particles.ParticleGenerator;
 import utils.particles.particle.InfiniteAttractorParticle;
 import utils.particles.particle.Particle;
 import entities.objects.watereffects.WaterEffectParticle;
 
 public class RainTest extends ParticleEmitter<RainParticle> implements Runnable {
+	
+	private static final Map<Cell,RainTest> rains = new HashMap<Cell,RainTest>();
 	
 	private final Cell cell;
 	private GameContainer gc = null;
@@ -27,10 +35,18 @@ public class RainTest extends ParticleEmitter<RainParticle> implements Runnable 
 	private final Collection<WaterEffectParticle> bubblez = new HashSet<WaterEffectParticle>();
 	
 	public static RainTest getRain(Cell c, int layer){
+		RainTest existing = rains.get(c);
+		if(existing != null){
+			return existing;
+		}
 		RainTest r = new RainTest(c,new RainParticleGenerator(c), new Interval2D(new Interval(1f,c.getWidth()-1f), new FixedValue(0.5f)), new Interval2D(new FixedValue(0f),new Interval(0.12f,0.20f)), layer);
+		long start = -System.currentTimeMillis();
 		for(int i = 0;i < 140;i++){
 			r.updateThreadless();
 		}
+		start += System.currentTimeMillis();
+		System.out.println(start);
+		rains.put(c, r);
 		return r;
 	}
 	
@@ -66,7 +82,7 @@ public class RainTest extends ParticleEmitter<RainParticle> implements Runnable 
 		}
 	}
 	
-	private final Thread updateThread = new Thread(this);
+	private final Thread updateThread = new Thread(this,"RainThread");
 	private boolean running = true;
 	
 	@Override
@@ -122,14 +138,20 @@ class RainParticleGenerator implements ParticleGenerator<RainParticle> {
 		TEXTURE = texture;
 	}
 	
+	private final int[] fcs; //fallCheckStart
 	private final Cell c;
 	
 	public RainParticleGenerator(Cell cell) {
 		c = cell;
+		fcs = new int[cell.getWidth()];
+		for(int col = 0;col < cell.getWidth(); col++){
+			Tile t;
+			while(++fcs[col]<cell.getHeight() && !(t = cell.getTile(col, fcs[col])).lookup(TileProperty.BLOCKED) && !t.lookup(TileProperty.WATER));
+		}
 	}
 	
 	@Override
 	public RainParticle newParticle(Position position, Position velocity) {
-		return new RainParticle(c,TEXTURE, position, velocity, COLOUR_RANGE.random(), SIZE_RANGE.random(), ATTRACTOR, INERTIA);
+		return new RainParticle(c,TEXTURE, position, velocity, COLOUR_RANGE.random(), SIZE_RANGE.random(), ATTRACTOR, INERTIA, fcs[(int) position.getX()]);
 	}
 }
