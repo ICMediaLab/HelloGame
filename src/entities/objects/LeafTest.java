@@ -1,9 +1,5 @@
 package entities.objects;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.lang.reflect.Field;
-
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -25,16 +21,6 @@ public class LeafTest extends StaticRectEntity {
 	public LeafTest(int x, int y){
 		super(x,y,4f,1f);
 		moving = getMovingAnimation();
-	}
-	
-	/**
-	 * Serialisation loading method for {@link LeafTest}
-	 */
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		in.defaultReadObject();
-		Field moving = getClass().getDeclaredField("moving");
-		moving.setAccessible(true);
-		moving.set(this, getMovingAnimation());
 	}
 	
 	private Animation getMovingAnimation() {

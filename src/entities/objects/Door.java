@@ -1,13 +1,7 @@
 package entities.objects;
 
-import entities.MovingEntity;
-import entities.StaticRectEntity;
-import game.config.Config;
-
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +18,9 @@ import org.newdawn.slick.util.BufferedImageUtil;
 import utils.triggers.TriggerEffect;
 import utils.triggers.TriggerEvent;
 import utils.triggers.TriggerSource;
+import entities.MovingEntity;
+import entities.StaticRectEntity;
+import game.config.Config;
 
 public class Door extends StaticRectEntity implements TriggerEffect {
 	
@@ -41,19 +38,6 @@ public class Door extends StaticRectEntity implements TriggerEffect {
 		closedSprite = getClosedAnimation();
 		openSprite = getOpenAnimation();
 		openDoor(true);
-	}
-	
-	/**
-	 * Serialisation loading method for {@link Door}
-	 */
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, IllegalArgumentException, IllegalAccessException, SecurityException, NoSuchFieldException {
-		in.defaultReadObject();
-		Field open = getClass().getDeclaredField("openSprite");
-		Field closed = getClass().getDeclaredField("closedSprite");
-		open.setAccessible(true);
-		closed.setAccessible(true);
-		open.set(this, getOpenAnimation());
-		closed.set(this, getClosedAnimation());
 	}
 	
 	private Animation getClosedAnimation(){

@@ -34,16 +34,6 @@ class RangedAttackAbility extends AbstractPlayerAbility {
 		return null;
 	}
 	
-	/**
-	 * Serialisation loading method for {@link LeafTest}
-	 */
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		in.defaultReadObject();
-		Field rel = getClass().getDeclaredField("release");
-		rel.setAccessible(true);
-		rel.set(this, loadRelease());
-	}
-	
 	@Override
 	public void use(Player p) {
 	    Projectile pro = null;

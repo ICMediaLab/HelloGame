@@ -3,7 +3,6 @@ package entities.players.abilities;
 import org.newdawn.slick.Sound;
 
 import sounds.Sounds;
-
 import entities.players.Player;
 
 class DoubleJumpAbility extends AbstractPlayerAbility {

@@ -1,9 +1,5 @@
 package items.projectiles;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.lang.reflect.Field;
-
 import map.Cell;
 import map.MapLoader;
 import map.Tile;
@@ -23,7 +19,6 @@ import entities.DestructibleEntity;
 import entities.MovingEntity;
 import entities.StaticEntity;
 import entities.VeryAbstractEntity;
-import entities.objects.LeafTest;
 import game.config.Config;
 
 public class Projectile extends VeryAbstractEntity<Shape> {
@@ -55,17 +50,6 @@ public class Projectile extends VeryAbstractEntity<Shape> {
 		this.dxdy = new Position((float)Math.cos(angle),(float)Math.sin(angle));
 		this.dxdy.scale(Math.min(NORMAL_SPEED * speed, MAX_SPEED));
 		
-	}
-	
-	/**
-	 * Serialisation loading method for {@link LeafTest}
-	 */
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		in.defaultReadObject();
-		Field bi = getClass().getDeclaredField("baseImage"); 
-		bi.setAccessible(true);
-		bi.set(this, getBaseImage());
-		updateSprite();
 	}
 	
 	private Image getBaseImage(){

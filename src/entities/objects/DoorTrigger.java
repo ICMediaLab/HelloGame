@@ -36,16 +36,6 @@ public class DoorTrigger extends StaticRectEntity implements TriggerSource {
 		s = getTriggerAnimation();
 	}
 	
-	/**
-	 * Serialisation loading method for {@link DoorTrigger}
-	 */
-	private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException, SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-		in.defaultReadObject();
-		Field s = getClass().getDeclaredField("s");
-		s.setAccessible(true);
-		s.set(this, getTriggerAnimation());
-	}
-	
 	private Animation getTriggerAnimation(){
 		BufferedImage i = new BufferedImage(Config.getTileSize(), Config.getTileSize(), BufferedImage.TYPE_INT_ARGB);
 		java.awt.Graphics g = i.createGraphics();
