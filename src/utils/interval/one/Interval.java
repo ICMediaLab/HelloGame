@@ -1,6 +1,6 @@
 package utils.interval.one;
 
-public class Interval extends Range<Float> {
+public class Interval extends Range {
 
 	private final float low, width;
 	
@@ -10,22 +10,22 @@ public class Interval extends Range<Float> {
 	}
 	
 	@Override
-	public Float random() {
+	public float random() {
 		return rand.nextFloat()*width + low;
 	}
 
 	@Override
-	public Float length() {
+	public float length() {
 		return width;
 	}
 
 	@Override
-	public Float getMax() {
+	public float getMax() {
 		return low + width;
 	}
 
 	@Override
-	public Float getMin() {
+	public float getMin() {
 		return low;
 	}
 

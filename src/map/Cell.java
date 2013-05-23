@@ -288,7 +288,7 @@ public class Cell extends TiledMap implements Updatable, Renderable {
 	public void setBlocked(FixedRotationEntity e, boolean blocked){
 		for(int y=(int) e.getY();y<(int) (e.getY()+e.getHeight());y++){
 			for(int x=(int) e.getX();x<(int) (e.getX()+e.getWidth());x++){
-				getTile(x, y).put(TileProperty.BLOCKED, new BooleanTilePropertyValue(blocked));
+				getTile(x, y).put(TileProperty.BLOCKED, blocked ? BooleanTilePropertyValue.TRUE : BooleanTilePropertyValue.FALSE);
 			}
 		}
 	}

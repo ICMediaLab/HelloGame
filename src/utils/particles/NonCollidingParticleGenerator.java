@@ -6,7 +6,7 @@ import java.util.Random;
 import org.newdawn.slick.Image;
 
 import utils.Position;
-import utils.interval.one.ColourRange;
+import utils.interval.ColourRange;
 import utils.interval.one.Interval;
 
 public class NonCollidingParticleGenerator implements ParticleGenerator<NonCollidingParticle>{
@@ -27,7 +27,7 @@ public class NonCollidingParticleGenerator implements ParticleGenerator<NonColli
 	@Override
 	public NonCollidingParticle newParticle(Position position, Position velocity) {
 		Image tex = textures.toArray(new Image[textures.size()])[r.nextInt(textures.size())];
-		return new NonCollidingParticle(tex, position, velocity, cRange.random(), sizeRange.random(), ttlRange.random().intValue());
+		return new NonCollidingParticle(tex, position, velocity, cRange.random(), sizeRange.random(), (int) ttlRange.random());
 	}
 
 }

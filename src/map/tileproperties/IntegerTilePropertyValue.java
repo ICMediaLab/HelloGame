@@ -9,9 +9,9 @@ public class IntegerTilePropertyValue extends TilePropertyValue<Integer> {
 	}
 	
 	@Override
-	public void parse(String str) throws ParseException {
+	public TilePropertyValue<Integer> parse(String str) throws ParseException {
 		try{
-			set(Integer.parseInt(str));
+			return new IntegerTilePropertyValue(Integer.parseInt(str));
 		}catch(NumberFormatException e){
 			throw new ParseException("Not an integer.",0);
 		}

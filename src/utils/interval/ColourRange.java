@@ -1,12 +1,15 @@
-package utils.interval.one;
+package utils.interval;
 
 import org.newdawn.slick.Color;
+
+import utils.interval.one.FixedValue;
+import utils.interval.one.Interval;
 
 /**
  * A class for holding a range of colours based on rgba components. Each component is held as a separate interval.
  * The alpha channel will have a fixed value of 1f (opaque) if not specified in the constructor.
  */
-public class ColourRange extends Range<Color>{
+public class ColourRange {
 	
 	private final Interval r,g,b,a;
 	
@@ -55,24 +58,11 @@ public class ColourRange extends Range<Color>{
 		this(minr,maxr,ming,maxg,minb,maxb,new FixedValue(1f));
 	}
 
-	@Override
 	public Color random() {
 		return new Color(r.random(),g.random(),b.random(),a.random());
 	}
 
-	@Override
 	public Color length() {
 		return null;
 	}
-
-	@Override
-	public Color getMin() {
-		return null;
-	}
-
-	@Override
-	public Color getMax() {
-		return null;
-	}
-
 }

@@ -14,7 +14,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 import utils.Position;
-import utils.interval.one.ColourRange;
+import utils.interval.ColourRange;
 import utils.interval.one.FixedValue;
 import utils.interval.one.Interval;
 import utils.interval.two.Interval2D;

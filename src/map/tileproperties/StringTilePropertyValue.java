@@ -7,8 +7,8 @@ public class StringTilePropertyValue extends TilePropertyValue<String> {
 	}
 	
 	@Override
-	public void parse(String str) {
-		set(str);
+	public TilePropertyValue<String> parse(String str) {
+		return new StringTilePropertyValue(str);
 	}
 
 	@Override

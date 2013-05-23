@@ -9,9 +9,9 @@ public class FloatTilePropertyValue extends TilePropertyValue<Float> {
 	}
 	
 	@Override
-	public void parse(String str) throws ParseException {
+	public TilePropertyValue<Float> parse(String str) throws ParseException {
 		try{
-			set(Float.parseFloat(str));
+			return new FloatTilePropertyValue(Float.parseFloat(str));
 		}catch(NumberFormatException e){
 			throw new ParseException("Not a float.",0);
 		}

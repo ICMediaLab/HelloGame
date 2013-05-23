@@ -81,7 +81,7 @@ public class Tile {
 				String str = props.getProperty(prop.toString(), null);
 				if(str != null){
 					try{
-						value.parse(str);
+						value = value.parse(str);
 						put(prop,value);
 					}catch(ParseException e){
 						System.out.println("Recieved parse exception while parsing: " + str + " in layer " + l + " at " + x +"," + y);
@@ -95,7 +95,7 @@ public class Tile {
 	private <T> void parse2(TileProperty<T> prop, String str){
 		TilePropertyValue<T> value = prop.getUndefinedValueInstance();
 		try{
-			value.parse(str);
+			value = value.parse(str);
 		}catch(ParseException e){
 			System.out.println("Recieved parse exception while parsing: " + str);
 			e.printStackTrace();

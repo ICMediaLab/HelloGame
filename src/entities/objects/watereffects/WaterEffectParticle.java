@@ -15,7 +15,7 @@ import utils.particles.particle.YAxisAttractorParticle;
 
 public class WaterEffectParticle extends YAxisAttractorParticle {
 	
-	private static final Range<Float> radrange = new Interval(0.005f, 0.01f);
+	private static final Range radrange = new Interval(0.005f, 0.01f);
 	private static final Image bubblez;
 	private static final Color c = new Color(0.6f,0.6f,0.9f,0.7f);
 	

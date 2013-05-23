@@ -12,7 +12,6 @@ import java.util.Set;
 
 import map.Cell;
 import map.MapLoader;
-import map.tileproperties.TileProperty;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
@@ -27,7 +26,7 @@ import org.newdawn.slick.SpriteSheet;
 import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.ImageUtils;
-import utils.interval.one.ColourRange;
+import utils.interval.ColourRange;
 import utils.interval.one.Interval;
 import utils.interval.two.FixedPosition;
 import utils.interval.two.Interval2D;
@@ -37,7 +36,6 @@ import utils.particles.NonCollidingParticle;
 import utils.particles.NonCollidingParticleGenerator;
 import utils.particles.NormalParticleEmitter;
 import utils.particles.ParticleGenerator;
-import utils.triggers.TriggerEffect;
 import utils.triggers.TriggerEvent;
 import entities.AbstractEntity;
 import entities.DestructibleEntity;
@@ -210,9 +208,9 @@ public class Player extends AbstractEntity {
 				
 				Range2D spawn;
 				if(getDirection() > 0){ //right
-					spawn = new Sector2D(0.1f, 0.15f, -Math.PI, -Math.PI*2.0/3.0);
+					spawn = new Sector2D(0.1f, 0.15f, (float) (-Math.PI), (float) (-Math.PI*2.0/3.0));
 				}else{
-					spawn = new Sector2D(0.1f, 0.15f, -Math.PI/3, 0);
+					spawn = new Sector2D(0.1f, 0.15f, (float) (-Math.PI/3), 0);
 				}
 				MapLoader.getCurrentCell().addParticleEmmiter(
 						new NormalParticleEmitter<NonCollidingParticle>

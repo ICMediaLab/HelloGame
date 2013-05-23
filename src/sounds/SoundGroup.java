@@ -31,7 +31,7 @@ public class SoundGroup {
 		Sounds.play(randomSound(), rand.nextFloat()*0.4f + 0.6f, rand.nextFloat()*0.4f + 0.6f);
 	}
 	
-	public void playSingle(Range<Float> pitch, Range<Float> volume){
+	public void playSingle(Range pitch, Range volume){
 		Sounds.play(randomSound(), pitch.random(), volume.random());
 	}
 	
