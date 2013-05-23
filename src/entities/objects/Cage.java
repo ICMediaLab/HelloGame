@@ -6,7 +6,6 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.geom.Rectangle;
-import org.newdawn.slick.geom.Shape;
 
 import entities.FixedRotationEntity;
 import entities.MovingEntity;
@@ -14,18 +13,15 @@ import entities.VeryAbstractDestructibleEntity;
 import entities.players.Player;
 import game.config.Config;
 
-public class Cage extends VeryAbstractDestructibleEntity implements FixedRotationEntity {
+public class Cage extends VeryAbstractDestructibleEntity<Rectangle> implements FixedRotationEntity {
 	
 	private final int maxhealth;
 	private int health;
 	
 	private final Cell parent;
 	
-	private final Rectangle hitbox;
-	
 	public Cage(Cell parent, int x, int y, int width, int height) {
-		super();
-		hitbox = new Rectangle(x, y, width, height);
+		super(new Rectangle(x, y, width, height));
 		this.parent = parent;
 		maxhealth = 100;
 		health = maxhealth;
@@ -33,8 +29,7 @@ public class Cage extends VeryAbstractDestructibleEntity implements FixedRotatio
 	}
 	
 	private Cage(Cage base){
-		super(base);
-		hitbox = new Rectangle(base.getX(), base.getY(), base.getWidth(), base.getHeight());
+		super(new Rectangle(base.getX(), base.getY(), base.getWidth(), base.getHeight()),base);
 		this.parent = base.parent;
 		this.maxhealth = base.maxhealth;
 		this.health = base.health;
@@ -104,17 +99,12 @@ public class Cage extends VeryAbstractDestructibleEntity implements FixedRotatio
 	}
 
 	@Override
-	public Shape getHitbox() {
-		return hitbox;
-	}
-
-	@Override
 	public float getX() {
-		return hitbox.getX();
+		return getHitbox().getX();
 	}
 
 	@Override
 	public float getY() {
-		return hitbox.getY();
+		return getHitbox().getY();
 	}
 }

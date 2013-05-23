@@ -4,11 +4,32 @@ import game.config.Config;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
 
 import utils.AnimationContainer;
 import utils.Position;
 
-public abstract class VeryAbstractStaticEntity implements Entity {
+public abstract class VeryAbstractStaticEntity<S extends Shape> implements Entity {
+	
+	private S hitbox;
+
+	public VeryAbstractStaticEntity(S hitbox) {
+		this.hitbox = hitbox;
+	}
+	
+	@Override
+	public S getHitbox() {
+		return hitbox;
+	}
+	
+	public void setHitbox(S hitbox) {
+		this.hitbox = hitbox;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void transformHitbox(Transform transform){
+		hitbox = (S) hitbox.transform(transform);
+	}
 	
 	@Override
 	public Position getPosition() {

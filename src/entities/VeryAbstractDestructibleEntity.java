@@ -9,10 +9,11 @@ import java.util.Set;
 import map.MapLoader;
 
 import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.geom.Shape;
 
 import utils.triggers.AugmentedTriggerEffect;
 
-public abstract class VeryAbstractDestructibleEntity extends VeryAbstractStaticEntity implements DestructibleEntity {
+public abstract class VeryAbstractDestructibleEntity<S extends Shape> extends VeryAbstractStaticEntity<S> implements DestructibleEntity {
 	
 	/**
 	 * Used to keep track of what is a clone of what. This is required so the trigger system has at least a mild comprehension of the source of the triggers. :/
@@ -23,14 +24,16 @@ public abstract class VeryAbstractDestructibleEntity extends VeryAbstractStaticE
 	
 	private final WeakReference<DestructibleEntity> selfRef = new WeakReference<DestructibleEntity>(this);
 	
-	public VeryAbstractDestructibleEntity() {
+	public VeryAbstractDestructibleEntity(S hitbox) {
+		super(hitbox);
 		aliasMap.put(selfRef, new HashSet<WeakReference<DestructibleEntity>>());
 	}
 	
 	/**
 	 * Copy constructor
 	 */
-	protected VeryAbstractDestructibleEntity(VeryAbstractDestructibleEntity base){
+	protected VeryAbstractDestructibleEntity(S hitbox, VeryAbstractDestructibleEntity<S> base){
+		super(hitbox);
 		deathTriggers.addAll(base.deathTriggers);
 		Set<WeakReference<DestructibleEntity>> set = aliasMap.get(base.getWeakReference());
 		set.add(selfRef);
@@ -68,7 +71,7 @@ public abstract class VeryAbstractDestructibleEntity extends VeryAbstractStaticE
 	}
 	
 	@Override
-	public abstract VeryAbstractDestructibleEntity clone();
+	public abstract VeryAbstractDestructibleEntity<S> clone();
 	
 	@Override
 	public boolean cloneOf(Entity o) {

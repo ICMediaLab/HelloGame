@@ -26,7 +26,7 @@ import entities.VeryAbstractEntity;
 import entities.objects.LeafTest;
 import game.config.Config;
 
-public class Projectile extends VeryAbstractEntity {
+public class Projectile extends VeryAbstractEntity<Shape> {
 	
 	private static final int PROJECTILE_DEFAULT_LAYER = -500;
 	
@@ -39,9 +39,9 @@ public class Projectile extends VeryAbstractEntity {
 	private final Position dxdy;
 	private final int damage;
 	private double angle;
-	private Shape hitbox;
 	
 	public Projectile(Position centre, int damage, double angle, float speed){
+		super(null);
 		baseImage = getBaseImage();
 		updateSprite();
 		
@@ -51,7 +51,7 @@ public class Projectile extends VeryAbstractEntity {
 		float width  = (float) baseImage.getWidth()  / Config.getTileSize();
 		float height = (float) baseImage.getHeight() / Config.getTileSize();
 		
-		this.hitbox = new Rectangle(centre.getX()-width/2, centre.getY()-height/2, width, height).transform(Transform.createRotateTransform((float) angle,centre.getX(),centre.getY()));
+		setHitbox(new Rectangle(centre.getX()-width/2, centre.getY()-height/2, width, height).transform(Transform.createRotateTransform((float) angle,centre.getX(),centre.getY())));
 		this.dxdy = new Position((float)Math.cos(angle),(float)Math.sin(angle));
 		this.dxdy.scale(Math.min(NORMAL_SPEED * speed, MAX_SPEED));
 		
@@ -88,7 +88,7 @@ public class Projectile extends VeryAbstractEntity {
 
 	@Override
 	public void render(GameContainer gc, Graphics g) {
-		sprite.draw((int)((hitbox.getCenterX()-1f)*Config.getTileSize()-sprite.getWidth()/2), (int)((hitbox.getCenterY()-1)*Config.getTileSize()-sprite.getHeight()/2));
+		sprite.draw((int)((getHitbox().getCenterX()-1f)*Config.getTileSize()-sprite.getWidth()/2), (int)((getHitbox().getCenterY()-1)*Config.getTileSize()-sprite.getHeight()/2));
 		/*For debugging purposes.*/
 		/*g.setColor(Color.green); 
 		g.draw(hitbox.transform(Transform.createTranslateTransform(-1, -1)).transform(Transform.createScaleTransform(Config.getTileSize(), Config.getTileSize())));
@@ -142,7 +142,7 @@ public class Projectile extends VeryAbstractEntity {
 
 	@Override
 	public void frameMove() {
-		hitbox = hitbox.transform(Transform.createTranslateTransform(dxdy.getX(), dxdy.getY()));
+		transformHitbox(Transform.createTranslateTransform(dxdy.getX(), dxdy.getY()));
 		//sprite.update(Config.DELTA); useless as the image is being reloaded each time anyway
 		{
 			int cX = (int) getCentreX(), cY = Math.max(1, (int) getCentreY());
@@ -158,7 +158,7 @@ public class Projectile extends VeryAbstractEntity {
 		// update angle and hitbox
 		double lastangle = angle;
 		angle = Math.atan2(dxdy.getY(), dxdy.getX());
-		hitbox = hitbox.transform(Transform.createRotateTransform((float) (angle - lastangle),hitbox.getCenterX(),hitbox.getCenterY()));
+		transformHitbox(Transform.createRotateTransform((float) (angle - lastangle),getCentreX(),getCentreY()));
 		
 		// update animation (copied and pasted from above)
 		updateSprite();
@@ -218,11 +218,6 @@ public class Projectile extends VeryAbstractEntity {
 		if(e.isSolid()){
 			MapLoader.getCurrentCell().removeMovingEntity(this);
 		}
-	}
-
-	@Override
-	public Shape getHitbox() {
-		return hitbox;
 	}
 
 	@Override

@@ -1,16 +1,18 @@
 package entities;
 
+import org.newdawn.slick.geom.Shape;
+
 import map.Cell;
 import map.MapLoader;
 
-public abstract class VeryAbstractEntity extends VeryAbstractDestructibleEntity implements MovingEntity {
+public abstract class VeryAbstractEntity<S extends Shape> extends VeryAbstractDestructibleEntity<S> implements MovingEntity {
 	
-	public VeryAbstractEntity() {
-		super();
+	public VeryAbstractEntity(S hitbox) {
+		super(hitbox);
 	}
 	
-	public VeryAbstractEntity(VeryAbstractEntity base) {
-		super(base);
+	public VeryAbstractEntity(S hitbox, VeryAbstractEntity<S> base) {
+		super(hitbox, base);
 	}
 
 	protected final void setCentreX(float centreX) {
@@ -27,7 +29,7 @@ public abstract class VeryAbstractEntity extends VeryAbstractDestructibleEntity 
 	}
 	
 	@Override
-	public abstract VeryAbstractEntity clone();
+	public abstract VeryAbstractEntity<S> clone();
 	
 	/**
 	 * Returns true if and only if this entity is touching the edge of the map.
