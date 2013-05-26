@@ -2,10 +2,10 @@ package utils.particles;
 
 import game.config.Config;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -18,9 +18,9 @@ import utils.particles.particle.Particle;
 public abstract class ParticleEmitter<P extends Particle> implements Updatable, LayerRenderable {
 	private final int layer;
 	private final PositionReturn positionRange, velocityRange;
-	private final Collection<Particle> particles = Collections.newSetFromMap(new ConcurrentHashMap<Particle, Boolean>());
-			
-	private int lifespan = 0;
+	protected final Collection<Particle> particles = new ArrayList<Particle>();
+	
+	protected int lifespan = 0;
 	private ParticleGenerator<? extends P> particleGenerator;
 	
 	public ParticleEmitter(ParticleGenerator<? extends P> pGen, PositionReturn positionRange, PositionReturn velocityRange, int layer){

@@ -26,7 +26,7 @@ import org.newdawn.slick.SpriteSheet;
 import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.ImageUtils;
-import utils.interval.ColourRange;
+import utils.interval.colour.ContinuousColourRange;
 import utils.interval.one.Interval;
 import utils.interval.two.FixedPosition;
 import utils.interval.two.Interval2D;
@@ -238,7 +238,7 @@ public class Player extends AbstractEntity {
 		checkMapChanged();
 	}
 	
-	private final ColourRange cRange = new ColourRange(0.2f, 0.4f, 0.1f, 0.4f, 0.1f, 0.4f);
+	private final ContinuousColourRange cRange = new ContinuousColourRange(0.2f, 0.4f, 0.1f, 0.4f, 0.1f, 0.4f);
 	private final ParticleGenerator<NonCollidingParticle> pGen = new NonCollidingParticleGenerator(dust, cRange, new Interval(0.01f,0.02f), new Interval(9f,10f));
 	
 	/**
