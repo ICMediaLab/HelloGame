@@ -34,6 +34,8 @@ public class Projectile extends VeryAbstractEntity<Shape> {
 	private final Position dxdy;
 	private final int damage;
 	private double angle;
+	private boolean justCreated = true;
+    private boolean collidedWithPlayer = true;
 	
 	public Projectile(Position centre, int damage, double angle, float speed){
 		super(null);
@@ -177,6 +179,11 @@ public class Projectile extends VeryAbstractEntity<Shape> {
 				cell.getTile(x, y).lookup(TileProperty.BLOCKED)) {
 			MapLoader.getCurrentCell().removeMovingEntity(this);
 		}
+		
+		if (!collidedWithPlayer) {
+		    justCreated = false;
+		}
+		collidedWithPlayer = false;
 	}
 
 	@Override
@@ -185,9 +192,11 @@ public class Projectile extends VeryAbstractEntity<Shape> {
 
 	@Override
 	public void collide(MovingEntity e) {
-		if(e != MapLoader.getCurrentCell().getPlayer()){
+		if(e != MapLoader.getCurrentCell().getPlayer() || !justCreated) {
 			e.takeDamage(damage);
 			MapLoader.getCurrentCell().removeMovingEntity(this);
+		} else {
+		    collidedWithPlayer = true;
 		}
 	}
 
@@ -202,6 +211,7 @@ public class Projectile extends VeryAbstractEntity<Shape> {
 	public void collide(DestructibleEntity d) {
 		MapLoader.getCurrentCell().removeMovingEntity(this);
 	}
+	
 
 	@Override
 	public boolean isOnWall() {

@@ -8,6 +8,8 @@ import entities.StaticEntity;
 import entities.players.Player;
 import game.config.Config;
 
+import items.projectiles.Projectile;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;

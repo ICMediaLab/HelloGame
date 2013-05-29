@@ -1,5 +1,6 @@
 package items;
 
+import items.projectiles.Projectile;
 import map.Cell;
 import map.MapLoader;
 
@@ -13,6 +14,7 @@ import org.newdawn.slick.geom.Rectangle;
 
 import sounds.SoundGroup;
 import utils.Position;
+import entities.MovingEntity;
 import entities.players.Player;
 import game.MouseCapture;
 import game.config.Config;
@@ -65,12 +67,20 @@ public class Shield {
             
             double angle = player.distanceTo(mouse).getAngle();
             
-            hitbox.setLocation(p.getCentreX() -1.5f + (float)Math.cos(angle), p.getCentreY() -1.5f + (float)Math.sin(angle));
+            hitbox.setLocation(p.getCentreX() + (float)Math.cos(angle), p.getCentreY() + (float)Math.sin(angle));
+        
+            for (MovingEntity e : cell.getMovingEntities()) {
+                if (e != p && e.intersects(hitbox)) {
+                    if (e instanceof Projectile) {
+                        cell.removeMovingEntity(e);
+                    }
+                }
+            }
         }
     }
     
     public void render(GameContainer gc, Graphics g) {
-        sprite.draw((int)((hitbox.getX())*Config.getTileSize()), (int)((hitbox.getY())*Config.getTileSize()), new Color(255,255,255));
+        sprite.draw((int)((hitbox.getX() - 1.5f)*Config.getTileSize()), (int)((hitbox.getY() - 1.5f)*Config.getTileSize()), new Color(255,255,255));
     }
     
     @Override
