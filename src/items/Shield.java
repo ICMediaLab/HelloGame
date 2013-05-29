@@ -1,22 +1,28 @@
 package items;
 
+import map.Cell;
+import map.MapLoader;
+
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
 import sounds.SoundGroup;
+import utils.Position;
 import entities.players.Player;
+import game.MouseCapture;
 import game.config.Config;
 
 public class Shield {
 
     protected Image sprite;
     protected final Rectangle hitbox;
-    private SoundGroup swingSound;
     private String name = "Shield";
+    private boolean raised = false;
     
     public Shield(Rectangle hitbox) {
         this.hitbox = hitbox;
@@ -28,12 +34,6 @@ public class Shield {
         }
         
         //TODO Sound effect for hitting shield
-//        try {
-//            hitSound = new SoundGroup("player/stick/swing");
-//        } catch (SlickException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
     }
     
     public Shield() {
@@ -42,23 +42,35 @@ public class Shield {
 
     
 
-    public void raise(Player p) {
-        //TODO: Make shield do shit. Rotate around player depending on mouse position and block moving entities.
-        // rendering will need changing too.
+    public void raise() {
+        raised = true;
     }
     
     public boolean raised() {
-        return false;
+        return raised;
     }
 
     public void update(GameContainer gc) {
+        Input i = gc.getInput();
+        Cell cell = MapLoader.getCurrentCell();
+        Player p = cell.getPlayer();
         
+        if (!i.isKeyDown(Input.KEY_LSHIFT)) {
+            raised = false;
+        }
+        
+        if (raised) {
+            Position mouse = MouseCapture.getMousePositionRelative();
+            Position player = p.getPosition();
+            
+            double angle = player.distanceTo(mouse).getAngle();
+            
+            hitbox.setLocation(p.getCentreX() -1.5f + (float)Math.cos(angle), p.getCentreY() -1.5f + (float)Math.sin(angle));
+        }
     }
     
     public void render(GameContainer gc, Graphics g) {
-        int absxOffset = -sprite.getWidth();
-        float relxOffset = 1f; 
-        sprite.draw((int)((hitbox.getX() + relxOffset)*Config.getTileSize() + absxOffset), (int)((hitbox.getY()-2.5)*Config.getTileSize()), new Color(255,255,255));
+        sprite.draw((int)((hitbox.getX())*Config.getTileSize()), (int)((hitbox.getY())*Config.getTileSize()), new Color(255,255,255));
     }
     
     @Override
