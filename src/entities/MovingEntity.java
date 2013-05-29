@@ -30,10 +30,14 @@ public interface MovingEntity extends DestructibleEntity {
 	void frameMove();
 	
 	/**
-	 * returns whether the entity is touching the ground
-	 * @return
+	 * Returns true if and only if this entity is touching the ground.
 	 */
 	boolean isOnGround();
+	
+	/**
+	 * Returns true if and only if this entity is touching a wall.
+	 */
+	boolean isOnWall();
 	
 	/**
 	 * Modified this entity's dx,dy values corresponding to a player jumping.<br />
