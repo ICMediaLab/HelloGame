@@ -21,6 +21,9 @@
  <tileset firstgid="227" name="GrassBottom" tilewidth="32" tileheight="32">
   <image source="images/grassbottom.png" width="128" height="32"/>
  </tileset>
+ <tileset firstgid="231" name="Mud4_new" tilewidth="32" tileheight="32">
+  <image source="images/Mud4_new.png" width="144" height="96"/>
+ </tileset>
  <layer name="Tile Layer 1" width="34" height="20">
   <properties>
    <property name="render-index" value="-10000"/>
@@ -34,7 +37,7 @@
    <property name="render-index" value="5000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALygDAQCw20I5CAIBRT28yRCqgdtyIMkPAUprK5lICBjN9DaHxQeMPCaLAAkFtgboK5i9J0IUgFM5DNEiFBvTAePSJQjBwPwjhoESgbPS3D5GF+RJcXYhi4+IWV14Mp/+EDAJtyBEA=
+   eJztlAEKACEIBP1C6f/f2sW5IMEFXUJCDkiBtWxaESVJkvyDn6inTRiKhrfmrXj3VuitJzvr7hCpv73eqFEUuhd4gq/de1EcNKyWLKznyR7RsH3gj1F0Pt5l5HHGMV/pXH/xX0d6fzMaPRQDfg==
   </data>
  </layer>
  <layer name="trunks" width="34" height="20">
