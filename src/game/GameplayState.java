@@ -14,6 +14,7 @@ import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.StateBasedGame;
 
+import sounds.EFXEffectReverb;
 import sounds.Sounds;
 import utils.npeloader.EnemyLoader;
 import utils.npeloader.NPCLoader;
@@ -63,6 +64,7 @@ public class GameplayState extends MouseCapture implements Serializable {
 		//audio
 		Sounds.setMusic(new Music("data/sounds/RedCurtain.ogg", true));
 		gc.setMusicVolume(0.5f);
+		Sounds.setCellReverb(new EFXEffectReverb());
 	}
 	
 	@Override
@@ -93,6 +95,7 @@ public class GameplayState extends MouseCapture implements Serializable {
 				currentCell.update(gc);
 			}
 			gui.update(gc);
+			Sounds.checkMapChange();
 			
 			if (input.isKeyPressed(Input.KEY_G)) {
 				drawDebug = !drawDebug;

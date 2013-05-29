@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import map.MapLoader;
+
 import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
@@ -14,6 +16,10 @@ public abstract class Sounds {
 	
 	private static final Set<Sound> SOUNDS_PLAYING = new HashSet<Sound>();
 	private static Music music; 
+	private static EFXEffectReverb cellReverb;
+	
+	private static String currentCell = "Empty";
+	private static String previousCell = "Empty";
 	
 	public static Sound loadSound(String path){
 		Sound s = null;
@@ -59,7 +65,7 @@ public abstract class Sounds {
 	}
 	
 	public static void play(Sound sound, float pitch, float volume){
-		sound.play(pitch, volume);
+		sound.play(pitch, volume, cellReverb, null);
 		SOUNDS_PLAYING.add(sound);
 	}
 	
@@ -95,6 +101,18 @@ public abstract class Sounds {
 		}
 	}
 	
+	public static void checkMapChange() {
+		currentCell = MapLoader.getCurrentCell().toString();
+		if (currentCell != previousCell) {
+			if (currentCell.equals("The Forest")) {
+				System.out.println("change");
+//				cellReverb = new EFXEffectReverb();
+				cellReverb.setDiffusion(0);
+			}
+		}
+		previousCell = currentCell;
+	}
+	
 	/**
 	 * Release all the sounds
 	 */
@@ -118,6 +136,14 @@ public abstract class Sounds {
 	
 	public static void releaseMusic() {
 		music.release();
+	}
+
+	public static EFXEffectReverb getCellReverb() {
+		return cellReverb;
+	}
+
+	public static void setCellReverb(EFXEffectReverb cellReverb) {
+		Sounds.cellReverb = cellReverb;
 	}
 
 }
