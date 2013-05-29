@@ -7,12 +7,10 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import map.Cell;
-import map.MapLoader;
 import map.Tile;
 import map.tileproperties.TileProperty;
 
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 

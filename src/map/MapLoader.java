@@ -12,6 +12,7 @@ import org.newdawn.slick.SlickException;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -58,7 +59,8 @@ public final class MapLoader {
 				try {
 					int x = Integer.parseInt(attrs.getNamedItem("x").getNodeValue());
 					int y = Integer.parseInt(attrs.getNamedItem("y").getNodeValue());
-					loadMap(basePath + attrs.getNamedItem("src").getNodeValue(), x, y);
+					Node name = attrs.getNamedItem("name");
+					loadMap(name == null ? null : name.getTextContent(), basePath + attrs.getNamedItem("src").getNodeValue(), x, y);
 				} catch (DOMException e) {
 					e.printStackTrace();
 				} catch (SlickException e) {
@@ -79,14 +81,15 @@ public final class MapLoader {
 	 * Loads a new map from an xml file into an element of the internal
 	 * array.
 	 * PRE: 0 <= x < width / 0 <= y < height
+	 * @param location 
 	 * @param location: a string representing the address of the file
 	 * @param x: The x part of the cell's location in the array.
 	 * @param y: The corresponding y part.
 	 * @return 
 	 * @throws SlickException
 	 */
-	private static void loadMap(String location, int x, int y) throws SlickException {
-		maps[y][x] = new Cell(location);
+	private static void loadMap(String name, String location, int x, int y) throws SlickException {
+		maps[y][x] = new Cell(name, location);
 		cellPos.put(maps[y][x], new Point(x,y));
 	}
 	/**

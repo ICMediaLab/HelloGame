@@ -6,13 +6,11 @@ import map.tileproperties.TileProperty;
 
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
-import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
 import utils.Position;
 import utils.particles.BlockedCollidingParticle;
 import entities.objects.watereffects.WaterEffectParticle;
-import game.config.Config;
 
 public class RainParticle extends BlockedCollidingParticle {
 	
