@@ -11,6 +11,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.geom.Transform;
 
 import sounds.SoundGroup;
 import utils.Position;
@@ -67,7 +68,7 @@ public class Shield {
             
             double angle = player.distanceTo(mouse).getAngle();
             
-            hitbox.setLocation(p.getCentreX() + (float)Math.cos(angle), p.getCentreY() + (float)Math.sin(angle));
+            hitbox.setLocation(p.getCentreX() - hitbox.getWidth()/2 + (float)Math.cos(angle), p.getCentreY() - hitbox.getHeight()/2 + (float)Math.sin(angle));
         
             for (MovingEntity e : cell.getMovingEntities()) {
                 if (e != p && e.intersects(hitbox)) {
@@ -80,7 +81,10 @@ public class Shield {
     }
     
     public void render(GameContainer gc, Graphics g) {
-        sprite.draw((int)((hitbox.getX() - 1.5f)*Config.getTileSize()), (int)((hitbox.getY() - 1.5f)*Config.getTileSize()), new Color(255,255,255));
+        sprite.draw((int)((hitbox.getX() - 1f)*Config.getTileSize()), (int)((hitbox.getY() - 1f)*Config.getTileSize()), new Color(255,255,255));
+    
+        //debug 
+        g.draw(hitbox.transform(Transform.createTranslateTransform(-1, -1)).transform(Transform.createScaleTransform(Config.getTileSize(), Config.getTileSize())));
     }
     
     @Override
