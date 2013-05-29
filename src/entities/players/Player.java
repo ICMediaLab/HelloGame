@@ -68,6 +68,7 @@ public class Player extends AbstractEntity {
 	private float rangedCounter = 0;
 	private float walkingCounter = 0;
 	private float maxDraw = 1500f;
+	private int walkingSoundDelay = 0;
 	
 	private Collection<Image> dust = ImageUtils.populate(new ArrayList<Image>(),"data/images/circle.png");
 	
@@ -176,13 +177,13 @@ public class Player extends AbstractEntity {
 				sprite = rightPause;
 			}
 		}
-		if ((input.isKeyPressed(Input.KEY_W) || input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) && equippedWeapon != null) {
+		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON) && equippedWeapon != null) {
 		    equippedWeapon.attack(this);
 		}
-//		if (input.isKeyPressed(Input.KEY_S) || input.isMousePressed(Input.MOUSE_RIGHT_BUTTON)) {
-//		    useAbility("rangedattack");
-//		}
-		if (input.isKeyDown(Input.KEY_S) || input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
+		if (input.isKeyPressed(Input.KEY_LSHIFT) && equippedShield != null) {
+            equippedShield.raise();
+        }
+		if (input.isMouseButtonDown(Input.MOUSE_RIGHT_BUTTON)) {
 			if (rangedCounter < maxDraw)  rangedCounter += Config.DELTA; // accumulate time button held
 		} else if (rangedCounter != 0) {
 		    useAbility(PlayerAbilities.RANGED_ATTACK); // fire projectile
@@ -204,7 +205,12 @@ public class Player extends AbstractEntity {
 			if (walkingCounter < 0) {
 
 				walkingCounter += rand.nextInt(Config.DELTA*4);
-				FOOTSTEPS.playSingle(0.8f, 0.2f, 0.03f, 0.02f);
+				
+				if (walkingSoundDelay == 3) {
+					FOOTSTEPS.playSingle(0.8f, 0.2f, 0.03f, 0.02f);
+					walkingSoundDelay = 0;
+				}
+				walkingSoundDelay++;
 				
 				Range2D spawn;
 				if(getDirection() > 0){ //right
@@ -221,6 +227,9 @@ public class Player extends AbstractEntity {
 		if(equippedWeapon != null){
 			equippedWeapon.update(gc);
 		}
+		if(equippedShield != null){
+            equippedShield.update(gc);
+        }
 		
 		updateTranslateSmooth();
 		frameMove();
@@ -294,6 +303,9 @@ public class Player extends AbstractEntity {
 		if (equippedWeapon != null && equippedWeapon.used()) {
 			equippedWeapon.render(gc,g);
 		}
+		if (equippedShield != null && equippedShield.raised()) {
+            equippedShield.render(gc,g);
+        }
 		
 		// Health bar above player
 		renderHealthBar(-15);
