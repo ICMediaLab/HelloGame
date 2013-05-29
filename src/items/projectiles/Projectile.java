@@ -104,25 +104,21 @@ public class Projectile extends VeryAbstractEntity<Shape> {
 
 	@Override
 	public int getDamage() {
-		// TODO Auto-generated method stub
 		return damage;
 	}
 
 	@Override
 	public int getNormalDamage() {
-		// TODO Auto-generated method stub
 		return damage;
 	}
 
 	@Override
 	public int getHealth() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int getMaxHealth() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -162,8 +158,6 @@ public class Projectile extends VeryAbstractEntity<Shape> {
 
 	@Override
 	public void jump() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -218,5 +212,10 @@ public class Projectile extends VeryAbstractEntity<Shape> {
 		MapLoader.getCurrentCell().removeMovingEntity(this);
 	}
 	
+
+	@Override
+	public boolean isOnWall() {
+		return false;
+	}
 
 }
