@@ -23,6 +23,8 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheet;
 
+import sounds.EFXEffectEcho;
+import sounds.EFXEffectReverb;
 import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.ImageUtils;
@@ -122,7 +124,7 @@ public class Player extends AbstractEntity {
 		useAbility(PlayerAbilities.DOUBLE_JUMP);
 		if (isOnGround()) {
 			super.jump();
-			//Sounds.play(SOUND_JUMP, 1.0f, 0.3f);
+//			Sounds.play(SOUND_JUMP, 1.0f, 0.3f);
 		}
 	}
 	
