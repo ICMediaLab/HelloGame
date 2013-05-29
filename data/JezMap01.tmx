@@ -21,9 +21,6 @@
  <tileset firstgid="227" name="GrassBottom" tilewidth="32" tileheight="32">
   <image source="images/grassbottom.png" width="128" height="32"/>
  </tileset>
- <tileset firstgid="231" name="Mud4_new" tilewidth="32" tileheight="32">
-  <image source="images/Mud4_new.png" width="144" height="96"/>
- </tileset>
  <layer name="Tile Layer 1" width="34" height="20">
   <properties>
    <property name="render-index" value="-10000"/>
