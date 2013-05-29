@@ -58,9 +58,6 @@ public class GameplayState extends MouseCapture implements Serializable {
 		player = new Player(2,2);
 		currentCell = MapLoader.setInitialCell(player);
 		
-		//cell name testing
-		currentCell.setName("The Forest");
-		
 		gui = getGUI(gc.getGraphics());
 		
 		//audio

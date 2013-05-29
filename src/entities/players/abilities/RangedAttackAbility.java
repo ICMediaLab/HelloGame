@@ -2,18 +2,12 @@ package entities.players.abilities;
 
 import game.MouseCapture;
 import items.projectiles.Projectile;
-
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.lang.reflect.Field;
-
 import map.MapLoader;
 
 import org.newdawn.slick.SlickException;
 
 import sounds.SoundGroup;
 import utils.Position;
-import entities.objects.LeafTest;
 import entities.players.Player;
 
 class RangedAttackAbility extends AbstractPlayerAbility {

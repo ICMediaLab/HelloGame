@@ -68,6 +68,7 @@ public class Player extends AbstractEntity {
 	private float rangedCounter = 0;
 	private float walkingCounter = 0;
 	private float maxDraw = 1500f;
+	private int walkingSoundDelay = 0;
 	
 	private Collection<Image> dust = ImageUtils.populate(new ArrayList<Image>(),"data/images/circle.png");
 	
@@ -204,7 +205,12 @@ public class Player extends AbstractEntity {
 			if (walkingCounter < 0) {
 
 				walkingCounter += rand.nextInt(Config.DELTA*4);
-				FOOTSTEPS.playSingle(0.8f, 0.2f, 0.03f, 0.02f);
+				
+				if (walkingSoundDelay == 3) {
+					FOOTSTEPS.playSingle(0.8f, 0.2f, 0.03f, 0.02f);
+					walkingSoundDelay = 0;
+				}
+				walkingSoundDelay++;
 				
 				Range2D spawn;
 				if(getDirection() > 0){ //right
