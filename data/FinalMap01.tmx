@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="34" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Night9_01" tilewidth="32" tileheight="32">
+  <image source="images/Night9_01.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="17" name="GrassTop4_01" tilewidth="32" tileheight="32">
+  <image source="images/GrassTop4_01.png" width="128" height="32"/>
+ </tileset>
+ <tileset firstgid="21" name="Mud4_02" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="blocked" value="true"/>
+  </properties>
+  <image source="images/Mud4_02.png" width="144" height="96"/>
+ </tileset>
+ <tileset firstgid="33" name="GrassBottom" tilewidth="32" tileheight="32">
+  <image source="images/grassbottom.png" width="128" height="32"/>
+ </tileset>
+ <tileset firstgid="37" name="water" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="frictionx" value="0.8"/>
+   <property name="frictiony" value="0.1"/>
+   <property name="gravity" value="0.01"/>
+  </properties>
+  <image source="images/water.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="53" name="branches01" tilewidth="32" tileheight="32">
+  <image source="images/branches01.png" width="192" height="779"/>
+ </tileset>
+ <tileset firstgid="197" name="trunk01" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="blocked" value="true"/>
+  </properties>
+  <image source="images/trunk01.png" width="160" height="320"/>
+ </tileset>
+ <tileset firstgid="247" name="LADDER" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="ladder" value="true"/>
+  </properties>
+  <image source="images/LADDER.png" width="32" height="32"/>
+ </tileset>
+ <layer name="collide" width="34" height="20">
+  <properties>
+   <property name="render-index" value="-10000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxtlckSokAQRBsQFFDxAsom/v8Peh06Jl90ysyhoheqq7KyFtoQwnWX2y6N9t0uldZ4bnd57HLSudB6l16tt63elFrj/XmXXPuv/JTmr5btaCsz/53ur9LJdL5pzeX7Kh+N7q7CGfUvhu0hfI1wYKOwe2zBR6b3F+3vFiOxt7JRW8wP2cv0/WK6ldn6CutNfsHBW/hu5KOT3lnfc70BC35PxlUtvgvdwQexgiOuwy7TLssuqwR+wEFNkKfWctHI5sVyCDYwI9x5/F/5jDjeu4xaX4YV35WwYQ+OCtmD9/rgqxPeXHzA20k6tTjYTFZheYpL3uKvCqlGqFPnjP4hf16fxECOOstf9DcbB7OwPUOqS+9VcuD8UOMeX6E9sdfilj6rhIecRX+f8LcuHNMmDI1xXRo3tSS3/FF/1FEWUh3djS96uTK9l3Cs2vfCsFheiDXiuR24PoXf3Oe6a/WevvRckKOHvnsOBuFgHUOqCThlzlETPveo5XNIPeDzl/q8hDQzS8mguCftHc8sO8zhPKSZUto3ck3/MDuQwmwww+Dtrrs2pJqvhWlQnkbLt9cgPZppfSuXo9ZK9/wDvF7podzyxByk72vtI45NNjuLkzkMfnz0IdXUoP3V7IGf3qZXS/FOfY7i4W05oT7gqQqpz6jDIqReXyyXc0j/0pv5pNZO0mduD/LlczTGNOm8htQ34CRm5v7ngP2t95PZBBv6cP2W3c18RXmGNEtnneFo+c8b/kc+c2a9dx2w0puTcKxaP4aPXnma7UXfn+G3l7DZH+xthgHO4ak/+JxkY9Gb0Wx/pMv/hvm6Hs7w6fXAeZMd8gO/ni/0+LfPpruGf/nuw2/tTOYHHj4WM3l3m6O+4Z9ZBXbmRK+7l/HrffsHSwEt6g==
+  </data>
+ </layer>
+ <layer name="BehindLadder" width="34" height="20" visible="0">
+  <properties>
+   <property name="render-index" value="-11000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYKAf4KGjXfgA90A7AAqYBtoBUMA80A6AAv6BdsAoGAWjYBSMglEwCgYFAACUywAs
+  </data>
+ </layer>
+ <layer name="Tree" width="34" height="20">
+  <properties>
+   <property name="render-index" value="4500"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt08sKgmAURWHf/93KKCWNVLyQiiZeqLHrH5wHSMI98cA3PLAny/N+Px8XnHDe8P+vCxDiiptwR4wH7oiEO1JkeCIR7ihRIUch3NGgxQu1cMcbAzr0wh0zFoyYhDus2w++wh3WrboX61bdi3Wr7sW6VffiznWr7sWd61bdy3HH7X0rv+czag==
+  </data>
+ </layer>
+ <layer name="grass" width="34" height="20">
+  <properties>
+   <property name="render-index" value="5000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt1WdKxFAUhuFsIZNsIMlsQuz1l9uw994LWMAClk0Igr33ujBf8Vw4BJ3Emxn9oR883EDuOTmBzB3HKZxyVKASVahGTUJNsXOEWtShHg1oRJPaM4NZzGH+h+fTWcAilrCcsiZAiAh5kTUrWMUa1lPOkBOurB7KMs6xgU1sYTthbyTPtkkLWtGGdnSg07KXZ1n3ni50owe96EN/hn62GcAghjCMEYz+whxjGMcEJjGFaYs+QTGHypBcifvvYR8HOHQ+zr5jiz7NKfbkY3ROcIoznOMClxZzpImr+LFZrnCNG9ziDvfqfiDMO4SyJn0vO+p6V+o+m8vkAY94wjNe8Cp1ocxtuGqNn2dmzii2mrn9L+bVdZF6rnl3z/neueXKfl9dmzO/UB/z3+CrelNb6t/Gf/5e3gBauTH9
+  </data>
+ </layer>
+ <objectgroup name="teleporters" width="34" height="20">
+  <object name="01_npc_bob" type="npc" x="352" y="352" width="32" height="32">
+   <properties>
+    <property name="text_id" value="01_npctf"/>
+    <property name="type" value="bob"/>
+   </properties>
+  </object>
+  <object name="01_i_w_stick" type="weapon_item_stick" x="928" y="384" width="32" height="32"/>
+ </objectgroup>
+</map>

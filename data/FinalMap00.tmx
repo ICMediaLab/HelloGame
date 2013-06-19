@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="34" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Night9_01" tilewidth="32" tileheight="32">
+  <image source="images/Night9_01.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="17" name="GrassTop4_01" tilewidth="32" tileheight="32">
+  <image source="images/GrassTop4_01.png" width="128" height="32"/>
+ </tileset>
+ <tileset firstgid="21" name="Mud4_02" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="blocked" value="true"/>
+  </properties>
+  <image source="images/Mud4_02.png" width="144" height="96"/>
+ </tileset>
+ <tileset firstgid="33" name="GrassBottom" tilewidth="32" tileheight="32">
+  <image source="images/grassbottom.png" width="128" height="32"/>
+ </tileset>
+ <tileset firstgid="37" name="water" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="frictionx" value="0.8"/>
+   <property name="frictiony" value="0.1"/>
+   <property name="gravity" value="0.01"/>
+  </properties>
+  <image source="images/water.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="53" name="branches01" tilewidth="32" tileheight="32">
+  <image source="images/branches01.png" width="192" height="779"/>
+ </tileset>
+ <tileset firstgid="197" name="trunk01" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="blocked" value="true"/>
+  </properties>
+  <image source="images/trunk01.png" width="160" height="320"/>
+ </tileset>
+ <layer name="collide" width="34" height="20">
+  <properties>
+   <property name="render-index" value="-10000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxdlVdz2kAUhdeSQEgI0AtgioH//z/Se+9O4hQ7iVOc4uecnTlndNiHbxbt3r19L8chhLfgHXgPboADkoE+1yGYgxLkoAFjnlegpswE9LhWlM/4O64jno94J+634AP4CD6Bz+AudffoS065EVf51tBGzb34XfDOwHxr6Z9+S0du+/HuGfgCvoJv4BHPK9quGJtiH1KH9hVPTR+G9EOyfe63lC2otzQ/It/BD/AT/ALPmYvcdKsu8kV2C8tVZfdkU7GWXCdWJ/mh/d/gD/gL/oE33FcPqD/61Fsy3kmSpzJ0fXVge4q/Cfv9ppxI5gq4Cq6B6+CEdyrqq+lTzrvKe5XYmlB/xnwobwVllC/15oDfQ3IT3AK3wR1wSpnMYlOvNaF7F63l2fsz52/VaGJ+VhaT+rXlvXvgPngAHoJz3sstj/qdJ/Hl/K3YK9ZJudS7K5lL1THNV/TjMXgCnoJn4ILx6s3r3Zdmo6bOhvYmoevj2u6rvxrLlWpSJjl6AV6CV+A1uKSPnusiqX3GvWHo5sw4qYXstjzX+1YuBqGbadGn47A/T09C1w/DsD/3mtC9Q/W73l0/sdEzOz36qfrW/NZejCmdp6cWZ2Pxah5p7hRGHrpZrhmmvI2tDq3VrjFd8Tydp+eMY0S7ikm9onmhvmvDfr/6rFKdMtOh3iqoa0SZdJ5ehG4my4Z81jtQD2r26w35fCxoWzN3HLp+03sbhK6n03l6Gbo+9PmVW871ltQnsnlEtlYj9YHyIN2aS/qPiHfWZMPvGVhY/eP3IYkyS7Kh3IpEH3bUMeX5mt/yb859ne1sb2a++J0Z7c1pZ8N1kcjsuK7MxyllpjzfmfycSLf7M7NVOqeJvq35sOaqPE0Tm0vqWPPOwnTvKLu0eswtNn0rZ4eWc31vqUf1OaINr5fklry3MlnvIeV7yt+q89LsKA87i1l1d50Lnsn+2nLh/eT9ov/Zpen8D79nYe8=
+  </data>
+ </layer>
+ <layer name="Tile Layer 3" width="34" height="20" visible="0">
+  <properties>
+   <property name="render-index" value="-11000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt1FEKwCAMA9CgggNFe//TuuIG3iARGsh3HwSaAOS35esDTtLhcEMXcLjBSI5zExNw+CZTwNFFHCbiGOEIh7CjYv8OtqNh/w6247/NdkQiN2QBW/4C6Q==
+  </data>
+ </layer>
+ <layer name="grass" width="34" height="20">
+  <properties>
+   <property name="render-index" value="5000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzrtOAlEQxnESK6IFu0tDuSwvAY00UFlZWflWcgm3oBhu8QoKoogXHox/MZtMTiJEkz2EyJf8kjm758xMLLY5CXEgos4NbnGHezzgUf0/QhyHEe8xwhhPeMYE0x/uRrnLC2Z4xRvmeI9wnk4WOakX+MAnvvCNpaU9jpG3NGtdCihue4l9diYXKKGMCqqW5p4Y5xrqaKCJlqU9To1zG5e4QgfXlvY4M85d9NDHAMNf9MoI/w97nMu7tPQIpNa9Mkqg7qZF+M1TfBEYvX31Ru/tyDtX6qTUrprjqu+OCO94qtYxeznqfjjTU/3WJSn2+R9JCZ0VMWcoAw==
+  </data>
+ </layer>
+ <objectgroup name="teleporters" width="34" height="20">
+  <object name="00_text_1" type="textField" x="512" y="320" width="288" height="192">
+   <properties>
+    <property name="text" value="Welcome to HelloGame! Try exploring right..."/>
+    <property name="valign" value="top"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
