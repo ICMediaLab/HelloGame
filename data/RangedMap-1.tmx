@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="34" height="20" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Night9_01" tilewidth="32" tileheight="32">
+  <image source="images/Night9_01.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="17" name="GrassTop4_01" tilewidth="32" tileheight="32">
+  <image source="images/GrassTop4_01.png" width="128" height="32"/>
+ </tileset>
+ <tileset firstgid="21" name="Mud4_02" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="blocked" value="true"/>
+  </properties>
+  <image source="images/Mud4_02.png" width="144" height="96"/>
+ </tileset>
+ <tileset firstgid="33" name="GrassBottom" tilewidth="32" tileheight="32">
+  <image source="images/grassbottom.png" width="128" height="32"/>
+ </tileset>
+ <tileset firstgid="37" name="water" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="frictionx" value="0.8"/>
+   <property name="frictiony" value="0.1"/>
+   <property name="gravity" value="0.01"/>
+  </properties>
+  <image source="images/water.png" width="128" height="128"/>
+ </tileset>
+ <tileset firstgid="53" name="LADDER" tilewidth="32" tileheight="32">
+  <image source="images/LADDER.png" width="32" height="32"/>
+  <tile id="0">
+   <properties>
+    <property name="ladder" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="collide" width="34" height="20">
+  <properties>
+   <property name="render-index" value="-10000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxdlttyqzAMRUUcrgbMyzlt2jTJ/39lzcxe4908aABbd21JfEbEU/RR6X+l70qvSj86v1W6v52fvA+df+r5FM/NZF/S+ZDMS88P8d7FWypdK62VUqWt0lKpFw36HsW3V5or5UqH3ov4Jn13ej8kU3SWdD5I36g77CTxzZLd9L1LD75N5vN5d5HMKn1ZunfxZvN91zcyWTawVSSzyIfFaDI72WIkvovsYJ94RvGS495iISebZA/xDeIbLV+DxVAkUyyHh/iy1aE3fmwlyz/vnez3FvsqPYNoe5OhJsXs7cZDTMSfReRh1t1h+ZushledLbonXxfxIDtEwxnx9TpLlk+w1+tsi4at3uq3mA5wS14ns03ePd/c7dIDRrO+iX+RvU5n9CFxkrOr5WmPhkn8AI+z9GFnsHyQpyMaFqhxir+YTLKJfG86R4tpEvXR+p++Z0bAj+7NakFvUiNsLXYGnsEx/VAkD+bh7eyOXHPvvYssPXG179lyi0/Unx5Yo+Fnk8wiveALjKGri4bxLRq+yVeymoAheJEjLuTJDzMQvPpczuYL+tE1R5snYOBixJxjLnX2Tp8lywuzlB71Oeu7AVyu0eay7wTfIeDKcUv9sA0Pc5pcops9BC+YnsyfORr+qGlndsg1+aNnqQP++b3PPO6ZZ2CCXUesyfSR+9HOmbebnb3jeLDa+e7/V+lLT2YoexRs4DO9zawBj+xKsEJ/UzcwyG5YxXf+k5z/I+c/y7eej2jzF/3gkrywT3fTxW4BV75zwTu17aLth5P/pvhPX370vEfDIDin5+krZhiYZa5Q6/edz6yhpiXa3iuqCXV5yoeH1ZXd6Tn0Hc0co3bsefynn8gPOfKZMit+6sL/5km/IDsbBQ==
+  </data>
+ </layer>
+ <objectgroup name="Door" width="34" height="20"/>
+ <layer name="grass" width="34" height="20">
+  <properties>
+   <property name="render-index" value="5000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMApGwSigPjAFYmEoFoHSglBMb3cMBjDqDlSAzx0AM14BeQ==
+  </data>
+ </layer>
+ <objectgroup name="teleporters" width="34" height="20"/>
+</map>
