@@ -96,15 +96,15 @@ public class CellObjectParser {
 		
 		//a few trigger examples //
 		
-		parseTrigger("ed1 | 01_enemy_rawr1 death | notify rawr1 died");
-		parseTrigger("ed2 | 01_enemy_rawr2 death | notify rawr2 died");
+		//parseTrigger("ed1 | 01_enemy_rawr1 death | notify rawr1 died");
+		//parseTrigger("ed2 | 01_enemy_rawr2 death | notify rawr2 died");
 		//no id, prerequisite, two comma separated effects, note the lack of contents for the textField to indicate empty.
-		parseTrigger("01_npc_bob death | 01_npc_bob textField, remove t2");
+		//parseTrigger("01_npc_bob death | 01_npc_bob textField, remove t2");
 		//id, prerequisite, effect
-		parseTrigger("t2 | 01_cage1 death | 01_npc_bob textField Thanks :)");
-		parseTrigger("t2 | place enemy rawr 20 16 ");
+		//parseTrigger("t2 | 01_cage1 death | 01_npc_bob textField Thanks :)");
+		//parseTrigger("t2 | place enemy rawr 20 16 ");
 		//no id, no prerequisite
-		parseTrigger("none | 01_npc_bob textField Save meeeeeeeeee!");
+		//parseTrigger("none | 01_npc_bob textField Save meeeeeeeeee!");
 		destroy();
 	}
 	
