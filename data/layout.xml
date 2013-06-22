@@ -1,5 +1,5 @@
 <maps height="3" width="5" defx="0" defy="1">
-  <map x="0" y="1" name="The Forest" src="FinalMap00.tmx" />
+  <map x="0" y="1" name="The Forest" src="JezMap02.tmx" />
   <map x="1" y="1" name="The Forest" src="FinalMap01.tmx" />
   <map x="2" y="1" name="The Forest" src="JezMap03.tmx" />
   <map x="3" y="0" name="The Forest" src="AboveMap.tmx" />

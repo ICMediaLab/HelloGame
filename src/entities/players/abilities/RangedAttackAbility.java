@@ -15,7 +15,8 @@ class RangedAttackAbility extends AbstractPlayerAbility {
 	private transient final SoundGroup release;
 	
 	RangedAttackAbility() {
-		super("Ranged attack","Hold RMB and release to shoot");
+		super("Ranged attack","Hold RMB and release to shoot", 
+		        new String[]{"data/images/items/Bow_with_eyes.png", "data/images/items/Bow_with_eyes_blink.png"}, new int[]{2000,200});
 		release = loadRelease();
 	}
 	

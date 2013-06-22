@@ -4,16 +4,16 @@ import items.projectiles.Projectile;
 import map.Cell;
 import map.MapLoader;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 import org.newdawn.slick.geom.Transform;
 
-import sounds.SoundGroup;
+import utils.ImageUtils;
 import utils.Position;
 import entities.MovingEntity;
 import entities.players.Player;
@@ -22,19 +22,20 @@ import game.config.Config;
 
 public class Shield {
 
-    protected Image sprite;
+    protected Animation sprite;
     protected final Rectangle hitbox;
     private String name = "Shield";
     private boolean raised = false;
     
     public Shield(Rectangle hitbox) {
         this.hitbox = hitbox;
-        
-        try {
-            this.sprite = new Image("data/images/shield_item.png");
-        } catch (SlickException e) {
-            e.printStackTrace();
-        }
+        Image[] images = ImageUtils.populate(
+                "data/images/items/shield_front.png",
+                "data/images/items/shield_front_blink.png");
+        images[0] = images[0].getScaledCopy(32, 32);
+        images[1] = images[1].getScaledCopy(32,32);
+        int[] duration = {2000,200};
+        this.sprite = new Animation(images, duration);
         
         //TODO Sound effect for hitting shield
     }
@@ -54,6 +55,8 @@ public class Shield {
     }
 
     public void update(GameContainer gc) {
+        sprite.update(Config.DELTA);
+        
         Input i = gc.getInput();
         Cell cell = MapLoader.getCurrentCell();
         Player p = cell.getPlayer();

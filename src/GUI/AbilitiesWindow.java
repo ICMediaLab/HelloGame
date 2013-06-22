@@ -34,7 +34,7 @@ class AbilitiesWindow extends AbstractWindow {
 		for (int i = 0; i < abilitiesList.length; i++) {
 			g.setColor(Color.darkGray);
 			g.fillRoundRect(x + 20, y + 40 + i*40, 30, 30, 5);
-			abilitiesList[i].getImage().draw(x + 20, y + 40 + i*40, 0.3f);
+			abilitiesList[i].getImage().getImage(0).draw(x + 20, y + 40 + i*40, 0.3f);
 			
 			g.setColor(Color.black);
 			g.drawString(new Integer(i + 1).toString(), x + 33, y + 45 + i*40);
@@ -43,7 +43,7 @@ class AbilitiesWindow extends AbstractWindow {
 		
 		g.setColor(Color.darkGray);
 		g.fillRoundRect(x + width * 0.5f, y + 40, 100, 100, 5);
-		abilitiesList[abilitySelected].getImage().draw(x + width * 0.5f, y + 40, 1);
+		abilitiesList[abilitySelected].getImage().getImage(0).draw(x + width * 0.5f, y + 40, 1);
 		
 		g.setColor(Color.black);
 		g.drawString(new Integer(abilitySelected + 1).toString(), x + width * 0.5f + 40 , y + 50);

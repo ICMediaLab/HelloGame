@@ -5,7 +5,7 @@ import entities.players.Player;
 class SpeedDashAbility extends AbstractPlayerAbility {
 	
 	SpeedDashAbility() {
-		super("Speed dash","Press E to move quickly forward");
+		super("Speed dash","Press E to move quickly forward", new String[]{"data/images/playerAbility.png", }, new int[]{1000});
 	}
 	
 	public void use(Player p){

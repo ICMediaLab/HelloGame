@@ -11,7 +11,7 @@ class DoubleJumpAbility extends AbstractPlayerAbility {
 	private boolean hasJumped = false;
 	
 	DoubleJumpAbility(){
-		super("Double jump","Press SPACE twice to double jump");
+		super("Double jump","Press SPACE twice to double jump", new String[]{"data/images/playerAbility.png", }, new int[]{1000});
 	}
 	
 	@Override

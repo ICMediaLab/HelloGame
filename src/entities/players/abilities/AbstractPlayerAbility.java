@@ -1,29 +1,35 @@
 package entities.players.abilities;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 abstract class AbstractPlayerAbility implements PlayerAbility {
 	
-	protected Image image;
+	protected Animation image;
 	private final String name;
 	private final String description;
 	
-	AbstractPlayerAbility(String name, String description) {
+	AbstractPlayerAbility(String name, String description, String[] path, int[] lengths) {
 		this.name = name;
 		this.description = description;
-		loadImage();
+		loadImage(path, lengths);
 	}
 	
-	private void loadImage(){
+	private void loadImage(String[] paths, int[] lengths){
 		try {
-			image = new Image("data/images/playerAbility.png");
+			Image[] images = new Image[paths.length];
+			for (int i = 0; i < paths.length; i++) {
+			    images[i] = new Image(paths[i]);
+			}
+			image = new Animation(images, lengths);
+			
 		} catch (SlickException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public Image getImage() {
+	public Animation getImage() {
 		return image;
 	}
 	

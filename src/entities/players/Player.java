@@ -309,6 +309,11 @@ public class Player extends AbstractEntity {
             equippedShield.render(gc,g);
         }
 		
+		if (rangedCounter > 0) {
+		    PlayerAbilities.RANGED_ATTACK.getImage().draw((getX() - 0.5f)*Config.getTileSize(), (getY() - 1.5f)*Config.getTileSize());
+		    //TODO: Make the bow rotate to face mouse, invert when player turns!
+		}
+		
 		// Health bar above player
 		renderHealthBar(-15);
 		

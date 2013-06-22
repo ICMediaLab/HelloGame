@@ -10,7 +10,7 @@ class ForwardTeleportAbility extends AbstractPlayerAbility {
 	private static float distance = 5f;
 	
 	ForwardTeleportAbility() {
-		super("Forward teleport","Press Q to teleport forward");
+		super("Forward teleport","Press Q to teleport forward", new String[]{"data/images/playerAbility.png", }, new int[]{1000});
 	}
 	
     public void use(Player p){

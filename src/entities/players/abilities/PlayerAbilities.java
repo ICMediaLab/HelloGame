@@ -3,6 +3,7 @@ package entities.players.abilities;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 
 import entities.players.Player;
@@ -36,7 +37,7 @@ public enum PlayerAbilities implements PlayerAbility {
 	}
 	
 	@Override
-	public Image getImage() {
+	public Animation getImage() {
 		return ability.getImage();
 	}
 	

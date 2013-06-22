@@ -19,7 +19,7 @@ public class ShieldItem extends WeaponItem {
     static {
         Image img = null;
         try {
-            img = new Image("data/images/shield_item.png");
+            img = new Image("data/images/items/shield_front.png").getScaledCopy(32, 32);
         } catch (SlickException e) {
             e.printStackTrace();
         }
