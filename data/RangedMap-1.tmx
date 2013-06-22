@@ -31,21 +31,42 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="54" name="Tree" tilewidth="32" tileheight="32">
+  <image source="images/trunk01.png" width="160" height="320"/>
+ </tileset>
+ <tileset firstgid="104" name="Leaves" tilewidth="32" tileheight="32">
+  <image source="images/branches01.png" width="192" height="779"/>
+ </tileset>
  <layer name="collide" width="34" height="20">
   <properties>
    <property name="render-index" value="-10000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxdlttyqzAMRUUcrgbMyzlt2jTJ/39lzcxe4908aABbd21JfEbEU/RR6X+l70qvSj86v1W6v52fvA+df+r5FM/NZF/S+ZDMS88P8d7FWypdK62VUqWt0lKpFw36HsW3V5or5UqH3ov4Jn13ej8kU3SWdD5I36g77CTxzZLd9L1LD75N5vN5d5HMKn1ZunfxZvN91zcyWTawVSSzyIfFaDI72WIkvovsYJ94RvGS495iISebZA/xDeIbLV+DxVAkUyyHh/iy1aE3fmwlyz/vnez3FvsqPYNoe5OhJsXs7cZDTMSfReRh1t1h+ZushledLbonXxfxIDtEwxnx9TpLlk+w1+tsi4at3uq3mA5wS14ns03ePd/c7dIDRrO+iX+RvU5n9CFxkrOr5WmPhkn8AI+z9GFnsHyQpyMaFqhxir+YTLKJfG86R4tpEvXR+p++Z0bAj+7NakFvUiNsLXYGnsEx/VAkD+bh7eyOXHPvvYssPXG179lyi0/Unx5Yo+Fnk8wiveALjKGri4bxLRq+yVeymoAheJEjLuTJDzMQvPpczuYL+tE1R5snYOBixJxjLnX2Tp8lywuzlB71Oeu7AVyu0eay7wTfIeDKcUv9sA0Pc5pcops9BC+YnsyfORr+qGlndsg1+aNnqQP++b3PPO6ZZ2CCXUesyfSR+9HOmbebnb3jeLDa+e7/V+lLT2YoexRs4DO9zawBj+xKsEJ/UzcwyG5YxXf+k5z/I+c/y7eej2jzF/3gkrywT3fTxW4BV75zwTu17aLth5P/pvhPX370vEfDIDin5+krZhiYZa5Q6/edz6yhpiXa3iuqCXV5yoeH1ZXd6Tn0Hc0co3bsefynn8gPOfKZMit+6sL/5km/IDsbBQ==
+   eJxdllly4zAMRCHR1L79zCROHNuX8P2vFqqqX7HjD5QkEjsagD4j4iH6KPS/0HehZ6EfnV8L3d7OT967zj/1fIjnarJP6bxL5qnnh3hv4t0LXQothVKhtdBUKIs6fffi2wqNheZCh9538Q36bvR+SGbXWdJ5J3297rCTxDdKdtX3Jj34NpjP510rmUX6ZunexDub75u+kZllA1u7ZCb5MBkNZme2GImvlR3sE08vXnKcLRZyskr2EF8nvt7y1VkMu2R2y+EhvtnqkI0fW8nyz3sj+9liX6SnE61vMtRkN3ub8RAT8c8i8jDq7rD8DVbDi84m3ZOvVjzIdlFxRnxZZ8nyCfayztao2MpWv8l0gFvyOpht8u755m6THjA665v4J9lrdEYfEic5u1ietqiYxA/wOEofdjrLB3k6omKBGqf4i8kkm8hn09lbTIMoR+1/+p4ZAT+6V6sFvUmNsDXZGXgGx/TDLnkwD29jd+Sae+9dZOmJi32Pllt8ov70wBIVP6tkJukFX2AMXU1UjK9R8U2+ktUEDMGLHHEhT36YgeDV5/JsvqAfXWPUeQIGWiPmHHOpsXf6LFlemKX0qM9Z3w3gcok6l30n+A4BV45b6odteJjT5BLd7CF4wfRg/oxR8UdNG7NDrskfPUsd8M/vfeZxzzwDE+w6Yk2mj9z3ds68Xe3sHcedcvuKv7v/X6EvPZmh7FGwgc/0NrMGPLIrwQr9Td3AILsBP85/kvN/5Pxn+dbzHnX+oh9ckhf26SZdbdTdAq5854J3attE3Q+nH1fFf/ryo+ctKgbBOT1PXzHDwCxzhVq/73xmDTXdo+69l2pCXR7y4W51ZXdik9xTY+YYtWPP4z/9RH7Ikc+Ul+KnLvxvnvQLJbYb4A==
   </data>
  </layer>
- <objectgroup name="Door" width="34" height="20"/>
+ <layer name="Behind Ladder" width="34" height="20" visible="0">
+  <properties>
+   <property name="render-index" value="-11000"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMApGwSigPmAbaAdAActAOwAKBos7+AfaAVDAiUcOAC4gACc=
+  </data>
+ </layer>
+ <layer name="Tree" width="34" height="20">
+  <properties>
+   <property name="render-index" value="4500"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt1ckKwkAQhOF+qohRNCFRXNBIFlxwIb7/Q+Rvhjl4VAJ1ceA7BopOT43Z9yfBBFOkP3w/1plhjgWWwhwZchQohTlWWGODrTDHDnsccBTmqHBCjUaYo0WHMy7CHL4fN9zxEObw/Xihx1uY42phHur+8D31eaj7w/fU56Huj6eFeaj7I95bdX/EPVX3h7+3/l/U/ZFZ6HV1f/z34/PEezvmfgynZhkB
+  </data>
+ </layer>
  <layer name="grass" width="34" height="20">
   <properties>
    <property name="render-index" value="5000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMApGwSigPjAFYmEoFoHSglBMb3cMBjDqDlSAzx0AM14BeQ==
+   eJztzscNwlAURFG3gKBIctyRMcGYTFckkWSCSLX4Ln4DLGAk+CMdveW7jvMbW2CJFdbYiDq22GGPA46ijgAnnHHBVdRxwx0PPPESdfzjyqigihrqaAg6mmjBRRsddAUdPXjow8cAQ0HHCGNMMMUMc0GHnd23FjVi5kYMu/cWRwJJpJBGRtCRRQ55FFBE6QN/QmL6IpI=
   </data>
  </layer>
  <objectgroup name="teleporters" width="34" height="20"/>

@@ -67,7 +67,7 @@
    <property name="render-index" value="5000"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt1WdKxFAUhuFsIZNsIMlsQuz1l9uw994LWMAClk0Igr33ujBf8Vw4BJ3Emxn9oR883EDuOTmBzB3HKZxyVKASVahGTUJNsXOEWtShHg1oRJPaM4NZzGH+h+fTWcAilrCcsiZAiAh5kTUrWMUa1lPOkBOurB7KMs6xgU1sYTthbyTPtkkLWtGGdnSg07KXZ1n3ni50owe96EN/hn62GcAghjCMEYz+whxjGMcEJjGFaYs+QTGHypBcifvvYR8HOHQ+zr5jiz7NKfbkY3ROcIoznOMClxZzpImr+LFZrnCNG9ziDvfqfiDMO4SyJn0vO+p6V+o+m8vkAY94wjNe8Cp1ocxtuGqNn2dmzii2mrn9L+bVdZF6rnl3z/neueXKfl9dmzO/UB/z3+CrelNb6t/Gf/5e3gBauTH9
+   eJzt1QdKxFAQxvFcIZtcIMlewjt4DXvvrh0sYAHLJQTB3ns9mH9xBoagu88Xg4J+8OMF8mYygezbIPj9OXTYM40ZzGKu1GnqZx4LWMSSY02CFBmqomiWsYJVrDnOUBGhrBGaCs6xjg1sYqvB3kye7ZMWtKIN7ehAp2evyLPuLV3oRg960Yf+Av18M4BBDGEYIxj9gTnGMI4aJjCJKY8+yXcOVSCVkvvvYg/7OAjez74jjz7NDnuqOTbHOMEpznCOC485XBIacW6WS1zhGje4xZ25nwh9h1TWRt/LtrnekbqP5tLc4wGPeMIzXqQulblVaNb8eaZzZrlV544/mdfWZea5+u5R8LVzK5T9sbnWM79eH/1viE291pb92/jP38srj9gu9w==
   </data>
  </layer>
  <objectgroup name="teleporters" width="34" height="20">

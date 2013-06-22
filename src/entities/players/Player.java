@@ -1,5 +1,6 @@
 package entities.players;
 
+import game.MouseCapture;
 import game.config.Config;
 import items.Shield;
 import items.Weapons;
@@ -28,6 +29,7 @@ import sounds.EFXEffectReverb;
 import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.ImageUtils;
+import utils.Position;
 import utils.interval.colour.ContinuousColourRange;
 import utils.interval.one.Interval;
 import utils.interval.two.FixedPosition;
@@ -310,7 +312,27 @@ public class Player extends AbstractEntity {
         }
 		
 		if (rangedCounter > 0) {
-		    PlayerAbilities.RANGED_ATTACK.getImage().draw((getX() - 0.5f)*Config.getTileSize(), (getY() - 1.5f)*Config.getTileSize());
+		    Position mouse = MouseCapture.getMousePositionRelative();
+            Position player = getPosition();
+            
+            float angle = (float)player.distanceTo(mouse).getAngle();
+            System.out.println(angle);
+            
+            Image bow = PlayerAbilities.RANGED_ATTACK.getImage().getImage((PlayerAbilities.RANGED_ATTACK.getImage().getFrame()));
+            bow.setRotation((float) (angle * 180 / Math.PI));
+            
+            if (angle >= 0 && angle < Math.PI/2 || angle >= -(Math.PI/2) && angle < 0) {
+                sprite = right;
+                isRight = true;
+                
+            } else {
+                sprite = left;
+                isRight = false;
+            }
+            
+            
+		    PlayerAbilities.RANGED_ATTACK.getImage().draw((getX() - 1f + (float)Math.cos(angle)/2)*Config.getTileSize(), 
+		            (getY() - 1.5f + (float)Math.sin(angle)/2)*Config.getTileSize());
 		    //TODO: Make the bow rotate to face mouse, invert when player turns!
 		}
 		
