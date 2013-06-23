@@ -24,12 +24,13 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 import org.newdawn.slick.SpriteSheet;
 
-import sounds.EFXEffectEcho;
-import sounds.EFXEffectReverb;
 import sounds.SoundGroup;
 import sounds.Sounds;
 import utils.ImageUtils;
 import utils.Position;
+import utils.ani.AnimationContainer;
+import utils.ani.AnimationManager;
+import utils.ani.AnimationState;
 import utils.interval.colour.ContinuousColourRange;
 import utils.interval.one.Interval;
 import utils.interval.two.FixedPosition;
@@ -53,8 +54,6 @@ public class Player extends AbstractEntity {
 	private static final Dimension PLAYER_DEFAULT_SIZE = new Dimension(1, 1);
 	private static final int PLAYER_DEFAULT_MAXHEALTH = 100;
 	
-	private final Animation left, right, leftPause, rightPause;
-	private Animation sprite;
 	private final Set<PlayerAbilities> abilities = PlayerAbilities.getAbilitySet();
 	
 	private static final Sound SOUND_JUMP = Sounds.loadSound("jump.ogg");
@@ -76,37 +75,39 @@ public class Player extends AbstractEntity {
 	
 	private Collection<Image> dust = ImageUtils.populate(new ArrayList<Image>(),"data/images/circle.png");
 	
-	public Player(float x, float y, float width, float height, int maxhealth) {
-		super(x,y, width,height, maxhealth);
-		//Image[] movementRight = null;
-		Image movementRightRaw = null;
-		Image movementLeftRaw = null;
-		SpriteSheet movementRightSheet = null;
-		SpriteSheet movementLeftSheet = null;
-		//Image[] movementLeft = null;
-		
-		try {
-			movementRightRaw = new Image("data/images/walk3.png");
-			movementLeftRaw = movementRightRaw.getFlippedCopy(true, false);
-			movementRightSheet = new SpriteSheet(movementRightRaw, 40, 60);
-			movementLeftSheet = new SpriteSheet(movementLeftRaw, 40, 60);
-		} catch (SlickException e) {
-			//do shit all
-		}
-		right = new Animation(movementRightSheet, 22);
-		left = new Animation(movementLeftSheet, 22); //TODO: make it left
-		rightPause = new Animation(movementRightSheet, 0, 0, 0, 0, true, 1000, false);
-		leftPause = new Animation(movementLeftSheet, 0, 0, 0, 0, true, 1000, false);
-		sprite = rightPause;		
+	private Player(float x, float y, float width, float height, int maxhealth, AnimationManager ani) {
+		super(x,y, width,height, ani, maxhealth);
 	}
 	
-	public Player(float x, float y) {
-		this(x,y,PLAYER_DEFAULT_SIZE.width,PLAYER_DEFAULT_SIZE.height,PLAYER_DEFAULT_MAXHEALTH);
+	private Player(float x, float y, AnimationManager ani) {
+		this(x,y,PLAYER_DEFAULT_SIZE.width,PLAYER_DEFAULT_SIZE.height,PLAYER_DEFAULT_MAXHEALTH, ani);
 	}
 	
 	@Override
 	public Player clone() {
-		return new Player(getX(), getY(), getWidth(), getHeight(),getMaxHealth());
+		return this;
+	}
+	
+	public static Player getPlayerInstance(float x, float y){
+		try {
+			Image movementRightRaw = new Image("data/images/walk3.png");
+			Image movementLeftRaw = movementRightRaw.getFlippedCopy(true, false);
+			SpriteSheet movementRightSheet = new SpriteSheet(movementRightRaw, 40, 60);
+			SpriteSheet movementLeftSheet = new SpriteSheet(movementLeftRaw, 40, 60);
+			AnimationContainer right = new AnimationContainer(movementRightSheet, 22, new Position());
+			AnimationContainer left = new AnimationContainer(movementLeftSheet, 22, new Position());
+			AnimationContainer rightPause = new AnimationContainer(movementRightSheet, 1000, new Position());
+			AnimationContainer leftPause = new AnimationContainer(movementLeftSheet, 1000, new Position());
+			AnimationManager ani = new AnimationManager();
+			ani.addAnimation(AnimationState.ROAM_RIGHT, right);
+			ani.addAnimation(AnimationState.ROAM_LEFT, left);
+			ani.addAnimation(AnimationState.PAUSE_RIGHT, rightPause);
+			ani.addAnimation(AnimationState.PAUSE_LEFT, leftPause);
+			return new Player(x,y,ani);
+		} catch (SlickException e) {
+			System.out.println("Failed to load player spritesheets. Fatal.");
+		}
+		return null;
 	}
 	
 	/**
@@ -156,29 +157,30 @@ public class Player extends AbstractEntity {
 		}else if (input.isKeyPressed(Input.KEY_SPACE)) {
 			playerJump();
 			
-			if (sprite == left){
-				sprite = leftPause;
+			AnimationState state = getCurrentAnimationState();
+			if (state == AnimationState.ROAM_LEFT){
+				setCurrentAnimationState(AnimationState.PAUSE_LEFT);
 			}
-			else if (sprite == right){
-				sprite = rightPause;
+			else if (state == AnimationState.ROAM_RIGHT){
+				setCurrentAnimationState(AnimationState.PAUSE_RIGHT);
 			}
 			
 		}
 		if (input.isKeyDown(Input.KEY_A) || input.isKeyDown(Input.KEY_LEFT)) {
 			accelerate(-speed,0f);
-			sprite = left;
+			setCurrentAnimationState(AnimationState.ROAM_LEFT);
 			isRight = false;
-			sprite.update(Config.DELTA);
 		} else if (input.isKeyDown(Input.KEY_D) || input.isKeyDown(Input.KEY_RIGHT)) {
 			accelerate(speed,0f);
-			sprite = right;
+			setCurrentAnimationState(AnimationState.ROAM_RIGHT);
 			isRight = true;
-			sprite.update(Config.DELTA);
 		} else if (!input.isKeyPressed(Input.KEY_SPACE)) {
-			if (sprite == left) {
-				sprite = leftPause;
-			}else if (sprite == right) {
-				sprite = rightPause;
+			AnimationState state = getCurrentAnimationState();
+			if (state == AnimationState.ROAM_LEFT){
+				setCurrentAnimationState(AnimationState.PAUSE_LEFT);
+			}
+			else if (state == AnimationState.ROAM_RIGHT){
+				setCurrentAnimationState(AnimationState.PAUSE_RIGHT);
 			}
 		}
 		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON) && equippedWeapon != null) {
@@ -301,7 +303,8 @@ public class Player extends AbstractEntity {
 	@Override
 	public void render(GameContainer gc, Graphics g) {
 		//sprite.draw((int)((getX()-1)*Config.getTileSize() - 4), (int)((getY()-1)*Config.getTileSize() - 25), new Color(255,255,255));
-		
+		AnimationManager animag = getAnimationManager();
+		Animation sprite = getCurrentAnimationContainer().getAnimation();
 		renderSprite(sprite, -4, -25);
 		
 		if (equippedWeapon != null && equippedWeapon.used()) {
@@ -322,11 +325,11 @@ public class Player extends AbstractEntity {
             bow.setRotation((float) (angle * 180 / Math.PI));
             
             if (angle >= 0 && angle < Math.PI/2 || angle >= -(Math.PI/2) && angle < 0) {
-                sprite = right;
+                animag.setCurrentState(AnimationState.ROAM_RIGHT);
                 isRight = true;
                 
             } else {
-                sprite = left;
+            	animag.setCurrentState(AnimationState.ROAM_LEFT);
                 isRight = false;
             }
             

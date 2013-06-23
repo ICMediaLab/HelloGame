@@ -7,6 +7,8 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.w3c.dom.Node;
 
+import utils.ani.ImageContainer;
+
 /**
  * A collection of static methods for use in image manipulation.
  */

@@ -1,4 +1,4 @@
-package utils;
+package utils.ani;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
@@ -7,24 +7,32 @@ import org.newdawn.slick.SpriteSheet;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
+import utils.ImageUtils;
+import utils.Position;
+
 public class AnimationContainer {
 
 	private final Animation base;
 	private final ImageContainer images;
 	private final Position offset;
 	
-	public AnimationContainer(Image[] base, int duration, Position offset){
-		this.base = new Animation(base,duration);
-		this.images = new ArrayImageContainer(base);
+	private AnimationContainer(Animation base, ImageContainer images, Position offset){
+		this.base = base;
+		this.images = images;
 		this.offset = offset;
 		this.base.setAutoUpdate(false);
 	}
 	
+	public AnimationContainer(Image[] base, int duration, Position offset){
+		this(new Animation(base,duration),new ArrayImageContainer(base),offset);
+	}
+	
+	public AnimationContainer(SpriteSheet base, int duration, Position offset){
+		this(new Animation(base,duration),new SpriteImageContainer(base),offset);
+	}
+	
 	public AnimationContainer(ImageContainer base, int duration, Position offset){
-		this.base = base.getAnimation(duration);
-		this.images = base;
-		this.offset = offset;
-		this.base.setAutoUpdate(false);
+		this(base.getAnimation(duration),base,offset);
 	}
 	
 	public AnimationContainer(Node node) throws SlickException {
@@ -37,7 +45,6 @@ public class AnimationContainer {
 		try{
 			split = Boolean.parseBoolean(attrs.getNamedItem("sliced").getTextContent());
 		}catch(NullPointerException e){ }
-		System.out.println(split);
 		if(split){
 			int width = Integer.parseInt(attrs.getNamedItem("width").getTextContent());
 			int height = imgs[0].getHeight();

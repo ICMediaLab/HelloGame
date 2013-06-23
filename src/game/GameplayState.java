@@ -56,7 +56,7 @@ public class GameplayState extends MouseCapture implements Serializable {
 		MapLoader.loadAllMaps("data/layout.xml");
 		
 		//set initial map and player
-		player = new Player(20,2);
+		player = Player.getPlayerInstance(20f, 2f);
 		currentCell = MapLoader.setInitialCell(player);
 		
 		gui = getGUI(gc.getGraphics());

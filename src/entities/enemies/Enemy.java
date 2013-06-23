@@ -13,7 +13,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import utils.AnimationContainer;
+import utils.ani.AnimationContainer;
+import utils.ani.AnimationManager;
 
 import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
 
@@ -23,14 +24,10 @@ import entities.NonPlayableEntity;
 import entities.StaticEntity;
 import entities.aistates.decisiontree.AIDecisionTree;
 import entities.players.Player;
-import game.config.Config;
 
 public class Enemy extends NonPlayableEntity{
 	
 	private static final int ENEMY_DEFAULT_LAYER = -20;
-	
-	private final AnimationContainer left, right;
-	private AnimationContainer sprite;
 	
 	/**
 	 * Map containing default representations of all enemies currently required.<br />
@@ -39,18 +36,12 @@ public class Enemy extends NonPlayableEntity{
 	 */
 	private static final Map<String,Enemy> enemies = new HashMap<String,Enemy>();
 
-	private Enemy(float width,float height, int maxhealth, AnimationContainer left, AnimationContainer right, String aistr){
-		super(0,0,width,height,maxhealth,aistr);
-		this.left = left;
-		this.right = right;
-		sprite = right;
+	private Enemy(float width,float height, int maxhealth, Element elemNode) throws SlickException{
+		super(0,0,width,height,maxhealth,elemNode);
 	}
 	
-	private Enemy(float x, float y, float width,float height, int maxhealth, AnimationContainer left, AnimationContainer right, AIDecisionTree aiDecisionTree){
-		super(x,y,width,height,maxhealth,aiDecisionTree);
-		this.left = left;
-		this.right = right;
-		sprite = right;
+	private Enemy(float x, float y, float width,float height, int maxhealth, AnimationManager ani, AIDecisionTree aiDecisionTree){
+		super(x,y,width,height,maxhealth,ani,aiDecisionTree);
 	}
 	
 	/**
@@ -58,9 +49,6 @@ public class Enemy extends NonPlayableEntity{
 	 */
 	private Enemy(Enemy base) {
 		super(base);
-		this.left = base.left;
-		this.right = base.right;
-		this.sprite = base.sprite;
 	}
 
 	@Override
@@ -139,44 +127,7 @@ public class Enemy extends NonPlayableEntity{
 		
 		Element elemNode = (Element) node;
 		
-		//set up animation
-		AnimationContainer leftAni,rightAni;
-		{
-			Node leftImagesNode = elemNode.getElementsByTagName("leftimages").item(0);
-			Node rightImagesNode = elemNode.getElementsByTagName("rightimages").item(0);
-			if(leftImagesNode == null){
-				if(rightImagesNode == null){
-					throw new ParseException("Must have at least either 'leftimages' or 'rightimages' tag defined.");
-				}else{
-					AnimationContainer cont = new AnimationContainer(rightImagesNode);
-					rightAni = cont;
-					leftAni  = cont.flippedCopy(true,false);
-				}
-			}else {
-				if(rightImagesNode == null){
-					AnimationContainer cont = new AnimationContainer(leftImagesNode);
-					leftAni  = cont;
-					rightAni = cont.flippedCopy(true, false);
-				}else{
-					leftAni  = new AnimationContainer(leftImagesNode);
-					rightAni = new AnimationContainer(rightImagesNode);
-				}
-			}
-		}
-		
-		//parse AI
-		String AIText = DEFAULT_AI_STRING;
-		{
-			Node AINode = elemNode.getElementsByTagName("ai").item(0);
-			if(AINode == null){
-				AINode = elemNode.getElementsByTagName("AI").item(0);
-			}
-			if(AINode != null){
-				AIText = AINode.getTextContent();
-			}
-		}
-
-		Enemy e = new Enemy(width,height,health, leftAni, rightAni,AIText);
+		Enemy e = new Enemy(width,height,health, elemNode);
 		load(name, e);
 	}
 	
@@ -187,35 +138,26 @@ public class Enemy extends NonPlayableEntity{
 	        die();
 	        return;
 	    }
-		if(getdX() < 0){
-			sprite = left;
-		}else if(getdX() > 0){
-			sprite = right;
-		}
 		Player p = MapLoader.getCurrentCell().getPlayer();
 		if (intersects(p)) {
 		    p.takeDamage(1);
 		}
-		sprite.update(Config.DELTA);
 		frameMove();
 	}
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) {
+		AnimationContainer sprite = getCurrentAnimationContainer();
 		renderSprite(sprite);
 		renderHealthBar((int) (sprite.getOffset().getY()/2f));
 	}
 
 	@Override
 	public void collide(MovingEntity e) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override
 	public void collide(StaticEntity<?> e) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -225,8 +167,6 @@ public class Enemy extends NonPlayableEntity{
 
 	@Override
 	public void collide(DestructibleEntity d) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

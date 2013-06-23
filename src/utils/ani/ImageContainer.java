@@ -1,8 +1,10 @@
-package utils;
+package utils.ani;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SpriteSheet;
+
+import utils.ImageUtils;
 
 public interface ImageContainer {
 

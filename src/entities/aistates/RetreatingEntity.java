@@ -1,5 +1,6 @@
 package entities.aistates;
 
+import utils.ani.AnimationState;
 import map.Cell;
 import map.MapLoader;
 import entities.AbstractEntity;
@@ -70,6 +71,11 @@ public class RetreatingEntity implements AINextMove {
 			if(jump){
 				e.jump();
 			}
+		}
+		if(e.getdX() > 0){
+			e.setCurrentAnimationState(AnimationState.ROAM_RIGHT);
+		}else if(e.getdX() < 0){
+			e.setCurrentAnimationState(AnimationState.ROAM_LEFT);
 		}
 	}
 

@@ -6,8 +6,8 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.geom.Shape;
 import org.newdawn.slick.geom.Transform;
 
-import utils.AnimationContainer;
 import utils.Position;
+import utils.ani.AnimationContainer;
 
 public abstract class VeryAbstractStaticEntity<S extends Shape> implements Entity {
 	

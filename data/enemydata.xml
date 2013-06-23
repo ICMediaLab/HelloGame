@@ -1,9 +1,13 @@
 <enemies>
   <enemy name="rawr" maxhealth="50">
-    <rightimages duration="200">
+    <animation state="roam_right" duration="200">
       data/images/dvl1_rt1.png
       data/images/dvl1_rt2.png
-    </rightimages>
+    </animation>
+    <animation state="roam_left" flipped="true" duration="200">
+      data/images/dvl1_rt1.png
+      data/images/dvl1_rt2.png
+    </animation>
     <ai>
       if $health_percent :less than: 0.8 {
         >retreat

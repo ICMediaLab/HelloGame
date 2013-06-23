@@ -40,9 +40,16 @@ public class StickItem extends WeaponItem {
 		super(x, y, width, height, ani);
 	}
 	
+	private StickItem(StickItem base) {
+		super(base);
+	}
+
 	@Override
 	protected void applyEffect(Player p) {
 		p.setWeapon(Weapons.STICK);
 	}
+	
+	@Override
+	public StickItem clone() { return new StickItem(this); }
 
 }

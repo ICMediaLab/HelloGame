@@ -1,12 +1,17 @@
 package entities.aistates;
 
+import java.util.Random;
+
 import utils.ani.AnimationState;
+
+import map.Cell;
 import map.MapLoader;
+import map.tileproperties.TileProperty;
 import entities.NonPlayableEntity;
 
-public class RoamingEntity implements AINextMove {
+public class FlyingRoamingEntity implements AINextMove {
 	
-	private static final float MARGIN = 0.25f;
+	private static final Random r = new Random();
 	
 	@Override
 	public void updateEntity(NonPlayableEntity e) {
@@ -21,26 +26,16 @@ public class RoamingEntity implements AINextMove {
 		//set up direction-specific testing criteria.
 		int curX = dx > 0 ? (int) (e.getX() + e.getWidth()) : (int) e.getX();
 		
-		//checks for
-		//     e->
-		//  ####
-		// #######
-		if(!MapLoader.getCurrentCell().getTile(curX, (int) (e.getY() + e.getHeight())).canWalkOver()){
-			dx *= -1;
-		}else{
-			//checks for
-			//      #
-			//   e->#
-			// ######
-			for(float y=e.getY() + MARGIN;y<e.getY() + e.getHeight();y+=0.5f){
-				if(MapLoader.getCurrentCell().getTile(curX, (int) y).canWalkOver()){
-					dx = -dx;
-					break;
-				}
-			}
+		Cell c = MapLoader.getCurrentCell();
+		
+		float ddy = c.getTile(curX, (int) e.getY()-1).lookup(TileProperty.BLOCKED) ?
+				r.nextFloat() : r.nextFloat()*(-0.1f);
+		
+		if(c.getTile(curX, (int) e.getdY()).lookup(TileProperty.BLOCKED)){
+			dx = -dx;
 		}
-		//accelerate to resolve any issues and maintain speed.
-		e.accelerate(dx,0f);
+		
+		e.accelerate(dx,ddy);
 		if(e.getdX() > 0){
 			e.setCurrentAnimationState(AnimationState.ROAM_RIGHT);
 		}else if(e.getdX() < 0){

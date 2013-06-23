@@ -6,23 +6,28 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
+import org.newdawn.slick.geom.Rectangle;
 
-import entities.AbstractEntity;
-import entities.DestructibleEntity;
 import entities.MovingEntity;
-import entities.StaticEntity;
+import entities.VeryAbstractDestructibleEntity;
 import entities.players.Player;
 import game.config.Config;
 
-public abstract class WeaponItem extends AbstractEntity {
+public abstract class WeaponItem extends VeryAbstractDestructibleEntity<Rectangle> {
 	
 	private static final int WEAPONITEM_DEFAULT_LAYER = -100;
 	
 	private final Animation ani;
 	
 	public WeaponItem(float x, float y, float width, float height, Animation ani) {
-		super(x, y, width, height,1);
+		super(new Rectangle(x, y, width, height));
 		this.ani = ani;
+	}
+	
+	//copy constructor
+	protected WeaponItem(WeaponItem base) {
+		super(base.getHitbox(),base);
+		this.ani = base.ani;
 	}
 
 	@Override
@@ -41,6 +46,13 @@ public abstract class WeaponItem extends AbstractEntity {
 	}
 
 	protected abstract void applyEffect(Player p);
+	
+	@Override
+	public int takeDamage(int normalDamage) { return 0; }
+	@Override
+	public int getHealth() { return 1; }
+	@Override
+	public int getMaxHealth() { return 1; }
 
 	@Override
 	public int getLayer() {
@@ -52,10 +64,4 @@ public abstract class WeaponItem extends AbstractEntity {
 		Image f = ani.getCurrentFrame();
 		renderSprite(ani,((int) (getWidth()*Config.getTileSize()) - f.getWidth())/2,-Config.getTileSize());
 	}
-
-	@Override
-	public void collide(StaticEntity<?> e) { }
-
-	@Override
-	public void collide(DestructibleEntity d) { }
 }

@@ -1,8 +1,11 @@
 <npcs>
   <npc name="bob" maxhealth="50">
-    <rightimages duration="200" sliced="true" width="50" offsetDispY="3">
+    <animation state="roam_right" duration="200" sliced="true" width="50" offsetDispY="3">
       data/images/walk2.png
-    </rightimages>
+    </animation>
+    <animation state="roam_left" flipped="true" duration="200" sliced="true" width="50" offsetDispY="3">
+      data/images/walk2.png
+    </animation>
     <ai>
       >idle
     </ai>

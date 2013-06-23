@@ -40,9 +40,18 @@ public class ShieldItem extends WeaponItem {
         super(x, y, width, height, ani);
     }
     
-    @Override
+    private ShieldItem(ShieldItem base) {
+		super(base);
+	}
+
+	@Override
     protected void applyEffect(Player p) {
         p.setShield(new Shield());
     }
+
+	@Override
+	public ShieldItem clone() {
+		return new ShieldItem(this);
+	}
 
 }

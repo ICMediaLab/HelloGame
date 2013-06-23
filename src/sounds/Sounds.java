@@ -105,8 +105,8 @@ public abstract class Sounds {
 		currentCell = MapLoader.getCurrentCell().toString();
 		if (currentCell != previousCell) {
 			if (currentCell.equals("The Forest")) {
-				System.out.println("change");
-//				cellReverb = new EFXEffectReverb();
+				//System.out.println("change");
+				//cellReverb = new EFXEffectReverb();
 				cellReverb.setDiffusion(0);
 			}
 		}

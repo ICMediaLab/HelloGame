@@ -11,7 +11,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import utils.AnimationContainer;
+import utils.ani.AnimationContainer;
 
 import com.sun.xml.internal.messaging.saaj.packaging.mime.internet.ParseException;
 
@@ -19,16 +19,12 @@ import entities.DestructibleEntity;
 import entities.MovingEntity;
 import entities.NonPlayableEntity;
 import entities.StaticEntity;
-import entities.aistates.decisiontree.AIDecisionTree;
 import entities.objects.TextField;
 
 public class NPC extends NonPlayableEntity{
 	
 	private static final int NPC_DEFAULT_LAYER = -10;
 	
-	private final AnimationContainer left, right;
-	private AnimationContainer sprite;
-
 	private TextField<?> tf = null;
 	
 	/**
@@ -41,29 +37,16 @@ public class NPC extends NonPlayableEntity{
 	/**
 	 * Should only be used when initialising npcs list
 	 */
-	private NPC(float width, float height, int maxhealth, AnimationContainer left, AnimationContainer right, String AIStr) {
-		this(0,0,width,height,maxhealth,left,right,AIStr);
+	private NPC(float width, float height, int maxhealth, Element elemNode) throws SlickException {
+		this(0,0,width,height,maxhealth,elemNode);
 	}
 	
-	private NPC(float x, float y, float width, float height, int maxhealth, AnimationContainer left, AnimationContainer right, String AIStr) {
-		super(x,y,width,height,maxhealth,AIStr);
-		this.left = left;
-		this.right = right;
-		sprite = right;
-	}
-	
-	private NPC(float x, float y, float width, float height, int maxHealth, AnimationContainer left, AnimationContainer right, AIDecisionTree aiDecisionTree) {
-		super(x,y,width,height,maxHealth,aiDecisionTree);
-		this.left = left;
-		this.right = right;
-		sprite = right;
+	private NPC(float x, float y, float width, float height, int maxhealth, Element elemNode) throws SlickException {
+		super(x,y,width,height,maxhealth,elemNode);
 	}
 	
 	private NPC(NPC base){
 		super(base);
-		this.left = base.left;
-		this.right = base.right;
-		this.sprite = base.sprite;
 		this.tf = base.tf;
 	}
 	
@@ -112,6 +95,7 @@ public class NPC extends NonPlayableEntity{
 	
 	@Override
 	public void render(GameContainer gc, Graphics g) {
+		AnimationContainer sprite = getCurrentAnimationContainer();
 		renderSprite(sprite);
 		renderHealthBar(-5);
 	}
@@ -136,14 +120,10 @@ public class NPC extends NonPlayableEntity{
 	
 	@Override
 	public void collide(MovingEntity e) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	@Override
 	public void collide(StaticEntity<?> e) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	/**
@@ -169,44 +149,7 @@ public class NPC extends NonPlayableEntity{
 		
 		Element elemNode = (Element) node;
 		
-		//set up animation
-		AnimationContainer leftAni,rightAni;
-		{
-			Node leftImagesNode = elemNode.getElementsByTagName("leftimages").item(0);
-			Node rightImagesNode = elemNode.getElementsByTagName("rightimages").item(0);
-			if(leftImagesNode == null){
-				if(rightImagesNode == null){
-					throw new ParseException("Must have at least either 'leftimages' or 'rightimages' tag defined.");
-				}else{
-					AnimationContainer cont = new AnimationContainer(rightImagesNode);
-					rightAni = cont;
-					leftAni  = cont.flippedCopy(true,false);
-				}
-			}else {
-				if(rightImagesNode == null){
-					AnimationContainer cont = new AnimationContainer(leftImagesNode);
-					leftAni  = cont;
-					rightAni = cont.flippedCopy(true, false);
-				}else{
-					leftAni  = new AnimationContainer(leftImagesNode);
-					rightAni = new AnimationContainer(rightImagesNode);
-				}
-			}
-		}
-		
-		//parse AI
-		String AIText = DEFAULT_AI_STRING;
-		{
-			Node AINode = elemNode.getElementsByTagName("ai").item(0);
-			if(AINode == null){
-				AINode = elemNode.getElementsByTagName("AI").item(0);
-			}
-			if(AINode != null){
-				AIText = AINode.getTextContent();
-			}
-		}
-
-		NPC e = new NPC(width,height,health, leftAni, rightAni,AIText);
+		NPC e = new NPC(width,height,health, elemNode);
 		load(name, e);
 	}
 	
@@ -217,8 +160,6 @@ public class NPC extends NonPlayableEntity{
 
 	@Override
 	public void collide(DestructibleEntity d) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	public void setTextField(TextField<?> tf) {
