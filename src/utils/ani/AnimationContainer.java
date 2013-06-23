@@ -40,7 +40,16 @@ public class AnimationContainer {
 		
 		Image[] imgs = ImageUtils.loadImages(node);
 		
-		int duration = Integer.parseInt(attrs.getNamedItem("duration").getTextContent());
+		int duration = 0;
+		try{
+			duration = Integer.parseInt(attrs.getNamedItem("duration").getTextContent());
+		}catch(NullPointerException e){
+			System.out.println("Warning: No duration defined for animation.");
+		}
+		if(duration <= 0){
+			duration = Integer.MAX_VALUE;
+		}
+		
 		boolean split = false;
 		try{
 			split = Boolean.parseBoolean(attrs.getNamedItem("sliced").getTextContent());
@@ -55,6 +64,7 @@ public class AnimationContainer {
 			this.images = new ArrayImageContainer(imgs);
 			this.base = new Animation(imgs, duration);
 		}
+		
 		float offsetX = 16f - images.getSingleImageWidth()/2f;
 		float offsetY = 32f - images.getSingleImageHeight();
 		try {
@@ -69,6 +79,7 @@ public class AnimationContainer {
 		try {
 			offsetY += Float.parseFloat(attrs.getNamedItem("offsetDispY").getTextContent());
 		}catch(NullPointerException e){ }
+		
 		offset = new Position(offsetX, offsetY);
 		this.base.setAutoUpdate(false);
 	}

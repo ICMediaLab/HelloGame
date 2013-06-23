@@ -15,4 +15,21 @@
       >roam
     </ai>
   </enemy>
+  <enemy name="bat" maxhealth="50" duration="0">
+    <animation state="sleep">
+      data/images/characters/Bat_sleeping_image.png
+    </animation>
+    <animation state="roam_right" duration="400" sliced="true" width="64">
+      data/images/characters/Bat_flying_sheet.png
+    </animation>
+    <animation state="roam_left" flipped="true" duration="400" sliced="true" width="64">
+      data/images/characters/Bat_flying_sheet.png
+    </animation>
+    <ai>
+      if $health_percent :less than: 0.95 {
+        >flying_roam
+      }
+      >sleep
+    </ai>
+  </enemy>
 </enemies>

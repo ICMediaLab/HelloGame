@@ -1,6 +1,7 @@
 package entities.aistates;
 
 public enum AIState {
+	SLEEP(new SleepingEntity()),
 	IDLE(new IdleEntity()),
 	ROAM(new RoamingEntity()),
 	RETREAT(new RetreatingEntity()),

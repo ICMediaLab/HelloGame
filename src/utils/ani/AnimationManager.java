@@ -10,11 +10,20 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 
-public class AnimationManager {
+public class AnimationManager implements Cloneable {
 	
 	private final Map<AnimationState,AnimationContainer> animap = new HashMap<AnimationState,AnimationContainer>();
 	private AnimationState currentState = null;
 	
+	public AnimationManager() {
+		
+	}
+	
+	public AnimationManager(AnimationManager base) {
+		this.currentState = base.currentState;
+		this.animap.putAll(base.animap);
+	}
+
 	public AnimationContainer getAnimation(AnimationState state){
 		if(state == null){
 			return null;
@@ -82,5 +91,9 @@ public class AnimationManager {
 
 	public void updateCurrentAnimation(int delta) {
 		getCurrentAnimationContainer().update(delta);
+	}
+	
+	public AnimationManager clone(){
+		return new AnimationManager(this);
 	}
 }

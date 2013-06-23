@@ -55,4 +55,16 @@
    eJxjYBg6QGWgHTAKaA6UydSnRISawZx+FKE0PjcS8iNMryIeNSAzlAnYM9wAKDyQ/Y0tDGBhhi+M0cOM1mFISl7AF+fI8jC/Y5PHlzZwma+MRsPYykS4CR0M5jSJLVxwxQ8x/kYOb0Jhj6yeWmCklQEDAYiJ11GAHwAAHMMH1g==
   </data>
  </layer>
+ <objectgroup name="enemies" width="34" height="20">
+  <object name="03_bat01" type="enemy" x="768" y="64" width="32" height="32">
+   <properties>
+    <property name="type" value="bat"/>
+   </properties>
+  </object>
+  <object name="03_bat01" type="enemy" x="864" y="64" width="32" height="32">
+   <properties>
+    <property name="type" value="bat"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>
