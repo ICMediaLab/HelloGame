@@ -228,6 +228,9 @@ public class Player extends AbstractEntity {
 						new NormalParticleEmitter<NonCollidingParticle>
 								(pGen, new FixedPosition((getCentreX()), getY() + getHeight()), spawn,getLayer()-1,2));
 			}
+			this.setShouldAnimationUpdate(true);
+		} else {
+			this.setShouldAnimationUpdate(false);
 		}
 		
 		if(equippedWeapon != null){
@@ -238,6 +241,8 @@ public class Player extends AbstractEntity {
         }
 		
 		updateTranslateSmooth();
+		
+		
 		frameMove();
 		
 		boolean newOnGround = isOnGround();
